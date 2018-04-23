@@ -12,7 +12,7 @@ install:
   - 'npm install -g vsce'
   - 'vsce package'
 deploy:
-  provider: releases
+- provider: releases
   api_key:  ${DEPLOY_TOKEN}
   file:
     - "vscode-apache-camel-0.0.1.vsix"
@@ -20,10 +20,13 @@ deploy:
   overwrite: true
   on:
     branch:  master
-  branches:
-    only:
-      - master
+- provider: script
+  script: vsce publish -p $VSCODE_TOKEN
+  skip_cleanup: true
+  on:
+    repo: camel-tooling/camel-lsp-client-vscode
+    tags: true
 cache:
   directories:
-    - "node_modules"  
+    - "node_modules"
 env: DISPLAY=:99
