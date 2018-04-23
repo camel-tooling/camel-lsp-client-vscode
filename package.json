@@ -19,7 +19,7 @@
   ],
   "readme": "VSCODE_INFO.md",
   "author": {
-    "name": "Aurélien Pupier",
+    "name": "Aurélien Pupier"
   },
   "bugs": {
     "url": "https://github.com/camel-tooling/camel-lsp-client-vscode/issues"
