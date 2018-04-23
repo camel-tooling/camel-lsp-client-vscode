@@ -32,10 +32,8 @@
   "keywords": [
     "Camel",
     "LSP",
-    "Apache Camel",
     "Language Server Protocol",
-    "Tools",
-    "Tooling"
+    "Tool"
   ],
 	"engines": {
 		"vscode": "^1.18.0"
