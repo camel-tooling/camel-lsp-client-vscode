@@ -6,7 +6,7 @@
 	"license": "Apache-2.0",
 	"version": "0.0.1",
 	"preview": true,
-	"publisher": "apache-camel",
+	"publisher": "camel-tooling",
 	"engines": {
 		"vscode": "^1.18.0"
 	},
