@@ -1,16 +1,43 @@
 {
 	"name": "vscode-apache-camel",
 	"displayName": "Language Support for Apache Camel",
-	"description": "Language Support for Apache Camel",
-	"author": "Aurélien Pupier",
+	"description": "Provides completion, validation and documentation features for Apache Camel URI elements in XML DSL.",
 	"license": "Apache-2.0",
 	"version": "0.0.1",
 	"preview": true,
-	"publisher": "camel-tooling",
+  "publisher": "camel-tooling",
+  "icon": "icons/icon128.png",
+  "maintainers": [
+    {
+      "name": "Aurélien Pupier",
+      "email": "aurelien.pupier@gmail.com"
+    },
+    {
+      "name": "Lars Heinemann",
+      "email": "lhein.smx@gmail.com"
+    }
+  ],
+  "readme": "VSCODE_INFO.md",
+  "author": {
+    "name": "Aurélien Pupier"
+  },
+  "bugs": {
+    "url": "https://github.com/camel-tooling/camel-lsp-client-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/camel-tooling/camel-lsp-client-vscode.git"
+  },
+  "homepage": "https://github.com/camel-tooling/camel-lsp-client-vscode",
+  "keywords": [
+    "Camel",
+    "LSP",
+    "Language Server Protocol",
+    "Tool"
+  ],
 	"engines": {
 		"vscode": "^1.18.0"
 	},
-	"repository": {},
 	"categories": [
 		"Languages",
 		"Linters"
@@ -48,7 +75,8 @@
 		"@types/glob": "5.0.30",
 		"gulp": "^3.9.1",
 		"gulp-tslint": "^6.1.2",
-		"tslint": "^3.15.1"
+		"tslint": "^3.15.1",
+		"vsce": "^1.39.0"
 	},
 	"dependencies": {
 		"vscode-languageclient": "^3.5.0",
