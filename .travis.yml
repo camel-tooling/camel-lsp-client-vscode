@@ -11,6 +11,10 @@ install:
   - 'npm run vscode:prepublish'
   - 'npm install -g vsce'
   - 'vsce package'
+after_success:
+  - if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH == "master" ]]; then 
+    sonar-scanner
+   fi
 deploy:
 - provider: releases
   api_key:  ${DEPLOY_TOKEN}
@@ -30,3 +34,8 @@ cache:
   directories:
     - "node_modules"
 env: DISPLAY=:99
+addons:
+  sonarcloud:
+    organization: "camel-tooling"
+    branches:
+      - master
