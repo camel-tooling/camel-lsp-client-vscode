@@ -221,7 +221,7 @@ function startedInDebugMode(): boolean {
 	let args = (process as any).execArgv;
 	if (args) {
 		return args.some((arg) => /^--debug=?/.test(arg) || /^--debug-brk=?/.test(arg));
-	};
+	}
 	return false;
 }
 
