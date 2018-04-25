@@ -13,7 +13,7 @@ install:
   - 'vsce package'
 after_success:
   - if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH == "master" ]]; then 
-    sonar-scanner
+    sonar-scanner;
    fi
 deploy:
 - provider: releases
