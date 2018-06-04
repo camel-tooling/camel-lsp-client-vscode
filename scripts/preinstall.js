@@ -1,5 +1,5 @@
 'use strict';
-import download from 'mvn-artifact-download';
+const download = require("mvn-artifact-download");
 download('com.github.camel-tooling:camel-lsp-server:1.0.0-SNAPSHOT', './jars/language-server.jar', 'https://oss.sonatype.org/content/repositories/snapshots/');
 
 /**
