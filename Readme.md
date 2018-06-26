@@ -16,12 +16,11 @@ You can find more detailed information about Apache Camel supported features at 
 ## Contact Us
 If you run into any issues or have suggestions, please file [issues and suggestions on GitHub](https://github.com/camel-tooling/camel-lsp-client-vscode/issues).
 
-## How to install manually
+## How to install
+The Camel LSP Extension is available from the VSCode Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
+
 * Install VS Code
-* Go to latest release page https://github.com/camel-tooling/camel-lsp-client-vscode/releases/latest/
-* Download the vscode-apache-camel-X.Y.Z.vsix file
-* [Install from *.vsix](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix)
-  * Open Extensions View (Ctrl+Shift+X)
-  * Click on the three dots at the top right of the view and then "Install from VSIX..."
-  * Select the file and click Install
+* Open Extensions View (Ctrl+Shift+X)
+* Search for "Camel"
+* Select the "Language Support for Apache Camel" entry and click Install
 * Enjoy!
