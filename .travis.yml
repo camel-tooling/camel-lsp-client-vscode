@@ -29,7 +29,7 @@ deploy:
   skip_cleanup: true
   on:
     repo: camel-tooling/camel-lsp-client-vscode
-    tags: true
+    branch: master
 cache:
   directories:
     - "node_modules"
