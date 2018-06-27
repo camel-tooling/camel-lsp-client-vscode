@@ -7,3 +7,4 @@ jars/language-server.jar
 .vscode-test
 undefined
 target
+.scannerwork

@@ -15,7 +15,6 @@ after_success:
   - if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_BRANCH == "master" ]]; then
     sonar-scanner;
     fi
-  - 'git status'
   - 'git stash save'
 deploy:
 - provider: script
