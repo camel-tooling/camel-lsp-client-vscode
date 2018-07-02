@@ -39,12 +39,13 @@ export function activate(context: ExtensionContext) {
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
 		// Register the server for xml
-		documentSelector: ['xml'],
+		documentSelector: ['xml', 'java'],
 		synchronize: {
-			configurationSection: 'xml',
+			configurationSection: ['xml', 'java'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
+				workspace.createFileSystemWatcher('**/*.java')
 			],
 		}
 	};

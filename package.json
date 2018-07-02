@@ -43,7 +43,9 @@
   ],
   "activationEvents": [
     "onLanguage:xml",
-    "workspaceContains:*.xml"
+    "workspaceContains:*.xml",
+    "onLanguage:java",
+    "workspaceContains:*.java"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -52,6 +54,13 @@
         "id": "xml",
         "extensions": [
           ".xml"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "java",
+        "extensions": [
+          ".java"
         ],
         "configuration": "./language-configuration.json"
       }
