@@ -5,11 +5,13 @@
 
 # Apache Camel for Visual Studio Code
 This preview release of the extension adds language support for [Apache Camel](http://camel.apache.org/) to [Visual Studio Code](https://code.visualstudio.com/) including:
-* Language service for Apache Camel URI with XML DSL:
+* Language service for Apache Camel URI:
   * Auto-Completion
   * Quick Info (Hover)
+* Navigation to Camel routes for XML files (Ctrl+Shift+O)
 
-![Completion](./images/completion.gif "Completion")
+![Completion for XML](./images/completion.gif "Completion for XML")
+![Completion for Java](./images/completionJava.gif "Completion for java")
 
 You can find more detailed information about Apache Camel supported features at Language Server [GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
