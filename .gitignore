@@ -8,3 +8,4 @@ jars/language-server.jar
 undefined
 target
 .scannerwork
+log-camel-lsp.out
