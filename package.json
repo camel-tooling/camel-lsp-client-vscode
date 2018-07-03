@@ -35,7 +35,7 @@
     "Tool"
   ],
   "engines": {
-    "vscode": "^1.18.0"
+    "vscode": "^1.23.0"
   },
   "categories": [
     "Languages",
@@ -47,7 +47,7 @@
     "onLanguage:java",
     "workspaceContains:*.java"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension",
   "contributes": {
     "languages": [
       {
@@ -97,6 +97,6 @@
     "path-exists": "^3.0.0",
     "progress-stream": "^1.2.0",
     "tmp": "^0.0.31",
-    "vscode-languageclient": "^3.5.0"
+    "vscode-languageclient": "^4.1.4"
   }
 }

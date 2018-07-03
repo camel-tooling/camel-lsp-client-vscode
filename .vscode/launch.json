@@ -3,26 +3,28 @@
 	"version": "0.1.0",
 	"configurations": [
 		{
-			"name": "Launch Extension",
+			"name": "Launch Camel LSP client Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}", "--debug" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/out/src",
+			"outFiles": ["${workspaceRoot}/out/**/*.js"],
 			"preLaunchTask": "compile"
 		},
 		{
-			"name": "Launch Tests",
+			"name": "Launch Camel Language Server E2E Tests",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceRoot}", "--extensionTestsPath=${workspaceRoot}/out/test" ],
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}",
+				"--extensionTestsPath=${workspaceRoot}/out/test",
+				"${workspaceRoot}/testFixture" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/out/test",
-			"preLaunchTask": "compile"
+			"outFiles": ["${workspaceRoot}/out/test/**/*.js"]
 		}
 	]
 }
