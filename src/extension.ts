@@ -5,11 +5,9 @@ import { workspace, ExtensionContext, window, StatusBarAlignment, commands, View
 import { LanguageClient, LanguageClientOptions, Executable } from 'vscode-languageclient';
 
 var os = require('os');
-import { StatusNotification,ClassFileContentsRequest,ProjectConfigurationUpdateRequest,MessageType,ActionableNotification,FeatureStatus } from './protocol';
+import { StatusNotification,ClassFileContentsRequest,MessageType,ActionableNotification } from './protocol';
 
 var storagePath;
-var oldConfig;
-
 var lastStatus;
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
@@ -51,7 +49,6 @@ export function activate(context: ExtensionContext) {
 	};
 
 	let item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
-    oldConfig = getServerConfiguration();
 	// Create the language client and start the client.
 	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID,'Language Support for Apache Camel', serverOptions, clientOptions);
 	languageClient.onReady().then(() => {
@@ -141,37 +138,6 @@ function logNotification(message:string, ...items: string[]) {
 	});
 }
 
-function setIncompleteClasspathSeverity(severity:string) {
-	const config = getServerConfiguration();
-	const section = 'errors.incompleteClasspath.severity';
-	config.update(section, severity, true).then(
-		() => console.log(section + ' globally set to '+severity),
-		(error) => console.log(error)
-	);
-}
-
-function projectConfigurationUpdate(languageClient:LanguageClient, uri?: Uri) {
-	let resource = uri;
-	if (!(resource instanceof Uri)) {
-		if (window.activeTextEditor) {
-			resource = window.activeTextEditor.document.uri;
-		}
-	}
-}
-
-function setProjectConfigurationUpdate(languageClient:LanguageClient, uri: Uri, status:FeatureStatus) {
-	const config = getServerConfiguration();
-	const section = 'configuration.updateBuildConfiguration';
-
-	const st = FeatureStatus[status];
-	config.update(section, st).then(
-		() => console.log(section + ' set to '+st),
-		(error) => console.log(error)
-	);
-	if (status !== FeatureStatus.disabled) {
-		projectConfigurationUpdate(languageClient, uri);
-	}
-}
 function toggleItem(editor: TextEditor, item) {
 	if(editor && editor.document &&
 		(editor.document.languageId === 'xml')){
@@ -179,10 +145,6 @@ function toggleItem(editor: TextEditor, item) {
 	} else{
 		item.hide();
 	}
-}
-
-function hasConfigKeyChanged(key, oldConfig, newConfig) {
-	return oldConfig.get(key) !== newConfig.get(key);
 }
 
 export function parseVMargs(params:any[], vmargsLine:string) {
@@ -216,16 +178,4 @@ function makeRandomHexString(length) {
         result += chars[idx];
     }
     return result;
-}
-
-function startedInDebugMode(): boolean {
-	let args = (process as any).execArgv;
-	if (args) {
-		return args.some((arg) => /^--debug=?/.test(arg) || /^--debug-brk=?/.test(arg));
-	}
-	return false;
-}
-
-function getServerConfiguration():WorkspaceConfiguration {
-	return workspace.getConfiguration('xml');
 }
