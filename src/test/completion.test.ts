@@ -4,15 +4,23 @@ import * as vscode from 'vscode';
 import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
-describe('Should do completion', () => {
-	const docUri = getDocUri('apacheCamel.xml');
+describe('Should do completion in Camel URi after "ti"', () => {
+	const docUriXml = getDocUri('apacheCamel.xml');
+	const docUriJava = getDocUri('apacheCamel.java');
+	const expectedCompletion = [
+		{ label: 'tika:operation'},
+		{ label: 'timer:timerName'}
+	];
 
-	it('Completes components in Camel xml file', async () => {
-		await testCompletion(docUri, new vscode.Position(0, 13), {
-			items: [
-				{ label: 'tika:operation'},
-				{ label: 'timer:timerName'}
-			]
+	it('Completes components for XML', async () => {
+		await testCompletion(docUriXml, new vscode.Position(0, 13), {
+			items: expectedCompletion
+		});
+	});
+
+	it('Completes components for Java', async () => {
+		await testCompletion(docUriJava, new vscode.Position(6, 16), {
+			items: expectedCompletion
 		});
 	});
 });
