@@ -1,6 +1,6 @@
 'use strict';
 
-var lsp_server_version = "1.0.0-SNAPSHOT";
+var lsp_server_version = "1.1.0-SNAPSHOT";
 
 const download = require("mvn-artifact-download").default;
 const fs = require('fs');
