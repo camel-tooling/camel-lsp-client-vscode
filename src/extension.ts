@@ -1,14 +1,11 @@
 'use strict';
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, Uri, CancellationToken, TextDocumentContentProvider, TextEditor, WorkspaceConfiguration, languages, IndentAction } from 'vscode';
+import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, TextEditor, languages } from 'vscode';
 import { LanguageClient, LanguageClientOptions, Executable } from 'vscode-languageclient';
 
 var os = require('os');
-import { StatusNotification,ClassFileContentsRequest,MessageType,ActionableNotification } from './protocol';
-
 var storagePath;
-var lastStatus;
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 
@@ -49,82 +46,20 @@ export function activate(context: ExtensionContext) {
 	};
 
 	let item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
+	item.text = 'Starting Apache Camel Language Server...';
+	toggleItem(window.activeTextEditor, item);
 	// Create the language client and start the client.
-	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID,'Language Support for Apache Camel', serverOptions, clientOptions);
+	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
 	languageClient.onReady().then(() => {
-	languageClient.onNotification(StatusNotification.type, (report) => {
-		console.log(report.message);
-		switch (report.type) {
-			case 'Started':
-				item.text = '$(thumbsup)';
-				lastStatus = item.text;
-				break;
-			case 'Error':
-				item.text = '$(thumbsdown)';
-				lastStatus = item.text;
-				break;
-			case 'Message':
-				item.text = report.message;
-				setTimeout(()=> {item.text = lastStatus;}, 3000);
-				break;
-		}
-		item.command = 'java.open.output';
-		item.tooltip = report.message;
+		item.text = 'Apache Camel Language Server started';
 		toggleItem(window.activeTextEditor, item);
-	});
-	languageClient.onNotification(ActionableNotification.type, (notification) => {
-		let show = null;
-		console.log(notification.message);
-		switch (notification.severity) {
-			case MessageType.Log:
-				show = logNotification;
-				break;
-			case MessageType.Info:
-				show = window.showInformationMessage;
-				break;
-			case MessageType.Warning:
-				show = window.showWarningMessage;
-				break;
-			case MessageType.Error:
-				show = window.showErrorMessage;
-				break;
-		}
-		if (!show) {
-			return;
-		}
-		const titles = notification.commands.map(a => a.title);
-
-		show(notification.message, ...titles).then((selection )=>{
-			for(let action of notification.commands) {
-				if (action.title === selection) {
-					let args:any[] = (action.arguments)?action.arguments:[];
-					commands.executeCommand(action.command, ...args);
-					break;
-				}
-			}
-		});
-	});
-
-	commands.registerCommand('java.open.output', ()=>{
+		commands.registerCommand('java.open.output', ()=>{
 		languageClient.outputChannel.show(ViewColumn.Three);
 	});
 
 	window.onDidChangeActiveTextEditor((editor) =>{
 		toggleItem(editor, item);
 	});
-
-	let provider: TextDocumentContentProvider= <TextDocumentContentProvider> {
-		onDidChange: null,
-		provideTextDocumentContent: (uri: Uri, token: CancellationToken): Thenable<string> => {
-			return languageClient.sendRequest(ClassFileContentsRequest.type, { uri: uri.toString() }, token).then((v: string):string => {
-				return v || '';
-			});
-		}
-	};
-	workspace.registerTextDocumentContentProvider('xml', provider);
-
-	item.text = 'Starting Apache Camel Language Server...';
-	toggleItem(window.activeTextEditor, item);
 });
 	let disposable = languageClient.start();
 	// Push the disposable to the context's subscriptions so that the
@@ -132,15 +67,9 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-function logNotification(message:string, ...items: string[]) {
-	return new Promise((resolve, reject) => {
-    	console.log(message);
-	});
-}
-
 function toggleItem(editor: TextEditor, item) {
 	if(editor && editor.document &&
-		(editor.document.languageId === 'xml')){
+		(editor.document.languageId === 'xml' || editor.document.languageId === 'java')){
 		item.show();
 	} else{
 		item.hide();
