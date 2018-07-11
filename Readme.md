@@ -9,10 +9,12 @@ This preview release of the extension adds language support for [Apache Camel](h
   * Auto-Completion for components, attributes and attribute value list.
   * Quick Info (Hover)
 * Navigation to Camel routes for XML files (Ctrl+Shift+O)
+* Diagnostic for Camel URIs with XML DSL when saving file
 
 ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
 ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
-![Navigation Symbol for Camel route for XML DSL](./images/navigationSymbolCamelRoute.gif "Completion for java")
+![Navigation Symbol for Camel route for XML DSL](./images/navigationSymbolCamelRoute.gif "Navigation Symbol for Camel route for XML DSL")
+![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
 
 
 You can find more detailed information about Apache Camel supported features at Language Server [GitHub page](https://github.com/camel-tooling/camel-language-server#features).
