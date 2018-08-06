@@ -13,7 +13,7 @@ This preview release of the extension adds language support for [Apache Camel](h
 
 ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
 ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
-![Navigation Symbol for Camel route for XML DSL](./images/navigationSymbolCamelRoute.gif "Navigation Symbol for Camel route for XML DSL")
+![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
 ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
 
 
