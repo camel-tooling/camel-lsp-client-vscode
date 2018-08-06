@@ -1,5 +1,9 @@
 #Change Log
 
+## 0.0.9
+
+- support navigation on Camel context with XML DSL (Ctrl+Shift+O and outline)
+
 ## 0.0.8
 
 - support diagnostic for Camel URI with XML DSL (updated on save)
@@ -12,4 +16,4 @@
 
 - support Camel URI completion with XML DSL
 - support hover documentation on Camel URI with XML DSL
-- support navigation on routes (Ctrl+Shift+O)
+- support navigation on routes with XML DSL (Ctrl+Shift+O)
