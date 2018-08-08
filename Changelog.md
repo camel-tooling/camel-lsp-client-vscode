@@ -3,6 +3,8 @@
 ## 0.0.9
 
 - support navigation on Camel context with XML DSL (Ctrl+Shift+O and outline)
+- support single quote notation for XML attributes
+- support completion on global endpoint with XML DSL
 
 ## 0.0.8
 
