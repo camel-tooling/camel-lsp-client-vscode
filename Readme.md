@@ -10,6 +10,7 @@ This preview release of the extension adds language support for [Apache Camel](h
   * Quick Info (Hover)
 * Navigation to Camel routes for XML files (Ctrl+Shift+O)
 * Diagnostic for Camel URIs with XML DSL when saving file
+* Find references for direct and direct-vm component (Shift + F12)
 
 ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
 ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
