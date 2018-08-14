@@ -1,5 +1,9 @@
 #Change Log
 
+## 0.0.10
+
+- Find references for direct and direct-vm component (Shift + F12)
+
 ## 0.0.9
 
 - support navigation on Camel context with XML DSL (Ctrl+Shift+O and outline)
