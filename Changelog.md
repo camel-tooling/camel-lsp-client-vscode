@@ -3,6 +3,7 @@
 ## 0.0.10
 
 - Find references for direct and direct-vm component (Shift + F12)
+- Depending on hovered part of the Camel URI, hover now provides documentation for Camel Component or Camel attributes
 
 ## 0.0.9
 
