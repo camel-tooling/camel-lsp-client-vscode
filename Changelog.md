@@ -4,6 +4,7 @@
 
 - Find references for direct and direct-vm component (Shift + F12)
 - Depending on hovered part of the Camel URI, hover now provides documentation for Camel Component or Camel attributes
+- Completion now insert-and-replace the component/attribute when completion triggered in middle of the element
 
 ## 0.0.9
 
