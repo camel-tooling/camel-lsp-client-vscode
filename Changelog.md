@@ -1,5 +1,8 @@
 #Change Log
 
+## 0.0.12
+
+
 ## 0.0.11
 
 - Fix regression of missing completion for empty uris and missing default values
