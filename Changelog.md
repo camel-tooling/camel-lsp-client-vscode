@@ -2,6 +2,8 @@
 
 ## 0.0.11
 
+- Fix regression of missing completion for empty uris and missing default values
+
 ## 0.0.10
 
 - Find references for direct and direct-vm component (Shift + F12)
