@@ -2,6 +2,7 @@
 
 ## 0.0.12
 
+- Fix incompatibility with Java Extension pack and Spring Boot Extension pack
 
 ## 0.0.11
 
