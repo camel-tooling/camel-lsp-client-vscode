@@ -2,6 +2,7 @@
 
 ## 0.0.12
 
+- Completion for referenced ids for direct, direct-vm, vm and seda components
 - Fix incompatibility with Java Extension pack and Spring Boot Extension pack
 
 ## 0.0.11
