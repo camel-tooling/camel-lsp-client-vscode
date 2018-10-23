@@ -55,7 +55,7 @@ export function activate(context: ExtensionContext) {
 		toggleItem(window.activeTextEditor, item);
 		commands.registerCommand('apache.camel.open.output', ()=>{
 		languageClient.outputChannel.show(ViewColumn.Three);
-	});
+	}, error => {console.log(error)});
 
 	window.onDidChangeActiveTextEditor((editor) =>{
 		toggleItem(editor, item);
