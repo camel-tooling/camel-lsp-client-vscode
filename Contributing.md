@@ -1,4 +1,15 @@
-# How to provide a new version on VS Code Marketplace (Draft)
+# How to start development
+
+- call "npm install --ignore-script"
+- call "npm install"
+- right-click on the package.json and call "install dependencies"
+- go to "Debug perspective" (Ctrl+Shift+D)
+- select "Launch Camel LSP client extension"
+- click on the green arrow
+
+When testing new version of the Camel Language Server, just replace the jar in "jars" folder respecting the name "language-server.jar"
+
+# How to provide a new version on VS Code Marketplace
 
 * Check that the version in package.json has not been published yet
 ** If already published:
