@@ -1,5 +1,9 @@
 #Change Log
 
+## 0.0.13
+
+- Generate log file of Camel Language Server in Java temporary folder instead of the opened folder
+
 ## 0.0.12
 
 - Completion for referenced ids for direct, direct-vm, vm and seda components
