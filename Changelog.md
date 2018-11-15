@@ -2,6 +2,7 @@
 
 ## 0.0.13
 
+- Live-validation, no more need to save file to have validation
 - Generate log file of Camel Language Server in Java temporary folder instead of the opened folder
 
 ## 0.0.12
