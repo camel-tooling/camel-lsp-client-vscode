@@ -3,6 +3,7 @@
 ## 0.0.13
 
 - Live-validation, no more need to save file to have validation
+- "Find references" (Shift + F12) is now searching in all opened documents and not only in the current document
 - Generate log file of Camel Language Server in Java temporary folder instead of the opened folder
 
 ## 0.0.12
