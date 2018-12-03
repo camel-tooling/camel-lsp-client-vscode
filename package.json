@@ -3,7 +3,7 @@
   "displayName": "Language Support for Apache Camel",
   "description": "Provides completion and documentation features for Apache Camel URI elements in XML DSL.",
   "license": "Apache-2.0",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "preview": true,
   "publisher": "camel-tooling",
   "icon": "icons/icon128.png",
@@ -89,6 +89,7 @@
   },
   "dependencies": {
     "decompress": "^4.2.0",
+    "download": "^7.1.0",
     "expand-home-dir": "^0.0.3",
     "find-java-home": "^0.2.0",
     "glob": "^7.1.2",
