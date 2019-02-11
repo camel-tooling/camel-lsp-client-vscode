@@ -85,7 +85,7 @@
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "vsce": "^1.45.1",
-    "vscode": "^1.1.18"
+    "vscode": "^1.1.29"
   },
   "dependencies": {
     "decompress": "^4.2.0",
