@@ -2,6 +2,8 @@
 
 ## 0.0.14
 
+- Upgrade from Camel 2.23.0 to 2.23.1
+
 ## 0.0.13
 
 - Live-validation, no more need to save file to have validation
