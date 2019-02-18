@@ -3,6 +3,7 @@
 ## 0.0.14
 
 - Upgrade from Camel 2.23.0 to 2.23.1
+- Improve Diagnostic handling to follow VS Code servers recommendations: clear Diagnostics on close
 
 ## 0.0.13
 
