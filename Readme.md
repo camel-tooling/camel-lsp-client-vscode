@@ -4,6 +4,7 @@
 [![Gitter](https://img.shields.io/gitter/room/camel-tooling/Lobby.js.svg)](https://gitter.im/camel-tooling/Lobby)
 
 # Apache Camel for Visual Studio Code
+
 This is a preview release of the [Visual Studio Code](https://code.visualstudio.com/) extension that adds [Apache Camel](http://camel.apache.org/) language support for XML DSL and Java DSL code.
 
 When you add this extension to your installation of VS Code, the VS Code editor provides the following features:
@@ -44,9 +45,10 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
     ![Quick reference for XML DSL](./images/hoverDoc.png "Quick Reference for XML DSL")
 
-* Diagnostics for Camel URIs when you save a file (both XML DSL and Java DSL)
+* Diagnostics for Camel URIs
 
     ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
+    ![Diagnostic for Java DSL](./images/diagnosticJava.png "Diagnostic for Java DSL")
 
 * Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in File** navigation panel (XML DSL only)
 
@@ -59,7 +61,6 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
 
   ![Find References for XML DSL](./images/findReference.gif "Find References for XML DSL")
-
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
