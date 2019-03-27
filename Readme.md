@@ -4,13 +4,21 @@
 [![Gitter](https://img.shields.io/gitter/room/camel-tooling/Lobby.js.svg)](https://gitter.im/camel-tooling/Lobby)
 
 # Apache Camel for Visual Studio Code
-This preview release of the extension adds language support for [Apache Camel](http://camel.apache.org/) to [Visual Studio Code](https://code.visualstudio.com/) including:
-* Language service for Apache Camel URI:
-  * Auto-Completion for components, attributes and attribute value list.
-  * Quick Info (Hover)
-* Navigation to Camel routes for XML files (Ctrl+Shift+O)
-* Diagnostic for Camel URIs with XML DSL when saving file
-* Find references for direct and direct-vm component (Shift + F12)
+This is a preview release of the [Visual Studio Code](https://code.visualstudio.com/) extension that adds [Apache Camel](http://camel.apache.org/) language support for coding in XML DSL and Java DSL.
+  
+When you add this extension to your installation of VS Code, the VS Code editor provides the following features:
+
+For both XML DSL and Java:
+* Language service support for Apache Camel URIs:
+  * Auto-completion for Camel components, attributes, and the list of attribute values.
+  * Quick reference documentation when you hover the cursor over a Camel component.
+* Navigation to Camel routes.
+* Diagnostics for Camel URIs when you save a file.
+
+For XML DSL only:
+* Auto-completion for referenced IDs of `direct`, `direct-vm`, `vm` and `seda` components.
+* Find references for `direct` and `direct-vm` components in all open Camel files.
+* Document Symbol for Camel Context and route (used for navigation and outline in clients)
 
 ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
 ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
@@ -18,16 +26,28 @@ This preview release of the extension adds language support for [Apache Camel](h
 ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
 
 
-You can find more detailed information about Apache Camel supported features at Language Server [GitHub page](https://github.com/camel-tooling/camel-language-server#features).
+For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
 ## Contact Us
-If you run into any issues or have suggestions, please file [issues and suggestions on GitHub](https://github.com/camel-tooling/camel-lsp-client-vscode/issues).
+If you run into an issue or have a suggestion, you can contact us by [creating a new issue on GitHub](https://github.com/camel-tooling/camel-lsp-client-vscode/issues).
 
 ## How to install
-The Camel LSP Extension is available from the VSCode Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
+You can download this Camel LSP Extension from the Visual Studio Code Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
 
-* Install VS Code
-* Open Extensions View (Ctrl+Shift+X)
-* Search for "Camel"
-* Select the "Language Support for Apache Camel" entry and click Install
-* Enjoy!
+After you install VS Code, follow these steps:
+. In VS Code, select *View > Extensions*.
+. Search for *Camel*.
+. Select the *Language Support for Apache Camel* option and then click *Install*.
+
+## Prerequisites for using this extension
+
+After you install the Language Support for Apache Camel extension, you can access its features as follows:
+ 
+For XML DSL:
+* You use an `.xml` file extension.
+* You specify the Camel namespace http://camel.apache.org/schema/blueprint or http://camel.apache.org/schema/spring for the Camel element.
+
+For Java DSL:
+* You use a `.java` file extension. 
+* You specify Camel (usually from an imported package) with `from` or `to` and a string without a space. The string cannot be a variable. For example, `from("xxx")` works but `from( "xxx")` and `from(aVariable)` do not work.
+
