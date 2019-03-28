@@ -12,7 +12,8 @@ This preview release of the extension adds language support for [Apache Camel](h
 * Diagnostic for Camel URIs with XML DSL when saving file
 * Find references for direct and direct-vm component (Shift + F12)
 
-![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
+<img src="./images/completion.gif" alt="Completion for XML DSL"
+	title="Completion for XML DSL" width="150" height="100" />
 ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
 ![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
 ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
