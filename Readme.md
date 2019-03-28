@@ -4,7 +4,7 @@
 [![Gitter](https://img.shields.io/gitter/room/camel-tooling/Lobby.js.svg)](https://gitter.im/camel-tooling/Lobby)
 
 # Apache Camel for Visual Studio Code
-This is a preview release of the [Visual Studio Code](https://code.visualstudio.com/) extension that adds [Apache Camel](http://camel.apache.org/) language support for coding in XML DSL and Java DSL.
+This is a preview release of the [Visual Studio Code](https://code.visualstudio.com/) extension that adds [Apache Camel](http://camel.apache.org/) language support for XML DSL and Java DSL code.
   
 When you add this extension to your installation of VS Code, the VS Code editor provides the following features:
 
@@ -18,13 +18,9 @@ For both XML DSL and Java:
 For XML DSL only:
 * Auto-completion for referenced IDs of `direct`, `direct-vm`, `vm` and `seda` components.
 * Find references for `direct` and `direct-vm` components in all open Camel files.
-* Document Symbol for Camel Context and route (used for navigation and outline in clients)
+* Add the Document symbol for Camel context and routes (used for VS Code editor navigation and outline functionality)
 
-![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
-![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
-![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
-![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
-
+For animated GIFs that demonstrate some of these features, see the [wiki page](https://github.com/camel-tooling/camel-lsp-client-vscode/wiki/Apache-Camel-for-Visual-Studio-Code-wiki).
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
@@ -35,9 +31,9 @@ If you run into an issue or have a suggestion, you can contact us by [creating a
 You can download this Camel LSP Extension from the Visual Studio Code Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
 
 After you install VS Code, follow these steps:
-. In VS Code, select *View > Extensions*.
-. Search for *Camel*.
-. Select the *Language Support for Apache Camel* option and then click *Install*.
+1. In VS Code, select *View > Extensions*.
+2. Search for *Camel*.
+3. Select the *Language Support for Apache Camel* option and then click *Install*.
 
 ## Prerequisites for using this extension
 
