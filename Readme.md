@@ -10,31 +10,34 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 * Language service support for Apache Camel URIs (both XML DSL and Java DSL)
 
-   * Auto-completion for Camel components, attributes, and the list of attribute values.
+   * Auto-completion for Camel components, attributes, and the list of attribute values
   
+     XML DSL:
      ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
-  
+     
+     Java DSL:
      ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
     
-   * Quick reference documentation when you hover the cursor over a Camel component.
+   * Quick reference documentation when you hover the cursor over a Camel component
     ![Quick reference for XML DSL](./images/hoverDoc.png "Quick Reference for XML DSL")
     
-* Diagnostics for Camel URIs when you save a file.
+* Diagnostics for Camel URIs when you save a file (both XML DSL and Java DSL)
     ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
     
-For XML DSL only:
-* Navigation to Camel contexts and routes.
-![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
+* Navigation to Camel contexts and routes (XML DSL only)
+  ![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
 
-* Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components.
-
-* Find references for `direct` and `direct VM` components in all open Camel files.
+* Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components (XML DSL only)
+    _add gif_
+  
+* Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
+    _add gif_
 
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
 ## Contact Us
-If you run into an issue or have a suggestion, you can contact us by [creating a new issue on GitHub](https://github.com/camel-tooling/camel-lsp-client-vscode/issues).
+If you run into an issue or have a suggestion, you can report it by [creating a new issue on GitHub](https://github.com/camel-tooling/camel-lsp-client-vscode/issues).
 
 ## How to install
 You can download this **Language Support for Apache Camel** extension from the Visual Studio Code Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
@@ -44,16 +47,17 @@ After you install VS Code, follow these steps:
 2. Search for **Camel**.
 3. Select the **Language Support for Apache Camel** option and then click *Install*.
 
-## Prerequisites for using this extension
+## Requirements for using this extension
 
 After you install this **Language Support for Apache Camel** extension, follow these guidelines to access its features:
  
-For XML DSL:
-* You use an `.xml` file extension.
-* You specify the Camel namespace http://camel.apache.org/schema/blueprint or http://camel.apache.org/schema/spring for the Camel element.
+For an XML DSL file:
+* Use an `.xml` file extension.
+* Specify the Camel namespace http://camel.apache.org/schema/blueprint or http://camel.apache.org/schema/spring.
 
-For Java DSL:
-* You use a `.java` file extension. 
-* You specify Camel (usually from an imported package). For example: `import org.apache.camel.builder.RouteBuilder`
+For a Java DSL file:
+* Use a `.java` file extension. 
+* Specify Camel (usually from an imported package). 
+  For example: `import org.apache.camel.builder.RouteBuilder`
 * To reference the Camel component, use `from` or `to` and a string without a space. The string cannot be a variable. For example, `from("timer:timerName")` works but `from( "timer:timerName")` and `from(aVariable)` do not work.
 
