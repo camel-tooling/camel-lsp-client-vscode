@@ -12,27 +12,33 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
    * Auto-completion for Camel components, attributes, and the list of attribute values
   
-     XML DSL:
+     XML DSL
+     
      ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
      
-     Java DSL:
+     Java DSL 
+     
      ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
     
    * Quick reference documentation when you hover the cursor over a Camel component
+   
     ![Quick reference for XML DSL](./images/hoverDoc.png "Quick Reference for XML DSL")
     
 * Diagnostics for Camel URIs when you save a file (both XML DSL and Java DSL)
+
     ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
     
-* Navigation to Camel contexts and routes (XML DSL only)
-  ![Navigation Symbol for Camel routes and Camel Context for XML DSL](./images/navigationSymbol.gif "Navigation Symbol for Camel route and Camel context for XML DSL")
+* Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in File** navigation panel (XML DSL only)
+
+  ![Navigation support for Camel contexts and routes for XML DSL](./images/navigationSymbol.gif "Navigation support for Camel contexts and routes for XML DSL")
 
 * Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components (XML DSL only)
+  
     _add gif_
   
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
+  
     _add gif_
-
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
