@@ -31,9 +31,9 @@ If you run into an issue or have a suggestion, you can contact us by [creating a
 You can download this Camel LSP Extension from the Visual Studio Code Marketplace at https://marketplace.visualstudio.com/items?itemName=camel-tooling.vscode-apache-camel.
 
 After you install VS Code, follow these steps:
-1. In VS Code, select *View > Extensions*.
-2. Search for *Camel*.
-3. Select the *Language Support for Apache Camel* option and then click *Install*.
+1. In VS Code, select **View > Extensions**.
+2. Search for **Camel**.
+3. Select the **Language Support for Apache Camel** option and then click *Install*.
 
 ## Prerequisites for using this extension
 
