@@ -18,7 +18,7 @@ For both XML DSL and Java:
 For XML DSL only:
 * Auto-completion for referenced IDs of `direct`, `direct-vm`, `vm` and `seda` components.
 * Find references for `direct` and `direct-vm` components in all open Camel files.
-* Add the Document symbol for Camel context and routes (used for VS Code editor navigation and outline functionality)
+* Add the navigation symbol for Camel context and routes (used for VS Code editor navigation and outline functionality)
 
 For animated GIFs that demonstrate some of these features, see the [wiki page](https://github.com/camel-tooling/camel-lsp-client-vscode/wiki/Apache-Camel-for-Visual-Studio-Code-wiki).
 
