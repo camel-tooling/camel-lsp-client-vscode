@@ -8,15 +8,15 @@ This is a preview release of the [Visual Studio Code](https://code.visualstudio.
   
 When you add this extension to your installation of VS Code, the VS Code editor provides the following features:
 
-For both XML DSL and Java:
-* Language service support for Apache Camel URIs:
-  * Auto-completion for Camel components, attributes, and the list of attribute values.
+* Language service support for Apache Camel URIs (both XML DSL and Java DSL)
+
+   * Auto-completion for Camel components, attributes, and the list of attribute values.
   
-    ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
+     ![Completion for XML DSL](./images/completion.gif "Completion for XML DSL")
   
-    ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
+     ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
     
-  * Quick reference documentation when you hover the cursor over a Camel component.
+   * Quick reference documentation when you hover the cursor over a Camel component.
     ![Quick reference for XML DSL](./images/hoverDoc.png "Quick Reference for XML DSL")
     
 * Diagnostics for Camel URIs when you save a file.
