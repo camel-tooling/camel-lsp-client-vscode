@@ -34,11 +34,11 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 * Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components (XML DSL only)
   
-    ![Reference ID completion for XML DSL](./images/directIdCompletion.png "Reference ID completion for XML DSL")
+  ![Reference ID completion for XML DSL](./images/directIdCompletion.png "Reference ID completion for XML DSL")
   
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
   
-    _add gif_
+  ![Find References for XML DSL](./images/findReference.gif "Find References for XML DSL")
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
