@@ -34,7 +34,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 * Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components (XML DSL only)
   
-    _add gif_
+    ![Reference ID completion for XML DSL](./images/directIdCompletion.png "Reference ID completion for XML DSL")
   
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
   
