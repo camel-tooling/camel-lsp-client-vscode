@@ -2,6 +2,8 @@
 
 ## 0.0.15
 
+- Avoid false-positive validation for Camel components that can have additional parameters
+
 ## 0.0.14
 
 - Upgrade from Camel 2.23.0 to 2.23.1
