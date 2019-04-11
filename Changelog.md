@@ -2,6 +2,7 @@
 
 ## 0.0.15
 
+- Report syntax error with validation 
 - Avoid false-positive validation for Camel components that can have additional parameters
 
 ## 0.0.14
