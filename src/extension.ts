@@ -34,13 +34,14 @@ export function activate(context: ExtensionContext) {
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
 		// Register the server for xml
-		documentSelector: ['xml', 'java'],
+		documentSelector: ['xml', 'java', 'groovy'],
 		synchronize: {
-			configurationSection: ['xml', 'java'],
+			configurationSection: ['xml', 'java', 'groovy'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
-				workspace.createFileSystemWatcher('**/*.java')
+				workspace.createFileSystemWatcher('**/*.java'),
+				workspace.createFileSystemWatcher('**/*.groovy')
 			],
 		}
 	};
@@ -69,7 +70,7 @@ export function activate(context: ExtensionContext) {
 
 function toggleItem(editor: TextEditor, item) {
 	if(editor && editor.document &&
-		(editor.document.languageId === 'xml' || editor.document.languageId === 'java')){
+		(editor.document.languageId === 'xml' || editor.document.languageId === 'java' || editor.document.languageId === 'groovy')){
 		item.show();
 	} else{
 		item.hide();

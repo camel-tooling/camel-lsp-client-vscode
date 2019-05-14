@@ -19,6 +19,10 @@ When you add this extension to your installation of VS Code, the VS Code editor 
      Java DSL 
      
      ![Completion for Java DSL](./images/completionJava.gif "Completion for Java DSL")
+
+	 Camel-K Groovy DSL (It requires to have file named with the pattern _*.camelk.groovy_ or that the file starts with _// camel-k:_)
+
+     ![Completion for Groovy DSL](./images/completionGroovy.gif "Completion for Groovy DSL")
     
    * Quick reference documentation when you hover the cursor over a Camel component
    
@@ -39,6 +43,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
   
   ![Find References for XML DSL](./images/findReference.gif "Find References for XML DSL")
+
 
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
