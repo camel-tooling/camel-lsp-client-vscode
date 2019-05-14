@@ -45,7 +45,9 @@
     "onLanguage:xml",
     "workspaceContains:*.xml",
     "onLanguage:java",
-    "workspaceContains:*.java"
+    "workspaceContains:*.java",
+    "onLanguage:groovy",
+    "workspaceContains:*.groovy"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -61,6 +63,13 @@
         "id": "java",
         "extensions": [
           ".java"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "groovy",
+        "extensions": [
+          ".groovy"
         ],
         "configuration": "./language-configuration.json"
       }

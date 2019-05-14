@@ -7,6 +7,7 @@ import { getDocUri, activate } from './helper';
 describe('Should do completion in Camel URi after "ti"', () => {
 	const docUriXml = getDocUri('apacheCamel.xml');
 	const docUriJava = getDocUri('apacheCamel.java');
+	const docUriGroovy = getDocUri('helloworld.camelk.groovy');
 	const expectedCompletion = [
 		{ label: 'tika:operation'},
 		{ label: 'timer:timerName'}
@@ -20,6 +21,12 @@ describe('Should do completion in Camel URi after "ti"', () => {
 
 	it('Completes components for Java', async () => {
 		await testCompletion(docUriJava, new vscode.Position(6, 16), {
+			items: expectedCompletion
+		});
+	});
+
+	it('Completes components for Groovy', async () => {
+		await testCompletion(docUriGroovy, new vscode.Position(0, 8), {
 			items: expectedCompletion
 		});
 	});

@@ -2,6 +2,12 @@
 
 ## 0.0.16
 
+- Provide completion for Camel URIs on Camel-K Groovy files:
+  - which are following one these conventions:
+    - filename _*.camelk.groovy_
+    - filename _*.groovy_ and starting with _// camel-k:_
+    - filename _*.groovy_ and starting with _#!/usr/bin/env camel-k_ (not yet supported by Camel-K runtime see [here](https://github.com/apache/camel-k/issues/754))
+  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Upgrade from Camel 2.24.0 to 2.24.1
 
 ## 0.0.15
