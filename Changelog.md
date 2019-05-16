@@ -4,6 +4,7 @@
 
 - Report syntax error with validation 
 - Avoid false-positive validation for Camel components that can have additional parameters
+- Upgrade from Camel 2.23.1 to 2.24.0
 
 ## 0.0.14
 
