@@ -2,6 +2,8 @@
 
 ## 0.0.16
 
+- Upgrade from Camel 2.24.0 to 2.24.1
+
 ## 0.0.15
 
 - Report syntax error with validation 
