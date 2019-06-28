@@ -3,7 +3,7 @@
 node('rhel7'){
 	stage('Checkout repo') {
 		deleteDir()
-		git url: 'https://github.com/camel-tooling/camel-lsp-client-vscode'
+		git url: 'https://github.com/camel-tooling/camel-lsp-client-vscode', branch: '107-movepublishToRedHat'
 	}
 
 	stage('Install requirements') {
