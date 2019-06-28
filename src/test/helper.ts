@@ -13,7 +13,7 @@ export let platformEol: string;
  */
 export async function activate(docUri: vscode.Uri) {
 	// The extensionId is `publisher.name` from package.json
-	const ext = vscode.extensions.getExtension('camel-tooling.vscode-apache-camel');
+	const ext = vscode.extensions.getExtension('redhat.vscode-apache-camel');
 	await ext.activate();
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);
