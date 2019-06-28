@@ -13,7 +13,7 @@ describe('Should do completion in Camel URi after "ti"', () => {
 	];
 
 	it('Completes components for XML', async () => {
-		await testCompletion(docUriXml, new vscode.Position(0, 13), {
+		await testCompletion(docUriXml, new vscode.Position(0, 11), {
 			items: expectedCompletion
 		});
 	});
