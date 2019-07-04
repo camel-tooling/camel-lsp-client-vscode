@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.16
+
 ## 0.0.15
 
 - Report syntax error with validation 
