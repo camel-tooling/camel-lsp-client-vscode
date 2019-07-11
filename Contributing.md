@@ -17,10 +17,16 @@ When testing new version of the Camel Language Server, just replace the jar in "
 *** Run 'npm install' so that the package-lock.json is updated
 *** Push changes in a PR
 *** Wait for PR to be merged
+* Check that someone listed as _submitter_ in Jenkinsfile is available
 * Create a tag
 * Push the tag to camel-tooling repository, it will trigger a build after few minutes
 * Check build is working fine on https://travis-ci.org/camel-tooling/camel-lsp-client-vscode
-* Wait that the new plugin version is validated by VS Code marketplace moderators (can take minutes or days)
+* Start build on [Jenkins CI](https://dev-platform-jenkins.rhev-ci-vms.eng.rdu2.redhat.com/view/VS%20Code/job/vscode-atlasmap-release) with _publishToMarketPlace_ parameter checked
+* Wait the build is waiting on step _Publish to Marketplace_
+* Ensure you are logged in
+* Go to the console log of the build and click "Proceed"
+* Wait few minutes and check that it has been published on VS Code Marketplace
+* Keep build forever for later reference and edit build information to indicate the version
 * Prepare next iteration:
 ** Upgrade the version in package.json
 ** Run 'npm install' so that the package-lock.json is updated
