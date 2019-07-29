@@ -49,7 +49,9 @@
     "onLanguage:groovy",
     "workspaceContains:*.groovy",
     "onLanguage:properties",
-    "workspaceContains:*.properties"
+    "workspaceContains:*.properties",
+    "onLanguage:kotlin",
+    "workspaceContains:*.kts"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -79,6 +81,13 @@
         "id": "properties",
         "extensions": [
           ".properties"
+          ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "kotlin",
+        "extensions": [
+          ".kts"
         ],
         "configuration": "./language-configuration.json"
       }

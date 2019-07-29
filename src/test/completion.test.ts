@@ -9,6 +9,7 @@ describe('Should do completion in Camel URi after "ti"', () => {
 	const docUriJava = getDocUri('apacheCamel.java');
 	const docUriGroovy = getDocUri('helloworld.camelk.groovy');
 	const docUriCamelKafkaConnectProperties = getDocUri('camelKafkaConnect.properties');
+	const docUriKotlin = getDocUri('helloworld.camelk.kts');
 	const expectedCompletion = [
 		{ label: 'tika:operation'},
 		{ label: 'timer:timerName'}
@@ -34,6 +35,12 @@ describe('Should do completion in Camel URi after "ti"', () => {
 
 	it('Completes components for Camel Kafka Connect properties', async () => {
 		await testCompletion(docUriCamelKafkaConnectProperties, new vscode.Position(7, 19), {
+			items: expectedCompletion
+		});
+	});
+	
+	it('Completes components for Kotlin', async () => {
+		await testCompletion(docUriKotlin, new vscode.Position(0, 8), {
 			items: expectedCompletion
 		});
 	});
