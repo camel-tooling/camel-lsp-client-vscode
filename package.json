@@ -47,7 +47,9 @@
     "onLanguage:java",
     "workspaceContains:*.java",
     "onLanguage:groovy",
-    "workspaceContains:*.groovy"
+    "workspaceContains:*.groovy",
+    "onLanguage:properties",
+    "workspaceContains:*.properties"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -70,6 +72,13 @@
         "id": "groovy",
         "extensions": [
           ".groovy"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "properties",
+        "extensions": [
+          ".properties"
         ],
         "configuration": "./language-configuration.json"
       }

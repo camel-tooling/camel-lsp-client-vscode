@@ -23,6 +23,10 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 	 Camel-K Groovy DSL (It requires to have file named with the pattern _*.camelk.groovy_ or that the file starts with _// camel-k:_)
 
      ![Completion for Groovy DSL](./images/completionGroovy.gif "Completion for Groovy DSL")
+
+	 Camel Kafka Connect properties
+
+	 ![Completion for Camel Kafka Connect](./images/completionCamelKafkaConnect.gif "Completion for Camel Kafka Connect")
     
    * Quick reference documentation when you hover the cursor over a Camel component
    

@@ -34,14 +34,15 @@ export function activate(context: ExtensionContext) {
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
 		// Register the server for xml
-		documentSelector: ['xml', 'java', 'groovy'],
+		documentSelector: ['xml', 'java', 'groovy', 'properties'],
 		synchronize: {
-			configurationSection: ['xml', 'java', 'groovy'],
+			configurationSection: ['xml', 'java', 'groovy', 'properties'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
 				workspace.createFileSystemWatcher('**/*.java'),
-				workspace.createFileSystemWatcher('**/*.groovy')
+				workspace.createFileSystemWatcher('**/*.groovy'),
+				workspace.createFileSystemWatcher('**/*.properties')
 			],
 		}
 	};
