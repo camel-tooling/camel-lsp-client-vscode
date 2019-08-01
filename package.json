@@ -51,7 +51,9 @@
     "onLanguage:properties",
     "workspaceContains:*.properties",
     "onLanguage:kotlin",
-    "workspaceContains:*.kts"
+    "workspaceContains:*.kts",
+    "onLanguage:javascript",
+    "workspaceContains:*.js"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -88,6 +90,13 @@
         "id": "kotlin",
         "extensions": [
           ".kts"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "javascript",
+        "extensions": [
+          ".js"
         ],
         "configuration": "./language-configuration.json"
       }
