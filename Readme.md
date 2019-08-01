@@ -28,6 +28,10 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
      ![Completion for Kotlin DSL](./images/completionKotlin.gif "Completion for Kotlin DSL")
 
+	 Camel-K JavaScript DSL (It requires to have file named with the pattern _*.camelk.js or that the file starts with _// camel-k:_)
+
+     ![Completion for JavaScript DSL](./images/completionJavascript.gif "Completion for JavaScript DSL")
+
 	 Camel Kafka Connect properties
 
 	 ![Completion for Camel Kafka Connect](./images/completionCamelKafkaConnect.gif "Completion for Camel Kafka Connect")

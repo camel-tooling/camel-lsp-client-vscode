@@ -13,6 +13,11 @@
     - filename _*.camelk.kts_
     - filename _*.kts_ and starting with _// camel-k:_
   - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+- Provide completion for Camel URIs on Camel-K JS files:
+  - which are following one these conventions:
+    - filename _*.camelk.js_
+    - filename _*.js_ and starting with _// camel-k:_
+  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Provide completion for Camel URI in Camel Kafka Connect properties file
   - properties file needs to use '=' without spaces notation
 - Upgrade from Camel 2.24.0 to 2.24.1
