@@ -1,8 +1,10 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as assert from 'assert';
+import * as chai from 'chai';
 import { getDocUri, activate } from './helper';
+
+const expect = chai.expect;
 
 describe('Should do completion in Camel URi after "ti"', () => {
 	const docUriXml = getDocUri('apacheCamel.xml');
@@ -67,9 +69,8 @@ async function testCompletion(
 		position
 	)) as vscode.CompletionList;
 
-	assert.equal(actualCompletionList.items.length, expectedCompletionList.items.length);
-	expectedCompletionList.items.forEach((expectedItem, i) => {
-		const actualItem = actualCompletionList.items[i];
-		assert.equal(actualItem.label, expectedItem.label);
-	});
+	const expectedCompletionLabelList = expectedCompletionList.items.map(c => { return c.label; });
+	const actualCompletionLabelList = actualCompletionList.items.map(c => { return c.label; });
+	expect(actualCompletionLabelList).to.include.members(expectedCompletionLabelList);
+	expect(actualCompletionLabelList).to.not.include('test:name');
 }
