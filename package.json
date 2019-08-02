@@ -83,7 +83,7 @@
         "id": "properties",
         "extensions": [
           ".properties"
-          ],
+        ],
         "configuration": "./language-configuration.json"
       },
       {
@@ -114,6 +114,7 @@
     "@types/glob": "^5.0.35",
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.5.7",
+    "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^6.1.2",
     "mocha": "^6.1.4",
