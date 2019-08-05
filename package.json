@@ -35,7 +35,7 @@
     "Tool"
   ],
   "engines": {
-    "vscode": "^1.25.1"
+    "vscode": "^1.33.0"
   },
   "categories": [
     "Programming Languages",
@@ -111,31 +111,31 @@
     "tslint": "gulp tslint"
   },
   "devDependencies": {
-    "@types/glob": "^5.0.35",
+    "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^10.5.7",
+    "@types/node": "^12.6.9",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^6.1.2",
-    "mocha": "^6.1.4",
-    "mocha-jenkins-reporter": "^0.4.1",
-    "mvn-artifact-download": "^3.1.0",
-    "tslint": "^5.12.1",
-    "typescript": "^2.0.3",
-    "vsce": "^1.59.0",
-    "vscode": "^1.1.34"
+    "mocha": "^6.2.0",
+    "mocha-jenkins-reporter": "^0.4.2",
+    "mvn-artifact-download": "^4.0.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "vsce": "^1.66.0",
+    "vscode": "^1.1.36"
   },
   "dependencies": {
     "decompress": "^4.2.0",
     "download": "^7.1.0",
     "expand-home-dir": "^0.0.3",
-    "find-java-home": "^0.2.0",
-    "glob": "^7.1.2",
+    "find-java-home": "^1.0.0",
+    "glob": "^7.1.4",
     "http-proxy-agent": "^2.1.0",
-    "https-proxy-agent": "^2.2.1",
-    "path-exists": "^3.0.0",
+    "https-proxy-agent": "^2.2.2",
+    "path-exists": "^4.0.0",
     "progress-stream": "^2.0.0",
-    "tmp": "^0.0.33",
-    "vscode-languageclient": "^4.4.0"
+    "tmp": "^0.1.0",
+    "vscode-languageclient": "^5.2.1"
   }
 }
