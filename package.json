@@ -49,6 +49,7 @@
     "onLanguage:groovy",
     "workspaceContains:*.groovy",
     "onLanguage:properties",
+    "onLanguage:spring-boot-properties",
     "workspaceContains:*.properties",
     "onLanguage:kotlin",
     "workspaceContains:*.kts",
@@ -83,6 +84,13 @@
         "id": "properties",
         "extensions": [
           ".properties"
+        ],
+        "configuration": "./language-configuration.json"
+	    },
+      {
+        "id": "spring-boot-properties",
+        "extensions": [
+          "application.properties"
         ],
         "configuration": "./language-configuration.json"
       },
