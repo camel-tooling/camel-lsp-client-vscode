@@ -2,6 +2,8 @@
 
 ## 0.0.17
 
+- Update to naming approved by Red Hat legal
+
 ## 0.0.16
 
 - Provide completion for Camel URIs on Camel-K Groovy files:
