@@ -1,6 +1,6 @@
 {
   "name": "vscode-apache-camel",
-  "displayName": "Language Support for Apache Camel",
+  "displayName": "Language Support for Apache Camel by Red Hat",
   "description": "Provides completion and documentation features for Apache Camel URI elements in XML DSL.",
   "license": "Apache-2.0",
   "version": "0.0.17",
