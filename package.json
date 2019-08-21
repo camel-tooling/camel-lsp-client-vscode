@@ -116,7 +116,7 @@
     "@types/node": "^12.6.9",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
-    "gulp-tslint": "^6.1.2",
+    "gulp-tslint": "^8.1.4",
     "mocha": "^6.2.0",
     "mocha-jenkins-reporter": "^0.4.2",
     "mvn-artifact-download": "^4.0.0",
