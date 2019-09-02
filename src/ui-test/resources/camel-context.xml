@@ -1,0 +1,5 @@
+<camelContext id="uitest-context" xmlns="http://camel.apache.org/schema/spring">
+    <route id="uitest-route">
+        <from id="_fromID" uri=""/>
+    </route>
+</camelContext>

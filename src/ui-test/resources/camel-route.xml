@@ -1,0 +1,15 @@
+<camelContext id="uitest-context" xmlns="http://camel.apache.org/schema/spring">
+    <route id="uitest-direct-route">
+        <from id="_fromID" uri="direct:testName"/>
+    </route>
+	<route id="uitest-direct-route2">
+        <to id="_toID" uri=""/>
+    </route>
+
+	<route id="uitest-directvm-route">
+        <from id="_fromID2" uri="direct-vm:testName2"/>
+    </route>
+	<route id="uitest-directvm-route2">
+        <to id="_toID2" uri=""/>
+    </route>
+</camelContext>

@@ -9,5 +9,8 @@
 		"semicolon": ["always"],
 		"triple-equals": true,
 		"quotemark": [true, "single", "avoid-escape"]
+	},
+	"linterOptions": {
+		"exclude": ["test-resources"]
 	}
 }

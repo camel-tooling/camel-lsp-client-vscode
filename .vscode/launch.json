@@ -10,7 +10,7 @@
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}", "--debug" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/out/**/*.js"],
+			"outFiles": ["${workspaceRoot}/out/src/**/*.js"],
 			"preLaunchTask": "compile"
 		},
 		{
@@ -20,11 +20,11 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}",
-				"--extensionTestsPath=${workspaceRoot}/out/test",
+				"--extensionTestsPath=${workspaceRoot}/out/src/test",
 				"${workspaceRoot}/testFixture" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/out/test/**/*.js"]
+			"outFiles": ["${workspaceRoot}/out/src/test/**/*.js"]
 		}
 	]
 }
