@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.18
+
 ## 0.0.17
 
 - Update to naming approved by Red Hat legal
