@@ -129,7 +129,7 @@
     "decompress": "^4.2.0",
     "download": "^7.1.0",
     "expand-home-dir": "^0.0.3",
-    "find-java-home": "^1.0.0",
+    "find-java-home": "^1.0.1",
     "glob": "^7.1.4",
     "http-proxy-agent": "^2.1.0",
     "https-proxy-agent": "^2.2.2",
