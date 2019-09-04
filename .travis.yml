@@ -23,6 +23,9 @@ cache:
   directories:
     - "node_modules"
 env: DISPLAY=:99
+branches:
+  except:
+    - /^dependabot.*$/
 addons:
   sonarcloud:
     organization: "camel-tooling"
