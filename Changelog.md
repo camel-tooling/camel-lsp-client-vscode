@@ -2,6 +2,12 @@
 
 ## 0.0.18
 
+- Provide completion for Camel URIs on Camel-K Yaml files:
+  - which are following one these conventions:
+    - filename _*.camelk.yaml_
+    - filename _*.yaml_ and starting with _// camel-k:_
+  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+
 ## 0.0.17
 
 - Update to naming approved by Red Hat legal
@@ -30,7 +36,7 @@
 
 ## 0.0.15
 
-- Report syntax error with validation 
+- Report syntax error with validation
 - Avoid false-positive validation for Camel components that can have additional parameters
 - Upgrade from Camel 2.23.1 to 2.24.0
 

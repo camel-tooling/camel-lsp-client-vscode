@@ -13,6 +13,7 @@ describe('Should do completion in Camel URi after "ti"', () => {
 	const docUriCamelKafkaConnectProperties = getDocUri('camelKafkaConnect.properties');
 	const docUriKotlin = getDocUri('helloworld.camelk.kts');
 	const docUriJS = getDocUri('helloworld.js');
+	const docUriYaml = getDocUri('helloworld.camelk.yaml');
 	const expectedCompletion = [
 		{ label: 'tika:operation'},
 		{ label: 'timer:timerName'}
@@ -41,7 +42,7 @@ describe('Should do completion in Camel URi after "ti"', () => {
 			items: expectedCompletion
 		});
 	});
-	
+
 	it('Completes components for Kotlin', async () => {
 		await testCompletion(docUriKotlin, new vscode.Position(0, 8), {
 			items: expectedCompletion
@@ -50,6 +51,18 @@ describe('Should do completion in Camel URi after "ti"', () => {
 
 	it('Completes components for JS', async () => {
 		await testCompletion(docUriJS, new vscode.Position(2, 8), {
+			items: expectedCompletion
+		});
+	});
+
+	it('Completes components for Yaml', async () => {
+		await testCompletion(docUriYaml, new vscode.Position(1, 11), {
+			items: expectedCompletion
+		});
+	});
+
+	it('Completes components for Yaml using shortcut', async () => {
+		await testCompletion(docUriYaml, new vscode.Position(6, 14), {
 			items: expectedCompletion
 		});
 	});

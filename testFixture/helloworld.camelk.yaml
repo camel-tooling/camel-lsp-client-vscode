@@ -1,0 +1,7 @@
+- from:
+   uri: "timer:yaml?period=1s"
+   steps:
+     - split:
+         tokenize:
+             token: ","
+     - to: "tika:operation"
