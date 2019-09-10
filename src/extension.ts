@@ -33,9 +33,9 @@ export function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
-		documentSelector: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties'],
+		documentSelector: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties', 'yaml'],
 		synchronize: {
-			configurationSection: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties'],
+			configurationSection: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties', 'yaml'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
@@ -43,7 +43,8 @@ export function activate(context: ExtensionContext) {
 				workspace.createFileSystemWatcher('**/*.groovy'),
 				workspace.createFileSystemWatcher('**/*.kts'),
 				workspace.createFileSystemWatcher('**/*.js'),
-				workspace.createFileSystemWatcher('**/*.properties')
+				workspace.createFileSystemWatcher('**/*.properties'),
+				workspace.createFileSystemWatcher('**/*.yaml')
 			],
 		}
 	};
