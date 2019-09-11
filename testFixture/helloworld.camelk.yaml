@@ -1,7 +1,13 @@
-- from:
-   uri: "timer:yaml?period=1s"
-   steps:
-     - split:
-         tokenize:
-             token: ","
-     - to: "tika:operation"
+# camel-k: language=yaml
+- route:
+    id: "yaml"
+    from:
+        uri: "timer:tick"
+        parameters:
+            period: "5s"
+        steps:
+            - set-body:
+                constant: "Hello Yaml !!!"
+            - transform:
+                simple: "${body.toUpperCase()}"
+            - to: "ticka:operation"
