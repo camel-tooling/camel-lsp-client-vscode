@@ -7,6 +7,7 @@
     - filename _*.camelk.yaml_
     - filename _*.yaml_ and starting with _// camel-k:_
   - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+- Update from Camel 2.24.1 to 2.24.2
 
 ## 0.0.17
 
