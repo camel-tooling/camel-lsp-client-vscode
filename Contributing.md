@@ -1,6 +1,5 @@
 # How to start development
 
-- call "npm install --ignore-script"
 - call "npm install"
 - right-click on the package.json and call "install dependencies"
 - go to "Debug perspective" (Ctrl+Shift+D)
