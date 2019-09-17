@@ -88,7 +88,7 @@
           ".properties"
         ],
         "configuration": "./language-configuration.json"
-	    },
+      },
       {
         "id": "spring-boot-properties",
         "extensions": [
@@ -120,9 +120,10 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -watch -p ./",
-    "preinstall": "node ./scripts/preinstall.js",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "preinstall": "npm install -D mvn-artifact-download && node ./scripts/preinstall.js",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
     "tslint": "gulp tslint"

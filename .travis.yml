@@ -6,7 +6,6 @@ before_install:
   - 'export PATH=./node_modules/.bin:$PATH'
   - 'npm install -g typescript'
 install:
-  - 'npm install --ignore-scripts'
   - 'npm install'
   # https://github.com/travis-ci/travis-ci/issues/8813
   - 'rm -f ./node_modules/.bin/which'
