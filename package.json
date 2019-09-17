@@ -138,7 +138,7 @@
     "mocha-jenkins-reporter": "^0.4.2",
     "mvn-artifact-download": "^4.0.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.6.3",
     "vsce": "^1.66.0",
     "vscode": "^1.1.36"
   },
