@@ -131,7 +131,7 @@
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.8",
+    "@types/node": "^12.7.9",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
