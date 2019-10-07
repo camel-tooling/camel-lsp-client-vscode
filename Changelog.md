@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.19
+
 ## 0.0.18
 
 - Provide completion for Camel URIs on Camel-K Yaml files:
