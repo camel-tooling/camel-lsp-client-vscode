@@ -141,7 +141,7 @@
     "mocha-jenkins-reporter": "^0.4.2",
     "mvn-artifact-download": "^4.0.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3",
+    "typescript": "^3.6.4",
     "vsce": "^1.67.1",
     "vscode": "^1.1.36",
     "vscode-extension-tester": "^2.0.1",
