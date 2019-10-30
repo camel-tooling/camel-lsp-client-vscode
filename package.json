@@ -142,7 +142,7 @@
     "mvn-artifact-download": "^4.0.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4",
-    "vsce": "^1.68.0",
+    "vsce": "^1.69.0",
     "vscode": "^1.1.36",
     "vscode-extension-tester": "^2.0.4",
     "vscode-test": "^1.2.0",
