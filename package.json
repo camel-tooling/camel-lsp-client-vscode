@@ -145,7 +145,7 @@
     "vsce": "^1.69.0",
     "vscode": "^1.1.36",
     "vscode-extension-tester": "^2.0.4",
-    "vscode-test": "^1.2.0",
+    "vscode-test": "^1.2.2",
     "vscode-uitests-tooling": "^1.0.5"
   },
   "dependencies": {
