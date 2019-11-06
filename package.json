@@ -65,57 +65,49 @@
         "id": "xml",
         "extensions": [
           ".xml"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "java",
         "extensions": [
           ".java"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "groovy",
         "extensions": [
           ".groovy"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "properties",
         "extensions": [
           ".properties"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "spring-boot-properties",
         "extensions": [
           "application.properties"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "kotlin",
         "extensions": [
           ".kts"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "javascript",
         "extensions": [
           ".js"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       },
       {
         "id": "yaml",
         "extensions": [
           ".yaml"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       }
     ]
   },

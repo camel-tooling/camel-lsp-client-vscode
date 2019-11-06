@@ -2,6 +2,8 @@
 
 ## 0.0.19
 
+- Fix commenting of xml lines and blocks
+
 ## 0.0.18
 
 - Provide completion for Camel URIs on Camel-K Yaml files:
