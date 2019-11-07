@@ -35,7 +35,7 @@
     "Tool"
   ],
   "engines": {
-    "vscode": "^1.33.0"
+    "vscode": "^1.39.0"
   },
   "categories": [
     "Programming Languages",
@@ -116,7 +116,6 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "preinstall": "npm install -D mvn-artifact-download && node ./scripts/preinstall.js",
-    "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./out/src/test/runTest.js",
     "tslint": "gulp tslint",
     "ui-test": "npm run compile && extest setup-and-run './out/src/ui-test/*_test.js'"
@@ -126,6 +125,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.6",
+    "@types/vscode": "^1.39.0",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
@@ -135,7 +135,6 @@
     "tslint": "^5.20.1",
     "typescript": "^3.7.2",
     "vsce": "^1.69.0",
-    "vscode": "^1.1.36",
     "vscode-extension-tester": "^2.0.4",
     "vscode-test": "^1.2.2",
     "vscode-uitests-tooling": "^1.0.5"
