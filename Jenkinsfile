@@ -3,7 +3,7 @@
 node('rhel7'){
 	stage('Checkout repo') {
 		deleteDir()
-		git url: 'https://github.com/camel-tooling/camel-lsp-client-vscode'
+		git url: 'https://github.com/apupier/camel-lsp-client-vscode', branch: 'FUSETOOLS2-51-workaroundVSCodeRegression'
 	}
 
 	stage('Install requirements') {
@@ -16,7 +16,7 @@ node('rhel7'){
 		env.JAVA_HOME="${tool 'openjdk-1.8'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		sh "java -version"
-		
+
 		sh "npm install --ignore-scripts"
 		sh "npm install"
 		sh "npm run vscode:prepublish"
