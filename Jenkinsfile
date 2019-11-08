@@ -36,32 +36,4 @@ node('rhel7'){
         sh "vsce package -o vscode-apache-camel-${packageJson.version}-${env.BUILD_NUMBER}.vsix"
 	}
 
-	if(params.UPLOAD_LOCATION) {
-		stage('Snapshot') {
-			def filesToPush = findFiles(glob: '**.vsix')
-			sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${filesToPush[0].path} ${UPLOAD_LOCATION}/snapshots/vscode-apache-camel/"
-            stash name:'vsix', includes:filesToPush[0].path
-		}
-    }
-}
-
-node('rhel7'){
-	if(publishToMarketPlace.equals('true')){
-		timeout(time:5, unit:'DAYS') {
-			input message:'Approve deployment?', submitter: 'apupier,lheinema,bfitzpat,tsedmik,djelinek'
-		}
-
-		stage("Publish to Marketplace") {
-            unstash 'vsix'
-            withCredentials([[$class: 'StringBinding', credentialsId: 'vscode_java_marketplace', variable: 'TOKEN']]) {
-                def vsix = findFiles(glob: '**.vsix')
-                sh 'vsce publish -p ${TOKEN} --packagePath' + " ${vsix[0].path}"
-            }
-            archive includes:"**.vsix"
-
-            stage "Promote the build to stable"
-            def vsix = findFiles(glob: '**.vsix')
-            sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${vsix[0].path} ${UPLOAD_LOCATION}/stable/vscode-apache-camel/"
-        }
-	}
 }
