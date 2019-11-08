@@ -8,7 +8,8 @@ async function runTest() {
 
 		await runTests({
 			extensionDevelopmentPath,
-			extensionTestsPath
+			extensionTestsPath,
+			launchArgs: ['--no-sandbox']
 		})
 	} catch (err) {
 		console.error('Failed to run tests!')
