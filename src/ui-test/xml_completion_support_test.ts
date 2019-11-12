@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, TitleBar } from 'vscode-extension-tester';
 import { DefaultFileDialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -21,6 +21,7 @@ describe('XML DSL support', function () {
 	};
 
 	const _clean = async function () {
+		await new TitleBar().select('File', 'Revert File');
 		await new EditorView().closeAllEditors();
 	};
 
@@ -94,7 +95,7 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Duplicate endpoint options are filtered out', async function () {
-			this.timeout(20000);
+			this.timeout(30000);
 			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -127,7 +128,7 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			this.timeout(20000);
+			this.timeout(30000);
 			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
 
 			await editor.typeText(3, URI_POSITION, 'timer');
