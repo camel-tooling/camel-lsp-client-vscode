@@ -2,7 +2,7 @@
 
 import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, TextEditor, languages } from 'vscode';
-import { LanguageClient, LanguageClientOptions, Executable } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, Executable, DidChangeConfigurationNotification } from 'vscode-languageclient';
 
 var os = require('os');
 var storagePath;
@@ -35,7 +35,7 @@ export function activate(context: ExtensionContext) {
 	let clientOptions: LanguageClientOptions = {
 		documentSelector: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties', 'yaml'],
 		synchronize: {
-			configurationSection: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties', 'yaml'],
+			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'spring-boot-properties', 'yaml'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
@@ -46,6 +46,16 @@ export function activate(context: ExtensionContext) {
 				workspace.createFileSystemWatcher('**/*.properties'),
 				workspace.createFileSystemWatcher('**/*.yaml')
 			],
+		},
+		initializationOptions: {
+			settings: getCamelSettings()
+		},
+		middleware: {
+			workspace: {
+				didChangeConfiguration: () => {
+					languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getCamelSettings()});
+				}
+			}
 		}
 	};
 
@@ -69,6 +79,11 @@ export function activate(context: ExtensionContext) {
 	// Push the disposable to the context's subscriptions so that the
 	// client can be deactivated on extension deactivation
 	context.subscriptions.push(disposable);
+}
+
+function getCamelSettings() {
+	const camelXMLConfig = workspace.getConfiguration('camel');
+	return { 'camel' : JSON.parse(JSON.stringify(camelXMLConfig))};
 }
 
 function toggleItem(editor: TextEditor, item) {

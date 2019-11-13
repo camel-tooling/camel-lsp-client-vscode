@@ -60,6 +60,16 @@
   ],
   "main": "./out/src/extension.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Apache Camel Tooling",
+      "properties": {
+        "camel.Camel catalog version": {
+          "type": "string",
+          "description": "Camel catalog version used to provide Apache Camel Language Support. Depending on the connection speed, it can take several minutes to have it applied."
+        }
+      }
+    },
     "languages": [
       {
         "id": "xml",

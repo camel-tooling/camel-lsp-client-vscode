@@ -62,6 +62,8 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
   ![Find References for XML DSL](./images/findReference.gif "Find References for XML DSL")
 
+It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
+
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
 ## Contact Us
