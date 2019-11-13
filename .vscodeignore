@@ -12,3 +12,4 @@ undefined/**
 CONTRIBUTING.md
 .vscode-test/**
 test-resources
+testFixture/**
