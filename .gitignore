@@ -10,3 +10,4 @@ target
 .scannerwork
 log-camel-lsp.out
 test-resources
+testFixture/.vscode/**
