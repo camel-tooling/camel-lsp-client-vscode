@@ -3,6 +3,7 @@
 ## 0.0.19
 
 - Fix commenting of xml lines and blocks
+- Preference to choose the version of the Camel Catalog used by the Language server
 
 ## 0.0.18
 
