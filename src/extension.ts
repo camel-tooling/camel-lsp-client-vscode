@@ -8,6 +8,7 @@ var os = require('os');
 var storagePath;
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
+const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
 export function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
@@ -82,8 +83,8 @@ export function activate(context: ExtensionContext) {
 }
 
 function getCamelSettings() {
-	const camelXMLConfig = workspace.getConfiguration('camel');
-	return { 'camel' : JSON.parse(JSON.stringify(camelXMLConfig))};
+	const camelXMLConfig = workspace.getConfiguration(SETTINGS_TOP_LEVEL_KEY_CAMEL);
+	return { [SETTINGS_TOP_LEVEL_KEY_CAMEL] : JSON.parse(JSON.stringify(camelXMLConfig))};
 }
 
 function toggleItem(editor: TextEditor, item) {
