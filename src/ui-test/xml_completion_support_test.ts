@@ -1,28 +1,26 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, TitleBar } from 'vscode-extension-tester';
-import { DefaultFileDialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType } from 'vscode-extension-tester';
+import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 
 describe('XML DSL support', function () {
 
-	const RESOURCES = path.resolve('src', 'ui-test', 'resources');
-	const CAMEL_CONTEXT_XML = 'camel-context.xml';
-	const CAMEL_ROUTE_XML = 'camel-route.xml';
-	const URI_POSITION = 33;
+	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
+	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
+	const CAMEL_ROUTE_XML: string = 'camel-route.xml';
+	const URI_POSITION: number = 33;
 
-	let fileDialog = new DefaultFileDialog();
 	let contentAssist: ContentAssist;
 
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			await fileDialog.openFile(path.join(RESOURCES, camel_xml));
+			await Dialog.openFile(path.join(RESOURCES, camel_xml));
 		}
 	};
 
 	const _clean = async function () {
-		await new TitleBar().select('File', 'Revert File');
-		await new EditorView().closeAllEditors();
+		await Dialog.closeFile(false);
 	};
 
 	describe('Camel URI code completion', function () {
@@ -122,7 +120,7 @@ describe('XML DSL support', function () {
 
 	describe('Diagnostics for Camel URIs', function () {
 
-		const EXPECTED_ERROR_MESSAGE = 'Invalid integer value: 1000r';
+		const EXPECTED_ERROR_MESSAGE: string = 'Invalid integer value: 1000r';
 
 		before(_setup(CAMEL_CONTEXT_XML));
 		after(_clean);
@@ -157,8 +155,8 @@ describe('XML DSL support', function () {
 
 	describe('Auto-completion for referenced components IDs', function () {
 
-		const DIRECT_COMPONENT_NAME = 'direct:testName';
-		const DIRECT_VM_COMPONENT_NAME = 'direct-vm:testName2';
+		const DIRECT_COMPONENT_NAME: string = 'direct:testName';
+		const DIRECT_VM_COMPONENT_NAME: string = 'direct-vm:testName2';
 
 		before(_setup(CAMEL_ROUTE_XML));
 		after(_clean);

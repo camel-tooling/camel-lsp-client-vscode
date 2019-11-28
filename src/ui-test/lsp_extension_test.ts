@@ -1,34 +1,33 @@
-import { EditorView, ExtensionsViewSection, ActivityBar, ExtensionsViewItem } from 'vscode-extension-tester';
-import { DefaultFileDialog, DefaultStatusBar } from 'vscode-uitests-tooling';
+import { EditorView, ExtensionsViewItem } from 'vscode-extension-tester';
+import { Dialog, StatusBarExt, Marketplace } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 import * as pjson from '../../package.json';
 
 describe('Language Support for Apache Camel extension', function () {
 
-	const RESOURCES = path.resolve('src', 'ui-test', 'resources');
-	const CAMEL_CONTEXT_XML = 'camel-context.xml';
-	const LSP_STATUS_BAR_MESSAGE = 'Apache Camel Language Server started';
+	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
+	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
+	const LSP_STATUS_BAR_MESSAGE: string = 'Apache Camel Language Server started';
 
 	describe('Extensions view', function () {
 
-		let section: ExtensionsViewSection;
+		let marketplace: Marketplace;
 		let item: ExtensionsViewItem;
 
 		before(async function () {
 			this.timeout(10000);
-			const view = await new ActivityBar().getViewControl('Extensions').openView();
-			section = await view.getContent().getSection('Enabled') as ExtensionsViewSection;
+			marketplace = await Marketplace.open();
 		});
 
 		after(async function () {
-			await new ActivityBar().getViewControl('Extensions').closeView();
+			await marketplace.close();
 			await new EditorView().closeAllEditors();
 		});
 
 		it('Find extension', async function () {
 			this.timeout(10000);
-			item = await section.findItem(`@installed ${pjson.displayName}`) as ExtensionsViewItem;
+			item = await marketplace.findExtension(`@installed ${pjson.displayName}`) as ExtensionsViewItem;
 		});
 
 		it('Extension is installed', async function () {
@@ -60,16 +59,16 @@ describe('Language Support for Apache Camel extension', function () {
 
 		before(async function () {
 			this.timeout(20000);
-			await new DefaultFileDialog().openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+			await Dialog.openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML));
 		});
 
 		after(async function () {
-			await new EditorView().closeAllEditors();
+			await Dialog.closeFile(false);
 		});
 
 		it('Language Support for Apache Camel started', async function () {
 			this.timeout(10000);
-			const lsp = await new DefaultStatusBar().getLSPSupport();
+			const lsp = await new StatusBarExt().getLSPSupport();
 			assert.equal(LSP_STATUS_BAR_MESSAGE, lsp);
 		});
 	});
