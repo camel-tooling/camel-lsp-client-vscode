@@ -2,6 +2,9 @@
 
 ## 0.0.20
 
+- Diagnostic range for unknown properties is now at the exact property size instead of the full Camel URI
+![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
+
 ## 0.0.19
 
 - Fix commenting of xml lines and blocks
