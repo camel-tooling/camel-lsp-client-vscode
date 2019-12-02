@@ -5,6 +5,7 @@
 - Diagnostic range for unknown properties is now at the exact property size instead of the full Camel URI
 ![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
 - Quickfix for unknown properties
+- Preference to provide additional Camel components
 
 ## 0.0.19
 
