@@ -64,6 +64,24 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 
+Additional Camel components can be provided. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Extra-components -> Edit in settings.json**
+You can add a list of Camel components definition. This json definition can be found in jar of the Camel component. You will end up with something like:
+```
+{
+	"camel.extra-components": [{
+		"component": {
+			...
+		},
+		"componentProperties": {
+			...
+		},
+		"properties": {
+			...
+		}
+	}]
+}
+```
+
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
 ## Contact Us
