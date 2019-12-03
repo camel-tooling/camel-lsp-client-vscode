@@ -8,6 +8,7 @@
 - Diagnostic range for invalid enum values is now at the exact enum value size instead of the full Camel URI
 ![Diagnostic range for invalid enum values](./images/diagnosticEnumRange.png "Diagnostic range for invalid enum values")
 - Preference to provide additional Camel components
+- Improve diagnostic range when there are several parameters in XML DSL (restrict to the Camel URI instead of the full line)
 
 ## 0.0.19
 
