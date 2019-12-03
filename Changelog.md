@@ -6,6 +6,7 @@
 ![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
 - Quickfix for unknown properties
 - Preference to provide additional Camel components
+- Improve diagnostic range when there are several parameters in XML DSL (restrict to the Camel URI instead of the full line)
 
 ## 0.0.19
 
