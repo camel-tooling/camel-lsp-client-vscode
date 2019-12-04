@@ -4,7 +4,7 @@
 
 - Diagnostic range for unknown properties is now at the exact property size instead of the full Camel URI
 ![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
-- Quickfix for unknown properties
+- Quickfix for unknown properties filtered with relatively similar values (to avoid having the whole list of potentially hundreds quickfixes)
 - Diagnostic range for invalid enum values is now at the exact enum value size instead of the full Camel URI
 ![Diagnostic range for invalid enum values](./images/diagnosticEnumRange.png "Diagnostic range for invalid enum values")
 - Preference to provide additional Camel components
