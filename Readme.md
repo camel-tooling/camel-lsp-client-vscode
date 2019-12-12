@@ -40,6 +40,10 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 	 Camel-K Yaml DSL (It requires to have file named with the pattern _*.camelk.yaml_ or that the file starts with _// camel-k:_)
 
      ![Completion for Yaml DSL](./images/completionYaml.gif "Completion for Yaml DSL")
+     
+     Camel properties file (restricted to camel components ids and camel components properties)
+     
+     ![Completion for Properties files](./images/completionProperties.gif "Completion for Properties files")
 
    * Quick reference documentation when you hover the cursor over a Camel component
 
