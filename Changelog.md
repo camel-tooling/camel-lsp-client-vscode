@@ -10,6 +10,7 @@
 - Preference to provide additional Camel components
 - Improve diagnostic range when there are several parameters in XML DSL (restrict to the Camel URI instead of the full line)
 - Update default Camel Catalog from 2.24.2 to 3.0.0 (as a reminder, it is possible to use the 2.x Catalog using preferences)
+- Completion for all properties files for camel components ids with their properties
 
 ## 0.0.19
 
