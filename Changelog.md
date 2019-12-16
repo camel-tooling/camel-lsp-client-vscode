@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.21
+
 ## 0.0.20
 
 - Diagnostic range for unknown properties is now at the exact property size instead of the full Camel URI
