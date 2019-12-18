@@ -3,6 +3,7 @@
 ## 0.0.21
 
 - Completion for possible enum values of a Camel component property in properties file
+- In Properties file, the default values are automatically added when auto-completing Camel component properties
 
 ## 0.0.20
 
