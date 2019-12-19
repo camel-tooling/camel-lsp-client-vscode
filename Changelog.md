@@ -5,6 +5,7 @@
 - In Properties file, completion for possible enum values and booleans of a Camel component property 
 - In Properties file, the default values are automatically added when auto-completing Camel component properties
 - In Properties file, provide filtered completion when in middle of a component id, component property or value. Previously, completion was available only right after the dot or equal separators.
+- In Properties file, support insert-and-replace completion
 
 ## 0.0.20
 
