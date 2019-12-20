@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -43,7 +43,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const timer = await contentAssist.getItem('timer');
-			assert.equal(await timer.getText(), 'timer:timerName');
+			assert.equal(await getTextExt(timer), 'timer:timerName');
 			await timer.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName"/>', (await editor.getTextAtLine(3)).trim());
@@ -57,7 +57,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const delay = await contentAssist.getItem('delay');
-			assert.equal(await delay.getText(), 'delay');
+			assert.equal(await getTextExt(delay), 'delay');
 			await delay.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000"/>', (await editor.getTextAtLine(3)).trim());
@@ -71,7 +71,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const exchange = await contentAssist.getItem('exchange');
-			assert.equal(await exchange.getText(), 'exchangePattern');
+			assert.equal(await getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>', (await editor.getTextAtLine(3)).trim());
@@ -80,7 +80,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const inOnly = await contentAssist.getItem('In');
-			assert.equal(await inOnly.getText(), 'InOnly');
+			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
@@ -192,4 +192,15 @@ describe('XML DSL support', function () {
 		});
 	});
 
+	/**
+	 * Workaround for issue with ContentAssistItem getText() method 
+	 * For more details please see https://github.com/djelinek/vscode-uitests-tooling/issues/17
+	 * 
+	 * @param item ContenAssistItem
+	 */
+	async function getTextExt(item: ContentAssistItem): Promise<String> {
+		let name: string = '';
+		name = await item.getText();
+		return name.split('\n')[0];
+	}
 });
