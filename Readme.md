@@ -68,6 +68,8 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 
+To use a Red Hat integration productized version, you need to configure extra repositories. See in [Camel Language Server documentation](https://github.com/camel-tooling/camel-language-server/blob/master/README.md#specific-version-of-camel-catalog).
+
 Additional Camel components can be provided. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Extra-components -> Edit in settings.json**
 You can add a list of Camel components definition. This json definition can be found in jar of the Camel component. You will end up with something like:
 ```
