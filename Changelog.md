@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.22
+
 ## 0.0.21
 
 - In Properties file, completion for possible enum values and booleans of a Camel component property 
