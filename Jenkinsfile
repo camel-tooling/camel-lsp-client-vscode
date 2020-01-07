@@ -62,7 +62,7 @@ node('rhel7'){
                 def vsix = findFiles(glob: '**.vsix')
                 sh 'vsce publish -p ${TOKEN} --packagePath' + " ${vsix[0].path}"
             }
-            archive includes:"**.vsix","**.tgz"
+            archiveArtifacts artifacts:"**.vsix,**.tgz"
 
             stage "Promote the build to stable"
             def vsix = findFiles(glob: '**.vsix')

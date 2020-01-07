@@ -2,6 +2,8 @@
 
 ## 0.0.22
 
+- technical fix of JenkinsFile (to archive artifacts correctly when releasing)
+
 ## 0.0.21
 
 - In Properties file, completion for possible enum values and booleans of a Camel component property 
