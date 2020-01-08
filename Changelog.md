@@ -2,6 +2,7 @@
 
 ## 0.0.22
 
+- Add compatibility with VS Code Quarkus
 - technical fix of JenkinsFile (to archive artifacts correctly when releasing)
 
 ## 0.0.21
