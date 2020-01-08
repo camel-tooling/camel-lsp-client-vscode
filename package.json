@@ -50,6 +50,7 @@
     "workspaceContains:*.groovy",
     "onLanguage:properties",
     "onLanguage:spring-boot-properties",
+    "onLanguage:quarkus-properties",
     "workspaceContains:*.properties",
     "onLanguage:kotlin",
     "workspaceContains:*.kts",
