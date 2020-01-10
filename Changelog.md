@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.23
+
 ## 0.0.22
 
 - Add compatibility with VS Code Quarkus
