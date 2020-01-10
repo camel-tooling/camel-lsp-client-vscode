@@ -138,7 +138,7 @@
     "@types/chai": "^4.2.7",
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.4",
+    "@types/node": "^13.1.6",
     "@types/vscode": "^1.41.0",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
