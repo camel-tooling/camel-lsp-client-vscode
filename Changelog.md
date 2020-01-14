@@ -2,6 +2,9 @@
 
 ## 0.0.23
 
+- Quickfix for invalid enum values in Camel URIs filtered with relatively similar values
+![Quickfix for invalid enum](./images/quickfixEnumValues.gif "Quickfix for invalid enum")
+
 ## 0.0.22
 
 - Add compatibility with VS Code Quarkus
