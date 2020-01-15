@@ -28,8 +28,7 @@ export function activate(context: ExtensionContext) {
 
 	let serverOptions: Executable = {
 		command: 'java',
-		args: [ '-jar', camelLanguageServerPath],
-		options: {stdio:'pipe'}
+		args: [ '-jar', camelLanguageServerPath]
 	};
 
 	// Options to control the language client
