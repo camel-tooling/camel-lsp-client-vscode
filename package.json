@@ -130,7 +130,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "preinstall": "npm install -D mvn-artifact-download && node ./scripts/preinstall.js",
+    "postinstall": "node ./scripts/postinstall.js",
     "test": "node ./out/src/test/runTest.js",
     "tslint": "gulp tslint",
     "ui-test": "npm run compile && extest setup-and-run './out/src/ui-test/*_test.js'"
