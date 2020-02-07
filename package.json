@@ -35,7 +35,7 @@
     "Tool"
   ],
   "engines": {
-    "vscode": "^1.41.0"
+    "vscode": "^1.42.0"
   },
   "categories": [
     "Programming Languages",
@@ -140,7 +140,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.7.1",
-    "@types/vscode": "^1.41.0",
+    "@types/vscode": "^1.42.0",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
