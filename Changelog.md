@@ -4,6 +4,7 @@
 
 - Quickfix for invalid enum values in Camel URIs filtered with relatively similar values
 ![Quickfix for invalid enum](./images/quickfixEnumValues.gif "Quickfix for invalid enum")
+- Update default Camel Catalog from 3.0.1 to 3.1.0
 
 ## 0.0.22
 
