@@ -1,4 +1,4 @@
-import { EditorView, ExtensionsViewItem } from 'vscode-extension-tester';
+import { EditorView, ExtensionsViewItem, WebDriver, VSBrowser, By, until } from 'vscode-extension-tester';
 import { Dialog, StatusBarExt, Marketplace } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -57,8 +57,11 @@ describe('Language Support for Apache Camel extension', function () {
 
 	describe('Status bar', function () {
 
+		let driver: WebDriver;
+
 		before(async function () {
 			this.timeout(20000);
+			driver = VSBrowser.instance.driver;
 			await Dialog.openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML));
 		});
 
@@ -67,7 +70,8 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 
 		it('Language Support for Apache Camel started', async function () {
-			this.timeout(10000);
+			this.timeout(45000);
+			await driver.wait(until.elementLocated(By.id('redhat.vscode-apache-camel')), 35000);
 			const lsp = await new StatusBarExt().getLSPSupport();
 			assert.equal(LSP_STATUS_BAR_MESSAGE, lsp);
 		});
