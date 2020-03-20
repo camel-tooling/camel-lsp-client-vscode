@@ -2,6 +2,8 @@
 
 ## 0.0.24
 
+- Diagnostic inside Camel Properties file
+
 ## 0.0.23
 
 - Quickfix for invalid enum values in Camel URIs filtered with relatively similar values
