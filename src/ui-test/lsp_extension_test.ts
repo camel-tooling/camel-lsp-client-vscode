@@ -55,7 +55,7 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 	});
 
-	describe('Status bar', function () {
+	describe.skip('Status bar', function () {
 
 		let driver: WebDriver;
 
