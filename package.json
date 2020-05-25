@@ -144,7 +144,7 @@
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
-    "mocha": "^7.1.2",
+    "mocha": "^7.2.0",
     "mocha-jenkins-reporter": "^0.4.3",
     "mvn-artifact-download": "^5.0.0",
     "tslint": "^6.1.2",
