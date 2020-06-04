@@ -3,7 +3,7 @@
 ## 0.0.24
 
 - Diagnostic inside Camel Properties file
-- Update default Camel Catalog from 3.1.0 to 3.2.0
+- Update default Camel Catalog from 3.1.0 to 3.3.0
 
 ## 0.0.23
 
