@@ -31,7 +31,7 @@ describe('XML DSL support', function () {
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(20000);
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
-			const editorName = editor.getTitle();
+			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_XML);
 		});
 
@@ -193,9 +193,9 @@ describe('XML DSL support', function () {
 	});
 
 	/**
-	 * Workaround for issue with ContentAssistItem getText() method 
+	 * Workaround for issue with ContentAssistItem getText() method
 	 * For more details please see https://github.com/djelinek/vscode-uitests-tooling/issues/17
-	 * 
+	 *
 	 * @param item ContenAssistItem
 	 */
 	async function getTextExt(item: ContentAssistItem): Promise<String> {
