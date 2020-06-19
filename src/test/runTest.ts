@@ -6,7 +6,7 @@ async function runTest() {
 	try {
 		const extensionDevelopmentPath = path.resolve(__dirname, '../../../');
 		const extensionTestsPath = path.resolve(__dirname, './');
-		const testWorkspace = path.resolve(__dirname, '../../../testFixture');
+		const testWorkspace = path.resolve(__dirname, '../../../test Fixture with speci@l chars');
 
 		const vscodeExecutablePath : string = await downloadAndUnzipVSCode('stable');
 		console.log(`vscodeExecutablePath = ${vscodeExecutablePath}`);
