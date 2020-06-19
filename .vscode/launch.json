@@ -21,7 +21,7 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}",
 				"--extensionTestsPath=${workspaceRoot}/out/src/test",
-				"${workspaceRoot}/testFixture" ],
+				"${workspaceRoot}/test Fixture with speci@l chars" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
 			"outFiles": ["${workspaceRoot}/out/src/test/**/*.js"]
