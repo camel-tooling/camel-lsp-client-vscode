@@ -3,6 +3,7 @@
 import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, TextEditor, languages } from 'vscode';
 import { LanguageClient, LanguageClientOptions, Executable, DidChangeConfigurationNotification } from 'vscode-languageclient';
+import { retrieveJavaExecutable } from './JavaManager';
 
 var os = require('os');
 var storagePath;
@@ -22,12 +23,11 @@ export function activate(context: ExtensionContext) {
 		storagePath = getTempWorkspace();
 	}
 
-	var path = require('path');
-	var camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
+	const camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
 	console.log(camelLanguageServerPath);
 
 	let serverOptions: Executable = {
-		command: 'java',
+		command: retrieveJavaExecutable(),
 		args: [ '-jar', camelLanguageServerPath]
 	};
 
