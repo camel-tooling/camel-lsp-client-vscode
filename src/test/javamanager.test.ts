@@ -27,19 +27,20 @@ describe('Should use correct java executable', () => {
 	let previousWorkspaceConfig: string | undefined;
 	let previousGlobalConfig: string | undefined
 
-	beforeEach(() => {
-		let config = vscode.workspace.getConfiguration();
+	beforeEach(async () => {
+		const config = vscode.workspace.getConfiguration();
 		const javaHomeSetting = config.inspect<string>('java.home');
 		previousWorkspaceConfig = javaHomeSetting.workspaceValue;
 		previousGlobalConfig = javaHomeSetting.globalValue;
-		config.update('java.home', undefined, vscode.ConfigurationTarget.Workspace);
-		config.update('java.home', undefined, vscode.ConfigurationTarget.Global);
+		await config.update('java.home', undefined, vscode.ConfigurationTarget.Workspace);
+		await config.update('java.home', undefined, vscode.ConfigurationTarget.Global);
+		await config.update('java.home', undefined);
 	});
 
-	afterEach(() => {
+	afterEach(async () => {
 		let config = vscode.workspace.getConfiguration();
-		config.update('java.home', previousWorkspaceConfig, vscode.ConfigurationTarget.Workspace);
-		config.update('java.home', previousGlobalConfig, vscode.ConfigurationTarget.Global);
+		await config.update('java.home', previousWorkspaceConfig, vscode.ConfigurationTarget.Workspace);
+		await config.update('java.home', previousGlobalConfig, vscode.ConfigurationTarget.Global);
 	});
 
 	it('With Workspace settings', async () => {
