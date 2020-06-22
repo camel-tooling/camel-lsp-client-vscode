@@ -21,16 +21,10 @@ import { workspace } from 'vscode';
  * Use java from java.home configured in VS Code settings if available, otherwise, expect java to be available on the system path
  */
 export function retrieveJavaExecutable() {
-	const javaHomeSetting = workspace.getConfiguration().inspect<string>('java.home');
-	const workspaceJavaHome = javaHomeSetting.workspaceValue;
-	if (workspaceJavaHome) {
-		return workspaceJavaHome + '/bin/java';
+	const javaHomeSetting = workspace.getConfiguration().get('java.home');
+	if (javaHomeSetting) {
+		return javaHomeSetting + '/bin/java';
 	} else {
-		const globalJavaHome = javaHomeSetting.globalValue;
-		if(globalJavaHome){
-			return globalJavaHome + '/bin/java';
-		} else {
-			return 'java';
-		}
+		return 'java';
 	}
 }
