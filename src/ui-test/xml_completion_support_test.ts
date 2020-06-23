@@ -37,7 +37,7 @@ describe('XML DSL support', function () {
 
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
 			this.timeout(20000);
-			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -51,7 +51,7 @@ describe('XML DSL support', function () {
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
 			this.timeout(20000);
-			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -65,7 +65,7 @@ describe('XML DSL support', function () {
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
 			this.timeout(45000);
-			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 26, '&amp;exchange');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -94,7 +94,7 @@ describe('XML DSL support', function () {
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(30000);
-			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -127,7 +127,7 @@ describe('XML DSL support', function () {
 
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.timeout(30000);
-			const editor = new TextEditor(new EditorView(), CAMEL_CONTEXT_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -163,7 +163,7 @@ describe('XML DSL support', function () {
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			this.timeout(20000);
-			const editor = new TextEditor(new EditorView(), CAMEL_ROUTE_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -178,7 +178,7 @@ describe('XML DSL support', function () {
 
 		it('Auto-completion for referenced ID of "direct-vm" component', async function () {
 			this.timeout(20000);
-			const editor = new TextEditor(new EditorView(), CAMEL_ROUTE_XML);
+			const editor = new TextEditor();
 
 			await editor.typeText(13, 30, DIRECT_VM_COMPONENT_NAME);
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
