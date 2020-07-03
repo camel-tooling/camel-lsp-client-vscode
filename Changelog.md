@@ -2,6 +2,16 @@
 
 ## 0.0.25
 
+- First iteration of Camel K modeline support:
+    - completion and hover for:
+        - option names
+        - trait definition names
+        - trait property names
+        - Camel artifact id for dependency
+        - mvn dependency
+        - Camel component properties
+    - diagnostic for duplicated trait properties
+![Camel K modeline](./images/camelk-modeline.gif "Camel K modeline")
 - Use 'java.home' VS Code settings if provided to launch the Camel Language Server. Defaults to system path if not. (previously requiring java on system path)
 
 ## 0.0.24

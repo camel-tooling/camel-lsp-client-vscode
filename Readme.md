@@ -40,9 +40,9 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 	 Camel-K Yaml DSL (It requires to have file named with the pattern _*.camelk.yaml_ or that the file starts with _// camel-k:_)
 
      ![Completion for Yaml DSL](./images/completionYaml.gif "Completion for Yaml DSL")
-     
+
      Camel properties file (restricted to camel components ids and camel components properties)
-     
+
      ![Completion for Properties files](./images/completionProperties.gif "Completion for Properties files")
 
    * Quick reference documentation when you hover the cursor over a Camel component
@@ -65,6 +65,18 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 * Find references for `direct` and `direct VM` components in all open Camel files (XML DSL only)
 
   ![Find References for XML DSL](./images/findReference.gif "Find References for XML DSL")
+
+* Camel K modelines support
+  * completion and hover for:
+    * option names
+    * trait definition names
+    * trait property names
+    * Camel artifact id for dependency
+    * mvn dependency
+    * Camel component properties
+  * diagnostic for duplicated trait properties
+
+  ![Camel K modeline](./images/camelk-modeline.gif "Camel K modeline")
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 
