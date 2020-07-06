@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.26
+
+
+
 ## 0.0.25
 
 - First iteration of Camel K modeline support:
