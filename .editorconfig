@@ -11,3 +11,6 @@ indent_size = 2
 
 [ModelineCompletion.java]
 trim_trailing_whitespace = false
+
+[*.camelk.yaml]
+trim_trailing_whitespace = false
