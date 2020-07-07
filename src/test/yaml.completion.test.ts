@@ -25,15 +25,15 @@ describe('Should do completion in Camel URi after "ti"', () => {
 	];
 
 	before( async () => {
-		await initializeYAMLSchemaPreference(yamlSchemaUri);
+		await updateSettings("schemas", { "/home/apupier/git/camel-lsp-client-vscode/test Fixture with speci@l chars/camelk-yaml-schema.json" : "*.camelk.yaml"});
 	});
 
 	after( async () => {
-		await removeYAMLSchemaPreference();
+		await resetSettings("schemas", {});
 	});
 
 	it('Completes root elements in Yaml', async () => {
-		await testCompletion(docUriEmptyYaml, new vscode.Position(2, 3), {
+		await testCompletion(docUriEmptyYaml, new vscode.Position(1, 2), {
 			items: expectedEmptyYamlCompletion
 		});
 	});
@@ -58,14 +58,7 @@ interface JSONSchemaSettings {
 }
 
 async function initializeYAMLSchemaPreference(yamlSchemaUri: vscode.Uri) {
-	const config = vscode.workspace.getConfiguration();
-	let schemas: JSONSchemaSettings = config.get('yaml.schemas');
-	if (schemas === undefined) {
-		schemas = {};
-	}
-	schemas.fileMatch = ['*.camelk.yaml'];
-	schemas.url = yamlSchemaUri.fsPath;
-	await config.update('yaml.schemas', schemas);
+
 }
 
 async function removeYAMLSchemaPreference() {
@@ -82,4 +75,14 @@ async function testCompletion(docUri: vscode.Uri, position: vscode.Position, exp
 	const actualCompletionLabelList = actualCompletionList.items.map(c => { return c.label; });
 	expect(actualCompletionLabelList).to.include.members(expectedCompletionLabelList);
 	expect(actualCompletionLabelList).to.not.include('test:name');
+}
+
+export const updateSettings = (setting: any, value: any) => {
+	const yamlConfiguration = vscode.workspace.getConfiguration("yaml");
+    return yamlConfiguration.update(setting, value, false);
+}
+
+export const resetSettings = (setting: any, value: any) => {
+	const yamlConfiguration = vscode.workspace.getConfiguration("yaml");
+    return yamlConfiguration.update(setting, value, false);
 }
