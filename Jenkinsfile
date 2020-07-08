@@ -7,7 +7,7 @@ node('rhel8'){
 	}
 
 	stage('Install requirements') {
-		def nodeHome = tool 'nodejs-8.11.1'
+		def nodeHome = tool 'nodejs-10.9.0'
 		env.PATH="${env.PATH}:${nodeHome}/bin"
 		sh "npm install -g typescript vsce"
 	}
@@ -70,6 +70,11 @@ node('rhel8'){
             
             def tgz = findFiles(glob: '**.tgz')
             sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${tgz[0].path} ${UPLOAD_LOCATION}/stable/vscode-apache-camel/"
+            
+            sh "npm install -g ovsx"
+		    withCredentials([[$class: 'StringBinding', credentialsId: 'open-vsx-access-token', variable: 'OVSX_TOKEN']]) {
+			    sh 'ovsx publish -p ${OVSX_TOKEN}' + " ${vsix[0].path}"
+			}
         }
 	}
 }
