@@ -2,7 +2,7 @@
 
 ## 0.0.26
 
-
+- Fix regression introduced in 0.0.25 for missing completion for `component` group for camel.xxx properties
 
 ## 0.0.25
 
