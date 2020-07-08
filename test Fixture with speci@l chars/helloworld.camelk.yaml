@@ -10,4 +10,4 @@
             constant: "Hello Yaml !!!"
         - transform:
             simple: "${body.toUpperCase()}"
-        - to: "ticka:operation"
+        - to: "tika:operation"

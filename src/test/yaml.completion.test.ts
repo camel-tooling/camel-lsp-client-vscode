@@ -6,8 +6,8 @@ import { getDocUri, activate } from './helper';
 
 const expect = chai.expect;
 
-describe('Should do completion in Camel URi after "ti" },', () => {
-	const yamlSchemaUri: vscode.Uri = getDocUri('camelk-yaml-schema.json');
+describe('YAML DSL and endpoint uri completion tests backed by schema', () => {
+	const yamlSchemaUri: vscode.Uri = vscode.Uri.parse('https://raw.githubusercontent.com/lburgazzoli/apache-camel-k-runtime/github-358/camel-k-loader-yaml/camel-k-loader-yaml/src/generated/resources/yaml-schema.json');
 	const docUriYaml: vscode.Uri = getDocUri('helloworld.camelk.yaml');
 	const docUriEmptyYaml: vscode.Uri = getDocUri('empty.camelk.yaml');
 	const docUriEmptyStepsYaml: vscode.Uri = getDocUri('empty.steps.camelk.yaml');
@@ -67,13 +67,11 @@ describe('Should do completion in Camel URi after "ti" },', () => {
 		{ label: 'throttle' },
 		{ label: 'throw-exception' },
 		{ label: 'to' },
-		{ label: 'to-d' },
 		{ label: 'tod' },
 		{ label: 'transacted' },
 		{ label: 'transform' },
 		{ label: 'unmarshal' },
 		{ label: 'validate' },
-		{ label: 'wire-tap' },
 		{ label: 'wiretap' }
 	];
 
