@@ -1,0 +1,9 @@
+# camel-k: language=yaml
+- route:
+    id: "yaml"
+    from:
+        uri: "timer:tick"
+        parameters:
+            period: "5s"
+    steps:
+        - 
