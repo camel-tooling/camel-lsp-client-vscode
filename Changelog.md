@@ -3,6 +3,7 @@
 ## 0.0.26
 
 - Fix regression introduced in 0.0.25 for missing completion for `component` group for camel.xxx properties
+- Rely on Camel Catalog for list of groups for Camel properties completion
 
 ## 0.0.25
 
