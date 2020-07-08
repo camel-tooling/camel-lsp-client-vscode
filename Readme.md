@@ -73,7 +73,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
     * trait property names
     * Camel artifact id for dependency
     * mvn dependency
-    * Camel component properties
+    * Camel properties
   * diagnostic for duplicated trait properties
 
   ![Camel K modeline](./images/camelk-modeline.gif "Camel K modeline")
