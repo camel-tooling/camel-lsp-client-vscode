@@ -60,30 +60,30 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(delay), 'delay');
 			await delay.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s"/>', (await editor.getTextAtLine(3)).trim());
 		});
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
 			this.timeout(45000);
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION + 26, '&amp;exchange');
+			await editor.typeText(3, URI_POSITION + 24, '&amp;exchange');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const exchange = await contentAssist.getItem('exchange');
 			assert.equal(await getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>', (await editor.getTextAtLine(3)).trim());
 
-			await editor.typeText(3, URI_POSITION + 47, 'In');
+			await editor.typeText(3, URI_POSITION + 45, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const inOnly = await contentAssist.getItem('In');
 			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
 		});
 	});
 
@@ -108,7 +108,7 @@ describe('XML DSL support', function () {
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeText(3, URI_POSITION + 26, '&amp;de');
+			await editor.typeText(3, URI_POSITION + 24, '&amp;de');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const filtered = await contentAssist.hasItem('delay');
