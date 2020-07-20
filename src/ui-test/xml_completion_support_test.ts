@@ -120,7 +120,7 @@ describe('XML DSL support', function () {
 
 	describe('Diagnostics for Camel URIs', function () {
 
-		const EXPECTED_ERROR_MESSAGE: string = 'Invalid integer value: 1000r';
+		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
 
 		before(_setup(CAMEL_CONTEXT_XML));
 		after(_clean);
@@ -141,8 +141,12 @@ describe('XML DSL support', function () {
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeText(3, URI_POSITION + 26, 'r');
+			await editor.typeText(3, URI_POSITION + 24, 'r');
 			const problemsView = await new BottomBarPanel().openProblemsView();
+			editor.getDriver().wait(async function() {
+				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
+				return innerMarkers.length > 0;
+			}, DefaultWait.TimePeriod.MEDIUM);
 			const markers = await problemsView.getAllMarkers(MarkerType.Error);
 			assert.isNotEmpty(markers, 'Problems view does not contains expected error');
 
