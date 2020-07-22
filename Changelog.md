@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.27
+
+
+
 ## 0.0.26
 
 - Fix regression introduced in 0.0.25 for missing completion for `component` group for camel.xxx properties
