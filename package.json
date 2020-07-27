@@ -145,7 +145,7 @@
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
     "mocha": "^7.2.0",
-    "mocha-jenkins-reporter": "^0.4.3",
+    "mocha-jenkins-reporter": "^0.4.4",
     "mvn-artifact-download": "^5.1.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.7",
