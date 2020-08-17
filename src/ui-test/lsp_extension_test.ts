@@ -1,8 +1,22 @@
-import { EditorView, ExtensionsViewItem, WebDriver, VSBrowser, By, until } from 'vscode-extension-tester';
-import { Dialog, StatusBarExt, Marketplace } from 'vscode-uitests-tooling';
 import * as path from 'path';
-import { assert } from 'chai';
 import * as pjson from '../../package.json';
+import { assert } from 'chai';
+import {
+	By,
+	EditorView,
+	ExtensionsViewItem,
+	ExtensionsViewSection,
+	SideBarView,
+	until,
+	VSBrowser,
+	WebDriver
+} from 'vscode-extension-tester';
+import {
+	DefaultWait,
+	Dialog,
+	Marketplace,
+	StatusBarExt
+} from 'vscode-uitests-tooling';
 
 describe('Language Support for Apache Camel extension', function () {
 
@@ -13,11 +27,14 @@ describe('Language Support for Apache Camel extension', function () {
 	describe('Extensions view', function () {
 
 		let marketplace: Marketplace;
+		let section: ExtensionsViewSection;
 		let item: ExtensionsViewItem;
 
 		before(async function () {
 			this.timeout(10000);
 			marketplace = await Marketplace.open();
+			await DefaultWait.sleep(1000);
+			section = await new SideBarView().getContent().getSection('Installed') as ExtensionsViewSection;
 		});
 
 		after(async function () {
@@ -27,7 +44,7 @@ describe('Language Support for Apache Camel extension', function () {
 
 		it('Find extension', async function () {
 			this.timeout(10000);
-			item = await marketplace.findExtension(`@installed ${pjson.displayName}`) as ExtensionsViewItem;
+			item = await section.findItem(`@installed ${pjson.displayName}`) as ExtensionsViewItem;
 		});
 
 		it('Extension is installed', async function () {
