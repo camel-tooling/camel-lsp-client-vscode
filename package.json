@@ -32,7 +32,8 @@
     "Camel",
     "LSP",
     "Language Server Protocol",
-    "Tool"
+    "Tool",
+    "Apache Camel Kafka Connector"
   ],
   "engines": {
     "vscode": "^1.48.0"
