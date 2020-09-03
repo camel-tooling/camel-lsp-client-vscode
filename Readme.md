@@ -100,6 +100,8 @@ You can add a list of Camel components definition. This json definition can be f
 }
 ```
 
+It is possible to use dashed notation in properties file and Camel K modelines. By default, the completion is using the camel cased notation. It is using the dashed notation when there is another Camel property already using dashed notation in the same file.
+
 For detailed information about Apache Camel supported features, see the [Language Server GitHub page](https://github.com/camel-tooling/camel-language-server#features).
 
 ## Contact Us
