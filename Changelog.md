@@ -3,6 +3,7 @@
 ## 0.0.27
 
 - Update default Camel Catalog from 3.4.1 to 3.4.2
+- Completion for property-file in Camel K modeline
 
 ## 0.0.26
 
