@@ -2,7 +2,7 @@
 
 ## 0.0.27
 
-- Update default Camel Catalog from 3.4.1 to 3.4.2
+- Update default Camel Catalog from 3.4.1 to 3.5.0
 - Completion for property-file in Camel K modeline
 - Support dashed notation instead of camel cased in properties file and Camel K modeline
 
