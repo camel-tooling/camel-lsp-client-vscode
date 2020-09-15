@@ -2,6 +2,8 @@
 
 ## 0.0.28
 
+- Completion for `open-api` option in Camel K modeline filtered with JSON and YAML files
+
 ## 0.0.27
 
 - Update default Camel Catalog from 3.4.1 to 3.5.0
