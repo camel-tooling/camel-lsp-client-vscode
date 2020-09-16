@@ -17,7 +17,6 @@ node('rhel8'){
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		sh "java -version"
 
-		sh "npm install --ignore-scripts"
 		sh "npm ci"
 		sh "npm run vscode:prepublish"
 	}
