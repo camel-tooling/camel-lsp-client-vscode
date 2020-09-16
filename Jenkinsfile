@@ -16,9 +16,9 @@ node('rhel8'){
 		env.JAVA_HOME="${tool 'openjdk-1.8'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		sh "java -version"
-		
+
 		sh "npm install --ignore-scripts"
-		sh "npm install"
+		sh "npm ci"
 		sh "npm run vscode:prepublish"
 	}
 
@@ -67,10 +67,10 @@ node('rhel8'){
             stage "Promote the build to stable"
             def vsix = findFiles(glob: '**.vsix')
             sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${vsix[0].path} ${UPLOAD_LOCATION}/stable/vscode-apache-camel/"
-            
+
             def tgz = findFiles(glob: '**.tgz')
             sh "rsync -Pzrlt --rsh=ssh --protocol=28 ${tgz[0].path} ${UPLOAD_LOCATION}/stable/vscode-apache-camel/"
-            
+
             sh "npm install -g ovsx"
 		    withCredentials([[$class: 'StringBinding', credentialsId: 'open-vsx-access-token', variable: 'OVSX_TOKEN']]) {
 			    sh 'ovsx publish -p ${OVSX_TOKEN}' + " ${vsix[0].path}"

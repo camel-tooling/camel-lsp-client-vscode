@@ -6,7 +6,7 @@ before_install:
   - 'export PATH=./node_modules/.bin:$PATH'
   - 'npm install -g typescript'
 install:
-  - 'npm install'
+  - 'npm ci'
   # https://github.com/travis-ci/travis-ci/issues/8813
   - 'rm -f ./node_modules/.bin/which'
   - 'npm run vscode:prepublish'
@@ -21,7 +21,7 @@ after_success:
     fi
 cache:
   directories:
-    - "node_modules"
+    - "$HOME/.npm"
 env: DISPLAY=:99
 branches:
   except:
