@@ -3,6 +3,7 @@
 ## 0.0.28
 
 - Completion for `open-api` option in Camel K modeline filtered with JSON and YAML files
+- Completion for resource-like options (`open-api`, `property-file` and `resource`) in Camel K modeline is hiding IDE configuration files (which are in `.vscode` folder)
 
 ## 0.0.27
 
