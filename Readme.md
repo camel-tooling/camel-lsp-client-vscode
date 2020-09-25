@@ -58,6 +58,13 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
   ![Navigation support for Camel contexts and routes for XML DSL](./images/navigationSymbol.gif "Navigation support for Camel contexts and routes for XML DSL")
 
+* Navigation for Java DSL
+    * Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
+    * Find symbol (`Ctrl+Shift+O`)
+    * Breadcrumb
+
+  ![Navigation support for Java DSL](./images/javaDocumentSymbol.gif "Navigation support for Java DSL")
+
 * Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components (XML DSL only)
 
   ![Reference ID completion for XML DSL](./images/directIdCompletion.png "Reference ID completion for XML DSL")
