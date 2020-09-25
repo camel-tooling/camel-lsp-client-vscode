@@ -4,6 +4,10 @@
 
 - Completion for `open-api` option in Camel K modeline filtered with JSON and YAML files
 - Completion for resource-like options (`open-api`, `property-file` and `resource`) in Camel K modeline is hiding IDE configuration files (which are in `.vscode` folder)
+- Document symbols for Camel routes written with Java DSL:
+  - Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
+  - Find symbol (`Ctrl+Shift+O`)
+  - Breadcrumb
 
 ## 0.0.27
 
