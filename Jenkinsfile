@@ -7,7 +7,7 @@ node('rhel8'){
 	}
 
 	stage('Install requirements') {
-		def nodeHome = tool 'nodejs-10.9.0'
+		def nodeHome = tool 'nodejs-lts'
 		env.PATH="${env.PATH}:${nodeHome}/bin"
 		sh "npm install -g typescript vsce"
 	}
@@ -32,7 +32,7 @@ node('rhel8'){
 
 	stage('Package') {
         def packageJson = readJSON file: 'package.json'
-        sh "vsce package -o vscode-apache-camel-${packageJson.version}-${env.BUILD_NUMBER}.vsix"
+        sh "vsce package -o vscode-apache-camel-${packageJson.version}-${env.BUILD_NUMBER}.vsix --no-yarn"
         sh "npm pack && mv vscode-apache-camel-${packageJson.version}.tgz vscode-apache-camel-${packageJson.version}-${env.BUILD_NUMBER}.tgz"
 	}
 
