@@ -12,6 +12,7 @@
   - Completion for `connector.class` property value based on Camel Kafka Connector Catalog.
   - Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
   - Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
+  - Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
 
 ## 0.0.27
 
