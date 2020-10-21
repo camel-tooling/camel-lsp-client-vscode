@@ -58,7 +58,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
   ![Navigation support for Camel contexts and routes for XML DSL](./images/navigationSymbol.gif "Navigation support for Camel contexts and routes for XML DSL")
 
-* Navigation for Java DSL
+* Navigation for Java and XML DSL
     * Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
     * Find symbol (`Ctrl+Shift+O`)
     * Breadcrumb
