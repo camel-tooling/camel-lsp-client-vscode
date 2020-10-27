@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.29
+
 ## 0.0.28
 
 - Completion for `open-api` option in Camel K modeline filtered with JSON and YAML files
