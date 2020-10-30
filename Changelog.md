@@ -2,6 +2,8 @@
 
 ## 0.0.29
 
+- Completion for properties of API based components
+
 ## 0.0.28
 
 - Completion for `open-api` option in Camel K modeline filtered with JSON and YAML files
