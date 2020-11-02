@@ -2,7 +2,7 @@
 
 ## 0.0.29
 
-- Completion for properties of API based components
+- Completion and hover for properties of API based components
 
 ## 0.0.28
 
