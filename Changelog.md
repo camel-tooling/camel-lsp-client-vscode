@@ -6,6 +6,7 @@
   - Completion and hover for properties
   - Completion for API name in Camel URI path parameter
 - Support Camel K modelines split across several lines
+- Completion for jitpack in Camel K modeline dependency option
 
 ## 0.0.28
 
