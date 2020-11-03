@@ -2,7 +2,9 @@
 
 ## 0.0.29
 
-- Completion and hover for properties of API based components
+- API based components support
+  - Completion and hover for properties
+  - Completion for API name in Camel URI path parameter
 - Support Camel K modelines split across several lines
 
 ## 0.0.28
