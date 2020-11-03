@@ -3,6 +3,7 @@
 ## 0.0.29
 
 - Completion and hover for properties of API based components
+- Support Camel K modelines split across several lines
 
 ## 0.0.28
 
