@@ -8,6 +8,8 @@
   - Completion for method name of API in Camel URI path parameter
 - Support Camel K modelines split across several lines
 - Completion for jitpack in Camel K modeline dependency option
+- Support Camel K modelines split across several lines
+- Hover documentation on Camel URL inside Properties file (`camel.(sink|source).url`)
 
 ## 0.0.28
 
