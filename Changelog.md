@@ -5,6 +5,7 @@
 - API based components support
   - Completion and hover for properties
   - Completion for API name in Camel URI path parameter
+  - Completion for method name of API in Camel URI path parameter
 - Support Camel K modelines split across several lines
 - Completion for jitpack in Camel K modeline dependency option
 
