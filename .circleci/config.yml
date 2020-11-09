@@ -19,6 +19,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
+          name: install-libxss1
+          command: sudo apt-get install libxss1
+      - run:
           name: install-typescript
           command: sudo npm install -g typescript
       - run:
