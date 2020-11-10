@@ -27,7 +27,7 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 
 		await config.update('camel.Camel catalog version', undefined);
 		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
-	});
+	}).timeout(90000+10000+10000);
 
 });
 
@@ -43,7 +43,7 @@ export async function checkNotExpectedCompletion(docUri: vscode.Uri, position: v
             hasUnExpectedCompletion = completionItemFound !== undefined;
         });
         return !hasUnExpectedCompletion;
-	}, 15000, 500);
+	}, 90000, 500);
 }
 
 export async function checkExpectedCompletion(docUri: vscode.Uri, position: vscode.Position, expectedCompletion: vscode.CompletionItem) {
