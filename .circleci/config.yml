@@ -19,6 +19,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
+          name: test java
+          command: java --version
+      - run:
           name: install-typescript
           command: sudo npm install -g typescript
       - run:
