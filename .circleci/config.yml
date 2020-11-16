@@ -37,10 +37,10 @@ jobs:
           name: test
           command: npm test
       - run:
+          command: find / -name *.log 
+      - run:
           name: test UI
           command: npm run ui-test
-      - run:
-          command: find / -name *.log 
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
