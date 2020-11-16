@@ -27,7 +27,7 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 
 		await config.update('camel.Camel catalog version', undefined);
 		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
-	}).timeout(90000+10000+10000).skip();
+	}).timeout(90000+10000+10000);
 
 });
 
