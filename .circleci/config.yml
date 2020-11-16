@@ -37,7 +37,7 @@ jobs:
           name: test
           command: npm test
       - run:
-          command: find / -name *.log
+          command: sudo find / -name *.log
       - store_artifacts:
           path: /home/circleci/.config/Code/logs
       - store_artifacts:
