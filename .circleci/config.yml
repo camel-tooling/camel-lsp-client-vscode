@@ -35,7 +35,7 @@ jobs:
           command: vsce package
       - run:
           name: test UI
-          command: npm ui-test
+          command: npm run ui-test
       - run:
           command: find / -name *.log 
       - run:
