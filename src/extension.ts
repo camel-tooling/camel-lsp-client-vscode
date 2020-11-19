@@ -28,7 +28,7 @@ export function activate(context: ExtensionContext) {
 
 	let serverOptions: Executable = {
 		command: retrieveJavaExecutable(),
-		args: [ '-Dgroovy.grape.report.downloads=true', '-Divy.message.logger.level=4', '-jar', camelLanguageServerPath]
+		args: [ '-Dgroovy.grape.report.downloads=true', /*'-Divy.message.logger.level=4',*/ '-jar', camelLanguageServerPath]
 	};
 
 	// Options to control the language client
