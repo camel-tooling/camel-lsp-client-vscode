@@ -35,9 +35,7 @@ jobs:
           command: vsce package
       - run:
           name: test
-          command: |
-            export groovy.grape.report.downloads=true
-            npm test
+          command: npm test
       - run:
           command: sudo find / -name *.log
       - store_artifacts:
