@@ -45,7 +45,7 @@ jobs:
       - store_artifacts:
           path: /home/circleci/.config/Code/User/workspaceStorage/
       - store_artifacts:
-          path: /home/circleci/.groovy/grapes
+          path: /tmp/grapes
       - run:
           name: test UI
           command: npm run ui-test
