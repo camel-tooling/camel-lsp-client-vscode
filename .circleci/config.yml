@@ -36,6 +36,9 @@ jobs:
       - run:
           name: test
           command: npm test
+      - store_artifacts:
+          name: Store VS Code logs
+          path: /home/circleci/.config/Code/logs
       - run:
           name: test UI
           command: npm run ui-test
