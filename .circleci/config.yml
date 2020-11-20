@@ -10,7 +10,7 @@ jobs:
   build:
     working_directory: ~/camel-lsp-client-vscode
     docker:
-      - image: cimg/node:lts-buster-browsers
+      - image: cimg/node:lts-browsers
     steps:
       - checkout
       - restore_cache:
