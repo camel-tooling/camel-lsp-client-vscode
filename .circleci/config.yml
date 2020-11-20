@@ -19,11 +19,9 @@ jobs:
           name: test java
           command: java --version
       - run:
-          name: install-typescript
-          command: sudo npm install -g typescript
-      - run:
-          name: install-vsce
-          command: sudo npm install -g vsce
+          name: Install global npm dependencies
+          command: |
+            sudo npm install -g typescript vsce
       - run:
           name: npm-ci
           command: npm ci
