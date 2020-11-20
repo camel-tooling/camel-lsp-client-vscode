@@ -10,7 +10,7 @@ jobs:
   build:
     working_directory: ~/camel-lsp-client-vscode
     docker:
-      - image: circleci/node:lts-browsers
+      - image: circleci/node:lts-buster-browsers
     steps:
       - checkout
       - restore_cache:
