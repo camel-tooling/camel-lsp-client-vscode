@@ -2,6 +2,9 @@ import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, Cont
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
+import * as vscode from 'vscode';
+
+const waitUntil = require('async-wait-until');
 
 describe('XML DSL support', function () {
 
@@ -18,6 +21,9 @@ describe('XML DSL support', function () {
 			const camelXMlPath = path.join(RESOURCES, camel_xml);
 			console.log(`Will open file: ${camelXMlPath}`);
 			await Dialog.openFile(camelXMlPath);
+			await waitUntil(() => {
+				return vscode.window.activeTextEditor?.document.fileName.endsWith(camel_xml);
+			});
 		}
 	};
 
@@ -96,7 +102,7 @@ describe('XML DSL support', function () {
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(30000);
-			const editor = new TextEditor();
+			const editor = new TextEditor();gs/20201120T095826/exthost1/output_logging_20201120T095828/3-GitHub%20Authentication.log?X-Amz-Algorithm=AWS4-HMA
 
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -156,7 +162,7 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
-		});gs/20201120T095826/exthost1/output_logging_20201120T095828/3-GitHub%20Authentication.log?X-Amz-Algorithm=AWS4-HMA
+		});
 	});
 
 	describe('Auto-completion for referenced components IDs', function () {
