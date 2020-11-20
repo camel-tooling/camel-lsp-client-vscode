@@ -15,9 +15,7 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(40000);
-			const camelXMlPath = path.join(RESOURCES, camel_xml);
-			console.log(`Will open file: ${camelXMlPath}`);
-			await Dialog.openFile(camelXMlPath);
+			await Dialog.openFile(path.join(RESOURCES, camel_xml));
 		}
 	};
 
