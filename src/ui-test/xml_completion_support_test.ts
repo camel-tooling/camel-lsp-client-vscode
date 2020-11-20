@@ -14,7 +14,7 @@ describe('XML DSL support', function () {
 
 	const _setup = function (camel_xml: string) {
 		return async function () {
-			this.timeout(20000);
+			this.timeout(40000);
 			const camelXMlPath = path.join(RESOURCES, camel_xml);
 			console.log(`Will open file: ${camelXMlPath}`);
 			await Dialog.openFile(camelXMlPath);
@@ -31,14 +31,14 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
-			this.timeout(20000);
+			this.timeout(40000);
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_XML);
 		});
 
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			this.timeout(20000);
+			this.timeout(40000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -52,7 +52,7 @@ describe('XML DSL support', function () {
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			this.timeout(20000);
+			this.timeout(40000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
