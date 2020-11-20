@@ -15,7 +15,9 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			await Dialog.openFile(path.join(RESOURCES, camel_xml));
+			const camelXMlPath = path.join(RESOURCES, camel_xml);
+			console.log(`Will open file: ${camelXMlPath}`);
+			await Dialog.openFile(camelXMlPath);
 		}
 	};
 
@@ -154,7 +156,7 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
-		});
+		});gs/20201120T095826/exthost1/output_logging_20201120T095828/3-GitHub%20Authentication.log?X-Amz-Algorithm=AWS4-HMA
 	});
 
 	describe('Auto-completion for referenced components IDs', function () {
