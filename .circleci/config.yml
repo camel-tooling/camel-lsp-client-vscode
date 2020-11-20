@@ -51,7 +51,7 @@ jobs:
           path: /tmp/log-camel-lsp.out
       - store_artifacts:
           name: Store VS Code logs of UI test
-          path: /home/circleci/project/test-resources/settings/logs
+          path: /home/circleci/camel-lsp-client-vscode/test-resources/settings/logs
       - store_artifacts:
           name: Store Screenshots of UI Tests
-          path: /home/circleci/project/test-resources/screenshots
+          path: /home/circleci/camel-lsp-client-vscode/test-resources/screenshots
