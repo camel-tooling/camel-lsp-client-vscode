@@ -9,12 +9,13 @@ describe('XML DSL support', function () {
 	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
 	const CAMEL_ROUTE_XML: string = 'camel-route.xml';
 	const URI_POSITION: number = 33;
+	const BASE_TIMEOUT = 80000;
 
 	let contentAssist: ContentAssist;
 
 	const _setup = function (camel_xml: string) {
 		return async function () {
-			this.timeout(40000);
+			this.timeout(BASE_TIMEOUT);
 			await Dialog.openFile(path.join(RESOURCES, camel_xml));
 		}
 	};
@@ -29,14 +30,14 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
-			this.timeout(40000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_XML);
 		});
 
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			this.timeout(40000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -50,7 +51,7 @@ describe('XML DSL support', function () {
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			this.timeout(40000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
@@ -93,7 +94,7 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Duplicate endpoint options are filtered out', async function () {
-			this.timeout(30000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -126,7 +127,7 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			this.timeout(30000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -166,7 +167,7 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
-			this.timeout(20000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
@@ -181,7 +182,7 @@ describe('XML DSL support', function () {
 		});
 
 		it('Auto-completion for referenced ID of "direct-vm" component', async function () {
-			this.timeout(20000);
+			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
 			await editor.typeText(13, 30, DIRECT_VM_COMPONENT_NAME);
