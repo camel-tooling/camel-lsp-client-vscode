@@ -102,7 +102,7 @@ describe('XML DSL support', function () {
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(30000);
-			const editor = new TextEditor();gs/20201120T095826/exthost1/output_logging_20201120T095828/3-GitHub%20Authentication.log?X-Amz-Algorithm=AWS4-HMA
+			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
