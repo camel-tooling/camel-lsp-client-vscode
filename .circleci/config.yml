@@ -36,8 +36,6 @@ jobs:
       - run:
           name: test
           command: npm test
-      - run:
-          command: sudo find / -name *.log
       - store_artifacts:
           path: /tmp/log-camel-lsp.out
       - store_artifacts:
