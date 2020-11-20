@@ -2,9 +2,6 @@ import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, Cont
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
-import * as vscode from 'vscode';
-
-const waitUntil = require('async-wait-until');
 
 describe('XML DSL support', function () {
 
@@ -21,9 +18,6 @@ describe('XML DSL support', function () {
 			const camelXMlPath = path.join(RESOURCES, camel_xml);
 			console.log(`Will open file: ${camelXMlPath}`);
 			await Dialog.openFile(camelXMlPath);
-			await waitUntil(() => {
-				return vscode.window.activeTextEditor?.document.fileName.endsWith(camel_xml);
-			});
 		}
 	};
 
