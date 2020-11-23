@@ -3,6 +3,8 @@ import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 
+const waitUntil = require('async-wait-until');
+
 describe('XML DSL support', function () {
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
@@ -17,6 +19,14 @@ describe('XML DSL support', function () {
 		return async function () {
 			this.timeout(BASE_TIMEOUT);
 			await Dialog.openFile(path.join(RESOURCES, camel_xml));
+			let foundEditor = false;
+			await waitUntil(() => {
+				const editorView = new EditorView();
+				editorView.getOpenEditorTitles().then(titles => {
+					foundEditor = titles.includes(camel_xml);
+				});
+				return foundEditor;
+			});
 		}
 	};
 
@@ -31,6 +41,8 @@ describe('XML DSL support', function () {
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(BASE_TIMEOUT);
+
+
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_XML);
