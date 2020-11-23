@@ -26,7 +26,7 @@ describe('XML DSL support', function () {
 					foundEditor = titles !== undefined && titles.includes(camel_xml);
 				});
 				return foundEditor;
-			});
+			}, BASE_TIMEOUT);
 		}
 	};
 
