@@ -23,7 +23,7 @@ describe('XML DSL support', function () {
 			await waitUntil(() => {
 				const editorView = new EditorView();
 				editorView.getOpenEditorTitles().then(titles => {
-					foundEditor = titles.includes(camel_xml);
+					foundEditor = titles !== undefined && titles.includes(camel_xml);
 				});
 				return foundEditor;
 			});
