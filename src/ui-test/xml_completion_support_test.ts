@@ -23,10 +23,12 @@ describe('XML DSL support', function () {
 
 	const _clean = function (camel_xml: string) {
 		return async function () {
-			await Dialog.closeFile(false);
+			//await Dialog.closeFile(false);
+			const editorView = new EditorView();
+			await editorView.closeEditor(camel_xml);
 			const driver = VSBrowser.instance.driver;
 			await driver.wait(async function () {
-				const editorView = new EditorView();
+				//const editorView = new EditorView();
 				const openedEditors = await editorView.getOpenEditorTitles();
 				console.log(`awaiting editor with title ${camel_xml} to close. Currently opened: ${openedEditors.join(';')}`);
 				return openedEditors === undefined || !openedEditors.includes(camel_xml);
