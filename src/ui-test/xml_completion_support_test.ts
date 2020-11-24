@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, TitleBar } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, TitleBar, Workbench } from 'vscode-extension-tester';
 import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -246,6 +246,9 @@ async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: st
 	//this.timeout(BASE_TIMEOUT);
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
+	const center = await new Workbench().openNotificationsCenter();
+	await center.clearAllNotifications();
+	await center.close();
 	// const workbench = new Workbench();
 	// await workbench.executeCommand('Go To File...');
 	// const input = await InputBox.create();
