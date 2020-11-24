@@ -2,6 +2,7 @@ import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, Cont
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
+import { DialogHandler, OpenDialog } from 'vscode-extension-tester-native';
 
 describe('XML DSL support', function () {
 
@@ -244,7 +245,7 @@ async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: st
 	//this.timeout(BASE_TIMEOUT);
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
-	await Dialog.openFile(path.join(RESOURCES, camel_xml));
+	await openFile(path.join(RESOURCES, camel_xml));
 	await awaitEditor(camel_xml, BASE_TIMEOUT);
 }
 
@@ -261,4 +262,21 @@ async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 		console.log(await driver.takeScreenshot());
 		throw e;
 	}
+}
+
+async function openFile(path?: string): Promise<OpenDialog> {
+	await new TitleBar().select('File', 'Open File...');
+	const dialog = await open(path);
+	await dialog.confirm();
+	return dialog;
+}
+
+async function open(path: string = ""): Promise<OpenDialog> {
+	const dialog = await DialogHandler.getOpenDialog();
+	if (dialog === null) {
+		console.log('Could not open dialog!');
+		return await Promise.reject('Could not open dialog!');
+	}
+	await dialog.selectPath(path);
+	return dialog;
 }
