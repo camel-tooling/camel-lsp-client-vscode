@@ -17,12 +17,7 @@ describe('XML DSL support', function () {
 		return async function () {
 			this.timeout(BASE_TIMEOUT);
 			await Dialog.openFile(path.join(RESOURCES, camel_xml));
-			const driver = VSBrowser.instance.driver;
-			await driver.wait(async function() {
-				const editorView = new EditorView();
-				const openedEditors = await editorView.getOpenEditorTitles();
-				return openedEditors !== undefined && openedEditors.includes(camel_xml);
-			}, BASE_TIMEOUT);
+			await awaitEditor(camel_xml, BASE_TIMEOUT);
 		}
 	};
 
@@ -217,3 +212,13 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
+
+async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		const editorView = new EditorView();
+		const openedEditors = await editorView.getOpenEditorTitles();
+		return openedEditors !== undefined && openedEditors.includes(camel_xml);
+	}, BASE_TIMEOUT);
+}
+
