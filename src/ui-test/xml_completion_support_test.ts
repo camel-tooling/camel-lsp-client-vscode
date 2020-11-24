@@ -218,6 +218,7 @@ async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 	await driver.wait(async function () {
 		const editorView = new EditorView();
 		const openedEditors = await editorView.getOpenEditorTitles();
+		console.log(`awaiting editor with title ${camel_xml} to open. Currently opened: ${openedEditors.join(';')}`);
 		return openedEditors !== undefined && openedEditors.includes(camel_xml);
 	}, BASE_TIMEOUT);
 }
