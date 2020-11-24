@@ -16,6 +16,8 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(BASE_TIMEOUT);
+			const editorView = new EditorView();
+			await editorView.closeAllEditors();
 			await Dialog.openFile(path.join(RESOURCES, camel_xml));
 			await awaitEditor(camel_xml, BASE_TIMEOUT);
 		}
