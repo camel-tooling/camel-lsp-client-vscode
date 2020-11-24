@@ -271,6 +271,8 @@ async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 }
 
 async function openFile(path?: string): Promise<OpenDialog> {
+	const driver = VSBrowser.instance.driver;
+	console.log(`All opened windows names before trying to open the file: ${(await driver.getAllWindowHandles()).join(';')}`);
 	await new TitleBar().select('File', 'Open File...');
 	const dialog = await open(path);
 	await dialog.confirm();
