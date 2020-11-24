@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, Editor, TitleBar } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, Editor, TitleBar, WebDriver } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -30,20 +30,29 @@ describe('XML DSL support', function () {
 			const titleBar = new TitleBar();
 			await titleBar.select('File', 'Revert File');
 			const driver = VSBrowser.instance.driver;
-			await driver.wait(async function () {
-				const editor = new TextEditor();
-				console.log(`editor with name ${editor.getTitle()} is dirty? ${editor.isDirty()}`)
-				return !editor.isDirty();
-			}, BASE_TIMEOUT);
+			try {
+				await driver.wait(async function () {
+					const editor = new TextEditor();
+					console.log(`editor with name ${editor.getTitle()} is dirty? ${editor.isDirty()}`)
+					return !editor.isDirty();
+				}, BASE_TIMEOUT);
+			} catch (e) {
+				driver.takeScreenshot();
+				throw e;
+			}
 
 			await editorView.closeEditor(camel_xml);
-
-			await driver.wait(async function () {
+			try {
+				await driver.wait(async function () {
 				//const editorView = new EditorView();
 				const openedEditors = await editorView.getOpenEditorTitles();
 				console.log(`awaiting editor with title ${camel_xml} to close. Currently opened: ${openedEditors.join(';')}`);
 				return openedEditors === undefined || !openedEditors.includes(camel_xml);
-			}, BASE_TIMEOUT);
+				}, BASE_TIMEOUT);
+			} catch (e) {
+				driver.takeScreenshot();
+				throw e;
+			}
 		}
 	}
 
