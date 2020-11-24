@@ -100,8 +100,8 @@ describe('XML DSL support', function () {
 		//after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Duplicate endpoint options are filtered out', async function () {
-			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			this.timeout(BASE_TIMEOUT);
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -135,8 +135,8 @@ describe('XML DSL support', function () {
 		// after(_clean(CAMEL_CONTEXT_XML));
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			this.timeout(BASE_TIMEOUT);
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -164,7 +164,7 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
-			await asyncClean(BASE_TIMEOUT, CAMEL_CONTEXT_XML)
+			await asyncClean(BASE_TIMEOUT, CAMEL_CONTEXT_XML);
 		});
 	});
 
