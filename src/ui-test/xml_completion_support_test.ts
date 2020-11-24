@@ -32,6 +32,7 @@ describe('XML DSL support', function () {
 			const driver = VSBrowser.instance.driver;
 			await driver.wait(async function () {
 				const editor = new TextEditor();
+				console.log(`editor with name ${editor.getTitle()} is dirty? ${editor.isDirty()}`)
 				return !editor.isDirty();
 			}, BASE_TIMEOUT);
 
