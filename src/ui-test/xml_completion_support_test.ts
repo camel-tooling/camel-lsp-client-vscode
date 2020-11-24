@@ -37,7 +37,7 @@ describe('XML DSL support', function () {
 					return !(await editor.isDirty());
 				}, BASE_TIMEOUT);
 			} catch (e) {
-				driver.takeScreenshot();
+				console.log(await driver.takeScreenshot());
 				throw e;
 			}
 
@@ -50,7 +50,7 @@ describe('XML DSL support', function () {
 				return openedEditors === undefined || !openedEditors.includes(camel_xml);
 				}, BASE_TIMEOUT);
 			} catch (e) {
-				driver.takeScreenshot();
+				console.log(await driver.takeScreenshot());
 				throw e;
 			}
 		}
@@ -246,10 +246,15 @@ describe('XML DSL support', function () {
 
 async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 	const driver = VSBrowser.instance.driver;
+	try {
 	await driver.wait(async function () {
 		const editorView = new EditorView();
 		const openedEditors = await editorView.getOpenEditorTitles();
 		console.log(`awaiting editor with title ${camel_xml} to open. Currently opened: ${openedEditors.join(';')}`);
 		return openedEditors !== undefined && openedEditors.includes(camel_xml);
 	}, BASE_TIMEOUT);
+	} catch (e) {
+		console.log(await driver.takeScreenshot());
+		throw e;
+	}
 }
