@@ -285,6 +285,7 @@ async function open(path: string = ""): Promise<OpenDialog> {
 	}
 	const driver = VSBrowser.instance.driver;
 	console.log(`All opened windows names: ${(await driver.getAllWindowHandles()).join(';')}`);
+	console.log(`Current window title: ${await driver.getTitle()}`);
 	await dialog.selectPath(path);
 	return dialog;
 }
