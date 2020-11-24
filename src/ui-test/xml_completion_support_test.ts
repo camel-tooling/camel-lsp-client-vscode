@@ -22,8 +22,16 @@ describe('XML DSL support', function () {
 	};
 
 	const _clean = async function () {
+		const editorView = new EditorView();
+		const currentTitle = await (await editorView.getActiveTab()).getTitle();
 		await Dialog.closeFile(false);
-	};
+		const driver = VSBrowser.instance.driver;
+		await driver.wait(async function () {
+			const openedEditors = await editorView.getOpenEditorTitles();
+			console.log(`awaiting editor with title ${currentTitle} to close. Currently opened: ${openedEditors.join(';')}`);
+			return openedEditors === undefined || !openedEditors.includes(currentTitle);
+		}, BASE_TIMEOUT);
+	}
 
 	describe('Camel URI code completion', function () {
 
