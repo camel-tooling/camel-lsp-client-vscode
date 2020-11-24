@@ -1,8 +1,9 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, Editor, TitleBar, WebDriver } from 'vscode-extension-tester';
-import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, TitleBar } from 'vscode-extension-tester';
+import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
-import { DialogHandler, OpenDialog } from 'vscode-extension-tester-native';
+import { OpenDialog } from 'vscode-extension-tester-native';
+import { LinuxOpenDialog, MacOpenDialog, WindowsOpenDialog } from 'vscode-extension-tester-native/out/openDialog';
 
 describe('XML DSL support', function () {
 
@@ -245,6 +246,11 @@ async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: st
 	//this.timeout(BASE_TIMEOUT);
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
+	// const workbench = new Workbench();
+	// await workbench.executeCommand('Go To File...');
+	// const input = await InputBox.create();
+	// await input.selectQuickPick(camel_xml);
+
 	await openFile(path.join(RESOURCES, camel_xml));
 	await awaitEditor(camel_xml, BASE_TIMEOUT);
 }
@@ -272,11 +278,27 @@ async function openFile(path?: string): Promise<OpenDialog> {
 }
 
 async function open(path: string = ""): Promise<OpenDialog> {
-	const dialog = await DialogHandler.getOpenDialog();
+	const dialog = await getOpenDialog();
 	if (dialog === null) {
 		console.log('Could not open dialog!');
 		return await Promise.reject('Could not open dialog!');
 	}
 	await dialog.selectPath(path);
 	return dialog;
+}
+
+async function getOpenDialog(): Promise<OpenDialog> {
+	await new Promise((res) => { setTimeout(res, 16000); });
+	switch (process.platform) {
+		case 'win32': {
+			return new WindowsOpenDialog();
+		}
+		case 'darwin': {
+			return new MacOpenDialog();
+		}
+		case 'linux': {
+			return new LinuxOpenDialog();
+		}
+	}
+	return new LinuxOpenDialog();
 }
