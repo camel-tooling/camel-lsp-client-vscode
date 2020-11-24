@@ -241,7 +241,7 @@ async function asyncClean(BASE_TIMEOUT: number, camel_xml: string) {
 }
 
 async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: string) {
-	this.timeout(BASE_TIMEOUT);
+	//this.timeout(BASE_TIMEOUT);
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
 	await Dialog.openFile(path.join(RESOURCES, camel_xml));
