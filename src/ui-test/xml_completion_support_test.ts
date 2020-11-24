@@ -15,34 +15,14 @@ describe('XML DSL support', function () {
 
 	const _setup = function (camel_xml: string) {
 		return async function () {
-			this.timeout(BASE_TIMEOUT);
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			await Dialog.openFile(path.join(RESOURCES, camel_xml));
-			await awaitEditor(camel_xml, BASE_TIMEOUT);
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, camel_xml);
 		}
 	};
 
 	const _clean = function (camel_xml: string) {
 		return async function () {
 			//await Dialog.closeFile(false);
-			const editorView = new EditorView();
-			const titleBar = new TitleBar();
-			await titleBar.select('File', 'Revert File');
-			const driver = VSBrowser.instance.driver;
-				await driver.wait(async function () {
-					const editor = new TextEditor();
-					console.log(`editor with name ${await editor.getTitle()} is dirty? ${await editor.isDirty()}`)
-					return !(await editor.isDirty());
-				}, BASE_TIMEOUT);
-
-			await editorView.closeEditor(camel_xml);
-				await driver.wait(async function () {
-				//const editorView = new EditorView();
-				const openedEditors = await editorView.getOpenEditorTitles();
-				console.log(`awaiting editor with title ${camel_xml} to close. Currently opened: ${openedEditors.join(';')}`);
-				return openedEditors === undefined || !openedEditors.includes(camel_xml);
-				}, BASE_TIMEOUT);
+			await asyncClean(BASE_TIMEOUT, camel_xml);
 		}
 	}
 
@@ -53,7 +33,7 @@ describe('XML DSL support', function () {
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(BASE_TIMEOUT);
-			_setup(CAMEL_CONTEXT_XML);
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
@@ -100,7 +80,6 @@ describe('XML DSL support', function () {
 			await exchange.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>', (await editor.getTextAtLine(3)).trim());
-
 			await editor.typeText(3, URI_POSITION + 45, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
@@ -109,7 +88,7 @@ describe('XML DSL support', function () {
 			await inOnly.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
-			_clean(CAMEL_CONTEXT_XML);
+			await asyncClean(BASE_TIMEOUT, CAMEL_CONTEXT_XML);
 		});
 	});
 
@@ -119,7 +98,7 @@ describe('XML DSL support', function () {
 		//after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Duplicate endpoint options are filtered out', async function () {
-			_setup(CAMEL_CONTEXT_XML);
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
@@ -142,7 +121,7 @@ describe('XML DSL support', function () {
 
 			assert.isFalse(filtered);
 			await editor.toggleContentAssist(false);
-			_clean(CAMEL_CONTEXT_XML);
+			await asyncClean(BASE_TIMEOUT, CAMEL_CONTEXT_XML);
 		});
 	});
 
@@ -154,7 +133,7 @@ describe('XML DSL support', function () {
 		// after(_clean(CAMEL_CONTEXT_XML));
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			_setup(CAMEL_CONTEXT_XML)
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_CONTEXT_XML);
 			this.timeout(BASE_TIMEOUT);
 			const editor = new TextEditor();
 
@@ -183,7 +162,7 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
-			_clean(CAMEL_CONTEXT_XML)
+			await asyncClean(BASE_TIMEOUT, CAMEL_CONTEXT_XML)
 		});
 	});
 
@@ -197,7 +176,7 @@ describe('XML DSL support', function () {
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			this.timeout(BASE_TIMEOUT);
-			_setup(CAMEL_ROUTE_XML)
+			await asyncSetup(BASE_TIMEOUT, RESOURCES, CAMEL_ROUTE_XML);
 			const editor = new TextEditor();
 
 			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
@@ -224,7 +203,7 @@ describe('XML DSL support', function () {
 			await directVM.click();
 
 			assert.equal('<to id="_toID2" uri="direct-vm:testName2"/>', (await editor.getTextAtLine(13)).trim());
-			_clean(CAMEL_ROUTE_XML)
+			await asyncClean(BASE_TIMEOUT, CAMEL_ROUTE_XML);
 		});
 	});
 
@@ -240,6 +219,34 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
+
+async function asyncClean(BASE_TIMEOUT: number, camel_xml: string) {
+	const editorView = new EditorView();
+	const titleBar = new TitleBar();
+	await titleBar.select('File', 'Revert File');
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		const editor = new TextEditor();
+		console.log(`editor with name ${await editor.getTitle()} is dirty? ${await editor.isDirty()}`);
+		return !(await editor.isDirty());
+	}, BASE_TIMEOUT);
+
+	await editorView.closeEditor(camel_xml);
+	await driver.wait(async function () {
+		//const editorView = new EditorView();
+		const openedEditors = await editorView.getOpenEditorTitles();
+		console.log(`awaiting editor with title ${camel_xml} to close. Currently opened: ${openedEditors.join(';')}`);
+		return openedEditors === undefined || !openedEditors.includes(camel_xml);
+	}, BASE_TIMEOUT);
+}
+
+async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: string) {
+	this.timeout(BASE_TIMEOUT);
+	const editorView = new EditorView();
+	await editorView.closeAllEditors();
+	await Dialog.openFile(path.join(RESOURCES, camel_xml));
+	await awaitEditor(camel_xml, BASE_TIMEOUT);
+}
 
 async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 	const driver = VSBrowser.instance.driver;
