@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, Editor, TitleBar } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -27,8 +27,16 @@ describe('XML DSL support', function () {
 		return async function () {
 			//await Dialog.closeFile(false);
 			const editorView = new EditorView();
-			await editorView.closeEditor(camel_xml);
+			const titleBar = new TitleBar();
+			await titleBar.select('File', 'Revert File');
 			const driver = VSBrowser.instance.driver;
+			await driver.wait(async function () {
+				const editor = new TextEditor();
+				return !editor.isDirty();
+			}, BASE_TIMEOUT);
+
+			await editorView.closeEditor(camel_xml);
+
 			await driver.wait(async function () {
 				//const editorView = new EditorView();
 				const openedEditors = await editorView.getOpenEditorTitles();
