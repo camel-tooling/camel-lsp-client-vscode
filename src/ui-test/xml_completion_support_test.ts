@@ -21,22 +21,23 @@ describe('XML DSL support', function () {
 		}
 	};
 
-	const _clean = async function () {
-		const editorView = new EditorView();
-		const currentTitle = await (await editorView.getActiveTab()).getTitle();
-		await Dialog.closeFile(false);
-		const driver = VSBrowser.instance.driver;
-		await driver.wait(async function () {
-			const openedEditors = await editorView.getOpenEditorTitles();
-			console.log(`awaiting editor with title ${currentTitle} to close. Currently opened: ${openedEditors.join(';')}`);
-			return openedEditors === undefined || !openedEditors.includes(currentTitle);
-		}, BASE_TIMEOUT);
+	const _clean = function (camel_xml: string) {
+		return async function () {
+			await Dialog.closeFile(false);
+			const driver = VSBrowser.instance.driver;
+			await driver.wait(async function () {
+				const editorView = new EditorView();
+				const openedEditors = await editorView.getOpenEditorTitles();
+				console.log(`awaiting editor with title ${camel_xml} to close. Currently opened: ${openedEditors.join(';')}`);
+				return openedEditors === undefined || !openedEditors.includes(camel_xml);
+			}, BASE_TIMEOUT);
+		}
 	}
 
 	describe('Camel URI code completion', function () {
 
 		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(BASE_TIMEOUT);
@@ -102,7 +103,7 @@ describe('XML DSL support', function () {
 	describe('Endpoint options filtering', function () {
 
 		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(BASE_TIMEOUT);
@@ -135,7 +136,7 @@ describe('XML DSL support', function () {
 		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
 
 		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.timeout(BASE_TIMEOUT);
@@ -175,7 +176,7 @@ describe('XML DSL support', function () {
 		const DIRECT_VM_COMPONENT_NAME: string = 'direct-vm:testName2';
 
 		before(_setup(CAMEL_ROUTE_XML));
-		after(_clean);
+		after(_clean(CAMEL_ROUTE_XML));
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			this.timeout(BASE_TIMEOUT);
@@ -230,4 +231,3 @@ async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 		return openedEditors !== undefined && openedEditors.includes(camel_xml);
 	}, BASE_TIMEOUT);
 }
-
