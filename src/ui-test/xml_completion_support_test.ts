@@ -283,6 +283,8 @@ async function open(path: string = ""): Promise<OpenDialog> {
 		console.log('Could not open dialog!');
 		return await Promise.reject('Could not open dialog!');
 	}
+	const driver = VSBrowser.instance.driver;
+	console.log(`All opened windows names: ${(await driver.getAllWindowHandles()).join(';')}`);
 	await dialog.selectPath(path);
 	return dialog;
 }
