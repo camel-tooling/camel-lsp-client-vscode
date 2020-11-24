@@ -33,8 +33,8 @@ describe('XML DSL support', function () {
 			try {
 				await driver.wait(async function () {
 					const editor = new TextEditor();
-					console.log(`editor with name ${editor.getTitle()} is dirty? ${editor.isDirty()}`)
-					return !editor.isDirty();
+					console.log(`editor with name ${await editor.getTitle()} is dirty? ${await editor.isDirty()}`)
+					return !(await editor.isDirty());
 				}, BASE_TIMEOUT);
 			} catch (e) {
 				driver.takeScreenshot();
