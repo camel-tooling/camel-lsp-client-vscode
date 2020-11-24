@@ -1,9 +1,7 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
-
-const waitUntil = require('async-wait-until');
 
 describe('XML DSL support', function () {
 
@@ -19,13 +17,12 @@ describe('XML DSL support', function () {
 		return async function () {
 			this.timeout(BASE_TIMEOUT);
 			await Dialog.openFile(path.join(RESOURCES, camel_xml));
-			let foundEditor = false;
-			await waitUntil(() => {
+			const driver = VSBrowser.instance.driver;
+			await driver.wait(async function() {
 				const editorView = new EditorView();
-				editorView.getOpenEditorTitles().then(titles => {
-					foundEditor = titles !== undefined && titles.includes(camel_xml);
-				});
-				return foundEditor;
+				const openedEditors = await editorView.getOpenEditorTitles();
+				console.log(`awaiting editor with title ${camel_xml} to open. Currently opened: ${openedEditors.join(';')}`)
+				return openedEditors !== undefined && openedEditors.includes(camel_xml);
 			}, BASE_TIMEOUT);
 		}
 	};
