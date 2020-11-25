@@ -1,11 +1,10 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 
 describe('XML DSL support', function () {
 
-	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
 	const CAMEL_ROUTE_XML: string = 'camel-route.xml';
 	const URI_POSITION: number = 33;
@@ -15,9 +14,22 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			await Dialog.openFile(path.join(RESOURCES, camel_xml));
+			await configureToNotUseNativeDialog();
+
+			const editorView = new EditorView();
+			await editorView.closeAllEditors();
+			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', camel_xml);
+			await openFile(absoluteCamelXmlPath);
 		}
 	};
+
+	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
+		await new TitleBar().select('File', 'Open File...');
+		const input = await InputBox.create();
+		await input.clear();
+		await input.setText(fileToOpenAbsolutePath);
+		await input.confirm();
+	}
 
 	const _clean = async function () {
 		await Dialog.closeFile(false);
@@ -208,3 +220,11 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
+
+async function configureToNotUseNativeDialog() {
+	const settingsEditor = await new Workbench().openSettings();
+	const dialogStyleSetting = await settingsEditor.findSetting('Dialog Style', 'Window');
+	await dialogStyleSetting.setValue('custom');
+	const filesDialogSetting = await settingsEditor.findSetting('Enable', 'Files', 'Simple Dialog');
+	await filesDialogSetting.setValue(true);
+}
