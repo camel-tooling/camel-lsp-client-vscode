@@ -4,7 +4,8 @@ workflows:
   version: 2
   build:
     jobs:
-      - build
+      - build:
+          context: sonarcloud
 
 jobs:
   build:
@@ -44,3 +45,11 @@ jobs:
       - store_artifacts:
           name: Store Camel Language Server log
           path: /tmp/log-camel-lsp.out
+      - when:
+          condition:
+            equal: [master, << pipeline.git.branch >>]
+          steps:
+            - sonarcloud/scan
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.2
