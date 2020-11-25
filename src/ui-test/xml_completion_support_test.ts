@@ -244,8 +244,18 @@ async function asyncClean(BASE_TIMEOUT: number, camel_xml: string) {
 
 async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: string) {
 	//this.timeout(BASE_TIMEOUT);
+	const settingsEditor = await new Workbench().openSettings();
+	const setting = await settingsEditor.findSetting('Dialog Style', 'Window');
+	await setting.setValue('custom');
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		const openedEditors = await editorView.getOpenEditorTitles();
+		console.log(`awaiting having only Welcome page. Currently opened: ${openedEditors.join(';')}`);
+		return openedEditors !== undefined && (openedEditors.length === 1 && openedEditors.includes('Welcome') || openedEditors.length === 0) ;
+	}, BASE_TIMEOUT);
+
 	const center = await new Workbench().openNotificationsCenter();
 	await center.clearAllNotifications();
 	await center.close();
@@ -253,6 +263,7 @@ async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: st
 	// await workbench.executeCommand('Go To File...');
 	// const input = await InputBox.create();
 	// await input.selectQuickPick(camel_xml);
+	// using command palette is not working because the fiel is nto part of the workspace
 
 	await openFile(path.join(RESOURCES, camel_xml));
 	await awaitEditor(camel_xml, BASE_TIMEOUT);
