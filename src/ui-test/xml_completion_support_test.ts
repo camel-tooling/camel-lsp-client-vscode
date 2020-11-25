@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, TitleBar, Workbench } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, VSBrowser, TitleBar, Workbench, InputBox } from 'vscode-extension-tester';
 import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -245,27 +245,22 @@ async function asyncClean(BASE_TIMEOUT: number, camel_xml: string) {
 async function asyncSetup(BASE_TIMEOUT: number, RESOURCES: string, camel_xml: string) {
 	//this.timeout(BASE_TIMEOUT);
 	const settingsEditor = await new Workbench().openSettings();
-	const setting = await settingsEditor.findSetting('Dialog Style', 'Window');
-	await setting.setValue('custom');
+	const dialogStyleSetting = await settingsEditor.findSetting('Dialog Style', 'Window');
+	await dialogStyleSetting.setValue('custom');
+	const filesDialogSetting = await settingsEditor.findSetting('Enable', 'Files', 'Simple Dialog');
+	await filesDialogSetting.setValue(true);
 	const editorView = new EditorView();
 	await editorView.closeAllEditors();
-	const driver = VSBrowser.instance.driver;
-	await driver.wait(async function () {
-		const openedEditors = await editorView.getOpenEditorTitles();
-		console.log(`awaiting having only Welcome page. Currently opened: ${openedEditors.join(';')}`);
-		return openedEditors !== undefined && (openedEditors.length === 1 && openedEditors.includes('Welcome') || openedEditors.length === 0) ;
-	}, BASE_TIMEOUT);
 
 	const center = await new Workbench().openNotificationsCenter();
 	await center.clearAllNotifications();
 	await center.close();
-	// const workbench = new Workbench();
-	// await workbench.executeCommand('Go To File...');
-	// const input = await InputBox.create();
-	// await input.selectQuickPick(camel_xml);
-	// using command palette is not working because the fiel is nto part of the workspace
 
-	await openFile(path.join(RESOURCES, camel_xml));
+	console.log(`__dirname: ${__dirname}`);
+
+	const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', camel_xml);
+	console.log(`camel xml absolute path: ${absoluteCamelXmlPath}`);
+	await openFile(absoluteCamelXmlPath);
 	await awaitEditor(camel_xml, BASE_TIMEOUT);
 }
 
@@ -284,40 +279,10 @@ async function awaitEditor(camel_xml: string, BASE_TIMEOUT: number) {
 	}
 }
 
-async function openFile(path?: string): Promise<OpenDialog> {
-	const driver = VSBrowser.instance.driver;
-	console.log(`All opened windows names before trying to open the file: ${(await driver.getAllWindowHandles()).join(';')}`);
+async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
 	await new TitleBar().select('File', 'Open File...');
-	const dialog = await open(path);
-	await dialog.confirm();
-	return dialog;
-}
-
-async function open(path: string = ""): Promise<OpenDialog> {
-	const dialog = await getOpenDialog();
-	if (dialog === null) {
-		console.log('Could not open dialog!');
-		return await Promise.reject('Could not open dialog!');
-	}
-	const driver = VSBrowser.instance.driver;
-	console.log(`All opened windows names: ${(await driver.getAllWindowHandles()).join(';')}`);
-	console.log(`Current window title: ${await driver.getTitle()}`);
-	await dialog.selectPath(path);
-	return dialog;
-}
-
-async function getOpenDialog(): Promise<OpenDialog> {
-	await new Promise((res) => { setTimeout(res, 16000); });
-	switch (process.platform) {
-		case 'win32': {
-			return new WindowsOpenDialog();
-		}
-		case 'darwin': {
-			return new MacOpenDialog();
-		}
-		case 'linux': {
-			return new LinuxOpenDialog();
-		}
-	}
-	return new LinuxOpenDialog();
+	const input = await InputBox.create();
+	await input.clear();
+	await input.setText(fileToOpenAbsolutePath);
+	await input.confirm();
 }
