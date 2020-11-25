@@ -47,7 +47,7 @@ jobs:
           path: /tmp/log-camel-lsp.out
       - when:
           condition:
-            equal: [master, << pipeline.git.branch >>]
+            equal: [FUSETOOLS2-863-circleciAddSonar-try, << pipeline.git.branch >>]
           steps:
             - sonarcloud/scan
 
