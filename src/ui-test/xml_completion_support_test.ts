@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser, WebDriver } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -32,7 +32,16 @@ describe('XML DSL support', function () {
 	}
 
 	const _clean = async function () {
-		await Dialog.closeFile(false);
+		//await Dialog.closeFile(false);
+		const titleBar = new TitleBar();
+		await titleBar.select('File', 'Revert File');
+		const driver = VSBrowser.instance.driver;
+		await driver.wait(async function () {
+			const editor = new TextEditor();
+			console.log(`editor with name ${await editor.getTitle()} is dirty? ${await editor.isDirty()}`);
+			return !(await editor.isDirty());
+		});
+		await titleBar.select('File', 'Close Editor');
 	};
 
 	describe('Camel URI code completion', function () {
