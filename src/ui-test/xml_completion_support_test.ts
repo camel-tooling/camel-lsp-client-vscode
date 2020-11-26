@@ -27,14 +27,7 @@ describe('XML DSL support', function () {
 		const center = await new Workbench().openNotificationsCenter();
 		await center.clearAllNotifications();
 		await center.close();
-		const fileitem = await new TitleBar().getItem('File');
-		const fileItemSubMenu = await fileitem.select();
-		const openFileItem = await fileItemSubMenu.getItem('Open File...');
-		const driver = VSBrowser.instance.driver;
-		await driver.wait(async function () {
-			console.log(`openFileItem isDisplayed ${await openFileItem.isDisplayed()} isEnabled ${await openFileItem.isEnabled()}`);
-			return await openFileItem.isDisplayed() && await openFileItem.isEnabled();
-		});
+		await menuItemReady('File', 'Open File...');
 
 		await new TitleBar().select('File', 'Open File...');
 		const input = await InputBox.create();
@@ -45,6 +38,7 @@ describe('XML DSL support', function () {
 
 	const _clean = async function () {
 		//await Dialog.closeFile(false);
+		await menuItemReady('File', 'Revert File');
 		const titleBar = new TitleBar();
 		await titleBar.select('File', 'Revert File');
 		const driver = VSBrowser.instance.driver;
@@ -279,6 +273,17 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
+
+async function menuItemReady(firstMenu: string, secondMenu :string) {
+	const fileitem = await new TitleBar().getItem(firstMenu);
+	const fileItemSubMenu = await fileitem.select();
+	const openFileItem = await fileItemSubMenu.getItem(secondMenu);
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		console.log(`Menu item for ${firstMenu} > ${secondMenu} isDisplayed ${await openFileItem.isDisplayed()} isEnabled ${await openFileItem.isEnabled()}`);
+		return await openFileItem.isDisplayed() && await openFileItem.isEnabled();
+	});
+}
 
 async function configureToNotUseNativeDialog() {
 	const settingsEditor = await new Workbench().openSettings();
