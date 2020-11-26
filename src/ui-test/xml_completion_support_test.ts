@@ -24,9 +24,6 @@ describe('XML DSL support', function () {
 	};
 
 	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
-		// const center = await new Workbench().openNotificationsCenter();
-		// await center.clearAllNotifications();
-		// await center.close();
 		await menuItemReady('File', 'Open File...');
 
 		await new TitleBar().select('File', 'Open File...');
@@ -37,7 +34,6 @@ describe('XML DSL support', function () {
 	}
 
 	const _clean = async function () {
-		//await Dialog.closeFile(false);
 		await menuItemReady('File', 'Revert File');
 		const titleBar = new TitleBar();
 		await titleBar.select('File', 'Revert File');
@@ -47,24 +43,17 @@ describe('XML DSL support', function () {
 			console.log(`editor with name ${await editor.getTitle()} is dirty? ${await editor.isDirty()}`);
 			return !(await editor.isDirty());
 		});
+		await menuItemReady('File', 'Close Editor');
 		await titleBar.select('File', 'Close Editor');
 	};
 
 	describe('Camel URI code completion', function () {
 
-		//before(_setup(CAMEL_CONTEXT_XML));
-		//after(_clean);
+		before(_setup(CAMEL_CONTEXT_XML));
+		after(_clean);
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(20000);
-
-			await configureToNotUseNativeDialog();
-
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', CAMEL_CONTEXT_XML);
-			await openFile(absoluteCamelXmlPath);
-
 
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
@@ -120,26 +109,16 @@ describe('XML DSL support', function () {
 			await inOnly.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
-
-			await _clean();
 		});
 	});
 
 	describe('Endpoint options filtering', function () {
 
-		//before(_setup(CAMEL_CONTEXT_XML));
-		//after(_clean);
+		before(_setup(CAMEL_CONTEXT_XML));
+		after(_clean);
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(30000);
-
-			await configureToNotUseNativeDialog();
-
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', CAMEL_CONTEXT_XML);
-			await openFile(absoluteCamelXmlPath);
-
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -161,7 +140,6 @@ describe('XML DSL support', function () {
 
 			assert.isFalse(filtered);
 			await editor.toggleContentAssist(false);
-			await _clean();
 		});
 	});
 
@@ -169,19 +147,11 @@ describe('XML DSL support', function () {
 
 		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
 
-		//before(_setup(CAMEL_CONTEXT_XML));
-		//after(_clean);
+		before(_setup(CAMEL_CONTEXT_XML));
+		after(_clean);
 
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.timeout(30000);
-
-			await configureToNotUseNativeDialog();
-
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', CAMEL_CONTEXT_XML);
-			await openFile(absoluteCamelXmlPath);
-
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -209,7 +179,6 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
-			await _clean();
 		});
 	});
 
@@ -218,19 +187,11 @@ describe('XML DSL support', function () {
 		const DIRECT_COMPONENT_NAME: string = 'direct:testName';
 		const DIRECT_VM_COMPONENT_NAME: string = 'direct-vm:testName2';
 
-		//before(_setup(CAMEL_ROUTE_XML));
-		//after(_clean);
+		before(_setup(CAMEL_ROUTE_XML));
+		after(_clean);
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			this.timeout(20000);
-
-			await configureToNotUseNativeDialog();
-
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', CAMEL_ROUTE_XML);
-			await openFile(absoluteCamelXmlPath);
-
 			const editor = new TextEditor();
 
 			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
@@ -257,7 +218,6 @@ describe('XML DSL support', function () {
 			await directVM.click();
 
 			assert.equal('<to id="_toID2" uri="direct-vm:testName2"/>', (await editor.getTextAtLine(13)).trim());
-			await _clean();
 		});
 	});
 
