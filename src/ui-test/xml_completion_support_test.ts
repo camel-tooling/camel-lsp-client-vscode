@@ -27,6 +27,15 @@ describe('XML DSL support', function () {
 		const center = await new Workbench().openNotificationsCenter();
 		await center.clearAllNotifications();
 		await center.close();
+		const fileitem = await new TitleBar().getItem('File');
+		const fileItemSubMenu = await fileitem.select();
+		const openFileItem = await fileItemSubMenu.getItem('Open File...');
+		const driver = VSBrowser.instance.driver;
+		await driver.wait(async function () {
+			console.log(`openFileItem isDisplayed ${await openFileItem.isDisplayed()} isEnabled ${await openFileItem.isEnabled()}`);
+			return await openFileItem.isDisplayed() && await openFileItem.isEnabled();
+		});
+
 		await new TitleBar().select('File', 'Open File...');
 		const input = await InputBox.create();
 		await input.clear();
