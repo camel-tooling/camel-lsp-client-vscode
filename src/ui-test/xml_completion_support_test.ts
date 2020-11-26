@@ -158,7 +158,6 @@ describe('XML DSL support', function () {
 
 			assert.isFalse(filtered);
 			await editor.toggleContentAssist(false);
-			await _clean();
 		});
 	});
 
@@ -206,6 +205,7 @@ describe('XML DSL support', function () {
 			const errorMessage = await marker.getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
+			await _clean();
 		});
 	});
 
@@ -215,7 +215,7 @@ describe('XML DSL support', function () {
 		const DIRECT_VM_COMPONENT_NAME: string = 'direct-vm:testName2';
 
 		//before(_setup(CAMEL_ROUTE_XML));
-		after(_clean);
+		//after(_clean);
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			this.timeout(20000);
