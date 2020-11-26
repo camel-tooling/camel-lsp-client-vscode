@@ -158,6 +158,7 @@ describe('XML DSL support', function () {
 
 			assert.isFalse(filtered);
 			await editor.toggleContentAssist(false);
+			await _clean();
 		});
 	});
 
