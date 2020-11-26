@@ -47,7 +47,7 @@ describe('XML DSL support', function () {
 	describe('Camel URI code completion', function () {
 
 		//before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		//after(_clean);
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			this.timeout(20000);
@@ -114,13 +114,15 @@ describe('XML DSL support', function () {
 			await inOnly.click();
 
 			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
+
+			await _clean();
 		});
 	});
 
 	describe('Endpoint options filtering', function () {
 
 		//before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		//after(_clean);
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			this.timeout(30000);
@@ -153,6 +155,7 @@ describe('XML DSL support', function () {
 
 			assert.isFalse(filtered);
 			await editor.toggleContentAssist(false);
+			await _clean();
 		});
 	});
 
@@ -161,7 +164,7 @@ describe('XML DSL support', function () {
 		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
 
 		//before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		//after(_clean);
 
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.timeout(30000);
@@ -247,6 +250,7 @@ describe('XML DSL support', function () {
 			await directVM.click();
 
 			assert.equal('<to id="_toID2" uri="direct-vm:testName2"/>', (await editor.getTextAtLine(13)).trim());
+			await _clean();
 		});
 	});
 
