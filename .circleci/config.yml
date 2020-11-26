@@ -12,6 +12,8 @@ jobs:
     docker:
       - image: cimg/node:lts-browsers
     steps:
+      - run:
+          command: cat /etc/os-release
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
