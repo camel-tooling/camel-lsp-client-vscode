@@ -24,6 +24,9 @@ describe('XML DSL support', function () {
 	};
 
 	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
+		const center = await new Workbench().openNotificationsCenter();
+		await center.clearAllNotifications();
+		await center.close();
 		await new TitleBar().select('File', 'Open File...');
 		const input = await InputBox.create();
 		await input.clear();
