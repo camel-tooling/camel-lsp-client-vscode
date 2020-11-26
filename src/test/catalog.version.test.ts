@@ -3,9 +3,9 @@
 import * as vscode from 'vscode';
 import * as chai from 'chai';
 import { getDocUri, activate } from './helper';
+import { checkExpectedCompletion, checkNotExpectedCompletion } from './completion.util';
 
 const expect = chai.expect;
-const waitUntil = require('async-wait-until');
 
 describe('Should do completion in Camel URI using the Camel Catalog version specified in preference', () => {
 	const docUriXml = getDocUri('test-catalog-version.xml');
@@ -30,34 +30,3 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	});
 
 });
-
-export async function checkNotExpectedCompletion(docUri: vscode.Uri, position: vscode.Position, expectedCompletion: vscode.CompletionItem) {
-    let hasUnExpectedCompletion = true;
-    await waitUntil(() => {
-        // Executing the command `vscode.executeCompletionItemProvider` to simulate triggering completion
-        (vscode.commands.executeCommand('vscode.executeCompletionItemProvider', docUri, position)).then(value => {
-			let actualCompletionList = value as vscode.CompletionList;
-			const completionItemFound = actualCompletionList.items.find(completion => {
-				return completion.label === expectedCompletion.label;
-			});
-            hasUnExpectedCompletion = completionItemFound !== undefined;
-        });
-        return !hasUnExpectedCompletion;
-	}, 30000, 500);
-}
-
-export async function checkExpectedCompletion(docUri: vscode.Uri, position: vscode.Position, expectedCompletion: vscode.CompletionItem) {
-    let hasExpectedCompletion = false;
-    await waitUntil(() => {
-        // Executing the command `vscode.executeCompletionItemProvider` to simulate triggering completion
-        (vscode.commands.executeCommand('vscode.executeCompletionItemProvider', docUri, position)).then(value => {
-			let actualCompletionList = value as vscode.CompletionList;
-			const completionItemFound = actualCompletionList.items.find(completion => {
-				return completion.label === expectedCompletion.label;
-			});
-            hasExpectedCompletion = completionItemFound !== undefined;
-        });
-        return hasExpectedCompletion;
-    }, 10000, 500);
-}
-
