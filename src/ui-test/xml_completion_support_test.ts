@@ -1,4 +1,4 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser } from 'vscode-extension-tester';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser, WebDriver } from 'vscode-extension-tester';
 import { Dialog, WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
@@ -24,6 +24,8 @@ describe('XML DSL support', function () {
 	};
 
 	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
+		await menuItemReady('File', 'Open File...');
+
 		await new TitleBar().select('File', 'Open File...');
 		const input = await InputBox.create();
 		await input.clear();
@@ -32,7 +34,16 @@ describe('XML DSL support', function () {
 	}
 
 	const _clean = async function () {
-		await Dialog.closeFile(false);
+		await menuItemReady('File', 'Revert File');
+		const titleBar = new TitleBar();
+		await titleBar.select('File', 'Revert File');
+		const driver = VSBrowser.instance.driver;
+		await driver.wait(async function () {
+			const editor = new TextEditor();
+			return !(await editor.isDirty());
+		});
+		await menuItemReady('File', 'Close Editor');
+		await titleBar.select('File', 'Close Editor');
 	};
 
 	describe('Camel URI code completion', function () {
@@ -220,6 +231,16 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
+
+async function menuItemReady(firstMenu: string, secondMenu :string) {
+	const fileitem = await new TitleBar().getItem(firstMenu);
+	const fileItemSubMenu = await fileitem.select();
+	const openFileItem = await fileItemSubMenu.getItem(secondMenu);
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		return await openFileItem.isDisplayed() && await openFileItem.isEnabled();
+	});
+}
 
 async function configureToNotUseNativeDialog() {
 	const settingsEditor = await new Workbench().openSettings();
