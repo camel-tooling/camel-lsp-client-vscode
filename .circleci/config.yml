@@ -35,6 +35,9 @@ jobs:
       - run:
           name: test
           command: npm test
+      - run:
+          name: UI test
+          command: npm run ui-test
       - store_artifacts:
           name: Store VS Code logs
           path: /home/circleci/.config/Code/logs
@@ -45,6 +48,12 @@ jobs:
       - store_artifacts:
           name: Store Camel Language Server log
           path: /tmp/log-camel-lsp.out
+      - store_artifacts:
+          name: Store VS Code logs of UI test
+          path: /home/circleci/camel-lsp-client-vscode/test-resources/settings/logs
+      - store_artifacts:
+          name: Store screenshots
+          path: /home/circleci/camel-lsp-client-vscode/test-resources/screenshots
       - when:
           condition:
             equal: [master, << pipeline.git.branch >>]
