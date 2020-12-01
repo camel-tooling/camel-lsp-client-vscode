@@ -153,7 +153,7 @@
     "typescript": "^4.1.2",
     "vsce": "^1.81.1",
     "vscode-extension-tester": "^3.2.2",
-    "vscode-extension-tester-native": "^3.0.1",
+    "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.4.1",
     "vscode-uitests-tooling": "^2.0.1"
   },
