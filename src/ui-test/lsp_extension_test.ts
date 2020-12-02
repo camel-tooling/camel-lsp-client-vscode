@@ -44,7 +44,7 @@ describe('Language Support for Apache Camel extension', function () {
 
 		it('Find extension', async function () {
 			this.timeout(10000);
-			item = await section.findItem(`@installed ${pjson.displayName}`) as ExtensionsViewItem;
+			item = await section.findItem(`@installed ${pjson.displayName}`);
 		});
 
 		it('Extension is installed', async function () {
