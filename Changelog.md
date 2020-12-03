@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.30
+
 ## 0.0.29
 
 - API based components support
