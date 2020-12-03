@@ -226,7 +226,7 @@ describe('XML DSL support', function () {
 	 * @param item ContenAssistItem
 	 */
 	async function getTextExt(item: ContentAssistItem): Promise<string> {
-		let name: string = await item.getText();
+		const name: string = await item.getText();
 		return name.split('\n')[0];
 	}
 });
