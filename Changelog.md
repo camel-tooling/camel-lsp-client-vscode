@@ -2,6 +2,8 @@
 
 ## 0.0.30
 
+- Diagnostic for invalid `camel.(source|sink).(endpoint|path).*` property keys in Camel Kafka Connector files
+
 ## 0.0.29
 
 - API based components support
