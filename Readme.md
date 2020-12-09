@@ -91,7 +91,9 @@ When you add this extension to your installation of VS Code, the VS Code editor 
   * Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
   * Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
   * Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
-  * Diagnostic for invalid `camel.(source|sink).(endpoint|path).*` property keys in Camel Kafka Connector files
+  * Diagnostic in Camel Kafka Connector files:
+    * for invalid `camel.(source|sink).(endpoint|path).*` property keys
+    * for mix of source and sink property keys
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 
