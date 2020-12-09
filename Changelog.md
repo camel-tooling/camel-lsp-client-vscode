@@ -2,7 +2,9 @@
 
 ## 0.0.30
 
-- Diagnostic for invalid `camel.(source|sink).(endpoint|path).*` property keys in Camel Kafka Connector files
+- Diagnostic in Camel Kafka Connector files:
+  - for invalid `camel.(source|sink).(endpoint|path).*` property keys
+  - for mix of source and sink property keys
 
 ## 0.0.29
 
