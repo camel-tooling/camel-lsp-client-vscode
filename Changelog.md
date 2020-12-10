@@ -5,6 +5,7 @@
 - Diagnostic in Camel Kafka Connector files:
   - for invalid `camel.(source|sink).(endpoint|path).*` property keys
   - for mix of source and sink property keys
+  - for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
 
 ## 0.0.29
 
