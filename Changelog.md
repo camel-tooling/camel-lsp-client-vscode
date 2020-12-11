@@ -2,6 +2,7 @@
 
 ## 0.0.30
 
+- Completion for `camel.(source|sink).(endpoint|path).*` inserts default value automatically
 - Diagnostic in Camel Kafka Connector files:
   - for invalid `camel.(source|sink).(endpoint|path).*` property keys
   - for mix of source and sink property keys
