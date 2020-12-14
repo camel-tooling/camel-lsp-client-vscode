@@ -95,6 +95,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
     * for invalid `camel.(source|sink).(endpoint|path).*` property keys
     * for mix of source and sink property keys
     * for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
+    * for duplicated keys differentiated by dash case or camel case
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 

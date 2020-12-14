@@ -6,6 +6,7 @@
   - for invalid `camel.(source|sink).(endpoint|path).*` property keys
   - for mix of source and sink property keys
   - for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
+  - for duplicated keys differentiated by dash case or camel case
 
 ## 0.0.29
 
