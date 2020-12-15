@@ -2,7 +2,8 @@
 
 import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, TextEditor, languages } from 'vscode';
-import { LanguageClient, LanguageClientOptions, Executable, DidChangeConfigurationNotification } from 'vscode-languageclient';
+import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
+import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { retrieveJavaExecutable } from './JavaManager';
 
 var os = require('os');
