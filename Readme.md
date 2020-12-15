@@ -92,7 +92,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
   * Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
   * Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
   * Diagnostic in Camel Kafka Connector files:
-    * for invalid `camel.(source|sink).(endpoint|path).*` property keys
+    * for invalid `camel.(source|sink).(endpoint|path).*` property keys. A quickfix is provided as well for close property keys.
     * for mix of source and sink property keys
     * for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
     * for duplicated keys differentiated by dash case or camel case
