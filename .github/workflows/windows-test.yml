@@ -34,9 +34,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
     - name: Install global dependencies
-      run: npm install -g typescript vsce windows-build-tools
-    - name: npm-ci
-      run: npm ci
+      run: npm install -g typescript vsce
+    - name: npm-install
+      run: npm install
     - name: test
       run: npm test
     - name: ui-test
