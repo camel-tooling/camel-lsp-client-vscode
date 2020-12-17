@@ -2,6 +2,7 @@
 
 ## 0.0.30
 
+- Update default Camel Catalog from 3.6.0 to 3.7.0
 - Completion for `camel.(source|sink).(endpoint|path).*` inserts default value automatically
 - Diagnostic in Camel Kafka Connector files:
   - for invalid `camel.(source|sink).(endpoint|path).*` property keys. A quickfix is provided as well for close property keys.
