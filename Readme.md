@@ -91,6 +91,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
   * Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
   * Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
   * Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
+  * Completion for [basic configuration|https://camel.apache.org/camel-kafka-connector/latest/basic-configuration.html]
   * Diagnostic in Camel Kafka Connector files:
     * for invalid `camel.(source|sink).(endpoint|path).*` property keys. A quickfix is provided as well for close property keys.
     * for mix of source and sink property keys
