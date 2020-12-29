@@ -87,7 +87,7 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 * Camel Kafka Connector support:
   * Completion and hover for Camel URIs as property values of `camel.sink.url` and `camel.source.url`
-  * Completion for `connector.class` property value based on Camel Kafka Connector Catalog.
+  * Completion and hover for `connector.class` property value based on Camel Kafka Connector Catalog.
   * Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
   * Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
   * Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.

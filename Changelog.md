@@ -11,6 +11,7 @@
   - for mix of source and sink property keys
   - for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
   - for duplicated keys differentiated by dash case or camel case
+- Description based on `connector.class` value for completion and hover in Camel Kafka Connector files
 
 ## 0.0.29
 
