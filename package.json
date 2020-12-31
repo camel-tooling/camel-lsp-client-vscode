@@ -44,21 +44,21 @@
   ],
   "activationEvents": [
     "onLanguage:xml",
-    "workspaceContains:*.xml",
+    "workspaceContains:**/*.xml",
     "onLanguage:java",
-    "workspaceContains:*.java",
+    "workspaceContains:**/*.java",
     "onLanguage:groovy",
-    "workspaceContains:*.groovy",
+    "workspaceContains:**/*.groovy",
     "onLanguage:properties",
     "onLanguage:spring-boot-properties",
     "onLanguage:quarkus-properties",
-    "workspaceContains:*.properties",
+    "workspaceContains:**/*.properties",
     "onLanguage:kotlin",
-    "workspaceContains:*.kts",
+    "workspaceContains:**/*.kts",
     "onLanguage:javascript",
-    "workspaceContains:*.js",
+    "workspaceContains:**/*.js",
     "onLanguage:yaml",
-    "workspaceContains:*.yaml"
+    "workspaceContains:**/*.yaml"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
