@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.31
+
 ## 0.0.30
 
 - Update default Camel Catalog from 3.6.0 to 3.7.0
