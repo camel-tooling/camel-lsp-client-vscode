@@ -152,7 +152,7 @@
     "tslint": "^6.1.3",
     "typescript": "^4.1.3",
     "vsce": "^1.84.0",
-    "vscode-extension-tester": "^3.2.4",
+    "vscode-extension-tester": "^3.2.5",
     "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.4.1",
     "vscode-uitests-tooling": "^2.0.1"
