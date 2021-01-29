@@ -3,6 +3,7 @@
 ## 0.0.31
 
 - Update default Camel Catalog from 3.6.0 to 3.7.1
+- Update Camel Kafka Connector Catalog from 0.7.0 to 0.7.1
 
 ## 0.0.30
 
