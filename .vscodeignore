@@ -1,15 +1,23 @@
 .vscode/**
+.project
+.circleci/**
+Jenkinsfile
+.github/**
 typings/**
 out/test/**
 test/**
+scripts/**
 src/**
 images/**
 **/*.map
 .gitignore
+gulpfile.js
 tsconfig.json
-vsc-extension-quickstart.md
+tslint.json
+sonar-project.properties
 undefined/**
 CONTRIBUTING.md
 .vscode-test/**
 test-resources
 test Fixture with speci@l chars/**
+testFixture/**
