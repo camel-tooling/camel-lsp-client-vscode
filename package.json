@@ -70,6 +70,11 @@
           "type": "string",
           "description": "Camel catalog version used to provide Apache Camel Language Support. Depending on the connection speed, it can take several minutes to have it applied."
         },
+        "camel.Camel catalog runtime provider": {
+          "type": "string",
+          "description": "Camel catalog runtime provider used to provide Apache Camel Language support.",
+          "enum": ["DEFAULT", "SPRINGBOOT", "QUARKUS", "KARAF"]
+        },
         "camel.extra-components": {
           "type": "array",
           "description": "(Experimental)List of additional components to include in the Camel Catalog described with a Json list repsecting Camel catalog syntax."
