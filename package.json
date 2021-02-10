@@ -73,7 +73,12 @@
         "camel.Camel catalog runtime provider": {
           "type": "string",
           "description": "Camel catalog runtime provider used to provide Apache Camel Language support.",
-          "enum": ["DEFAULT", "SPRINGBOOT", "QUARKUS", "KARAF"]
+          "enum": [
+            "DEFAULT",
+            "SPRINGBOOT",
+            "QUARKUS",
+            "KARAF"
+          ]
         },
         "camel.extra-components": {
           "type": "array",
@@ -157,7 +162,7 @@
     "tslint": "^6.1.3",
     "typescript": "^4.1.3",
     "vsce": "^1.85.0",
-    "vscode-extension-tester": "^3.2.5",
+    "vscode-extension-tester": "^3.2.6",
     "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.5.0",
     "vscode-uitests-tooling": "^2.0.1"
