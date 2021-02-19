@@ -152,7 +152,7 @@
     "@types/mocha": "^8.2.1",
     "@types/node": "^14.14.30",
     "@types/vscode": "^1.53.0",
-    "async-wait-until": "^1.2.6",
+    "async-wait-until": "^2.0.1",
     "chai": "^4.3.0",
     "gulp": "^4.0.2",
     "gulp-tslint": "^8.1.4",
