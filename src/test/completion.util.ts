@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-const waitUntil = require('async-wait-until');
+import { waitUntil } from 'async-wait-until';
 
 export async function checkNotExpectedCompletion(docUri: vscode.Uri, position: vscode.Position, expectedCompletion: vscode.CompletionItem) {
     let hasUnExpectedCompletion = true;
