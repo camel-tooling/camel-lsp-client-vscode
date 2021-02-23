@@ -3,7 +3,7 @@
 ## 0.0.31
 
 - Update default Camel Catalog from 3.6.0 to 3.8.0
-- Update Camel Kafka Connector Catalog from 0.7.0 to 0.7.1
+- Update Camel Kafka Connector Catalog from 0.7.0 to 0.7.2
 - Allow user to select a Runtime Provider in Settings which is adapting Camel Catalog to the specified runtime.
 
 ## 0.0.30
