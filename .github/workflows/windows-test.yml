@@ -43,3 +43,10 @@ jobs:
       run: npm test
     - name: ui-test
       run: npm run ui-test
+    - name: Google Chat Notification
+      if: ${{ failure() }}
+      uses: Co-qn/google-chat-notification@releases/v1
+      with:
+        name: ${{ github.workflow }}
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        status: ${{ job.status }}
