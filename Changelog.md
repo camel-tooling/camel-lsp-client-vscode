@@ -3,6 +3,7 @@
 ## 0.0.32
 
 - Update default Camel Catalog from 3.8.0 to 3.9.0
+- Update Camel Quarkus Catalog from 1.7.0 to 1.8.0
 
 ## 0.0.31
 
