@@ -6,9 +6,6 @@ import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscod
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { retrieveJavaExecutable } from './JavaManager';
 
-var os = require('os');
-var storagePath;
-
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
@@ -18,11 +15,6 @@ export function activate(context: ExtensionContext) {
 	languages.setLanguageConfiguration('xml', {
 		wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	});
-
-	storagePath = context.storagePath;
-	if (!storagePath) {
-		storagePath = getTempWorkspace();
-	}
 
 	const camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
 	console.log(camelLanguageServerPath);
@@ -113,18 +105,4 @@ export function parseVMargs(params:any[], vmargsLine:string) {
 			params.push(arg);
 		}
 	});
-}
-
-function getTempWorkspace() {
-	return path.resolve(os.tmpdir(),'vscodesws_'+makeRandomHexString(5));
-}
-
-function makeRandomHexString(length) {
-    var chars = ['0', '1', '2', '3', '4', '5', '6', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-    var result = '';
-    for (var i = 0; i < length; i++) {
-        var idx = Math.floor(chars.length * Math.random());
-        result += chars[idx];
-    }
-    return result;
 }
