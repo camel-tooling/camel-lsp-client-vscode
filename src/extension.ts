@@ -69,7 +69,7 @@ export function activate(context: ExtensionContext) {
 		item.text = 'Apache Camel Language Server started';
 		toggleItem(window.activeTextEditor, item);
 		commands.registerCommand('apache.camel.open.output', ()=>{
-		languageClient.outputChannel.show(ViewColumn.Three);
+		languageClient.outputChannel.show();
 	}, error => {console.log(error)});
 
 	window.onDidChangeActiveTextEditor((editor) =>{
