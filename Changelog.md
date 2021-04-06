@@ -4,6 +4,7 @@
 
 - Update default Camel Catalog from 3.8.0 to 3.9.0
 - Update Camel Quarkus Catalog from 1.7.0 to 1.8.0
+- Update Camel Kafka Connector Catalog from 0.8.0 to 0.9.0
 
 ## 0.0.31
 
