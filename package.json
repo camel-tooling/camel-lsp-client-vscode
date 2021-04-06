@@ -82,7 +82,7 @@
         },
         "camel.extra-components": {
           "type": "array",
-          "description": "(Experimental)List of additional components to include in the Camel Catalog described with a Json list repsecting Camel catalog syntax."
+          "description": "(Experimental)List of additional components to include in the Camel Catalog described with a Json list respecting Camel catalog syntax."
         }
       }
     },
