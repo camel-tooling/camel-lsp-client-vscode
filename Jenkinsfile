@@ -25,6 +25,7 @@ node('rhel8'){
         stage('Test') {
     		wrap([$class: 'Xvnc']) {
     			sh "npm test --silent"
+				sh "npm run ui-test"
     			junit 'report.xml'
     		}
         }
