@@ -5,7 +5,9 @@
 - Update default Camel Catalog from 3.8.0 to 3.9.0
 - Update Camel Quarkus Catalog from 1.7.0 to 1.8.1
 - Update Camel Kafka Connector Catalog from 0.8.0 to 0.9.0
-- Propose Kafka topics in completion which are retrieved from a potential local Kafka instance running locally on port 9092
+- Propose Kafka topics in completion.
+  - By default, they are retrieved from local Kafka instance at localhost:9092.
+  - A setting allows to configure the Kafka connection URL. It can be found at **File -> Preferences -> Settings -> Apache Camel Tooling -> Kafka Connection URL**
 
 ## 0.0.31
 
