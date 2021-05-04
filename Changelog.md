@@ -2,6 +2,8 @@
 
 ## 0.0.33
 
+- Provide completion for Kamelet template id based on embedded snapshot Kamelet catalog version
+
 ## 0.0.32
 
 - Update default Camel Catalog from 3.8.0 to 3.9.0
