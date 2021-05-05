@@ -2,7 +2,7 @@
 
 ## 0.0.33
 
-- Provide completion for Kamelet template id based on embedded snapshot Kamelet catalog version
+- Provide completion and hover for Kamelet template id based on embedded snapshot Kamelet catalog version
 
 ## 0.0.32
 
