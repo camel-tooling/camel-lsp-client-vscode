@@ -1,7 +1,7 @@
 'use strict';
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window, StatusBarAlignment, commands, ViewColumn, TextEditor, languages } from 'vscode';
+import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { retrieveJavaExecutable } from './JavaManager';
