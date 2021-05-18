@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.34
+
+
+
 ## 0.0.33
 
 - Provide completion and hover for Kamelet template id based on embedded snapshot Kamelet catalog version
