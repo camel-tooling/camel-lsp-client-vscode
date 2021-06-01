@@ -170,7 +170,7 @@
     "vscode-extension-tester": "^4.0.3",
     "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.5.2",
-    "vscode-uitests-tooling": "^2.0.2"
+    "vscode-uitests-tooling": "^2.1.0"
   },
   "dependencies": {
     "decompress": "^4.2.1",
