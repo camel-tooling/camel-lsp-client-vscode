@@ -176,7 +176,7 @@
     "decompress": "^4.2.1",
     "download": "^8.0.0",
     "expand-home-dir": "^0.0.3",
-    "find-java-home": "^1.2.0",
+    "find-java-home": "^1.2.1",
     "glob": "^7.1.7",
     "http-proxy-agent": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
