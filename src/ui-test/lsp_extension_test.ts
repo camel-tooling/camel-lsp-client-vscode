@@ -38,6 +38,7 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 
 		after(async function () {
+			this.timeout(10000);
 			await marketplace.close();
 			await new EditorView().closeAllEditors();
 		});
