@@ -62,7 +62,7 @@ describe('XML DSL support', function () {
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
-			const timer = await contentAssist.getItem('timer');
+			const timer = await contentAssist.getItem('timer:timerName');
 			assert.equal(await getTextExt(timer), 'timer:timerName');
 			await timer.click();
 
@@ -90,7 +90,7 @@ describe('XML DSL support', function () {
 			await editor.typeText(3, URI_POSITION + 24, '&amp;exchange');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
-			const exchange = await contentAssist.getItem('exchange');
+			const exchange = await contentAssist.getItem('exchangePattern');
 			assert.equal(await getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
@@ -99,7 +99,7 @@ describe('XML DSL support', function () {
 			await editor.typeText(3, URI_POSITION + 45, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
-			const inOnly = await contentAssist.getItem('In');
+			const inOnly = await contentAssist.getItem('InOnly');
 			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
@@ -119,7 +119,7 @@ describe('XML DSL support', function () {
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
-			const timer = await contentAssist.getItem('timer');
+			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
@@ -152,7 +152,7 @@ describe('XML DSL support', function () {
 			await editor.typeText(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
-			const timer = await contentAssist.getItem('timer');
+			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
