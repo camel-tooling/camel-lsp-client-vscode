@@ -2,7 +2,7 @@
 
 ## 0.0.34
 
-
+- Provide hover for Kamelet properties based on embedded snapshot Kamelet catalog version
 
 ## 0.0.33
 
