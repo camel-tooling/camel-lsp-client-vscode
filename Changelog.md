@@ -4,6 +4,7 @@
 
 - Provide hover and type information for Kamelet properties based on embedded snapshot Kamelet catalog version
 - Update Camel Kafka Connector Catalog version from 0.9.0 to 0.10.1
+- Update default Camel Catalog version from 3.9.0 to 3.10.0
 
 ## 0.0.33
 
