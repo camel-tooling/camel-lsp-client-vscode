@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "out": false
+    },
+    "search.exclude": {
+        "out": true
+    },
+    "files.simpleDialog.enable": true,
+    "window.titleBarStyle": "custom",
+    "workbench.editor.enablePreview": false,
+    "window.restoreFullscreen": true,
+    "window.newWindowDimensions": "maximized",
+    "window.title": "${dirty}${activeEditorLong}${separator}${rootPath}${separator}${appName}"
+}
