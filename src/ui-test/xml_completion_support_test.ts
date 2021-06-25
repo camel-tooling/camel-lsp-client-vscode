@@ -1,9 +1,10 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench } from 'vscode-extension-tester';
-import { WaitUntil, DefaultWait, Dialog } from 'vscode-uitests-tooling';
+import { EditorView, BottomBarPanel, MarkerType, ContentAssistItem, TitleBar, VSBrowser } from 'vscode-extension-tester';
+import { WaitUntil, DefaultWait, Workbench, ContentAssist, TextEditor } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 
 describe('XML DSL support', function () {
+	this.timeout(60000);
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
@@ -15,13 +16,31 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			await Dialog.openFile(path.join(RESOURCES, camel_xml));
+			const editorView = new EditorView();
+			await editorView.closeAllEditors();
+			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', camel_xml);
+			await openFile(absoluteCamelXmlPath);
 		}
 	};
 
+	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
+		await new Workbench().openFile(fileToOpenAbsolutePath);
+	}
+
 	const _clean = async function () {
-		this.timeout(12000);
-		await Dialog.closeFile(false);
+		this.timeout(15000);
+		const driver = VSBrowser.instance.driver;
+		await driver.wait(async function () {
+			const editor = new TextEditor();
+			if (await editor.isDirty() === false) {
+				return true;
+			}
+
+			await new TitleBar().select('File', 'Revert File');
+			return false;
+		});
+
+		await new EditorView().closeAllEditors();
 	};
 
 	describe('Camel URI code completion', function () {
@@ -30,14 +49,12 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
-			this.timeout(20000);
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
 			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_XML);
 		});
 
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			this.timeout(20000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -51,7 +68,6 @@ describe('XML DSL support', function () {
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			this.timeout(20000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 15, '?');
@@ -65,7 +81,6 @@ describe('XML DSL support', function () {
 		});
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
-			this.timeout(45000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION + 24, '&amp;exchange');
@@ -94,7 +109,6 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Duplicate endpoint options are filtered out', async function () {
-			this.timeout(30000);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -123,11 +137,11 @@ describe('XML DSL support', function () {
 
 		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
 
-		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		beforeEach(_setup(CAMEL_CONTEXT_XML));
+		afterEach(_clean);
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			this.timeout(30000);
+			this.retries(3);
 			const editor = new TextEditor();
 
 			await editor.typeText(3, URI_POSITION, 'timer');
@@ -167,7 +181,6 @@ describe('XML DSL support', function () {
 		after(_clean);
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
-			this.timeout(20000);
 			const editor = new TextEditor();
 
 			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
@@ -182,7 +195,6 @@ describe('XML DSL support', function () {
 		});
 
 		it('Auto-completion for referenced ID of "direct-vm" component', async function () {
-			this.timeout(20000);
 			const editor = new TextEditor();
 
 			await editor.typeText(13, 30, DIRECT_VM_COMPONENT_NAME);
@@ -208,11 +220,3 @@ describe('XML DSL support', function () {
 		return name.split('\n')[0];
 	}
 });
-
-async function configureToNotUseNativeDialog() {
-	const settingsEditor = await new Workbench().openSettings();
-	const dialogStyleSetting = await settingsEditor.findSetting('Dialog Style', 'Window');
-	await dialogStyleSetting.setValue('custom');
-	const filesDialogSetting = await settingsEditor.findSetting('Enable', 'Files', 'Simple Dialog');
-	await filesDialogSetting.setValue(true);
-}
