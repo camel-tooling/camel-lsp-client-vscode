@@ -7,7 +7,8 @@
 - Update default Camel Catalog version from 3.9.0 to 3.11.0
 - Adapt for Camel K community 1.5/Camel K Red Hat 1.4
   - Provide completion for new Camel K modeline option names
-  - Provide quick action to convert from deprecated property-file to property=file: notation
+  - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
+  - Propose completion for `file:` notation on `property` Camel K modeline option
 
 ## 0.0.33
 
