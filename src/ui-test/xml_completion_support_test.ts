@@ -35,12 +35,15 @@ describe('XML DSL support', function () {
 		this.timeout(6000);
 		const titleBar = new TitleBar();
 		await titleBar.select('File', 'Revert File');
+		console.log('clicked on File > Revert File');
 		const driver = VSBrowser.instance.driver;
 		await driver.wait(async function () {
 			const editor = new TextEditor();
 			return !(await editor.isDirty());
 		});
+		console.log('Editor is no more dirty');
 		await titleBar.select('File', 'Close Editor');
+		console.log('clicked on File > Close Editor');
 	};
 
 	describe('Camel URI code completion', function () {
@@ -103,7 +106,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;selectexchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
 		});
 	});
 
