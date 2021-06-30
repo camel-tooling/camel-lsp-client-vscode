@@ -2,7 +2,12 @@
 
 ## 0.0.34
 
-
+- Provide hover and type information for Kamelet properties based on embedded snapshot Kamelet catalog version
+- Update Camel Kafka Connector Catalog version from 0.9.0 to 0.10.1
+- Update default Camel Catalog version from 3.9.0 to 3.11.0
+- Adapt for Camel K community 1.5/Camel K Red Hat 1.4
+  - Provide completion for new Camel K modeline option names
+  - Provide quick action to convert from deprecated property-file to property=file: notation
 
 ## 0.0.33
 
