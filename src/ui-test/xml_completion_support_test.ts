@@ -66,7 +66,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(timer), 'timer:timerName');
 			await timer.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName"/>');
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
@@ -80,7 +80,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(delay), 'delay');
 			await delay.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s"/>');
 		});
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
@@ -94,7 +94,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>');
 
 			await editor.typeText(3, URI_POSITION + 45, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -103,7 +103,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
-			assert.equal('<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>', (await editor.getTextAtLine(3)).trim());
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>');
 		});
 	});
 
@@ -197,7 +197,7 @@ describe('XML DSL support', function () {
 			const direct = await contentAssist.getItem(DIRECT_COMPONENT_NAME);
 			await direct.click();
 
-			assert.equal('<to id="_toID" uri="direct:testName"/>', (await editor.getTextAtLine(6)).trim());
+			assert.equal((await editor.getTextAtLine(6)).trim(), '<to id="_toID" uri="direct:testName"/>');
 		});
 
 		it('Auto-completion for referenced ID of "direct-vm" component', async function () {
@@ -212,7 +212,7 @@ describe('XML DSL support', function () {
 			const directVM = await contentAssist.getItem(DIRECT_VM_COMPONENT_NAME);
 			await directVM.click();
 
-			assert.equal('<to id="_toID2" uri="direct-vm:testName2"/>', (await editor.getTextAtLine(13)).trim());
+			assert.equal((await editor.getTextAtLine(13)).trim(), '<to id="_toID2" uri="direct-vm:testName2"/>');
 		});
 	});
 
