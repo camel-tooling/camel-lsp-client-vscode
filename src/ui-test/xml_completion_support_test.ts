@@ -32,7 +32,7 @@ describe('XML DSL support', function () {
 	}
 
 	const _clean = async function () {
-		this.timeout(6000);
+		this.timeout(12000);
 		const titleBar = new TitleBar();
 		await titleBar.select('File', 'Revert File');
 		const driver = VSBrowser.instance.driver;
