@@ -32,18 +32,19 @@ describe('XML DSL support', function () {
 	}
 
 	const _clean = async function () {
+		let startTime = Date.now();
 		this.timeout(6000);
 		const titleBar = new TitleBar();
 		await titleBar.select('File', 'Revert File');
-		console.log('clicked on File > Revert File');
+		console.log(`clicked on File > Revert File . Time since beginning of _clean method: ${Date.now() - startTime}`);
 		const driver = VSBrowser.instance.driver;
 		await driver.wait(async function () {
 			const editor = new TextEditor();
 			return !(await editor.isDirty());
 		});
-		console.log('Editor is no more dirty');
+		console.log(`Editor is no more dirty . Time since beginning of _clean method: ${Date.now() - startTime}`);
 		await titleBar.select('File', 'Close Editor');
-		console.log('clicked on File > Close Editor');
+		console.log(`clicked on File > Close Editor . Time since beginning of _clean method: ${Date.now() - startTime}`);
 	};
 
 	describe('Camel URI code completion', function () {
