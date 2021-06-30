@@ -90,7 +90,7 @@ describe('Language Support for Apache Camel extension', function () {
 			this.timeout(45000);
 			await driver.wait(until.elementLocated(By.id('redhat.vscode-apache-camel')), 35000);
 			const lsp = await new StatusBarExt().getLSPSupport();
-			assert.equal(LSP_STATUS_BAR_MESSAGE, lsp);
+			assert.equal(lsp, LSP_STATUS_BAR_MESSAGE);
 		});
 	});
 
