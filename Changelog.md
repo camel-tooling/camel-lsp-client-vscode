@@ -11,7 +11,7 @@
   - Provide completion for the different kinds of `config` Camel K modeline option (`configmap`, `secret`, `file`) 
   - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
   - Propose completion for `file:` notation on `property` Camel K modeline option
-  - Provide local file system properties file path as completion after `property=file:` Camel K modeline option
+  - Provide local file system properties file path as completion after `property=file:` and `config=file:` Camel K modeline option
 
 ## 0.0.33
 
