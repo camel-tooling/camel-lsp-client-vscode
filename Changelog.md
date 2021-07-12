@@ -6,6 +6,7 @@
 - Update Camel Kafka Connector Catalog version from 0.9.0 to 0.10.1
 - Update default Camel Catalog version from 3.9.0 to 3.11.0
 - Update Camel Quarkus Catalog from 1.8.1 to 2.0.0
+- Use Kamelet Catalog 0.3.0 instead of snapshot version
 - Adapt for Camel K community 1.5/Camel K Red Hat 1.4
   - Provide completion for new Camel K modeline option names
   - Provide completion for the different kinds of `config` and `resource` Camel K modeline options (`configmap`, `secret`, `file`) 
