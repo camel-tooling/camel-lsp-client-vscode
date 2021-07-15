@@ -1,10 +1,11 @@
-import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench, InputBox, TitleBar, VSBrowser } from 'vscode-extension-tester';
-import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
+import { EditorView, TextEditor, ContentAssist, BottomBarPanel, MarkerType, ContentAssistItem, Workbench } from 'vscode-extension-tester';
+import { WaitUntil, DefaultWait, Dialog } from 'vscode-uitests-tooling';
 import * as path from 'path';
 import { assert } from 'chai';
 
 describe('XML DSL support', function () {
 
+	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
 	const CAMEL_ROUTE_XML: string = 'camel-route.xml';
 	const URI_POSITION: number = 33;
@@ -14,33 +15,13 @@ describe('XML DSL support', function () {
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			await configureToNotUseNativeDialog();
-
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', camel_xml);
-			await openFile(absoluteCamelXmlPath);
+			await Dialog.openFile(path.join(RESOURCES, camel_xml));
 		}
 	};
 
-	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
-		await new TitleBar().select('File', 'Open File...');
-		const input = await InputBox.create();
-		await input.clear();
-		await input.setText(fileToOpenAbsolutePath);
-		await input.confirm();
-	}
-
 	const _clean = async function () {
 		this.timeout(12000);
-		const titleBar = new TitleBar();
-		await titleBar.select('File', 'Revert File');
-		const driver = VSBrowser.instance.driver;
-		await driver.wait(async function () {
-			const editor = new TextEditor();
-			return !(await editor.isDirty());
-		});
-		await titleBar.select('File', 'Close Editor');
+		await Dialog.closeFile(false);
 	};
 
 	describe('Camel URI code completion', function () {
