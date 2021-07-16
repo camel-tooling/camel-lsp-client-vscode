@@ -11,7 +11,10 @@
 			"stopOnEntry": false,
 			"sourceMaps": true,
 			"outFiles": ["${workspaceRoot}/out/src/**/*.js"],
-			"preLaunchTask": "compile"
+			"preLaunchTask": "compile",
+			"env": {
+				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+			}
 		},
 		{
 			"name": "Launch Camel Language Server E2E Tests",

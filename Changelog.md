@@ -12,6 +12,7 @@
   - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
   - Propose completion for `file:` notation on `property` Camel K modeline option
   - Provide local file system properties file path as completion after `property=file:`, `resource=file:` and `config=file:` Camel K modeline option
+- Provide opt-in telemetry
 
 ## 0.0.33
 
