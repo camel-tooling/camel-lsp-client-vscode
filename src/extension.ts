@@ -1,12 +1,13 @@
 'use strict';
 
-import { getRedHatService, TelemetryEvent} from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { TelemetryEvent } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
+import * as telemetry from './Telemetry';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -18,6 +19,7 @@ export async function activate(context: ExtensionContext) {
 	languages.setLanguageConfiguration('xml', {
 		wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	});
+	await telemetry.initializeTelemetry(context);
 
 	const camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
 	console.log(camelLanguageServerPath);
@@ -83,11 +85,9 @@ export async function activate(context: ExtensionContext) {
 
 	});
 
-	const redhatService = await getRedHatService(context);
-	const telemetryService = await redhatService.getTelemetryService();
-	telemetryService.sendStartupEvent();
+	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 	languageClient.onTelemetry(async (e: TelemetryEvent) => {
-		return telemetryService.send(e);
+		return (await telemetry.getTelemetryServiceInstance()).send(e);
 	});
 
 	let disposable = languageClient.start();
