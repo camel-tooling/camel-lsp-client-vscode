@@ -7,6 +7,7 @@
 - Update Kamelet Catalog from 0.3.0 to 0.4.0
 - Update default Camel Catalog version from 3.11.1 to 3.11.2
 - Choices in Camel routes written in Java can now be folded in source code editor
+- Opt-in telemetry collects the extension of the Camel files opened.
 
 ## 0.0.35
 
