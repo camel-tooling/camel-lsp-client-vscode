@@ -176,7 +176,7 @@
     "vscode-extension-tester": "^4.1.1",
     "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.6.1",
-    "vscode-uitests-tooling": "^2.1.0"
+    "vscode-uitests-tooling": "^2.2.0"
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.2.0",
