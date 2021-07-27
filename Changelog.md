@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.35
+
 ## 0.0.34
 
 - Provide hover and type information for Kamelet properties based on embedded snapshot Kamelet catalog version
