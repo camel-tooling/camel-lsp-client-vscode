@@ -54,13 +54,13 @@ When you add this extension to your installation of VS Code, the VS Code editor 
     ![Diagnostic for XML DSL](./images/diagnostic.png "Diagnostic for XML DSL")
     ![Diagnostic for Java DSL](./images/diagnosticJava.png "Diagnostic for Java DSL")
 
-* Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in File** navigation panel (XML DSL only)
+* Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel (XML DSL only)
 
   ![Navigation support for Camel contexts and routes for XML DSL](./images/navigationSymbol.gif "Navigation support for Camel contexts and routes for XML DSL")
 
 * Navigation for Java and XML DSL
     * Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
-    * Find symbol (`Ctrl+Shift+O`)
+    * **Go > Go to Symbol in Editor...**
     * Breadcrumb
 
   ![Navigation support for Java DSL](./images/javaDocumentSymbol.gif "Navigation support for Java DSL")
