@@ -3,6 +3,7 @@
 ## 0.0.35
 
 - The label of the outline has been simplified for `Language Support for Apache Camel by Red Hat` to `Camel`
+- Camel routes written in Java can now be folded in source code editor
 
 ## 0.0.34
 
