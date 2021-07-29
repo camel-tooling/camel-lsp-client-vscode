@@ -4,6 +4,7 @@
 
 - Update default Camel Catalog version from 3.18.2 to 3.19.0
 - Update Kamelet Catalog from 0.9.0 to 0.9.1
+- The label of the outline has been simplified for `Language Support for Apache Camel by Red Hat` to `Camel`
 
 ## 0.5.0
 
