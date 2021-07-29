@@ -2,6 +2,8 @@
 
 ## 0.0.35
 
+- The label of the outline has been simplified for `Language Support for Apache Camel by Red Hat` to `Camel`
+
 ## 0.0.34
 
 - Provide hover and type information for Kamelet properties based on embedded snapshot Kamelet catalog version
