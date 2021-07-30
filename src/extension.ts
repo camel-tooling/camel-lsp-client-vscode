@@ -55,16 +55,23 @@ export async function activate(context: ExtensionContext) {
 	};
 
 	let item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
-	item.text = 'Starting Apache Camel Language Server...';
+	item.name = 'Camel Language Server'
+	item.text = 'Camel LS $(sync~spin)';
+	item.tooltip = 'Language Server for Apache Camel is starting...';
 	toggleItem(window.activeTextEditor, item);
 	// Create the language client and start the client.
 	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
 	languageClient.onReady().then(() => {
-		item.text = 'Apache Camel Language Server started';
+		item.text = 'Camel LS $(thumbsup)';
+		item.tooltip = 'Language Server for Apache Camel started';
 		toggleItem(window.activeTextEditor, item);
 		commands.registerCommand('apache.camel.open.output', ()=>{
 		languageClient.outputChannel.show();
-	}, error => {console.log(error)});
+	}, error => {
+		item.text = 'Camel LS $(thumbsdown)';
+		item.tooltip = 'Language Server for Apache Camel failed to start';
+		console.log(error)
+	});
 
 	window.onDidChangeActiveTextEditor((editor) =>{
 		toggleItem(editor, item);
