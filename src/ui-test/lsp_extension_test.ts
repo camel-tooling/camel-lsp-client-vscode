@@ -21,7 +21,7 @@ describe('Language Support for Apache Camel extension', function () {
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
-	const LSP_STATUS_BAR_MESSAGE: string = 'Apache Camel Language Server started';
+	const LSP_STATUS_BAR_MESSAGE: string = 'Camel LS ';
 
 	describe('Extensions view', function () {
 		let marketplace: Marketplace;
@@ -76,10 +76,17 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 
 		it('Language Support for Apache Camel started', async function () {
-			await driver.wait(until.elementLocated(By.id('redhat.vscode-apache-camel')), 35000);
+			const lsp = await driver.wait(until.elementLocated(By.id('redhat.vscode-apache-camel')), 35000);
 			await driver.wait(async () => {
-				const lsp = await new StatusBarExt().getLSPSupport().catch(() => '');
-				return lsp === LSP_STATUS_BAR_MESSAGE;
+				const text = await lsp.getText().catch(() => '');
+				try {
+					const codicon = await lsp.findElement(By.className('codicon'))
+					const klass = await codicon.getAttribute('class');
+					return text.startsWith('Camel LS') && klass.includes('codicon-thumbsup');
+				}
+				catch {
+					return false;
+				}
 			}, this.timeout() - 3000, `Could not find Apache Camel element with label "${LSP_STATUS_BAR_MESSAGE}". Current label: "${await new StatusBarExt().getLSPSupport().catch(() => 'unknown')}"`);
 		});
 	});

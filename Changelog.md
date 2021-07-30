@@ -4,6 +4,7 @@
 
 - Java 1.8 to launch the embedded Camel Language Server is now deprecated. In 0.0.36, Java 11 will be the minimal version required.
 - Camel routes written in Java can now be folded in source code editor
+- Improve StatusBar message
 
 ## 0.0.34
 
@@ -14,7 +15,7 @@
 - Use Kamelet Catalog 0.3.0 instead of snapshot version
 - Adapt for Camel K community 1.5/Camel K Red Hat 1.4
   - Provide completion for new Camel K modeline option names
-  - Provide completion for the different kinds of `config` and `resource` Camel K modeline options (`configmap`, `secret`, `file`) 
+  - Provide completion for the different kinds of `config` and `resource` Camel K modeline options (`configmap`, `secret`, `file`)
   - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
   - Propose completion for `file:` notation on `property` Camel K modeline option
   - Provide local file system properties file path as completion after `property=file:`, `resource=file:` and `config=file:` Camel K modeline option
