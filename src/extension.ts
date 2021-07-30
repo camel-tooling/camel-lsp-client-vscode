@@ -10,6 +10,7 @@ import { retrieveJavaExecutable } from './JavaManager';
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
+const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'];
 export async function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
@@ -27,7 +28,7 @@ export async function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
-		documentSelector: ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'],
+		documentSelector: SUPPORTED_LANGUAGE_IDS,
 		synchronize: {
 			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'],
 			// Notify the server about file changes to .xml files contain in the workspace
@@ -91,8 +92,7 @@ function getCamelSettings() {
 }
 
 function toggleItem(editor: TextEditor, item) {
-	if(editor && editor.document &&
-		(editor.document.languageId === 'xml' || editor.document.languageId === 'java' || editor.document.languageId === 'groovy')){
+	if(editor && editor.document && SUPPORTED_LANGUAGE_IDS.includes(editor.document.languageId)){
 		item.show();
 	} else{
 		item.hide();
