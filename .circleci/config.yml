@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Install global npm dependencies
           command: |
-            sudo npm install -g typescript vsce
+            sudo npm install -g typescript vsce prettier
       - run:
           name: npm-ci
           command: npm ci
@@ -34,7 +34,7 @@ jobs:
           command: vsce package
       - run:
           name: test
-          command: npm test
+          command: npm run coverage
       - run:
           name: UI test
           command: npm run ui-test
@@ -54,6 +54,9 @@ jobs:
       - store_artifacts:
           name: Store screenshots
           path: /home/circleci/camel-lsp-client-vscode/test-resources/screenshots
+      - store_artifacts:
+          name: Store coverage
+          path: /home/circleci/camel-lsp-client-vscode/coverage
       - when:
           condition:
             equal: [master, << pipeline.git.branch >>]

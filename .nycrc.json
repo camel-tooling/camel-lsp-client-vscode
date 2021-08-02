@@ -1,0 +1,8 @@
+{
+	"extends": "@istanbuljs/nyc-config-typescript",
+	"exclude": ["**/.vscode-test/**"],
+	"all": true,
+	"cache": "true",
+	"check-coverage": true,
+	"reporter": ["lcov"]
+}

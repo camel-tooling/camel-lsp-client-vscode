@@ -21,3 +21,5 @@ CONTRIBUTING.md
 test-resources
 test Fixture with speci@l chars/**
 testFixture/**
+coverage
+.nyc_output
