@@ -2,6 +2,7 @@
 
 ## 0.0.35
 
+- Java 1.8 to launch the embedded Camel Language Server is now deprecated. In 0.0.36, Java 11 will be the minimal version required.
 - Camel routes written in Java can now be folded in source code editor
 
 ## 0.0.34
