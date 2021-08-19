@@ -36,7 +36,7 @@
     "Apache Camel Kafka Connector"
   ],
   "engines": {
-    "vscode": "^1.57.0"
+    "vscode": "^1.59.0"
   },
   "categories": [
     "Programming Languages",
