@@ -162,7 +162,7 @@
     "@types/chai": "^4.2.21",
     "@types/glob": "^7.1.4",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.4.13",
+    "@types/node": "^16.6.2",
     "@types/vscode": "^1.57.0",
     "async-wait-until": "^2.0.7",
     "chai": "^4.3.4",
