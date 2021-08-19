@@ -189,7 +189,7 @@
     "glob": "^7.1.7",
     "http-proxy-agent": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
-    "path-exists": "^4.0.0",
+    "path-exists": "^5.0.0",
     "progress-stream": "^2.0.0",
     "sinon": "^11.1.2",
     "tmp": "^0.2.1",
