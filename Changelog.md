@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.36
+
 ## 0.0.35
 
 - Update default Camel Catalog version from 3.11.0 to 3.11.1
