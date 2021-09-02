@@ -139,7 +139,7 @@ After you install VS Code, follow these steps:
 
 ## Requirements for using this extension
 
-* Java 1.8 is currently required to launch the Camel Language Server. It is deprecated in 0.0.35. Java 11 will be required in 0.0.36.
+* Java 11 is currently required to launch the Camel Language Server. The `java.home` VS Code preferences can be used to use a different version of JDK than the default one installed on the machine.
 
 After you install this **Language Support for Apache Camel** extension, follow these guidelines to access its features:
 
