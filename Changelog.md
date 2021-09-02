@@ -1,6 +1,8 @@
 # Change Log
 
-## 0.0.36
+## 0.1.0
+
+- Java 11 is required to launch the embedded Camel Language Server.
 
 ## 0.0.35
 
