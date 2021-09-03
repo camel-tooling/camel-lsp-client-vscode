@@ -4,6 +4,7 @@
 
 - Java 11 is required to launch the embedded Camel Language Server.
 - Update Camel Quarkus Catalog from 2.0.0 to 2.2.0
+- Choices in Camel routes written in Java can now be folded in source code editor
 
 ## 0.0.35
 
