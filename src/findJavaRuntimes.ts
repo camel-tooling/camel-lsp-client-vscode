@@ -13,7 +13,6 @@ const WinReg = require("winreg-utf8");
 const isWindows: boolean = process.platform.indexOf("win") === 0;
 const isMac: boolean = process.platform.indexOf("darwin") === 0;
 const isLinux: boolean = process.platform.indexOf("linux") === 0;
-const JAVAC_FILENAME = "javac" + (isWindows ? ".exe" : "");
 const JAVA_FILENAME = "java" + (isWindows ? ".exe" : "");
 
 export interface JavaRuntime {
@@ -23,19 +22,19 @@ export interface JavaRuntime {
 }
 
 /**
- * return metadata for all installed JDKs.
+ * return metadata for all installed JREs.
  */
 export async function findJavaHomes(): Promise<JavaRuntime[]> {
     const ret: JavaRuntime[] = [];
-    const jdkMap = new Map<string, string[]>();
+    const jreMap = new Map<string, string[]>();
 
-    updateJDKs(jdkMap, await fromEnv("JDK_HOME"), "env.JDK_HOME");
-    updateJDKs(jdkMap, await fromEnv("JAVA_HOME"), "env.JAVA_HOME");
-    updateJDKs(jdkMap, await fromPath(), "env.PATH");
-    updateJDKs(jdkMap, await fromWindowsRegistry(), "WindowsRegistry");
-    updateJDKs(jdkMap, await fromCommonPlaces(), "DefaultLocation");
+    updateJREs(jreMap, await fromEnv("JDK_HOME"), "env.JDK_HOME");
+    updateJREs(jreMap, await fromEnv("JAVA_HOME"), "env.JAVA_HOME");
+    updateJREs(jreMap, await fromPath(), "env.PATH");
+    updateJREs(jreMap, await fromWindowsRegistry(), "WindowsRegistry");
+    updateJREs(jreMap, await fromCommonPlaces(), "DefaultLocation");
 
-    for (const elem of jdkMap) {
+    for (const elem of jreMap) {
         const home = elem[0];
         const sources = elem[1];
         const version = await getJavaVersion(home);
@@ -46,19 +45,19 @@ export async function findJavaHomes(): Promise<JavaRuntime[]> {
                 version
             });
         } else {
-            console.warn(`Unknown version of JDK ${home}`);
+            console.warn(`Unknown version of JRE ${home}`);
         }
     }
     return ret;
 }
 
-function updateJDKs(map: Map<string, string[]>, newJdks: string[], source: string) {
-    for (const newJdk of newJdks) {
-        const sources = map.get(newJdk);
+function updateJREs(map: Map<string, string[]>, newJres: string[], source: string) {
+    for (const newJre of newJres) {
+        const sources = map.get(newJre);
         if (sources !== undefined) {
-            map.set(newJdk, [...sources, source]);
+            map.set(newJre, [...sources, source]);
         } else {
-            map.set(newJdk, [source]);
+            map.set(newJre, [source]);
         }
     }
 }
@@ -66,7 +65,7 @@ function updateJDKs(map: Map<string, string[]>, newJdks: string[], source: strin
 async function fromEnv(name: string): Promise<string[]> {
     const ret: string[] = [];
     if (process.env[name]) {
-        const javaHome = await verifyJavaHome(process.env[name], JAVAC_FILENAME);
+        const javaHome = await verifyJavaHome(process.env[name], JAVA_FILENAME);
         if (javaHome) {
             ret.push(javaHome);
         }
@@ -80,7 +79,7 @@ async function fromPath(): Promise<string[]> {
     const paths = process.env.PATH ? process.env.PATH.split(path.delimiter).filter(Boolean) : [];
     for (const p of paths) {
         const proposed = path.dirname(p); // remove "bin"
-        const javaHome = await verifyJavaHome(proposed, JAVAC_FILENAME);
+        const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
         if (javaHome) {
             ret.push(javaHome);
         }
@@ -95,7 +94,7 @@ async function fromPath(): Promise<string[]> {
                 try {
                     buffer = cp.execSync(macUtility, { cwd: dir });
                     const absoluteJavaHome = "" + buffer.toString().replace(/\n$/, "");
-                    const verified = await verifyJavaHome(absoluteJavaHome, JAVAC_FILENAME);
+                    const verified = await verifyJavaHome(absoluteJavaHome, JAVA_FILENAME);
                     if (verified) {
                         ret.push(absoluteJavaHome);
                     }
@@ -181,7 +180,7 @@ async function fromWindowsRegistry(): Promise<string[]> {
 
     const ret: string[] = [];
     for (const proposed of javaHomes) {
-        const javaHome = await verifyJavaHome(proposed, JAVAC_FILENAME);
+        const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
         if (javaHome) {
             ret.push(javaHome);
         }
@@ -204,7 +203,7 @@ async function fromCommonPlaces(): Promise<string[]> {
         }
         for (const jvm of jvms) {
             const proposed = path.join(jvmStore, jvm, subfolder);
-            const javaHome = await verifyJavaHome(proposed, JAVAC_FILENAME);
+            const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
             if (javaHome) {
                 ret.push(javaHome);
             }
@@ -231,7 +230,7 @@ async function fromCommonPlaces(): Promise<string[]> {
             }
             for (const jvm of jvms) {
                 const proposed = path.join(jvmStore, jvm);
-                const javaHome = await verifyJavaHome(proposed, JAVAC_FILENAME);
+                const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
                 if (javaHome) {
                     ret.push(javaHome);
                 }
@@ -250,7 +249,7 @@ async function fromCommonPlaces(): Promise<string[]> {
         }
         for (const jvm of jvms) {
             const proposed = path.join(jvmStore, jvm);
-            const javaHome = await verifyJavaHome(proposed, JAVAC_FILENAME);
+            const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
             if (javaHome) {
                 ret.push(javaHome);
             }
