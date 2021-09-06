@@ -5,8 +5,8 @@ import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
-import { retrieveJavaExecutable } from './JavaManager';
-import * as requirements from './requirements';
+import { retrieveJavaExecutable } from './requirements/JavaManager';
+import * as requirements from './requirements/requirements';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
