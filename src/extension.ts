@@ -10,11 +10,9 @@ import * as requirements from './requirements';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
-export let extensionContext: ExtensionContext;
 
 const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'];
 export async function activate(context: ExtensionContext) {
-	extensionContext = context;
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
 	languages.setLanguageConfiguration('xml', {
@@ -99,10 +97,9 @@ export async function activate(context: ExtensionContext) {
 
 }
 
-export async function computeRequirementsData(context: ExtensionContext) {
-	let requirementsData;
+async function computeRequirementsData(context: ExtensionContext) {
 	try {
-		requirementsData = await requirements.resolveRequirements(context);
+		return await requirements.resolveRequirements(context);
 	} catch (error) {
 		// show error
 		const selection = await window.showErrorMessage(error.message, error.label);
@@ -112,7 +109,6 @@ export async function computeRequirementsData(context: ExtensionContext) {
 		// rethrow to disrupt the chain.
 		throw error;
 	}
-	return requirementsData;
 }
 
 function getCamelSettings() {
