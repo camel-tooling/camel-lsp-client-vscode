@@ -8,7 +8,9 @@ async function runTest() {
 		const extensionTestsPath = path.resolve(__dirname, './');
 		const testWorkspace = path.resolve(__dirname, '../../../test Fixture with speci@l chars');
 
-		const vscodeExecutablePath : string = await downloadAndUnzipVSCode('stable');
+		let vscodeVersion = computeVSCodeVersionToPlayTestWith();
+
+		const vscodeExecutablePath : string = await downloadAndUnzipVSCode(vscodeVersion);
 		console.log(`vscodeExecutablePath = ${vscodeExecutablePath}`);
 
 		const cliPath: string = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
@@ -26,6 +28,14 @@ async function runTest() {
 	} catch (err) {
 		console.error('Failed to run tests!')
 		process.exit(1)
+	}
+
+	function computeVSCodeVersionToPlayTestWith() {
+		const envVersion = process.env.CODE_VERSION;
+		if (envVersion) {
+			return envVersion;
+		}
+		return 'stable';
 	}
 }
 
