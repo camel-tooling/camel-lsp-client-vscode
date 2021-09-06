@@ -6,12 +6,15 @@ import { workspace, ExtensionContext, window, StatusBarAlignment, commands, Text
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { retrieveJavaExecutable } from './JavaManager';
+import * as requirements from './requirements';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
+export let extensionContext: ExtensionContext;
 
 const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'];
 export async function activate(context: ExtensionContext) {
+	extensionContext = context;
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
 	languages.setLanguageConfiguration('xml', {
@@ -21,8 +24,10 @@ export async function activate(context: ExtensionContext) {
 	const camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
 	console.log(camelLanguageServerPath);
 
+	const requirementsData = await computeRequirementsData(context);
+
 	let serverOptions: Executable = {
-		command: retrieveJavaExecutable(),
+		command: retrieveJavaExecutable(requirementsData),
 		args: [ '-jar', camelLanguageServerPath]
 	};
 
@@ -59,6 +64,7 @@ export async function activate(context: ExtensionContext) {
 	item.text = 'Camel LS $(sync~spin)';
 	item.tooltip = 'Language Server for Apache Camel is starting...';
 	toggleItem(window.activeTextEditor, item);
+
 	// Create the language client and start the client.
 	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
 	languageClient.onReady().then(() => {
@@ -91,6 +97,22 @@ export async function activate(context: ExtensionContext) {
 	// client can be deactivated on extension deactivation
 	context.subscriptions.push(disposable);
 
+}
+
+export async function computeRequirementsData(context: ExtensionContext) {
+	let requirementsData;
+	try {
+		requirementsData = await requirements.resolveRequirements(context);
+	} catch (error) {
+		// show error
+		const selection = await window.showErrorMessage(error.message, error.label);
+		if (error.label && error.label === selection && error.command) {
+			commands.executeCommand(error.command, error.commandParam);
+		}
+		// rethrow to disrupt the chain.
+		throw error;
+	}
+	return requirementsData;
 }
 
 function getCamelSettings() {

@@ -16,9 +16,12 @@
  */
 'use strict';
 
+const fs = require('fs');
+const tmp = require('tmp');
 import * as vscode from 'vscode';
 import * as chai from 'chai';
 import { retrieveJavaExecutable } from '../JavaManager';
+import { computeRequirementsData, extensionContext } from '../extension';
 
 const expect = chai.expect;
 
@@ -45,31 +48,48 @@ describe('Should use correct java executable', () => {
 
 	it('With Workspace settings', async () => {
 		let config = vscode.workspace.getConfiguration();
-		await config.update('java.home', '/a/dummy/workspace/path', vscode.ConfigurationTarget.Workspace);
-		expect(retrieveJavaExecutable()).to.equal('/a/dummy/workspace/path/bin/java');
+		const dir = createFakeJDKFolder();
+		await config.update('java.home', dir.name, vscode.ConfigurationTarget.Workspace);
+		expect(retrieveJavaExecutable(await computeRequirementsData(extensionContext))).to.equal(dir.name + '/bin/java');
 	});
 
 	it('With Global settings', async () => {
 		let config = vscode.workspace.getConfiguration();
-		await config.update('java.home', '/a/dummy/global/path', vscode.ConfigurationTarget.Global);
-		expect(retrieveJavaExecutable()).to.equal('/a/dummy/global/path/bin/java');
+		const dir = createFakeJDKFolder();
+		await config.update('java.home', dir.name, vscode.ConfigurationTarget.Global);
+		expect(retrieveJavaExecutable(await computeRequirementsData(extensionContext))).to.equal(dir.name + '/bin/java');
 	});
 
 	it('With Workspace and Global settings', async () => {
 		let config = vscode.workspace.getConfiguration();
-		await config.update('java.home', '/a/dummy/workspace/path', vscode.ConfigurationTarget.Workspace);
-		await config.update('java.home', '/a/dummy/global/path', vscode.ConfigurationTarget.Global);
-		expect(retrieveJavaExecutable()).to.equal('/a/dummy/workspace/path/bin/java');
+		const dirForWorkspace = createFakeJDKFolder();
+		await config.update('java.home', dirForWorkspace.name, vscode.ConfigurationTarget.Workspace);
+		const dirForGlobal = createFakeJDKFolder();
+		await config.update('java.home', dirForGlobal.name, vscode.ConfigurationTarget.Global);
+		expect(retrieveJavaExecutable(await computeRequirementsData(extensionContext))).to.equal(dirForWorkspace.name + '/bin/java');
 	});
 
 	it('With Global settings', async () => {
 		let config = vscode.workspace.getConfiguration();
-		await config.update('java.home', '/a/dummy/global/path');
-		expect(retrieveJavaExecutable()).to.equal('/a/dummy/global/path/bin/java');
+		const dirForGlobal = createFakeJDKFolder();
+		await config.update('java.home', dirForGlobal.name);
+		expect(retrieveJavaExecutable(await computeRequirementsData(extensionContext))).to.equal(dirForGlobal.name + '/bin/java');
 	});
 
 	it('Without settings at VS Code level', async () => {
-		expect(retrieveJavaExecutable()).to.equal('java');
+		expect(retrieveJavaExecutable(await computeRequirementsData(extensionContext))).to.equal('java');
 	});
 
 });
+
+function createFakeJDKFolder() {
+	const dir = tmp.dirSync();
+	console.log('temp folder: '+dir.name);
+	console.log(fs.mkdirSync(dir.name + '/bin'));
+	fs.writeFileSync(dir.name + '/bin/java', '');
+	fs.writeFileSync(dir.name + '/bin/javac', '');
+	fs.writeFileSync(dir.name + '/bin/java.exe', '');
+	fs.writeFileSync(dir.name + '/bin/javac.exe', '');
+	return dir;
+}
+
