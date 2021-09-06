@@ -3,7 +3,6 @@
 /* Mostly duplicated from VS Code Java */
 
 import { Uri, env, ExtensionContext } from 'vscode';
-import * as cp from 'child_process';
 import * as path from 'path';
 import * as fse from 'fs-extra';
 import * as expandHomeDir from 'expand-home-dir';
@@ -12,9 +11,8 @@ import { checkJavaPreferences } from './settings';
 import { findJavaHomes, getJavaVersion, JavaRuntime } from './findJavaRuntimes';
 
 const isWindows = process.platform.indexOf('win') === 0;
-const JAVAC_FILENAME = 'javac' + (isWindows ? '.exe' : '');
 const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
-const REQUIRED_JDK_VERSION = 11;
+const REQUIRED_JRE_VERSION = 11;
 export interface RequirementsData {
     java_home: string;
     java_version: number;
@@ -38,29 +36,29 @@ export async function resolveRequirements(context: ExtensionContext): Promise<Re
             javaHome = expandHomeDir(javaHome);
             if (!await fse.pathExists(javaHome)) {
                 invalidJavaHome(reject, `The ${source} points to a missing or inaccessible folder (${javaHome})`);
-            } else if (!await fse.pathExists(path.resolve(javaHome, 'bin', JAVAC_FILENAME))) {
+            } else if (!await fse.pathExists(path.resolve(javaHome, 'bin', JAVA_FILENAME))) {
                 let msg: string;
-                if (await fse.pathExists(path.resolve(javaHome, JAVAC_FILENAME))) {
+                if (await fse.pathExists(path.resolve(javaHome, JAVA_FILENAME))) {
                     msg = `'bin' should be removed from the ${source} (${javaHome})`;
                 } else {
-                    msg = `The ${source} (${javaHome}) does not point to a JDK.`;
+                    msg = `The ${source} (${javaHome}) does not point to a JRE.`;
                 }
                 invalidJavaHome(reject, msg);
             }
             javaVersion = await getJavaVersion(javaHome);
         } else {
-            // java.home not specified, search valid JDKs from env.JAVA_HOME, env.PATH, Registry(Window), Common directories
+            // java.home not specified, search valid REs from env.JAVA_HOME, env.PATH, Registry(Window), Common directories
             const javaRuntimes = await findJavaHomes();
-            const validJdks = javaRuntimes.filter(r => r.version >= REQUIRED_JDK_VERSION);
-            if (validJdks.length > 0) {
-                sortJdksBySource(validJdks);
-                javaHome = validJdks[0].home;
-                javaVersion = validJdks[0].version;
+            const validJres = javaRuntimes.filter(r => r.version >= REQUIRED_JRE_VERSION);
+            if (validJres.length > 0) {
+                sortJdksBySource(validJres);
+                javaHome = validJres[0].home;
+                javaVersion = validJres[0].version;
             }
         }
 
-        if (javaVersion < REQUIRED_JDK_VERSION) {
-            openJDKDownload(reject, `Java ${REQUIRED_JDK_VERSION} or more recent is required to run the Java extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
+        if (javaVersion < REQUIRED_JRE_VERSION) {
+            openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Java extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
         }
 
         resolve({ java_home: javaHome, java_version: javaVersion });
@@ -68,61 +66,17 @@ export async function resolveRequirements(context: ExtensionContext): Promise<Re
 }
 
 function sortJdksBySource(jdks: JavaRuntime[]) {
-    const rankedJdks = jdks as Array<JavaRuntime & { rank: number }>;
+    const rankedJres = jdks as Array<JavaRuntime & { rank: number }>;
     const sources = ["env.JDK_HOME", "env.JAVA_HOME", "env.PATH"];
     for (const [index, source] of sources.entries()) {
-        for (const jdk of rankedJdks) {
-            if (jdk.rank === undefined && jdk.sources.includes(source)) {
-                jdk.rank = index;
+        for (const jre of rankedJres) {
+            if (jre.rank === undefined && jre.sources.includes(source)) {
+                jre.rank = index;
             }
         }
     }
-    rankedJdks.filter(jdk => jdk.rank === undefined).forEach(jdk => jdk.rank = sources.length);
-    rankedJdks.sort((a, b) => a.rank - b.rank);
-}
-
-/**
- * Get version by checking file JAVA_HOME/release
- */
-async function checkVersionInReleaseFile(javaHome: string): Promise<number> {
-    if (!javaHome) {
-        return 0;
-    }
-    const releaseFile = path.join(javaHome, "release");
-    if (!await fse.pathExists(releaseFile)) {
-        return 0;
-    }
-
-    try {
-        const content = await fse.readFile(releaseFile);
-        const regexp = /^JAVA_VERSION="(.*)"/gm;
-        const match = regexp.exec(content.toString());
-        if (!match) {
-            return 0;
-        }
-        return parseMajorVersion(match[1]);
-    } catch (error) {
-        // ignore
-    }
-    return 0;
-}
-
-/**
- * Get version by parsing `JAVA_HOME/bin/java -version`
- */
-function checkVersionByCLI(javaHome: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-        const javaBin = path.join(javaHome, "bin", JAVA_FILENAME);
-        cp.execFile(javaBin, ['-version'], {}, (error, stdout, stderr) => {
-            const regexp = /version "(.*)"/g;
-            const match = regexp.exec(stderr);
-            if (!match) {
-                return resolve(0);
-            }
-            const javaVersion = parseMajorVersion(match[1]);
-            resolve(javaVersion);
-        });
-    });
+    rankedJres.filter(jre => jre.rank === undefined).forEach(jre => jre.rank = sources.length);
+    rankedJres.sort((a, b) => a.rank - b.rank);
 }
 
 export function parseMajorVersion(version: string): number {
