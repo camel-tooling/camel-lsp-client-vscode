@@ -15,15 +15,11 @@
  * limitations under the License.
  */
 'use strict';
-import { workspace } from 'vscode';
+import { RequirementsData } from './requirements';
 
-/**
- * Use java from java.home configured in VS Code settings if available, otherwise, expect java to be available on the system path
- */
-export function retrieveJavaExecutable() {
-	const javaHomeSetting = workspace.getConfiguration().get('java.home');
-	if (javaHomeSetting) {
-		return javaHomeSetting + '/bin/java';
+export function retrieveJavaExecutable(requirementsData :RequirementsData) {
+	if (requirementsData && requirementsData.java_home) {
+		return requirementsData.java_home + '/bin/java';
 	} else {
 		return 'java';
 	}
