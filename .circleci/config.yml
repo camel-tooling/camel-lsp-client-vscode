@@ -56,7 +56,7 @@ jobs:
           path: /home/circleci/camel-lsp-client-vscode/test-resources/screenshots
       - when:
           condition:
-            equal: [master, << pipeline.git.branch >>]
+            equal: [main, << pipeline.git.branch >>]
           steps:
             - sonarcloud/scan
 
