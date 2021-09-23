@@ -188,7 +188,7 @@
     "expand-home-dir": "^0.0.3",
     "find-java-home": "^1.2.2",
     "glob": "^7.1.7",
-    "http-proxy-agent": "^4.0.1",
+    "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.0",
     "path-exists": "^5.0.0",
     "progress-stream": "^2.0.0",
