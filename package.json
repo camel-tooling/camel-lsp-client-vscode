@@ -187,7 +187,7 @@
     "download": "^8.0.0",
     "expand-home-dir": "^0.0.3",
     "find-java-home": "^1.2.2",
-    "glob": "^7.1.7",
+    "glob": "^7.2.0",
     "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.0",
     "path-exists": "^5.0.0",
