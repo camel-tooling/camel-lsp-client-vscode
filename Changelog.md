@@ -9,6 +9,7 @@
 - Update default Camel Catalog version from 3.11.1 to 3.12.0
 - Choices in Camel routes written in Java can now be folded in source code editor
 - Opt-in telemetry collects the extension of the Camel files opened.
+- Completion for `namespace` attribute value on `kubernetes-*` components based on connected kubernetes instance when available.
 
 ## 0.0.35
 
