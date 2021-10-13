@@ -10,6 +10,7 @@
 - Choices in Camel routes written in Java can now be folded in source code editor
 - Opt-in telemetry collects the extension of the Camel files opened.
 - Completion for `namespace` attribute value on `kubernetes-*` components based on connected kubernetes instance when available.
+- Completion for `endpoint`, `channel` and `event` component path values on `knative` components based on kubernetes instance when available.
 
 ## 0.0.35
 
