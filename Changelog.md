@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.1.2
+
 ## 0.1.1
 
 - Fix regression forbidding extension to start due devDependencies leaking in dependencies during compilation and tests
