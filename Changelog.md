@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.0
+## 0.1.1
 
 - Java 11 is required to launch the embedded Camel Language Server. There is a best effort to find a compatible JRE. A notification pop-up is provided in case there is no JRE 11+ found on the system.
 - Update Camel Quarkus Catalog from 2.0.0 to 2.3.0
