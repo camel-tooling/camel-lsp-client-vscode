@@ -3,17 +3,17 @@
 
 /* Mostly duplicated from VS Code Java, main difference is that it is checking for JRE, not JDK*/
 
-import * as cp from "child_process";
-import * as fse from "fs-extra";
-import * as _ from "lodash";
-import * as os from "os";
-import * as path from "path";
-const expandHomeDir = require("expand-home-dir");
-const WinReg = require("winreg-utf8");
-const isWindows: boolean = process.platform.indexOf("win") === 0;
-const isMac: boolean = process.platform.indexOf("darwin") === 0;
-const isLinux: boolean = process.platform.indexOf("linux") === 0;
-const JAVA_FILENAME = "java" + (isWindows ? ".exe" : "");
+import * as cp from 'child_process';
+import * as fse from 'fs-extra';
+import * as _ from 'lodash';
+import * as os from 'os';
+import * as path from 'path';
+const expandHomeDir = require('expand-home-dir');
+const WinReg = require('winreg-utf8');
+const isWindows: boolean = process.platform.indexOf('win') === 0;
+const isMac: boolean = process.platform.indexOf('darwin') === 0;
+const isLinux: boolean = process.platform.indexOf('linux') === 0;
+const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
 
 export interface JavaRuntime {
     home: string;
@@ -28,11 +28,11 @@ export async function findJavaHomes(): Promise<JavaRuntime[]> {
     const ret: JavaRuntime[] = [];
     const jreMap = new Map<string, string[]>();
 
-    updateJREs(jreMap, await fromEnv("JDK_HOME"), "env.JDK_HOME");
-    updateJREs(jreMap, await fromEnv("JAVA_HOME"), "env.JAVA_HOME");
-    updateJREs(jreMap, await fromPath(), "env.PATH");
-    updateJREs(jreMap, await fromWindowsRegistry(), "WindowsRegistry");
-    updateJREs(jreMap, await fromCommonPlaces(), "DefaultLocation");
+    updateJREs(jreMap, await fromEnv('JDK_HOME'), 'env.JDK_HOME');
+    updateJREs(jreMap, await fromEnv('JAVA_HOME'), 'env.JAVA_HOME');
+    updateJREs(jreMap, await fromPath(), 'env.PATH');
+    updateJREs(jreMap, await fromWindowsRegistry(), 'WindowsRegistry');
+    updateJREs(jreMap, await fromCommonPlaces(), 'DefaultLocation');
 
     for (const elem of jreMap) {
         const home = elem[0];
@@ -78,7 +78,7 @@ async function fromPath(): Promise<string[]> {
 
     const paths = process.env.PATH ? process.env.PATH.split(path.delimiter).filter(Boolean) : [];
     for (const p of paths) {
-        const proposed = path.dirname(p); // remove "bin"
+        const proposed = path.dirname(p); // remove 'bin'
         const javaHome = await verifyJavaHome(proposed, JAVA_FILENAME);
         if (javaHome) {
             ret.push(javaHome);
@@ -88,12 +88,12 @@ async function fromPath(): Promise<string[]> {
             let dir = expandHomeDir(p);
             dir = await findLinkedFile(dir);
             // on mac, java install has a utility script called java_home
-            const macUtility = path.join(dir, "java_home");
+            const macUtility = path.join(dir, 'java_home');
             if (await fse.pathExists(macUtility)) {
                 let buffer;
                 try {
                     buffer = cp.execSync(macUtility, { cwd: dir });
-                    const absoluteJavaHome = "" + buffer.toString().replace(/\n$/, "");
+                    const absoluteJavaHome = '' + buffer.toString().replace(/\n$/, '');
                     const verified = await verifyJavaHome(absoluteJavaHome, JAVA_FILENAME);
                     if (verified) {
                         ret.push(absoluteJavaHome);
@@ -108,7 +108,7 @@ async function fromPath(): Promise<string[]> {
     if (isMac) {
         // Exclude /usr, because in macOS Big Sur /usr/bin/javac is no longer symlink.
         // See https://github.com/redhat-developer/vscode-java/issues/1700#issuecomment-729478810
-        return ret.filter(item => item !== "/usr");
+        return ret.filter(item => item !== '/usr');
     } else {
         return ret;
     }
@@ -120,8 +120,8 @@ async function fromWindowsRegistry(): Promise<string[]> {
     }
 
     const keyPaths: string[] = [
-        "\\SOFTWARE\\JavaSoft\\JDK",
-        "\\SOFTWARE\\JavaSoft\\Java Development Kit"
+        '\\SOFTWARE\\JavaSoft\\JDK',
+        '\\SOFTWARE\\JavaSoft\\Java Development Kit'
     ];
 
     const promisifyFindPossibleRegKey = (keyPath: string, regArch: string): Promise<Winreg.Registry[]> => {
@@ -142,7 +142,7 @@ async function fromWindowsRegistry(): Promise<string[]> {
 
     const promisifyFindJavaHomeInRegKey = (reg: Winreg.Registry): Promise<string | null> => {
         return new Promise<string | null>((resolve) => {
-            reg.get("JavaHome", (err, home) => {
+            reg.get('JavaHome', (err, home) => {
                 if (err || !home) {
                     return resolve(null);
                 }
@@ -152,7 +152,7 @@ async function fromWindowsRegistry(): Promise<string[]> {
     };
 
     const promises = [];
-    for (const arch of ["x64", "x86"]) {
+    for (const arch of ['x64', 'x86']) {
         for (const keyPath of keyPaths) {
             promises.push(promisifyFindPossibleRegKey(keyPath, arch));
         }
@@ -193,8 +193,8 @@ async function fromCommonPlaces(): Promise<string[]> {
 
     // common place for mac
     if (isMac) {
-        const jvmStore = "/Library/Java/JavaVirtualMachines";
-        const subfolder = "Contents/Home";
+        const jvmStore = '/Library/Java/JavaVirtualMachines';
+        const subfolder = 'Contents/Home';
         let jvms: string[] = [];
         try {
             jvms = await fse.readdir(jvmStore);
@@ -212,13 +212,13 @@ async function fromCommonPlaces(): Promise<string[]> {
 
     // common place for Windows
     if (isWindows) {
-        const localAppDataFolder = process.env.LOCALAPPDATA ? process.env.LOCALAPPDATA : path.join(os.homedir(), "AppData", "Local");
+        const localAppDataFolder = process.env.LOCALAPPDATA ? process.env.LOCALAPPDATA : path.join(os.homedir(), 'AppData', 'Local');
         const possibleLocations: string[] = [
-            process.env.ProgramFiles && path.join(process.env.ProgramFiles, "Java"), // Oracle JDK per machine
-            process.env.ProgramW6432 && path.join(process.env.ProgramW6432, "Java"), // Oracle JDK per machine
-            process.env.ProgramFiles && path.join(process.env.ProgramFiles, "AdoptOpenJDK"), // AdoptOpenJDK per machine
-            process.env.ProgramW6432 && path.join(process.env.ProgramW6432, "AdoptOpenJDK"), // AdoptOpenJDK per machine
-            path.join(localAppDataFolder, "Programs", "AdoptOpenJDK"), // AdoptOpenJDK per user
+            process.env.ProgramFiles && path.join(process.env.ProgramFiles, 'Java'), // Oracle JDK per machine
+            process.env.ProgramW6432 && path.join(process.env.ProgramW6432, 'Java'), // Oracle JDK per machine
+            process.env.ProgramFiles && path.join(process.env.ProgramFiles, 'AdoptOpenJDK'), // AdoptOpenJDK per machine
+            process.env.ProgramW6432 && path.join(process.env.ProgramW6432, 'AdoptOpenJDK'), // AdoptOpenJDK per machine
+            path.join(localAppDataFolder, 'Programs', 'AdoptOpenJDK'), // AdoptOpenJDK per user
         ].filter(Boolean) as string[];
         const jvmStores = _.uniq(possibleLocations);
         for (const jvmStore of jvmStores) {
@@ -240,7 +240,7 @@ async function fromCommonPlaces(): Promise<string[]> {
 
     // common place for Linux
     if (isLinux) {
-        const jvmStore = "/usr/lib/jvm";
+        const jvmStore = '/usr/lib/jvm';
         let jvms: string[] = [];
         try {
             jvms = await fse.readdir(jvmStore);
@@ -261,10 +261,10 @@ async function fromCommonPlaces(): Promise<string[]> {
 
 export async function verifyJavaHome(raw: string, javaFilename: string): Promise<string | undefined> {
     const dir = expandHomeDir(raw);
-    const targetJavaFile = await findLinkedFile(path.resolve(dir, "bin", javaFilename));
+    const targetJavaFile = await findLinkedFile(path.resolve(dir, 'bin', javaFilename));
     const proposed = path.dirname(path.dirname(targetJavaFile));
     if (await fse.pathExists(proposed)
-        && await fse.pathExists(path.resolve(proposed, "bin", javaFilename))
+        && await fse.pathExists(path.resolve(proposed, 'bin', javaFilename))
     ) {
         return proposed;
     }
@@ -292,7 +292,7 @@ export function parseMajorVersion(version: string): number {
         return 0;
     }
     // Ignore '1.' prefix for legacy Java versions
-    if (version.startsWith("1.")) {
+    if (version.startsWith('1.')) {
         version = version.substring(2);
     }
     // look into the interesting bits now
@@ -312,7 +312,7 @@ async function checkVersionInReleaseFile(javaHome: string): Promise<number> {
     if (!javaHome) {
         return 0;
     }
-    const releaseFile = path.join(javaHome, "release");
+    const releaseFile = path.join(javaHome, 'release');
     if (!await fse.pathExists(releaseFile)) {
         return 0;
     }
@@ -340,8 +340,8 @@ async function checkVersionByCLI(javaHome: string): Promise<number> {
         return 0;
     }
     return new Promise((resolve, reject) => {
-        const javaBin = path.join(javaHome, "bin", JAVA_FILENAME);
-        cp.execFile(javaBin, ["-version"], {}, (error, stdout, stderr) => {
+        const javaBin = path.join(javaHome, 'bin', JAVA_FILENAME);
+        cp.execFile(javaBin, ['-version'], {}, (error, stdout, stderr) => {
             const regexp = /version "(.*)"/g;
             const match = regexp.exec(stderr);
             if (!match) {
