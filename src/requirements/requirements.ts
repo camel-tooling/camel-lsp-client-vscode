@@ -67,7 +67,7 @@ export async function resolveRequirements(context: ExtensionContext): Promise<Re
 
 function sortJdksBySource(jdks: JavaRuntime[]) {
     const rankedJres = jdks as Array<JavaRuntime & { rank: number }>;
-    const sources = ["env.JDK_HOME", "env.JAVA_HOME", "env.PATH"];
+    const sources = ['env.JDK_HOME', 'env.JAVA_HOME', 'env.PATH'];
     for (const [index, source] of sources.entries()) {
         for (const jre of rankedJres) {
             if (jre.rank === undefined && jre.sources.includes(source)) {
@@ -116,7 +116,7 @@ function getJdkUrl() {
 }
 
 function invalidJavaHome(reject, cause: string) {
-    if (cause.indexOf("java.home") > -1) {
+    if (cause.indexOf('java.home') > -1) {
         reject({
             message: cause,
             label: 'Open settings',

@@ -6,8 +6,8 @@ import * as path from 'path';
 import { window, workspace, ConfigurationTarget, env, ExtensionContext } from 'vscode';
 import { getJavaConfiguration } from './utils';
 
-export const IS_WORKSPACE_JDK_ALLOWED = "java.ls.isJdkAllowed";
-export const IS_WORKSPACE_VMARGS_ALLOWED = "java.ls.isVmargsAllowed";
+export const IS_WORKSPACE_JDK_ALLOWED = 'java.ls.isJdkAllowed';
+export const IS_WORKSPACE_VMARGS_ALLOWED = 'java.ls.isVmargsAllowed';
 
 
 export async function checkJavaPreferences(context: ExtensionContext) {
@@ -71,7 +71,7 @@ export function getKey(prefix, storagePath, value) {
 
 export function getJavaagentFlag(vmargs) {
 	const javaagent = '-javaagent:';
-	const args = vmargs.split(" ");
+	const args = vmargs.split(' ');
 	let agentFlag = null;
 	for (const arg of args) {
 		if (arg.startsWith(javaagent)) {
