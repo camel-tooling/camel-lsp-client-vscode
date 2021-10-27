@@ -2,6 +2,8 @@
 
 ## 0.1.2
 
+- Update Camel Quarkus Catalog from 2.3.0 to 2.4.0
+
 ## 0.1.1
 
 - Fix regression forbidding extension to start due devDependencies leaking in dependencies during compilation and tests
