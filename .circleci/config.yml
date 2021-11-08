@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Install global npm dependencies
           command: |
-            sudo npm install -g typescript vsce
+            npm install --prefix=$HOME/.local -g typescript vsce
       - run:
           name: npm-ci
           command: npm ci
