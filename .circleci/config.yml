@@ -25,7 +25,7 @@ jobs:
             npm install --prefix=$HOME/.local -g typescript vsce
       - run:
           name: npm-ci
-          command: npm ci
+          command: npm ci --prefix=$HOME/.local
       - run:
           name: npm-vscode:prepublish
           command: npm run vscode:prepublish
