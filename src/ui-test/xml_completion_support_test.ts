@@ -57,7 +57,7 @@ describe('XML DSL support', function () {
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION, 'timer');
+			await editor.typeTextAt(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const timer = await contentAssist.getItem('timer:timerName');
@@ -70,7 +70,7 @@ describe('XML DSL support', function () {
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION + 15, '?');
+			await editor.typeTextAt(3, URI_POSITION + 15, '?');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const delay = await contentAssist.getItem('delay');
@@ -83,7 +83,7 @@ describe('XML DSL support', function () {
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION + 24, '&amp;exchange');
+			await editor.typeTextAt(3, URI_POSITION + 24, '&amp;exchange');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const exchange = await contentAssist.getItem('exchangePattern');
@@ -92,7 +92,7 @@ describe('XML DSL support', function () {
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>');
 
-			await editor.typeText(3, URI_POSITION + 45, 'In');
+			await editor.typeTextAt(3, URI_POSITION + 45, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const inOnly = await contentAssist.getItem('InOnly');
@@ -111,19 +111,19 @@ describe('XML DSL support', function () {
 		it('Duplicate endpoint options are filtered out', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION, 'timer');
+			await editor.typeTextAt(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
-			await editor.typeText(3, URI_POSITION + 15, '?');
+			await editor.typeTextAt(3, URI_POSITION + 15, '?');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeText(3, URI_POSITION + 24, '&amp;de');
+			await editor.typeTextAt(3, URI_POSITION + 24, '&amp;de');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const filtered = await contentAssist.hasItem('delay');
@@ -144,19 +144,19 @@ describe('XML DSL support', function () {
 			this.retries(3);
 			const editor = new TextEditor();
 
-			await editor.typeText(3, URI_POSITION, 'timer');
+			await editor.typeTextAt(3, URI_POSITION, 'timer');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
-			await editor.typeText(3, URI_POSITION + 15, '?');
+			await editor.typeTextAt(3, URI_POSITION + 15, '?');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeText(3, URI_POSITION + 24, 'r');
+			await editor.typeTextAt(3, URI_POSITION + 24, 'r');
 			const problemsView = await new BottomBarPanel().openProblemsView();
 			editor.getDriver().wait(async function() {
 				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
@@ -183,7 +183,7 @@ describe('XML DSL support', function () {
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(6, 29, DIRECT_COMPONENT_NAME);
+			await editor.typeTextAt(6, 29, DIRECT_COMPONENT_NAME);
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			assert.isTrue(await contentAssist.hasItem(DIRECT_COMPONENT_NAME));
@@ -197,7 +197,7 @@ describe('XML DSL support', function () {
 		it('Auto-completion for referenced ID of "direct-vm" component', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeText(13, 30, DIRECT_VM_COMPONENT_NAME);
+			await editor.typeTextAt(13, 30, DIRECT_VM_COMPONENT_NAME);
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			assert.isTrue(await contentAssist.hasItem(DIRECT_VM_COMPONENT_NAME))
