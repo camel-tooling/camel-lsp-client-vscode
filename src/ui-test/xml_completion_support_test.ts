@@ -77,29 +77,29 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(delay), 'delay');
 			await delay.click();
 
-			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s"/>');
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000"/>');
 		});
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
 			const editor = new TextEditor();
 
-			await editor.typeTextAt(3, URI_POSITION + 24, '&amp;exchange');
+			await editor.typeTextAt(3, URI_POSITION + 26, '&amp;exchange');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const exchange = await contentAssist.getItem('exchangePattern');
 			assert.equal(await getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
-			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern="/>');
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>');
 
-			await editor.typeTextAt(3, URI_POSITION + 45, 'In');
+			await editor.typeTextAt(3, URI_POSITION + 47, 'In');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const inOnly = await contentAssist.getItem('InOnly');
 			assert.equal(await getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
-			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1s&amp;exchangePattern=InOnly"/>');
+			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern=InOnly"/>');
 		});
 	});
 
@@ -123,7 +123,7 @@ describe('XML DSL support', function () {
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeTextAt(3, URI_POSITION + 24, '&amp;de');
+			await editor.typeTextAt(3, URI_POSITION + 26, '&amp;de');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const filtered = await contentAssist.hasItem('delay');
@@ -135,7 +135,7 @@ describe('XML DSL support', function () {
 
 	describe('Diagnostics for Camel URIs', function () {
 
-		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1sr';
+		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1000r';
 
 		beforeEach(_setup(CAMEL_CONTEXT_XML));
 		afterEach(_clean);
@@ -156,7 +156,7 @@ describe('XML DSL support', function () {
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeTextAt(3, URI_POSITION + 24, 'r');
+			await editor.typeTextAt(3, URI_POSITION + 26, 'r');
 			const problemsView = await new BottomBarPanel().openProblemsView();
 			editor.getDriver().wait(async function() {
 				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
