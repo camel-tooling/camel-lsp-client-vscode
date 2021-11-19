@@ -4,6 +4,7 @@
 
 - Update default Camel Catalog version from 3.12.0 to 3.13.0
 - Update Camel Quarkus Catalog from 2.3.0 to 2.4.0
+- Update Camel K trait Catalog from 1.3.2 to 1.7.0
 
 ## 0.1.1
 
