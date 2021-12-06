@@ -6,6 +6,7 @@
 - Update Kamelet Catalog from 0.4.0 to 0.5.0
 - Update Camel Quarkus Catalog from 2.3.0 to 2.4.0
 - Update Camel K trait Catalog from 1.3.2 to 1.7.0
+- Add keyword to help discovery with Camel yaml dsl
 
 ## 0.1.1
 
