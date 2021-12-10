@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.1.4
+
 ## 0.1.3
 
 - Update Camel Quarkus Catalog from 2.4.0 to 2.5.0
