@@ -3,6 +3,7 @@
 ## 0.1.3
 
 - Update Camel Quarkus Catalog from 2.4.0 to 2.5.0
+- Downgrade fs-extra from 10.0.0 to 9.1.0 to ensure compatibility with Eclipse Theia (and so Eclipse Che and CodeReady Workspaces)
 
 ## 0.1.2
 
