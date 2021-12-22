@@ -2,6 +2,8 @@
 
 ## 0.1.5
 
+- Update Camel Quarkus Catalog from 2.5.0 to 2.6.0
+
 ## 0.1.4
 
 - Update default Camel Catalog version from 3.13.0 to 3.14.0
