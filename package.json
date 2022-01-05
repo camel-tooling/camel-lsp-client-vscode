@@ -178,7 +178,6 @@
     "typescript": "^4.5.4",
     "vsce": "^2.6.3",
     "vscode-extension-tester": "^4.2.3",
-    "vscode-extension-tester-native": "^3.0.2",
     "vscode-test": "^1.6.1",
     "vscode-uitests-tooling": "^2.2.1"
   },
