@@ -3,7 +3,7 @@
 ## 0.1.5
 
 - Update Camel Quarkus Catalog from 2.5.0 to 2.6
-- Update Kamelet Catalog from 0.5.0 to 0.6.0
+- Update Kamelet Catalog from 0.5.0 to 0.7.0
 - Provide hint for `knative` and `kubernetes-*` components that more completion is available with a configured connection to an instance. It is available for XML and Java DSL.
 - Provide hint for `kafka` component that more completion is available with a local Kafka instance. It is available for XML and Java DSL.
 
