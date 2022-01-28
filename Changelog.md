@@ -2,6 +2,7 @@
 
 ## 0.1.5
 
+- Update default Camel Catalog version from 3.14.0 to 3.14.1
 - Update Camel Quarkus Catalog from 2.5.0 to 2.6
 - Update Kamelet Catalog from 0.5.0 to 0.7.0
 - Provide hint for `knative` and `kubernetes-*` components that more completion is available with a configured connection to an instance. It is available for XML and Java DSL.
