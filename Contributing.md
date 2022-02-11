@@ -16,6 +16,7 @@ When testing new version of the Camel Language Server, just replace the jar in "
 *** Run 'npm install' so that the package-lock.json is updated
 *** Push changes in a PR
 *** Wait for PR to be merged
+* Point to a release version of Camel Language Server. During development it can point to snapshots but for release it must be a released version.
 * Check that someone listed as _submitter_ in Jenkinsfile is available
 * Create a tag
 * Push the tag to camel-tooling repository, it will trigger a build after few minutes
