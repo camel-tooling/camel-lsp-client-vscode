@@ -64,7 +64,7 @@ describe('XML DSL support', function () {
 			assert.equal(await getTextExt(timer), 'timer:timerName');
 			await timer.click();
 
-			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName"/>');
+			assert.equal((await editor.getTextAtLine(3)).trim(), 'Invalid to check UI Test screenshot upload');
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
