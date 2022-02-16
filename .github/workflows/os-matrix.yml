@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Test on Windows
+name: Test on Secondary OSes (Windows, Mac)
 
 on:
   push:
@@ -10,10 +10,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: windows-latest
-
+  test-os:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -38,11 +39,11 @@ jobs:
       uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: vscode-logs
+        name: vscode-logs ${{ matrix.os }}
         path: test-resources/settings/logs
     - name: Store VS Code UI Tests screenshots on failure
       uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: ui-test-screenshots
+        name: ui-test-screenshots ${{ matrix.os }}
         path: test-resources/screenshots
