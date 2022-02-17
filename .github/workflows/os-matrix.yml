@@ -52,6 +52,6 @@ jobs:
         name: log-camel-lsp-${{ matrix.os }}.log 
         path: |
           /tmp/log-camel-lsp.log
-          /var/folders/**/log-camel-lsp.log
+          /var/folders/**/log-camel-lsp.log-dummytest
         if-no-files-found: error
       if: ${{ always() && runner.os == 'Linux' || runner.os == 'MacOS' }}
