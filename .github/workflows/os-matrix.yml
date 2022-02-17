@@ -47,11 +47,15 @@ jobs:
       with:
         name: ui-test-screenshots ${{ matrix.os }}
         path: test-resources/screenshots
+    - name: Set var folder readable on MacOS
+      run: sudo chmod -R a+r /var/folders
+      if: ${{ always() && runner.os == 'MacOS' }}
     - uses: actions/upload-artifact@v2
       with:
         name: log-camel-lsp-${{ matrix.os }}.log 
         path: |
           /tmp/log-camel-lsp.log
           /var/folders/**/log-camel-lsp.log-dummytest
+        
         if-no-files-found: error
       if: ${{ always() && runner.os == 'Linux' || runner.os == 'MacOS' }}
