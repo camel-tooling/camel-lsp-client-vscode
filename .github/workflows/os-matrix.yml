@@ -47,3 +47,11 @@ jobs:
       with:
         name: ui-test-screenshots ${{ matrix.os }}
         path: test-resources/screenshots
+    - uses: actions/upload-artifact@v2
+      with:
+        name: log-camel-lsp-${{ matrix.os }}.log 
+        path: |
+          /tmp/log-camel-lsp.log
+          /var/folders/**/log-camel-lsp.log
+        if-no-files-found: error
+      if: ${{ always() && runner.os == 'Linux' || runner.os == 'MacOS' }}

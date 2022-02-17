@@ -51,3 +51,9 @@ jobs:
       with:
         name: ui-test-screenshots ${{ matrix.vscode-version }}
         path: test-resources/screenshots
+    - uses: actions/upload-artifact@v2
+      with:
+        name: log-camel-lsp-${{ matrix.vscode-version }}.log 
+        path: /tmp/log-camel-lsp.log
+        if-no-files-found: error
+      if: always()
