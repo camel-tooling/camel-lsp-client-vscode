@@ -2,6 +2,7 @@
 
 ## 0.2.0
 
+- Fix regression on MacOS, see [#903](https://github.com/camel-tooling/camel-lsp-client-vscode/issues/903)
 - Update Kamelet Catalog from 0.7.0 to 0.7.1
 
 ## 0.1.5
