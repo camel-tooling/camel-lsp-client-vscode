@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.3.0
+
 ## 0.2.0
 
 - Fix regression on MacOS, see [#903](https://github.com/camel-tooling/camel-lsp-client-vscode/issues/903)
