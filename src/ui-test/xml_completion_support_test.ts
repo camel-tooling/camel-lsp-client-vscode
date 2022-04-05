@@ -36,7 +36,8 @@ describe('XML DSL support', function () {
 				return true;
 			}
 
-			await new TitleBar().select('File', 'Revert File');
+			const workbench = new Workbench();
+			await workbench.executeCommand('File: Revert File');
 			return false;
 		});
 
