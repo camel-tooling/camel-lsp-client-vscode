@@ -5,6 +5,8 @@ import {
 	By,
 	EditorView,
 	ExtensionsViewItem,
+	TextEditor,
+	TitleBar,
 	until,
 	VSBrowser,
 	WebDriver
@@ -72,7 +74,19 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 
 		after(async function () {
-			await Dialog.closeFile(false);
+			const driver = VSBrowser.instance.driver;
+			await driver.wait(async function () {
+				const editor = new TextEditor();
+				if (await editor.isDirty() === false) {
+					return true;
+				}
+
+				const workbench = new Workbench();
+				await workbench.executeCommand('File: Revert File');
+				return false;
+			});
+
+			await new EditorView().closeAllEditors();
 		});
 
 		it('Language Support for Apache Camel started', async function () {
