@@ -191,7 +191,7 @@
     "fs-extra": "^9.1.0",
     "glob": "^7.2.0",
     "http-proxy-agent": "^5.0.0",
-    "https-proxy-agent": "^5.0.0",
+    "https-proxy-agent": "^5.0.1",
     "lodash": "^4.17.21",
     "path-exists": "^5.0.0",
     "progress-stream": "^2.0.0",
