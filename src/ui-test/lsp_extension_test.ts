@@ -53,7 +53,8 @@ describe('Language Support for Apache Camel extension', function () {
 			assert.equal(title, `${pjson.displayName}`);
 		});
 
-		it('Verify description', async function () {
+// skipping because the description picked is the one of the pushed extension on Marketplace and not the one of the installed locally
+		it.skip('Verify description', async function () {
 			const desc = await item.getDescription();
 			assert.equal(desc, `${pjson.description}`);
 		});
