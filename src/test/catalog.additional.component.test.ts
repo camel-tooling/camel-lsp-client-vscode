@@ -8,7 +8,7 @@ describe('Should do completion in Camel URI using the additional component speci
 	const docUriXml = getDocUri('test-additional-component.xml');
 
 	afterEach(() => {
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		config.update('camel.extra-components', undefined);
 	});
 
@@ -17,7 +17,7 @@ describe('Should do completion in Camel URI using the additional component speci
 		const completionItemLabel = { label: 'acomponent:withsyntax' };
 		await checkNotExpectedCompletion(docUriXml, positionToCallCompletion, completionItemLabel);
 
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		await config.update('camel.extra-components', [{
 			'component' : {
 				'kind': 'component',

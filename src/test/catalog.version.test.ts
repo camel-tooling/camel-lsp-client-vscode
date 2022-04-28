@@ -12,13 +12,13 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	const expectedCompletion = { label: 'jgroups-raft:clusterName'};
 
 	afterEach(() => {
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		config.update('camel.Camel catalog version', undefined);
 	});
 
 	it('Updated Catalog version is reflected in completion', async () => {
 		await activate(docUriXml);
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		expect(config.get('camel.Camel catalog version')).to.not.be.equal('2.22.0');
 		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
 		await config.update('camel.Camel catalog version', '2.22.0');

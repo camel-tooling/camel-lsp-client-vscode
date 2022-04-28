@@ -17,6 +17,7 @@ export async function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
 	languages.setLanguageConfiguration('xml', {
+		// eslint-disable-next-line
 		wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
 	});
 	await telemetry.initializeTelemetry(context);
@@ -26,13 +27,13 @@ export async function activate(context: ExtensionContext) {
 
 	const requirementsData = await computeRequirementsData(context);
 
-	let serverOptions: Executable = {
+	const serverOptions: Executable = {
 		command: retrieveJavaExecutable(requirementsData),
 		args: [ '-jar', camelLanguageServerPath]
 	};
 
 	// Options to control the language client
-	let clientOptions: LanguageClientOptions = {
+	const clientOptions: LanguageClientOptions = {
 		documentSelector: SUPPORTED_LANGUAGE_IDS,
 		synchronize: {
 			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'],
@@ -59,14 +60,14 @@ export async function activate(context: ExtensionContext) {
 		}
 	};
 
-	let item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
+	const item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
 	item.name = 'Camel Language Server'
 	item.text = 'Camel LS $(sync~spin)';
 	item.tooltip = 'Language Server for Apache Camel is starting...';
 	toggleItem(window.activeTextEditor, item);
 
 	// Create the language client and start the client.
-	let languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
+	const languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
 	languageClient.onReady().then(() => {
 		item.text = 'Camel LS $(thumbsup)';
 		item.tooltip = 'Language Server for Apache Camel started';
@@ -90,7 +91,7 @@ export async function activate(context: ExtensionContext) {
 		return (await telemetry.getTelemetryServiceInstance()).send(e);
 	});
 
-	let disposable = languageClient.start();
+	const disposable = languageClient.start();
 	// Push the disposable to the context's subscriptions so that the
 	// client can be deactivated on extension deactivation
 	context.subscriptions.push(disposable);
@@ -128,7 +129,7 @@ export function parseVMargs(params:any[], vmargsLine:string) {
 	if (!vmargsLine) {
 		return;
 	}
-	let vmargs = vmargsLine.match(/(?:[^\s"]+|"[^"]*")+/g);
+	const vmargs = vmargsLine.match(/(?:[^\s"]+|"[^"]*")+/g);
 	if (vmargs === null) {
 		return;
 	}
