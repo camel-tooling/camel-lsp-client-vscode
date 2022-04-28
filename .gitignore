@@ -9,6 +9,6 @@ undefined
 target
 .scannerwork
 log-camel-lsp.out
-test-resources
+uitest-resources
 test Fixture with speci@l chars/.vscode/**
 test-extensions

@@ -11,13 +11,12 @@ src/**
 images/**
 **/*.map
 .gitignore
-gulpfile.js
 tsconfig.json
-tslint.json
+.eslintrc.json
 sonar-project.properties
 undefined/**
 CONTRIBUTING.md
 .vscode-test/**
-test-resources
+uitest-resources
 test Fixture with speci@l chars/**
 testFixture/**
