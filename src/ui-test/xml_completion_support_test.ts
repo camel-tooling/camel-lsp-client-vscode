@@ -1,15 +1,16 @@
-import { EditorView, BottomBarPanel, MarkerType, ContentAssistItem, TitleBar, VSBrowser } from 'vscode-extension-tester';
+import { EditorView, BottomBarPanel, MarkerType, VSBrowser } from 'vscode-extension-tester';
 import { WaitUntil, DefaultWait, Workbench, ContentAssist, TextEditor } from 'vscode-uitests-tooling';
-import * as path from 'path';
 import { assert } from 'chai';
+import * as path from 'path';
+import * as utils from './utils/testUtils';
 
 describe('XML DSL support', function () {
 	this.timeout(60000);
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
-	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
-	const CAMEL_ROUTE_XML: string = 'camel-route.xml';
-	const URI_POSITION: number = 33;
+	const CAMEL_CONTEXT_XML = 'camel-context.xml';
+	const CAMEL_ROUTE_XML = 'camel-route.xml';
+	const URI_POSITION = 33;
 
 	let contentAssist: ContentAssist;
 
@@ -18,14 +19,10 @@ describe('XML DSL support', function () {
 			this.timeout(20000);
 			const editorView = new EditorView();
 			await editorView.closeAllEditors();
-			const absoluteCamelXmlPath = path.join(__dirname, '../../../src/ui-test/resources', camel_xml);
-			await openFile(absoluteCamelXmlPath);
+			const absoluteCamelXmlPath = path.join(RESOURCES, camel_xml);
+			await utils.openFile(absoluteCamelXmlPath);
 		}
 	};
-
-	async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
-		await new Workbench().openFile(fileToOpenAbsolutePath);
-	}
 
 	const _clean = async function () {
 		this.timeout(15000);
@@ -62,7 +59,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const timer = await contentAssist.getItem('timer:timerName');
-			assert.equal(await getTextExt(timer), 'timer:timerName');
+			assert.equal(await utils.getTextExt(timer), 'timer:timerName');
 			await timer.click();
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName"/>');
@@ -75,7 +72,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const delay = await contentAssist.getItem('delay');
-			assert.equal(await getTextExt(delay), 'delay');
+			assert.equal(await utils.getTextExt(delay), 'delay');
 			await delay.click();
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000"/>');
@@ -88,7 +85,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const exchange = await contentAssist.getItem('exchangePattern');
-			assert.equal(await getTextExt(exchange), 'exchangePattern');
+			assert.equal(await utils.getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>');
@@ -97,7 +94,7 @@ describe('XML DSL support', function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.MEDIUM);
 			const inOnly = await contentAssist.getItem('InOnly');
-			assert.equal(await getTextExt(inOnly), 'InOnly');
+			assert.equal(await utils.getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern=InOnly"/>');
@@ -136,7 +133,7 @@ describe('XML DSL support', function () {
 
 	describe('Diagnostics for Camel URIs', function () {
 
-		const EXPECTED_ERROR_MESSAGE: string = 'Invalid duration value: 1000r';
+		const EXPECTED_ERROR_MESSAGE = 'Invalid duration value: 1000r';
 
 		beforeEach(_setup(CAMEL_CONTEXT_XML));
 		afterEach(_clean);
@@ -175,8 +172,8 @@ describe('XML DSL support', function () {
 
 	describe('Auto-completion for referenced components IDs', function () {
 
-		const DIRECT_COMPONENT_NAME: string = 'direct:testName';
-		const DIRECT_VM_COMPONENT_NAME: string = 'direct-vm:testName2';
+		const DIRECT_COMPONENT_NAME = 'direct:testName';
+		const DIRECT_VM_COMPONENT_NAME = 'direct-vm:testName2';
 
 		before(_setup(CAMEL_ROUTE_XML));
 		after(_clean);
@@ -209,15 +206,4 @@ describe('XML DSL support', function () {
 			assert.equal((await editor.getTextAtLine(13)).trim(), '<to id="_toID2" uri="direct-vm:testName2"/>');
 		});
 	});
-
-	/**
-	 * Workaround for issue with ContentAssistItem getText() method
-	 * For more details please see https://github.com/djelinek/vscode-uitests-tooling/issues/17
-	 *
-	 * @param item ContenAssistItem
-	 */
-	async function getTextExt(item: ContentAssistItem): Promise<string> {
-		const name: string = await item.getText();
-		return name.split('\n')[0];
-	}
 });

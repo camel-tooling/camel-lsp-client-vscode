@@ -15,6 +15,6 @@
 	"exclude": [
 		"node_modules",
 		".vscode-test",
-		"uitests-resources"
+		"uitest-resources"
 	]
 }

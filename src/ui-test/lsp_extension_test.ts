@@ -1,29 +1,28 @@
 import * as path from 'path';
 import * as pjson from '../../package.json';
+import * as utils from './utils/testUtils';
 import { assert } from 'chai';
 import {
 	By,
 	EditorView,
 	ExtensionsViewItem,
 	TextEditor,
-	TitleBar,
 	until,
 	VSBrowser,
-	WebDriver
+	WebDriver,
+	Workbench
 } from 'vscode-extension-tester';
 import {
-	Dialog,
 	Marketplace,
-	StatusBarExt,
-	Workbench
+	StatusBarExt
 } from 'vscode-uitests-tooling';
 
 describe('Language Support for Apache Camel extension', function () {
 	this.timeout(60000);
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
-	const CAMEL_CONTEXT_XML: string = 'camel-context.xml';
-	const LSP_STATUS_BAR_MESSAGE: string = 'Camel LS ';
+	const CAMEL_CONTEXT_XML = 'camel-context.xml';
+	const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
 
 	describe('Extensions view', function () {
 		let marketplace: Marketplace;
@@ -53,7 +52,7 @@ describe('Language Support for Apache Camel extension', function () {
 			assert.equal(title, `${pjson.displayName}`);
 		});
 
-// skipping because the description picked is the one of the pushed extension on Marketplace and not the one of the installed locally
+		// skipping because the description picked is the one of the pushed extension on Marketplace and not the one of the installed locally
 		it.skip('Verify description', async function () {
 			const desc = await item.getDescription();
 			assert.equal(desc, `${pjson.description}`);
@@ -71,11 +70,11 @@ describe('Language Support for Apache Camel extension', function () {
 
 		before(async function () {
 			driver = VSBrowser.instance.driver;
-			await new Workbench().openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML), this.timeout() - 3000);
+			await utils.openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML));
 		});
 
 		after(async function () {
-			const driver = VSBrowser.instance.driver;
+			driver = VSBrowser.instance.driver;
 			await driver.wait(async function () {
 				const editor = new TextEditor();
 				if (await editor.isDirty() === false) {

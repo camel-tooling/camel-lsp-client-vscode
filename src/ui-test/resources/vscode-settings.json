@@ -7,6 +7,7 @@
     },
     "files.simpleDialog.enable": true,
     "window.titleBarStyle": "custom",
+    "window.dialogStyle": "custom",
     "workbench.editor.enablePreview": false,
     "window.restoreFullscreen": true,
     "window.newWindowDimensions": "maximized",
