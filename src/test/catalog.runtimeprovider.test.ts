@@ -14,13 +14,13 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	const expectedCompletion = { label: 'jgroups-raft:clusterName'};
 
 	afterEach(() => {
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		config.update(RUNTIME_PROVIDER_SETTINGS_KEY, undefined);
 	});
 
 	it('Updated Catalog runtime provider is reflected in completion', async () => {
 		await activate(docUriXml);
-		let config = vscode.workspace.getConfiguration();
+		const config = vscode.workspace.getConfiguration();
 		expect(config.get(RUNTIME_PROVIDER_SETTINGS_KEY)).to.not.be.equal('KARAF');
 		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
 		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, 'KARAF');

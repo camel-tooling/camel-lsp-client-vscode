@@ -28,7 +28,7 @@ export interface RequirementsData {
 export async function resolveRequirements(context: ExtensionContext): Promise<RequirementsData> {
     return new Promise(async (resolve, reject) => {
         let source: string;
-        let javaVersion: number = 0;
+        let javaVersion = 0;
         let javaHome = await checkJavaPreferences(context);
         if (javaHome) {
             // java.home explictly specified

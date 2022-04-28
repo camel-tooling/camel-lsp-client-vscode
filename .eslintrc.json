@@ -1,0 +1,40 @@
+{
+	"env": {
+		"browser": true,
+		"es2020": true,
+		"mocha": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:import/typescript"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "script",
+		"ecmaFeatures": {
+			"impliedStrict": true
+		}
+	},
+	"plugins": [
+		"@typescript-eslint",
+		"eslint-plugin-import"
+	],
+	"rules": {
+		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
+		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
+		"@typescript-eslint/no-namespace": "off",
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": [
+					"**/test/**",
+					"**/ui-test/**"
+				],
+				"optionalDependencies": false,
+				"peerDependencies": false
+			}
+		]
+	}
+}
