@@ -11,7 +11,7 @@ jobs:
   build:
     working_directory: ~/camel-lsp-client-vscode
     docker:
-      - image: cimg/node:14.18-browsers
+      - image: cimg/node:16.15.0-browsers
     steps:
       - checkout
       - restore_cache:
