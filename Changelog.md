@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.0
+
+- Use Language Server for Apache Camel 1.6.0
+
 ## 0.3.0
 
 - Update Camel Quarkus Catalog from 2.7.0 to 2.8.0
