@@ -178,7 +178,7 @@
     "tslint": "^6.1.3",
     "typescript": "^4.6.4",
     "vsce": "^2.7.0",
-    "vscode-extension-tester": "^4.2.4",
+    "vscode-extension-tester": "^4.2.5",
     "vscode-test": "^1.6.1",
     "vscode-uitests-tooling": "^2.3.1"
   },
