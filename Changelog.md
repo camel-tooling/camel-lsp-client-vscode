@@ -4,6 +4,7 @@
 
 - Use Language Server for Apache Camel 1.6.0
 - Update Camel Quarkus Catalog from 2.8.0 to 2.9.0
+- Update Kamelet Catalog from 0.8.0 to 0.8.1
 
 ## 0.3.0
 
