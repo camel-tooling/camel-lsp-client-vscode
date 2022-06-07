@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        vscode-version: ["1.61.2", "1.66.2"]
+        vscode-version: ["1.67.2"]
       fail-fast: false
 
     steps:
