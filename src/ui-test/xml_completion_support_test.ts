@@ -56,10 +56,10 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
-			const timer = await contentAssist.getItem('timer:timerName');
-			assert.equal(await utils.getTextExt(timer), 'timer:timerName');
+			const expectedContentAssist = 'timer:timerName'
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, expectedContentAssist);
+			const timer = await contentAssist.getItem(expectedContentAssist);
+			assert.equal(await utils.getTextExt(timer), expectedContentAssist);
 			await timer.click();
 
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName"/>');
@@ -69,8 +69,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			assert.equal(await utils.getTextExt(delay), 'delay');
 			await delay.click();
@@ -82,8 +81,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION + 26, '&amp;exchange');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'exchangePattern');
 			const exchange = await contentAssist.getItem('exchangePattern');
 			assert.equal(await utils.getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
@@ -91,8 +89,7 @@ describe('XML DSL support', function () {
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>');
 
 			await editor.typeTextAt(3, URI_POSITION + 47, 'In');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'InOnly');
 			const inOnly = await contentAssist.getItem('InOnly');
 			assert.equal(await utils.getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
@@ -110,14 +107,12 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
@@ -143,14 +138,12 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
@@ -182,9 +175,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(6, 29, DIRECT_COMPONENT_NAME);
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
-			assert.isTrue(await contentAssist.hasItem(DIRECT_COMPONENT_NAME));
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, DIRECT_COMPONENT_NAME);
 
 			const direct = await contentAssist.getItem(DIRECT_COMPONENT_NAME);
 			await direct.click();
@@ -196,9 +187,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(13, 30, DIRECT_VM_COMPONENT_NAME);
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
-			assert.isTrue(await contentAssist.hasItem(DIRECT_VM_COMPONENT_NAME))
+			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, DIRECT_VM_COMPONENT_NAME);
 
 			const directVM = await contentAssist.getItem(DIRECT_VM_COMPONENT_NAME);
 			await directVM.click();
@@ -207,3 +196,16 @@ describe('XML DSL support', function () {
 		});
 	});
 });
+
+async function waitUntilContentAssistContains( contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
+	const driver = VSBrowser.instance.driver;
+	await driver.wait(async function () {
+		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
+		const hasItem = await contentAssist.hasItem(expectedContentAssist);
+		if (!hasItem) {
+			await editor.toggleContentAssist(false);
+		}
+		return hasItem;
+	}, DefaultWait.TimePeriod.DEFAULT);
+	return contentAssist;
+}

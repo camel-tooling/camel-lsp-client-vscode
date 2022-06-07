@@ -12,6 +12,8 @@ import * as telemetry from './Telemetry';
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
+let languageClient: LanguageClient;
+
 const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'];
 export async function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
@@ -53,8 +55,8 @@ export async function activate(context: ExtensionContext) {
 		},
 		middleware: {
 			workspace: {
-				didChangeConfiguration: () => {
-					languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getCamelSettings()});
+				didChangeConfiguration: async () => {
+					await languageClient.sendNotification(DidChangeConfigurationNotification.type, { settings: getCamelSettings()});
 				}
 			}
 		}
@@ -67,35 +69,35 @@ export async function activate(context: ExtensionContext) {
 	toggleItem(window.activeTextEditor, item);
 
 	// Create the language client and start the client.
-	const languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
-	languageClient.onReady().then(() => {
+	languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
+	try {
+		await languageClient.start();
 		item.text = 'Camel LS $(thumbsup)';
 		item.tooltip = 'Language Server for Apache Camel started';
 		toggleItem(window.activeTextEditor, item);
 		commands.registerCommand('apache.camel.open.output', ()=>{
-		languageClient.outputChannel.show();
-	}, error => {
+			languageClient.outputChannel.show();
+		});
+		languageClient.onTelemetry(async (e: TelemetryEvent) => {
+			return (await telemetry.getTelemetryServiceInstance()).send(e);
+		});
+	} catch(error){
 		item.text = 'Camel LS $(thumbsdown)';
 		item.tooltip = 'Language Server for Apache Camel failed to start';
 		console.log(error)
-	});
+	}
 
 	window.onDidChangeActiveTextEditor((editor) =>{
 		toggleItem(editor, item);
 	});
 
-	});
-
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
-	languageClient.onTelemetry(async (e: TelemetryEvent) => {
-		return (await telemetry.getTelemetryServiceInstance()).send(e);
-	});
+}
 
-	const disposable = languageClient.start();
-	// Push the disposable to the context's subscriptions so that the
-	// client can be deactivated on extension deactivation
-	context.subscriptions.push(disposable);
-
+export async function deactivate() {
+	if (languageClient) {
+		await languageClient.stop();
+	}
 }
 
 async function computeRequirementsData(context: ExtensionContext) {
