@@ -1,4 +1,4 @@
-import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from 'vscode-test'
+import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests } from '@vscode/test-electron'
 import * as cp from 'child_process';
 import * as path from 'path'
 
@@ -13,8 +13,8 @@ async function runTest() {
 		const vscodeExecutablePath : string = await downloadAndUnzipVSCode(vscodeVersion);
 		console.log(`vscodeExecutablePath = ${vscodeExecutablePath}`);
 
-		const cliPath: string = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
-		cp.spawnSync(cliPath, ['--install-extension', 'redhat.vscode-quarkus', '--force'],
+		const [cliPath, ...args] = resolveCliArgsFromVSCodeExecutablePath(vscodeExecutablePath);
+		cp.spawnSync(cliPath, [...args, '--install-extension', 'redhat.vscode-quarkus', '--force'],
 		{
 			encoding: 'utf-8',
 			stdio: 'inherit'
