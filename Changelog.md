@@ -7,7 +7,7 @@
 - Update Camel Quarkus Catalog from 2.8.0 to 2.10.0
 - Update Kamelet Catalog from 0.8.0 to 0.8.1
 - Requires VS Code 1.67+
-- Added completion option to add camelk modeline on new files
+- Added completion option to add Camel K modeline on new files
 
 ## 0.3.0
 
