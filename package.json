@@ -164,7 +164,7 @@
     "@types/chai": "^4.3.1",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.0.1",
     "@types/vscode": "^1.61.0",
     "@types/winreg": "^1.2.31",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
