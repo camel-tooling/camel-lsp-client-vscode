@@ -196,7 +196,7 @@
     "path-exists": "^5.0.0",
     "progress-stream": "^2.0.0",
     "sinon": "^14.0.0",
-    "vscode-languageclient": "^8.0.1",
+    "vscode-languageclient": "^8.0.2",
     "winreg-utf8": "^0.1.1"
   }
 }
