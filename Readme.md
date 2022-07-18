@@ -100,7 +100,11 @@ When you add this extension to your installation of VS Code, the VS Code editor 
 
 It is possible to use a specific Camel Catalog version. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog version**
 
-To use a Red Hat integration productized version, you need to configure extra repositories. See in [Camel Language Server documentation](#specific-version-of-camel-catalog).
+Please note that the first time a version is used, it can take several seconds/minutes to have it available depending on the time to download the dependencies in the background.
+
+When using a Red Hat productized version which contains `redhat` in the version, the Maven Red Hat repository is automatically added.
+
+To use other versions not available on Maven Central, you need to configure extra repositories. See in [Camel Language Server documentation](#specific-version-of-camel-catalog).
 
 It is possible to use a specific Runtime provider for the Camel catalog. This can be specified in **File -> Preferences -> Settings -> Apache Camel Tooling -> Camel catalog runtime provider**
 
