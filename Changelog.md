@@ -8,6 +8,7 @@
 - Update Kamelet Catalog from 0.8.0 to 0.8.1
 - Requires VS Code 1.67+
 - Added completion option to add Camel K modeline on new files
+- Support of Red Hat productized classic Camel Catalog (not Kamelet)
 
 ## 0.3.0
 
