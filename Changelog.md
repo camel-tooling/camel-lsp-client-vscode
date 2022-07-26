@@ -2,6 +2,8 @@
 
 ## 0.5.0
 
+- Update Camel Quarkus Catalog from 2.10.0 to 2.11.0
+
 ## 0.4.0
 
 - Use Language Server for Apache Camel 1.6.0
