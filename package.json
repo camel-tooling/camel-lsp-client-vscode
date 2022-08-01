@@ -183,7 +183,7 @@
     "vscode-uitests-tooling": "^2.3.1"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "^0.4.2",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.4.3",
     "decompress": "^4.2.1",
     "download": "^8.0.0",
     "expand-home-dir": "^0.0.3",
