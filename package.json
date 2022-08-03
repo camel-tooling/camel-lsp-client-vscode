@@ -69,7 +69,7 @@
       "properties": {
         "camel.Camel catalog version": {
           "type": "string",
-          "description": "Camel catalog version used to provide Apache Camel Language Support. Depending on the connection speed, it can take several minutes to have it applied.\nYou can check available Camel catalogs at the following links:\n\t - https://repo1.maven.org/maven2/org/apache/camel/camel-catalog/\n\t - https://maven.repository.redhat.com/ga/org/apache/camel/camel-catalog/"
+          "markdownDescription": "Camel catalog version used to provide Apache Camel Language Support. Depending on the connection speed, it can take several minutes to have it applied. You can check available Camel catalogs at the following links: [Maven repository](https://repo1.maven.org/maven2/org/apache/camel/camel-catalog/) and [Red Hat's Maven repository](https://maven.repository.redhat.com/ga/org/apache/camel/camel-catalog/)"
         },
         "camel.Camel catalog runtime provider": {
           "type": "string",
