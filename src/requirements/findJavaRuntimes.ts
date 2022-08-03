@@ -339,7 +339,7 @@ async function checkVersionByCLI(javaHome: string): Promise<number> {
     if (!javaHome) {
         return 0;
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const javaBin = path.join(javaHome, 'bin', JAVA_FILENAME);
         cp.execFile(javaBin, ['-version'], {}, (error, stdout, stderr) => {
             const regexp = /version "(.*)"/g;
