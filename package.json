@@ -161,7 +161,7 @@
     "ui-test": "extest setup-and-run --storage uitest-resources --code_settings ./src/ui-test/resources/vscode-settings.json --extensions_dir ./test-extensions './out/src/ui-test/*_test.js' -u"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.1",
+    "@types/chai": "^4.3.3",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.6.3",
