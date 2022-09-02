@@ -2,7 +2,7 @@
 
 ## 0.5.0
 
-- Update Camel Quarkus Catalog from 2.10.0 to 2.11.0
+- Update Camel Quarkus Catalog from 2.10.0 to 2.12.0
 - Added urls to review available Camel Catalog to the settings
 
 ## 0.4.0
