@@ -50,4 +50,4 @@ jobs:
       if: failure()
       with:
         name: ui-test-screenshots ${{ matrix.vscode-version }}
-        path: test-resources/screenshots
+        path: uitest-resources/screenshots

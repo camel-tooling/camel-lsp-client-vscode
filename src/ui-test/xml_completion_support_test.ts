@@ -1,5 +1,5 @@
-import { EditorView, BottomBarPanel, MarkerType, VSBrowser } from 'vscode-extension-tester';
-import { WaitUntil, DefaultWait, Workbench, ContentAssist, TextEditor } from 'vscode-uitests-tooling';
+import { EditorView, BottomBarPanel, MarkerType, VSBrowser, WebDriver, TextEditor, ContentAssist } from 'vscode-extension-tester';
+import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
 import * as utils from './utils/testUtils';
@@ -13,38 +13,34 @@ describe('XML DSL support', function () {
 	const URI_POSITION = 33;
 
 	let contentAssist: ContentAssist;
+	let driver: WebDriver;
+
+	before(async function() {
+		this.timeout(20000);
+		driver = VSBrowser.instance.driver;
+		VSBrowser.instance.waitForWorkbench();
+	});
 
 	const _setup = function (camel_xml: string) {
 		return async function () {
 			this.timeout(20000);
-			const editorView = new EditorView();
-			await editorView.closeAllEditors();
+			await new EditorView().closeAllEditors();
 			const absoluteCamelXmlPath = path.join(RESOURCES, camel_xml);
-			await utils.openFile(absoluteCamelXmlPath);
+			await VSBrowser.instance.openResources(absoluteCamelXmlPath);
 		}
 	};
 
-	const _clean = async function () {
-		this.timeout(15000);
-		const driver = VSBrowser.instance.driver;
-		await driver.wait(async function () {
-			const editor = new TextEditor();
-			if (await editor.isDirty() === false) {
-				return true;
-			}
-
-			const workbench = new Workbench();
-			await workbench.executeCommand('File: Revert File');
-			return false;
-		});
-
-		await new EditorView().closeAllEditors();
+	const _clean = function (camel_xml: string) {
+		return async function () {
+			this.timeout(15000);
+			await utils.closeEditor(camel_xml, false);
+		}
 	};
 
 	describe('Camel URI code completion', function () {
 
 		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Open "camel-context.xml" file inside Editor View', async function () {
 			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_XML);
@@ -101,7 +97,7 @@ describe('XML DSL support', function () {
 	describe('Endpoint options filtering', function () {
 
 		before(_setup(CAMEL_CONTEXT_XML));
-		after(_clean);
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		it('Duplicate endpoint options are filtered out', async function () {
 			const editor = new TextEditor();
@@ -131,7 +127,7 @@ describe('XML DSL support', function () {
 		const EXPECTED_ERROR_MESSAGE = 'Invalid duration value: 1000r';
 
 		beforeEach(_setup(CAMEL_CONTEXT_XML));
-		afterEach(_clean);
+		afterEach(_clean(CAMEL_CONTEXT_XML));
 
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.retries(3);
@@ -148,16 +144,16 @@ describe('XML DSL support', function () {
 			await delay.click();
 
 			await editor.typeTextAt(3, URI_POSITION + 26, 'r');
-			const problemsView = await new BottomBarPanel().openProblemsView();
-			editor.getDriver().wait(async function() {
+			const problemsView = await utils.openView('Problems');
+
+			await driver.wait(async function() {
 				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
 				return innerMarkers.length > 0;
 			}, DefaultWait.TimePeriod.MEDIUM);
 			const markers = await problemsView.getAllMarkers(MarkerType.Error);
 			assert.isNotEmpty(markers, 'Problems view does not contains expected error');
 
-			const marker = markers[0];
-			const errorMessage = await marker.getText();
+			const errorMessage = await markers[0].getText();
 			assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
 			await new BottomBarPanel().toggle(false); // close Problems View
 		});
@@ -169,7 +165,7 @@ describe('XML DSL support', function () {
 		const DIRECT_VM_COMPONENT_NAME = 'direct-vm:testName2';
 
 		before(_setup(CAMEL_ROUTE_XML));
-		after(_clean);
+		after(_clean(CAMEL_ROUTE_XML));
 
 		it('Auto-completion for referenced ID of "direct" component', async function () {
 			const editor = new TextEditor();
@@ -195,17 +191,16 @@ describe('XML DSL support', function () {
 			assert.equal((await editor.getTextAtLine(13)).trim(), '<to id="_toID2" uri="direct-vm:testName2"/>');
 		});
 	});
-});
 
-async function waitUntilContentAssistContains( contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
-	const driver = VSBrowser.instance.driver;
-	await driver.wait(async function () {
-		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-		const hasItem = await contentAssist.hasItem(expectedContentAssist);
-		if (!hasItem) {
-			await editor.toggleContentAssist(false);
-		}
-		return hasItem;
-	}, DefaultWait.TimePeriod.DEFAULT);
-	return contentAssist;
-}
+	async function waitUntilContentAssistContains( contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
+		await driver.wait(async function () {
+			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
+			const hasItem = await contentAssist.hasItem(expectedContentAssist);
+			if (!hasItem) {
+				await editor.toggleContentAssist(false);
+			}
+			return hasItem;
+		}, DefaultWait.TimePeriod.DEFAULT);
+		return contentAssist;
+	}
+});

@@ -39,10 +39,10 @@ jobs:
       if: always()
       with:
         name: vscode-logs
-        path: test-resources/settings/logs
+        path: uitest-resources/settings/logs
     - name: Store VS Code UI Tests screenshots on failure
       uses: actions/upload-artifact@v2
       if: failure()
       with:
         name: ui-test-screenshots
-        path: test-resources/screenshots
+        path: uitest-resources/screenshots
