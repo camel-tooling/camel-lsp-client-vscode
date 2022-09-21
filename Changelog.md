@@ -6,6 +6,7 @@
 - Update Camel Quarkus Catalog from 2.10.0 to 2.12.0
 - Update Kamelet Catalog from 0.8.1 to 0.9.0
 - Added urls to review available Camel Catalog to the settings
+- Support completion for Camel URI in CRD (Custom Resource Definition) Camel Yaml DSL
 
 ## 0.4.0
 
