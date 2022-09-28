@@ -7,6 +7,7 @@
 - Update Kamelet Catalog from 0.8.1 to 0.9.0
 - Added urls to review available Camel Catalog to the settings
 - Support completion for Camel URI in CRD (Custom Resource Definition) Camel Yaml DSL
+- Support completion for Camel URI in plain Camel Yaml DSL
 
 ## 0.4.0
 
