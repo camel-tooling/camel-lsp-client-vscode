@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0
+
+- Release version of the extension, with developer support from Red Hat.
+
 ## 0.5.0
 
 - Update default Camel Catalog version from 3.18.0 to 3.18.1
