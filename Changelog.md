@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.6.0
+
 ## 0.5.0
 
 - Use Language Server for Apache Camel 1.7.0
