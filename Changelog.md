@@ -3,7 +3,7 @@
 ## 0.5.0
 
 - Use Language Server for Apache Camel 1.7.0
-- Update default Camel Catalog version from 3.18.0 to 3.18.1
+- Update default Camel Catalog version from 3.18.0 to 3.18.2
 - Update Camel Quarkus Catalog from 2.10.0 to 2.13.0
 - Update Kamelet Catalog from 0.8.1 to 0.9.0
 - Added urls to review available Camel Catalog to the settings
