@@ -2,6 +2,8 @@
 
 ## 0.6.0
 
+- Update default Camel Catalog version from 3.18.2 to 3.19.0
+
 ## 0.5.0
 
 - Use Language Server for Apache Camel 1.7.0
