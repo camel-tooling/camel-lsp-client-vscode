@@ -181,7 +181,7 @@
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
     "vsce": "^2.13.0",
-    "vscode-extension-tester": "^5.0.0",
+    "vscode-extension-tester": "^5.1.0",
     "vscode-uitests-tooling": "^2.3.3"
   },
   "dependencies": {
