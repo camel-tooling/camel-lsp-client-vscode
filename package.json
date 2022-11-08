@@ -163,7 +163,7 @@
     "ui-test": "extest setup-and-run --storage uitest-resources --code_settings ./src/ui-test/resources/vscode-settings.json --extensions_dir ./test-extensions './out/src/ui-test/*_test.js' -u"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.3",
+    "@types/chai": "^4.3.4",
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
@@ -172,7 +172,7 @@
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@vscode/test-electron": "^2.2.0",
     "async-wait-until": "^2.0.12",
-    "chai": "^4.3.6",
+    "chai": "^4.3.7",
     "eslint": "^8.27.0",
     "eslint-plugin-import": "^2.26.0",
     "mocha": "^10.1.0",
