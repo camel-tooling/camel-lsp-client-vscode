@@ -1,0 +1,5 @@
+title: Language Support for Apache Camel by Red Hat
+logo: https://raw.githubusercontent.com/camel-tooling/camel-lsp-client-vscode/main/icons/icon128.png
+description: This is the client implementation of the Language Server for Apache Camel for Visual Studio Code
+# Used theme https://github.com/pages-themes/minimal
+theme: jekyll-theme-minimal
