@@ -188,7 +188,7 @@
     "@redhat-developer/vscode-redhat-telemetry": "^0.5.2",
     "decompress": "^4.2.1",
     "expand-home-dir": "^0.0.3",
-    "find-java-home": "^1.2.2",
+    "find-java-home": "^2.0.0",
     "fs-extra": "^9.1.0",
     "glob": "^8.0.3",
     "http-proxy-agent": "^5.0.0",
