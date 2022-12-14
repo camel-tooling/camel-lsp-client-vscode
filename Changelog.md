@@ -3,7 +3,7 @@
 ## 0.6.0
 
 - Update default Camel Catalog version from 3.18.2 to 3.19.0
-- Update Kamelet Catalog from 0.9.0 to 0.9.3
+- Update Kamelet Catalog from 0.9.0 to 0.10.0
 - Update Camel Quarkus Catalog from 2.13.0 to 2.14.0
 - The label of the outline has been simplified for `Language Support for Apache Camel by Red Hat` to `Camel`
 
