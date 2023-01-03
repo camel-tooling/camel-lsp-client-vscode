@@ -21,8 +21,7 @@ When testing new version of the Camel Language Server, just replace the jar in "
   * To update the version from a SNAPSHOT to a released version, the Maven repository must be updated. You can check the file history to see how it was done.
 * Check that someone listed as _submitter_ in Jenkinsfile is available
 * Create a tag
-* Push the tag to `camel-tooling/camel-lsp-client-vscode` repository, it will trigger a build after few minutes
-* Check build is working fine on [Circle CI](https://app.circleci.com/pipelines/github/camel-tooling/camel-lsp-client-vscode)
+* Push the tag to `camel-tooling/camel-lsp-client-vscode` repository
 * Start build on [Jenkins CI](https://studio-jenkins-csb-codeready.apps.ocp-c1.prod.psi.redhat.com/job/Fuse/job/VSCode/job/vscode-camel-lsp-release/) with _publishToMarketPlace_ and _publishToOVSX_ parameters checked
 * Wait the build is waiting on step _Publish to Marketplace_
 * For someone from _submitter_ list:
