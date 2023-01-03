@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.7.0
+
 ## 0.6.0
 
 - Use Language Server for Apache Camel 1.8.0
