@@ -3,6 +3,7 @@
 ## 0.7.0
 
 - Update default Camel Catalog version from 3.20.0 to 3.20.1
+- Update Kamelet Catalog from 0.10.0 to 3.20.1
 
 ## 0.6.0
 
