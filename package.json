@@ -174,7 +174,7 @@
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.7",
     "eslint": "^8.31.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.4",
     "mocha": "^10.2.0",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.0.0",
