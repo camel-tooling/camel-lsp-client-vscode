@@ -4,6 +4,7 @@
 
 - Update default Camel Catalog version from 3.20.0 to 3.20.1
 - Update Kamelet Catalog from 0.10.0 to 3.20.1
+- Update Camel Quarkus Catalog from 2.15.0 to 2.16.0
 
 ## 0.6.0
 
