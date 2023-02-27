@@ -3,6 +3,8 @@ import * as pjson from '../../package.json';
 import * as utils from './utils/testUtils';
 import { assert } from 'chai';
 import {
+	after,
+	before,
 	By,
 	EditorView,
 	ExtensionsViewItem,
