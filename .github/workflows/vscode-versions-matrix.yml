@@ -26,6 +26,15 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
+    # - name: Install JBang
+    #   uses: sdkman/sdkman-action@master
+    #   id: sdkman
+    #   with:
+    #     candidate: jbang
+    #     version: 0.104.0
+    - name: Install JBang
+      run: |
+        curl -Ls https://sh.jbang.dev | bash -s - app setup
     - name: Install global dependencies
       run: npm install -g typescript vsce
     - name: npm-ci
@@ -33,7 +42,10 @@ jobs:
     - name: npm-compile
       run: npm run compile
     - name: test
-      run: xvfb-run -a npm test
+      run: |
+        source ~/.bashrc
+        jbang version
+        xvfb-run -a npm test
       env:
           CODE_VERSION: ${{ matrix.vscode-version }}
     - name: ui-test

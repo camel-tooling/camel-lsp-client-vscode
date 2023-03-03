@@ -25,6 +25,8 @@ jobs:
       with:
         node-version: '16'
         cache: 'npm'
+    - name: Install JBang
+      run: choco install jbang
     - name: Install global dependencies
       run: npm install -g typescript vsce
     - name: npm-ci
@@ -32,7 +34,15 @@ jobs:
     - name: npm-compile
       run: npm run compile
     - name: test
-      run: npm test
+      run: |
+        jbang version
+        npm test
+    - name: Store VS Code Logs (Windows)
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: test-vscode-logs
+        path: $env:USERPROFILE\AppData\Code\logs\*
     - name: ui-test
       run: npm run ui-test
     - name: Store VS Code logs
