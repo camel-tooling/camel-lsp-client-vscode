@@ -40,6 +40,19 @@ jobs:
       - name: Test java
         run: java --version
 
+      - name: Install JBang (ubuntu, macOS)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          echo "$HOME/.jbang/bin" >> $GITHUB_PATH
+
+      - name: Install JBang (windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install jbang
+
+      - name: Setup JBang (trusted sources)
+        run: jbang trust add https://github.com/apache/
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -86,26 +99,12 @@ jobs:
           name: ${{ matrix.os }}-${{ matrix.version }}-camel-lsp-log
           path: /tmp/log-camel-lsp.log
 
-      - name: Store VS Code Logs (Ubuntu)
+      - name: Store VS Code Logs
         uses: actions/upload-artifact@v3
-        if: failure() && matrix.os == 'ubuntu-latest'
+        if: failure()
         with:
-          name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
-          path: ~/.config/Code/logs/*
-
-      - name: Store VS Code Logs (Macos)
-        uses: actions/upload-artifact@v3
-        if: failure() && matrix.os == 'macos-latest'
-        with:
-          name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
-          path: ~/Library/Application Support/Code/logs/*
-
-      - name: Store VS Code Logs (Windows)
-        uses: actions/upload-artifact@v3
-        if: failure() && matrix.os == 'windows-latest'
-        with:
-          name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
-          path: $env:USERPROFILE\AppData\Code\logs\*
+          name: ${{ matrix.os }}-${{ matrix.version }}-test-logs
+          path: .vscode-test/logs/*
 
       - name: Store UI test log
         uses: actions/upload-artifact@v3

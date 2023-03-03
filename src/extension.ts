@@ -5,6 +5,7 @@ import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
+import { NewCamelRouteCommand } from './commands/NewCamelRouteCommand';
 import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
 import * as telemetry from './Telemetry';
@@ -90,6 +91,9 @@ export async function activate(context: ExtensionContext) {
 	window.onDidChangeActiveTextEditor((editor) =>{
 		toggleItem(editor, item);
 	});
+
+	// Register command for new Camel Route file - YAML DSL
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG, async () => { await new NewCamelRouteCommand().create(); }));
 
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
