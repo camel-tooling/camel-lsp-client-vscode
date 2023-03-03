@@ -39,6 +39,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
 - Use a specific Runtime provider for the Camel catalog.
 - Additional Camel components can be provided.
 - Use dashed notation in properties file and Camel K modelines.
+- Create a Camel Route specified with Yaml DSL using Camel JBang.
 - **XML DSL Only:**
   - Find references for `direct` and `direct VM` components in all open Camel files.
   - Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel.
@@ -49,6 +50,8 @@ For detailed information about Apache Camel supported features, see the [Apache 
 ### Requirements
 
 **Java 11** is currently required to launch the [Apache Camel Language Server](https://github.com/camel-tooling/camel-language-server). The `java.home` VS Code preferences can be used to use a different version of JDK than the default one installed on the machine.
+
+⚠️ For some features, [JBang](https://www.jbang.dev/documentation/guide/latest/index.html) must be available on a system command-line.
 
 For an **XML DSL** files:
 
