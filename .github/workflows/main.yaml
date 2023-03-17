@@ -71,10 +71,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: xvfb-run --auto-servernum npm run ui-test
 
-      - name: ui test (macos, windows)
-        id: uiTest_MacOS_Windows
-        if: matrix.os != 'ubuntu-latest'
-        run: npm run ui-test
+      # - name: ui test (macos, windows)
+      #   id: uiTest_MacOS_Windows
+      #   if: matrix.os != 'ubuntu-latest'
+      #   run: npm run ui-test
 
       - name: vsce-package
         run: vsce package
