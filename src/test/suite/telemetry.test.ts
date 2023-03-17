@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 'use strict';
-import * as telemetry from '../Telemetry';
+import * as telemetry from '../../Telemetry';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 import { expect } from 'chai';
