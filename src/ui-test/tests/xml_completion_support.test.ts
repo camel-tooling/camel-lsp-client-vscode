@@ -2,7 +2,7 @@ import { EditorView, BottomBarPanel, MarkerType, VSBrowser, WebDriver, TextEdito
 import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
-import * as utils from './utils/testUtils';
+import * as utils from '../utils/testUtils';
 
 describe('XML DSL support', function () {
 	this.timeout(60000);
@@ -15,7 +15,7 @@ describe('XML DSL support', function () {
 	let contentAssist: ContentAssist;
 	let driver: WebDriver;
 
-	before(async function() {
+	before(async function () {
 		this.timeout(20000);
 		driver = VSBrowser.instance.driver;
 		VSBrowser.instance.waitForWorkbench();
@@ -146,7 +146,7 @@ describe('XML DSL support', function () {
 			await editor.typeTextAt(3, URI_POSITION + 26, 'r');
 			const problemsView = await utils.openView('Problems');
 
-			await driver.wait(async function() {
+			await driver.wait(async function () {
 				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
 				return innerMarkers.length > 0;
 			}, DefaultWait.TimePeriod.MEDIUM);
@@ -192,7 +192,7 @@ describe('XML DSL support', function () {
 		});
 	});
 
-	async function waitUntilContentAssistContains( contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
+	async function waitUntilContentAssistContains(contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
 		await driver.wait(async function () {
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			const hasItem = await contentAssist.hasItem(expectedContentAssist);
