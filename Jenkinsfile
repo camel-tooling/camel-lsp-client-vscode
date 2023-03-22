@@ -11,7 +11,7 @@ node('rhel8'){
 		def nodeHome = tool 'nodejs-lts'
 		env.PATH="${env.PATH}:${nodeHome}/bin"
 		sh "node --version"
-		sh "npm install -g typescript vsce"
+		sh "npm install -g typescript"
 	}
 
 	stage('Build') {
