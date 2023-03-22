@@ -120,10 +120,3 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-ui-test-screenshots
           path: test-resources/screenshots/*.png
-
-      - name: Store Test Coverage
-        uses: actions/upload-artifact@v3
-        if: (steps.test_Ubuntu.outcome == 'success')
-        with:
-          name: ${{ matrix.os }}-${{ matrix.version }}-test-coverage
-          path: coverage/*
