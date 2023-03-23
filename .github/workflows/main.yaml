@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  main:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -120,3 +120,23 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-ui-test-screenshots
           path: test-resources/screenshots/*.png
+
+  check:
+    if: always()
+    runs-on: ubuntu-latest
+    name: Status Check
+    needs: [ main ]
+    steps:
+      - name: Test Matrix Result
+        run: |
+          echo result = ${{ needs.main.result }}
+      - name: Status Check - success
+        if: ${{ needs.main.result == 'success' }}
+        run: |
+          echo "All tests successfully completed!"
+          exit 0
+      - name: Status Check - failure
+        if: ${{ needs.main.result != 'success' }}
+        run: |
+          echo "Status Check failed!"
+          exit 1
