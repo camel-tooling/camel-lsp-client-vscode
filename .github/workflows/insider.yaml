@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  insider:
     strategy:
       matrix:
         java: ["11"]
