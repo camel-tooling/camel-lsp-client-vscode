@@ -5,9 +5,13 @@
             "es6"
         ],
 		"module": "commonjs",
+		"sourceMap": true,
+		"rootDir": "src",
 		"moduleResolution": "node",
 		"outDir": "out",
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true   /* enable all strict type-checking options */
 	},
 	"include": [
 		"src"
