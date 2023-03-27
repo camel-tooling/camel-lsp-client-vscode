@@ -196,7 +196,7 @@
     "lodash": "^4.17.21",
     "path-exists": "^5.0.0",
     "progress-stream": "^2.0.0",
-    "sinon": "^15.0.2",
+    "sinon": "^15.0.3",
     "vscode-languageclient": "^8.0.2",
     "winreg-utf8": "^0.1.1"
   }
