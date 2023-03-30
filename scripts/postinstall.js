@@ -1,11 +1,11 @@
 'use strict';
 
-var lsp_server_version = "1.9.1";
+var lsp_server_version = "1.10.0-SNAPSHOT";
 
 const download = require("mvn-artifact-download").default;
 const fs = require('fs');
 const path = require('path');
 
-download('com.github.camel-tooling:camel-lsp-server:' + lsp_server_version, './jars/', 'https://oss.sonatype.org/content/repositories/releases/').then((filename)=>{
+download('com.github.camel-tooling:camel-lsp-server:' + lsp_server_version, './jars/', 'https://oss.sonatype.org/content/repositories/snapshots/').then((filename)=>{
 	fs.renameSync(filename, path.join('.', 'jars', 'language-server.jar'));
 });
