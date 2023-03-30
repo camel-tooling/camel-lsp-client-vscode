@@ -12,6 +12,9 @@ node('rhel8'){
 		env.PATH="${env.PATH}:${nodeHome}/bin"
 		sh "node --version"
 		sh "npm install -g typescript"
+		sh "curl -Ls https://sh.jbang.dev | bash -s - app setup"
+		env.PATH="~/.jbang/bin:${env.PATH}"
+		sh "jbang trust add https://github.com/apache/"
 	}
 
 	stage('Build') {
