@@ -1,8 +1,26 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License", destination); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { EditorView, BottomBarPanel, MarkerType, VSBrowser, WebDriver, TextEditor, ContentAssist } from 'vscode-extension-tester';
 import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
 import * as utils from '../utils/testUtils';
+import * as ca from '../utils/contentAssist';
 
 describe('XML DSL support', function () {
 	this.timeout(60000);
@@ -53,7 +71,9 @@ describe('XML DSL support', function () {
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
 			const expectedContentAssist = 'timer:timerName'
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, expectedContentAssist);
+
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, expectedContentAssist);
+			
 			const timer = await contentAssist.getItem(expectedContentAssist);
 			assert.equal(await utils.getTextExt(timer), expectedContentAssist);
 			await timer.click();
@@ -65,7 +85,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			assert.equal(await utils.getTextExt(delay), 'delay');
 			await delay.click();
@@ -77,7 +97,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION + 26, '&amp;exchange');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'exchangePattern');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'exchangePattern');
 			const exchange = await contentAssist.getItem('exchangePattern');
 			assert.equal(await utils.getTextExt(exchange), 'exchangePattern');
 			await exchange.click();
@@ -85,7 +105,7 @@ describe('XML DSL support', function () {
 			assert.equal((await editor.getTextAtLine(3)).trim(), '<from id="_fromID" uri="timer:timerName?delay=1000&amp;exchangePattern="/>');
 
 			await editor.typeTextAt(3, URI_POSITION + 47, 'In');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'InOnly');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'InOnly');
 			const inOnly = await contentAssist.getItem('InOnly');
 			assert.equal(await utils.getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
@@ -103,12 +123,12 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'timer:timerName');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
@@ -134,12 +154,12 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(3, URI_POSITION, 'timer');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'timer:timerName');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
 			await editor.typeTextAt(3, URI_POSITION + 15, '?');
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, 'delay');
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
@@ -171,7 +191,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(6, 29, DIRECT_COMPONENT_NAME);
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, DIRECT_COMPONENT_NAME);
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, DIRECT_COMPONENT_NAME);
 
 			const direct = await contentAssist.getItem(DIRECT_COMPONENT_NAME);
 			await direct.click();
@@ -183,7 +203,7 @@ describe('XML DSL support', function () {
 			const editor = new TextEditor();
 
 			await editor.typeTextAt(13, 30, DIRECT_VM_COMPONENT_NAME);
-			contentAssist = await waitUntilContentAssistContains(contentAssist, editor, DIRECT_VM_COMPONENT_NAME);
+			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, DIRECT_VM_COMPONENT_NAME);
 
 			const directVM = await contentAssist.getItem(DIRECT_VM_COMPONENT_NAME);
 			await directVM.click();
@@ -191,16 +211,4 @@ describe('XML DSL support', function () {
 			assert.equal((await editor.getTextAtLine(13)).trim(), '<to id="_toID2" uri="direct-vm:testName2"/>');
 		});
 	});
-
-	async function waitUntilContentAssistContains(contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string) {
-		await driver.wait(async function () {
-			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-			const hasItem = await contentAssist.hasItem(expectedContentAssist);
-			if (!hasItem) {
-				await editor.toggleContentAssist(false);
-			}
-			return hasItem;
-		}, DefaultWait.TimePeriod.DEFAULT);
-		return contentAssist;
-	}
 });

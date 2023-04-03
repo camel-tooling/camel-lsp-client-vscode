@@ -1,0 +1,7 @@
+apiVersion: camel.apache.org/v1
+spec:
+  flows:
+    - route:
+      id: _fromID
+      from:
+        uri: 

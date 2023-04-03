@@ -1,23 +1,26 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License", destination); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import * as path from 'path';
 import * as pjson from '../../../package.json';
 import * as utils from '../utils/testUtils';
 import { assert } from 'chai';
-import {
-	after,
-	before,
-	By,
-	EditorView,
-	ExtensionsViewItem,
-	TextEditor,
-	until,
-	VSBrowser,
-	WebDriver,
-	Workbench
-} from 'vscode-extension-tester';
-import {
-	Marketplace,
-	StatusBarExt
-} from 'vscode-uitests-tooling';
+import { after, before, By, EditorView, ExtensionsViewItem, TextEditor, until, VSBrowser, WebDriver, Workbench } from 'vscode-extension-tester';
+import { Marketplace, StatusBarExt } from 'vscode-uitests-tooling';
 
 describe('Language Support for Apache Camel extension', function () {
 	this.timeout(60000);
@@ -106,5 +109,4 @@ describe('Language Support for Apache Camel extension', function () {
 			}, this.timeout() - 3000, `Could not find Apache Camel element with label "${LSP_STATUS_BAR_MESSAGE}". Current label: "${await new StatusBarExt().getLSPSupport().catch(() => 'unknown')}"`);
 		});
 	});
-
 });
