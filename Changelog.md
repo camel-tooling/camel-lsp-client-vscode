@@ -3,6 +3,7 @@
 ## 0.8.0
 
 - Update Kamelet Catalog from 3.20.2 to 3.20.3
+- Provide command to create a Camel route defined in Java DSL using Camel JBang
 
 ## 0.7.0
 

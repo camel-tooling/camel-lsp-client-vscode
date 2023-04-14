@@ -23,15 +23,18 @@ import { waitUntil } from 'async-wait-until';
 import { assert, expect } from 'chai';
 import { NewCamelRouteCommand } from '../../commands/NewCamelRouteCommand';
 
-describe('Should execute Camel Route Yaml DSL command', function () {
+describe('Should execute Create a Camel Route command', function () {
 
 	let showInputBoxStub: sinon.SinonStub;
 	let createdFile: vscode.Uri;
 
 	const fileName = 'test-route';
 	const fileNameWithSpace = 'test route';
-	const fullFileName = `${fileName}.${NewCamelRouteCommand.YAML_FILE_EXTENSION}`;
-	const fullFileNameWithSpace = `${fileNameWithSpace}.${NewCamelRouteCommand.YAML_FILE_EXTENSION}`;
+	const fullFileName = `${fileName}.camel.yaml`;
+	const fullFileNameWithSpace = `${fileNameWithSpace}.camel.yaml`;
+
+	const javaFileName = 'TestRoute';
+	const fullJavaFileName = `${javaFileName}.java`;
 
 	context('File creation', function () {
 
@@ -53,7 +56,7 @@ describe('Should execute Camel Route Yaml DSL command', function () {
 		});
 
 		it('New Camel Yaml DSL file can be created', async function () {
-			await initNewFile(fileName);
+			await initNewFile(fileName, 'YAML');
 
 			await waitUntilFileIsCreated(fullFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
@@ -63,12 +66,22 @@ describe('Should execute Camel Route Yaml DSL command', function () {
 		});
 
 		it('New Camel Yaml DSL file can be created - name with white space', async function () {
-			await initNewFile(fileNameWithSpace);
+			await initNewFile(fileNameWithSpace, 'YAML');
 
 			await waitUntilFileIsCreated(fullFileNameWithSpace);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileNameWithSpace);
+			expect(openedEditor).to.be.true;
+		});
+
+		it('New Camel Java DSL file can be created', async function () {
+			await initNewFile(javaFileName, 'JAVA');
+
+			await waitUntilFileIsCreated(fullJavaFileName);
+			expect(createdFile.fsPath).not.to.be.undefined;
+
+			const openedEditor = await waitUntilEditorIsOpened(fullJavaFileName);
 			expect(openedEditor).to.be.true;
 		});
 
@@ -80,36 +93,88 @@ describe('Should execute Camel Route Yaml DSL command', function () {
 	 *  - name without extension
 	 *  - file already exists check
 	 *  - name cannot contains eg. special characters
+	 *  - Java naming convention
 	 */
 	context('File name validation', function () {
 
 		let newCamelRouteCommand: NewCamelRouteCommand;
 
-		before(async function () {
-			newCamelRouteCommand = new NewCamelRouteCommand();
+		context('YAML naming convention', function () {
+
+			before(async function () {
+				newCamelRouteCommand = new NewCamelRouteCommand('YAML');
+			});
+
+			it('Validate empty name', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
+			});
+
+			it('Validate name with space', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('name with spaces')).to.be.undefined;
+			});
+
+			it('Validate name without extension', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('name-with-extension.yaml')).to.not.be.undefined;
+			});
+
+			it('Validate file already exists', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('jbangInitRoute')).to.not.be.undefined;
+			});
+
+			it('Validate special characters', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
+			});
+
 		});
 
-		it('Validate empty name', function () {
-			expect(newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
-		});
+		context('JAVA naming convention', function () {
 
-		it('Validate name without extension', function () {
-			expect(newCamelRouteCommand.validateCamelFileName('name-with-extension.yaml')).to.not.be.undefined;
-		});
+			before(async function () {
+				newCamelRouteCommand = new NewCamelRouteCommand('JAVA');
+			});
 
-		it('Validate file already exists', function () {
-			expect(newCamelRouteCommand.validateCamelFileName('jbangInitRoute')).to.not.be.undefined;
-		});
+			it('Validate empty name', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
+			});
 
-		it('Validate special characters', function () {
-			expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
+			it('Validate name with space', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('Name With Spaces')).to.not.be.undefined;
+			});
+
+			it('Validate name without extension', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('CamelRoute.java')).to.not.be.undefined;
+			});
+
+			it('Validate file already exists', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('ModelineCompletion')).to.not.be.undefined;
+			});
+
+			it('Validate special characters', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
+			});
+
+			it('Validate start with upper case', function () {
+				expect(newCamelRouteCommand.validateCamelFileName('camelRoute')).to.not.be.undefined;
+			});
+
 		});
 
 	});
 
-	async function initNewFile(name: string): Promise<void> {
+	async function initNewFile(name: string, dsl: string): Promise<void> {
 		showInputBoxStub.resolves(name);
-		await vscode.commands.executeCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG);
+		let command = '';
+		switch (dsl) {
+			case 'YAML':
+				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML;
+				break;
+			case 'JAVA':
+				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA;
+				break;
+			default:
+				break;
+		}
+		await vscode.commands.executeCommand(command);
 	}
 
 	async function waitUntilFileIsCreated(expectedFileNameWithExtension: string): Promise<void> {
@@ -125,7 +190,7 @@ describe('Should execute Camel Route Yaml DSL command', function () {
 			console.log(`Waiting for file '${expectedFileNameWithExtension}' to be created...`);
 			return false;
 		}, 30000).catch(function () {
-			assert.fail(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route Yaml DSL using JBang.`);
+			assert.fail(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route using JBang.`);
 		});
 	}
 

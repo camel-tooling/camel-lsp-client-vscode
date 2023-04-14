@@ -23,17 +23,29 @@ import { CamelJBangTask } from '../tasks/CamelJBangTask';
 
 import validFilename = require('valid-filename');
 
+export interface CamelRouteDSL {
+	language: string;
+	extension: string;
+	placeHolder: string;
+}
+
 export class NewCamelRouteCommand {
 
-	public static ID_COMMAND_CAMEL_ROUTE_JBANG = 'camel.jbang.routes.yaml';
-	public static YAML_FILE_EXTENSION = 'camel.yaml';
+	public static ID_COMMAND_CAMEL_ROUTE_JBANG_YAML = 'camel.jbang.routes.yaml';
+	public static ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA = 'camel.jbang.routes.java';
 
-	private workspaceFolder = this.getWorkspaceFolder();
+	private workspaceFolder: WorkspaceFolder | undefined;
+	private camelDSL: CamelRouteDSL | undefined;
+
+	constructor(dsl: string) {
+		this.camelDSL = this.getDSL(dsl);
+		this.workspaceFolder = this.getWorkspaceFolder()
+	}
 
 	public async create(): Promise<void> {
 		const input = await this.showInputBox();
 		if(input) {
-			const fileName = this.getFullName(input, NewCamelRouteCommand.YAML_FILE_EXTENSION);
+			const fileName = this.getFullName(input, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 
 			await new CamelJBangTask(this.workspaceFolder, fileName).execute();
@@ -41,11 +53,21 @@ export class NewCamelRouteCommand {
 		}
 	}
 
+	private getDSL(dsl: string): CamelRouteDSL | undefined {
+		switch (dsl) {
+			case 'YAML':
+				return { language: 'Yaml', extension: 'camel.yaml', placeHolder: 'sample-route' };
+			case 'JAVA':
+				return { language: 'Java', extension: 'java', placeHolder: 'SampleRoute' };
+			default:
+				return undefined;
+		}
+	}
+
 	private async showInputBox(): Promise<string> {
-		const CAMEL_ROUTE_PLACEHOLDER = 'sample-route';
 		return await window.showInputBox({
 			prompt: 'Please provide a name for the new file (without extension).',
-			placeHolder: CAMEL_ROUTE_PLACEHOLDER,
+			placeHolder: this.camelDSL.placeHolder,
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(fileName);
 			},
@@ -58,6 +80,7 @@ export class NewCamelRouteCommand {
 	 *  - name without extension
 	 *  - file already exists check
 	 *  - name cannot contains eg. special characters
+	 *  - Java pattern naming convention \b[A-Z][a-zA-Z_$0-9]*
 	 *
 	 * @param name
 	 * @returns string | undefined
@@ -69,12 +92,16 @@ export class NewCamelRouteCommand {
 		if(name.includes('.')) {
 			return 'Please provide a name without the extension.';
 		}
-		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, NewCamelRouteCommand.YAML_FILE_EXTENSION));
+		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, this.camelDSL.extension));
 		if (fs.existsSync(newFilePotentialFullPath)) {
 			return 'The file already exists. Please choose a different file name.';
 		}
 		if (!validFilename(name)) {
 			return 'The filename is invalid.';
+		}
+		const patternJavaNamingConvention = '\\b[A-Z][a-zA-Z_$0-9]*';
+		if ((this.camelDSL.language === 'Java') && (!name.match(patternJavaNamingConvention) || name.includes(' '))) {
+			return `The filename needs to follow the ${this.camelDSL.language} naming convention. I.e. ${patternJavaNamingConvention}`;
 		}
 		return undefined;
 	}

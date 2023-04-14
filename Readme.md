@@ -39,7 +39,9 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
 - Use a specific Runtime provider for the Camel catalog.
 - Additional Camel components can be provided.
 - Use dashed notation in properties file and Camel K modelines.
-- Create a Camel Route specified with Yaml DSL using Camel JBang.
+- Create a Camel Route using Camel JBang.
+  - Yaml DSL
+  - Java DSL
 - **XML DSL Only:**
   - Find references for `direct` and `direct VM` components in all open Camel files.
   - Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel.

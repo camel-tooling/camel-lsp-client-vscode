@@ -92,8 +92,9 @@ export async function activate(context: ExtensionContext) {
 		toggleItem(editor, item);
 	});
 
-	// Register command for new Camel Route file - YAML DSL
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG, async () => { await new NewCamelRouteCommand().create(); }));
+	// Register commands for new Camel Route files - YAML DSL, Java DSL
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => { await new NewCamelRouteCommand('YAML').create(); }));
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => { await new NewCamelRouteCommand('JAVA').create(); }));
 
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
