@@ -28,7 +28,9 @@ This extension provides completion, validation and documentation features for Ap
 - [Specific Runtime provider for the Camel Catalog](./content/other.md#specific-runtime-provider)
 - [Provide Additional Camel components](./content/other.md#additional-camel-components)
 - [Quick Reference Documentation](./content/other.md#quick-reference-documentation)
-- [Create a Camel Route Yaml DSL using Camel JBang](./content/commands.md#create-a-camel-route-yaml-dsl-using-camel-jbang)
+- [Create a Camel Route using Camel JBang](./content/commands.md)
+  - Yaml DSL
+  - Java DSL
 - [XML DSL Only](./content/xml-dsl-only.md)
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components
   - Find references for `direct` and `direct VM` components
