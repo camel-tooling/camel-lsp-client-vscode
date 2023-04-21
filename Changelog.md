@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.8.0
+
+- Update Kamelet Catalog from 3.20.2 to 3.20.3
+
 ## 0.7.0
 
 - Update default Camel Catalog version from 3.20.0 to 3.20.3
