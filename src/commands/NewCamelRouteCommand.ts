@@ -33,6 +33,7 @@ export class NewCamelRouteCommand {
 
 	public static ID_COMMAND_CAMEL_ROUTE_JBANG_YAML = 'camel.jbang.routes.yaml';
 	public static ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA = 'camel.jbang.routes.java';
+	public static ID_COMMAND_CAMEL_ROUTE_JBANG_XML = 'camel.jbang.routes.xml';
 
 	private workspaceFolder: WorkspaceFolder | undefined;
 	private camelDSL: CamelRouteDSL | undefined;
@@ -59,6 +60,8 @@ export class NewCamelRouteCommand {
 				return { language: 'Yaml', extension: 'camel.yaml', placeHolder: 'sample-route' };
 			case 'JAVA':
 				return { language: 'Java', extension: 'java', placeHolder: 'SampleRoute' };
+			case 'XML':
+				return { language: 'Xml', extension: 'xml', placeHolder: 'sample-route' };
 			default:
 				return undefined;
 		}
