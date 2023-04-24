@@ -36,6 +36,8 @@ describe('Should execute Create a Camel Route command', function () {
 	const javaFileName = 'TestRoute';
 	const fullJavaFileName = `${javaFileName}.java`;
 
+	const fullXmlFileName = `${fileName}.xml`;
+
 	context('File creation', function () {
 
 		beforeEach(async function () {
@@ -82,6 +84,16 @@ describe('Should execute Create a Camel Route command', function () {
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullJavaFileName);
+			expect(openedEditor).to.be.true;
+		});
+
+		it('New Camel Xml DSL file can be created', async function () {
+			await initNewFile(fileName, 'XML');
+
+			await waitUntilFileIsCreated(fullXmlFileName);
+			expect(createdFile.fsPath).not.to.be.undefined;
+
+			const openedEditor = await waitUntilEditorIsOpened(fullXmlFileName);
 			expect(openedEditor).to.be.true;
 		});
 
@@ -170,6 +182,9 @@ describe('Should execute Create a Camel Route command', function () {
 				break;
 			case 'JAVA':
 				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA;
+				break;
+			case 'XML':
+				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML;
 				break;
 			default:
 				break;

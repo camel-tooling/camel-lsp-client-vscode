@@ -31,6 +31,7 @@ This extension provides completion, validation and documentation features for Ap
 - [Create a Camel Route using Camel JBang](./content/commands.md)
   - Yaml DSL
   - Java DSL
+  - XML DSL
 - [XML DSL Only](./content/xml-dsl-only.md)
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components
   - Find references for `direct` and `direct VM` components

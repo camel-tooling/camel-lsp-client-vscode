@@ -42,6 +42,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
 - Create a Camel Route using Camel JBang.
   - Yaml DSL
   - Java DSL
+  - XML DSL
 - **XML DSL Only:**
   - Find references for `direct` and `direct VM` components in all open Camel files.
   - Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel.

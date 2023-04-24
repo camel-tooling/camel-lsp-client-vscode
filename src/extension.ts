@@ -95,6 +95,7 @@ export async function activate(context: ExtensionContext) {
 	// Register commands for new Camel Route files - YAML DSL, Java DSL
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => { await new NewCamelRouteCommand('YAML').create(); }));
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => { await new NewCamelRouteCommand('JAVA').create(); }));
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async () => { await new NewCamelRouteCommand('XML').create(); }));
 
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
