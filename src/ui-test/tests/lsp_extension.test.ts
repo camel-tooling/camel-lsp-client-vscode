@@ -20,7 +20,7 @@ import * as pjson from '../../../package.json';
 import * as utils from '../utils/testUtils';
 import { assert } from 'chai';
 import { after, before, By, EditorView, ExtensionsViewItem, TextEditor, until, VSBrowser, WebDriver, Workbench } from 'vscode-extension-tester';
-import { Marketplace, StatusBarExt } from 'vscode-uitests-tooling';
+import { Marketplace, StatusBar } from 'vscode-uitests-tooling';
 
 describe('Language Support for Apache Camel extension', function () {
 	this.timeout(60000);
@@ -106,7 +106,7 @@ describe('Language Support for Apache Camel extension', function () {
 				catch {
 					return false;
 				}
-			}, this.timeout() - 3000, `Could not find Apache Camel element with label "${LSP_STATUS_BAR_MESSAGE}". Current label: "${await new StatusBarExt().getLSPSupport().catch(() => 'unknown')}"`);
+			}, this.timeout() - 3000, `Could not find Apache Camel element with label "${LSP_STATUS_BAR_MESSAGE}". Current label: "${await new StatusBar().getLSPSupport().catch(() => 'unknown')}"`);
 		});
 	});
 });
