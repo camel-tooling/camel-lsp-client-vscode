@@ -19,8 +19,20 @@ import * as path from 'path';
 import * as pjson from '../../../package.json';
 import * as utils from '../utils/testUtils';
 import { assert } from 'chai';
-import { after, before, By, EditorView, ExtensionsViewItem, TextEditor, until, VSBrowser, WebDriver, Workbench } from 'vscode-extension-tester';
-import { Marketplace, StatusBar } from 'vscode-uitests-tooling';
+import {
+	after,
+	before,
+	By,
+	EditorView,
+	ExtensionsViewItem,
+	TextEditor,
+	until,
+	VSBrowser,
+	WebDriver,
+	Workbench,
+	Marketplace,
+	StatusBar
+} from 'vscode-uitests-tooling';
 
 describe('Language Support for Apache Camel extension', function () {
 	this.timeout(60000);

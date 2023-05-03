@@ -15,8 +15,17 @@
  * limitations under the License.
  */
 
-import { EditorView, BottomBarPanel, MarkerType, VSBrowser, WebDriver, TextEditor, ContentAssist } from 'vscode-extension-tester';
-import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
+import {
+	EditorView,
+	BottomBarPanel,
+	MarkerType,
+	VSBrowser,
+	WebDriver,
+	TextEditor,
+	ContentAssist,
+	WaitUntil,
+	DefaultWait
+} from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
 import * as utils from '../utils/testUtils';
@@ -73,7 +82,7 @@ describe('XML DSL support', function () {
 			const expectedContentAssist = 'timer:timerName'
 
 			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, expectedContentAssist);
-			
+
 			const timer = await contentAssist.getItem(expectedContentAssist);
 			assert.equal(await utils.getTextExt(timer), expectedContentAssist);
 			await timer.click();

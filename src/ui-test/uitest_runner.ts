@@ -18,8 +18,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
-import { ExTester } from 'vscode-extension-tester';
-import { ReleaseQuality } from 'vscode-extension-tester/out/util/codeUtil';
+import { ExTester, ReleaseQuality } from 'vscode-uitests-tooling';
 
 const storageFolder = 'test-resources';
 const releaseType: ReleaseQuality = process.env.CODE_TYPE === 'insider' ? ReleaseQuality.Insider : ReleaseQuality.Stable;

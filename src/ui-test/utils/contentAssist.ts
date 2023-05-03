@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import { TextEditor, ContentAssist, WebDriver } from 'vscode-extension-tester';
-import { DefaultWait } from 'vscode-uitests-tooling';
+import { TextEditor, ContentAssist, WebDriver, DefaultWait } from 'vscode-uitests-tooling';
 
 export async function waitUntilContentAssistContains(driver: WebDriver, contentAssist: ContentAssist, editor: TextEditor, expectedContentAssist: string): Promise<ContentAssist> {
     await driver.wait(async function () {
