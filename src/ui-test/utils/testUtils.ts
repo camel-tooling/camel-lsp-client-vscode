@@ -15,7 +15,15 @@
  * limitations under the License.
  */
 
-import { ContentAssistItem, EditorView, InputBox, ModalDialog, ProblemsView, TextEditor, Workbench } from "vscode-extension-tester";
+import {
+	ContentAssistItem,
+	EditorView,
+	InputBox,
+	ModalDialog,
+	ProblemsView,
+	TextEditor,
+	Workbench
+} from "vscode-uitests-tooling";
 
 export async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
 	const workbench = new Workbench();
@@ -62,9 +70,9 @@ export async function openView(view: string): Promise<ProblemsView> {
 export async function closeEditor(title: string, save?: boolean) {
 	const dirty = await new TextEditor().isDirty();
 	await new EditorView().closeEditor(title);
-	if(dirty) {
+	if (dirty) {
 		const dialog = new ModalDialog();
-		if(save) {
+		if (save) {
 			await dialog.pushButton('Save');
 		} else {
 			await dialog.pushButton('Don\'t Save');

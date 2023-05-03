@@ -15,8 +15,15 @@
  * limitations under the License.
  */
 
-import { EditorView, VSBrowser, WebDriver, TextEditor, ContentAssist } from 'vscode-extension-tester';
-import { WaitUntil, DefaultWait } from 'vscode-uitests-tooling';
+import {
+	EditorView,
+	VSBrowser,
+	WebDriver,
+	TextEditor,
+	ContentAssist,
+	WaitUntil,
+	DefaultWait
+} from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
 import * as utils from '../utils/testUtils';
