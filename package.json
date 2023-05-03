@@ -204,7 +204,7 @@
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4",
     "vscode-extension-tester": "^5.5.3",
-    "vscode-uitests-tooling": "^2.3.5"
+    "vscode-uitests-tooling": "^3.0.0"
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.6.1",
