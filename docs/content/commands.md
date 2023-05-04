@@ -12,4 +12,4 @@
 
 ## XML DSL
 
-<p align="center"><img src="../images/camelRouteXmlDSL.gif" alt="Camel Route XML DSL command" class="zoom" width="90%"/></p>
+<p align="center"><img src="../images/camelRouteXMLDSL.gif" alt="Camel Route XML DSL command" class="zoom" width="90%"/></p>
