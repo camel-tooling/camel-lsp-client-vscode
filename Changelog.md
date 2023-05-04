@@ -5,6 +5,7 @@
 - Update Kamelet Catalog from 3.20.2 to 3.20.4
 - Provide command to create a Camel route defined in Java DSL using Camel JBang
 - Provide command to create a Camel route defined in XML DSL using Camel JBang
+- Deprecate features related to Camel kafka Connector
 
 ## 0.7.0
 

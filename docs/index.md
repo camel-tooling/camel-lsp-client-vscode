@@ -23,7 +23,6 @@ This extension provides completion, validation and documentation features for Ap
 - [Diagnostics for Camel URIs](./content/diagnostics.md)
 - [Code Navigation](./content/navigation.md)
 - [Camel K modelines support](./content/camelk.md)
-- [Camel Kafka Connector support](./content/kafka.md)
 - [Specific Camel Catalog Version](./content/other.md#specific-camel-catalog)
 - [Specific Runtime provider for the Camel Catalog](./content/other.md#specific-runtime-provider)
 - [Provide Additional Camel components](./content/other.md#additional-camel-components)
@@ -32,6 +31,7 @@ This extension provides completion, validation and documentation features for Ap
   - Yaml DSL
   - Java DSL
   - XML DSL
+- [Deprecated] [Camel Kafka Connector support](./content/kafka.md)
 - [XML DSL Only](./content/xml-dsl-only.md)
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components
   - Find references for `direct` and `direct VM` components

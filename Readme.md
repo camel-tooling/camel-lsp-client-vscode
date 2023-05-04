@@ -34,7 +34,6 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
 - Diagnostics for Camel URIs.
 - Navigation for Java and XML.
 - Camel K modelines support.
-- Camel Kafka Connector support.
 - Use a specific Camel Catalog version.
 - Use a specific Runtime provider for the Camel catalog.
 - Additional Camel components can be provided.
@@ -43,6 +42,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
   - Yaml DSL
   - Java DSL
   - XML DSL
+- [Deprecated] Camel Kafka Connector support.
 - **XML DSL Only:**
   - Find references for `direct` and `direct VM` components in all open Camel files.
   - Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel.
