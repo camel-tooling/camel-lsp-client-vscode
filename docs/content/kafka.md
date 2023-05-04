@@ -1,4 +1,4 @@
-## Camel Kafka Connector support
+## [Deprecated] Camel Kafka Connector support
 
 - Completion and hover for Camel URIs as property values of `camel.sink.url` and `camel.source.url`
 - Completion and hover for `connector.class` property value based on Camel Kafka Connector Catalog.
