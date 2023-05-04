@@ -1,6 +1,6 @@
 ## Introduction
 
-Welcome to the `vscode-apache-camel` project created by Red Hat! Here you'll find a description of how to use VS Code extension providing Language Support for Apache Camel.
+Welcome to the `VS Code extension Language Support for Apache Camel` project created by Red Hat! Here you'll find a description of how to use VS Code extension providing Language Support for Apache Camel.
 
 ## Description
 
@@ -8,7 +8,7 @@ This extension provides completion, validation and documentation features for Ap
 
 ## How to install
 
-1. You can download this **vscode-apache-camel** extension from the [VS Code Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-apache-camel) and the [Open VSX Registry](https://open-vsx.org/extension/redhat/vscode-apache-camel).
+1. You can download this **Language Support for Apache Camel** extension from the [VS Code Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-apache-camel) and the [Open VSX Registry](https://open-vsx.org/extension/redhat/vscode-apache-camel).
 2. Language Support for Apache Camel can be also installed directly in the [Microsoft VS Code](https://code.visualstudio.com/).
 
     **Steps**
