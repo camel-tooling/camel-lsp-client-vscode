@@ -212,7 +212,7 @@
     "find-java-home": "^2.0.0",
     "fs-extra": "^11.1.1",
     "glob": "^8.1.0",
-    "http-proxy-agent": "^5.0.0",
+    "http-proxy-agent": "^6.0.1",
     "https-proxy-agent": "^5.0.1",
     "lodash": "^4.17.21",
     "path-exists": "^5.0.0",
