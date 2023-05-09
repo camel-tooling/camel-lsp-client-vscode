@@ -207,7 +207,6 @@
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.6.1",
-    "decompress": "^4.2.1",
     "expand-home-dir": "^0.0.3",
     "find-java-home": "^2.0.0",
     "fs-extra": "^11.1.1",
