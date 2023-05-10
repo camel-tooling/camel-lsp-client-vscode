@@ -23,7 +23,7 @@ import { ShellExecution } from "vscode";
  */
 export class CamelJBang {
 
-	public static DEFAULT_CAMEL_VERSION = '3.20.3';
+	public static DEFAULT_CAMEL_VERSION = '3.20.4';
 
 	private camelVersion: string;
 
