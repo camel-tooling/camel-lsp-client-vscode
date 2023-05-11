@@ -16,22 +16,20 @@
  */
 'use strict'
 
-import { ShellExecution } from "vscode";
+import { ShellExecution, workspace } from "vscode";
 
 /**
  * Camel JBang class which allows shell execution of jbang cli init command
  */
 export class CamelJBang {
 
-	public static DEFAULT_CAMEL_VERSION = '3.20.4';
-
 	private camelVersion: string;
 
-	constructor(version?: string) {
-		this.camelVersion = version ? version : CamelJBang.DEFAULT_CAMEL_VERSION;
+	constructor() {
+		this.camelVersion = workspace.getConfiguration().get('camel.languageSupport.JBangVersion') as string;
 	}
 
 	public init(file: string): ShellExecution {
-		return new ShellExecution('jbang', ['run', `'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'init', `'${file}'`]);
+		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'init', `'${file}'`]);
 	}
 }
