@@ -201,7 +201,7 @@
     "glob": "^10.2.4",
     "mocha": "^10.2.0",
     "mocha-jenkins-reporter": "^0.4.8",
-    "mvn-artifact-download": "^6.0.0",
+    "mvn-artifact-download": "^6.1.1",
     "rimraf": "^5.0.0",
     "sinon": "^15.0.4",
     "typescript": "^5.0.4",
