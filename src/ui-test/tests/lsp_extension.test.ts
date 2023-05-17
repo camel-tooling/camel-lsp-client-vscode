@@ -46,7 +46,6 @@ describe('Language Support for Apache Camel extension', function () {
 		let item: ExtensionsViewItem;
 
 		before(async function () {
-			this.retries(5);
 			marketplace = await Marketplace.open(this.timeout());
 		});
 
@@ -56,6 +55,7 @@ describe('Language Support for Apache Camel extension', function () {
 		});
 
 		it('Find extension', async function () {
+			this.retries(5);
 			item = await marketplace.findExtension(`@installed ${pjson.displayName}`);
 		});
 
