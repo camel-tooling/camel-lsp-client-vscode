@@ -33,6 +33,7 @@ import {
 	Marketplace,
 	StatusBar
 } from 'vscode-uitests-tooling';
+import { fail } from 'assert';
 
 describe('Language Support for Apache Camel extension', function () {
 	this.timeout(60000);
@@ -56,7 +57,12 @@ describe('Language Support for Apache Camel extension', function () {
 
 		it('Find extension', async function () {
 			this.retries(5);
-			item = await marketplace.findExtension(`@installed ${pjson.displayName}`);
+			try {
+				item = await marketplace.findExtension(`@installed ${pjson.displayName}`);
+			} catch (error) {
+				console.log(error);
+				fail(`Unable to find the extension: ${error}`)
+			}
 		});
 
 		it('Extension is installed', async function () {
