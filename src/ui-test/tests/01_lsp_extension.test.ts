@@ -25,44 +25,56 @@ import {
 	By,
 	EditorView,
 	ExtensionsViewItem,
-	TextEditor,
 	until,
 	VSBrowser,
 	WebDriver,
-	Workbench,
-	Marketplace,
-	StatusBar
+	StatusBar,
+	ActivityBar,
+	ViewControl,
+	SideBarView,
+	ExtensionsViewSection
 } from 'vscode-uitests-tooling';
-import { fail } from 'assert';
 
 describe('Language Support for Apache Camel extension', function () {
-	this.timeout(60000);
+	this.timeout(300000);
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_XML = 'camel-context.xml';
 	const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
 
+	let driver: WebDriver;
+
+	before(async function () {
+		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.waitForWorkbench();
+
+		driver = VSBrowser.instance.driver;
+	});
+
 	describe('Extensions view', function () {
-		let marketplace: Marketplace;
+		let viewControl: ViewControl;
+		let extensionsView: SideBarView;
 		let item: ExtensionsViewItem;
 
 		before(async function () {
-			marketplace = await Marketplace.open(this.timeout());
+			viewControl = await new ActivityBar().getViewControl('Extensions') as ViewControl;
+			extensionsView = await viewControl.openView();
+			await driver.wait(async function () {
+				return (await extensionsView.getContent().getSections()).length > 0;
+			});
 		});
 
 		after(async function () {
-			await marketplace.close();
+			await viewControl.closeView();
 			await new EditorView().closeAllEditors();
 		});
 
 		it('Find extension', async function () {
-			this.retries(5);
-			try {
-				item = await marketplace.findExtension(`@installed ${pjson.displayName}`);
-			} catch (error) {
-				console.log(error);
-				fail(`Unable to find the extension: ${error}`)
-			}
+			await driver.wait(async function () {
+				item = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
+				return item !== undefined;
+			});
+			assert.isNotNull(item);
 		});
 
 		it('Extension is installed', async function () {
@@ -89,27 +101,12 @@ describe('Language Support for Apache Camel extension', function () {
 
 	describe('Status bar', function () {
 
-		let driver: WebDriver;
-
 		before(async function () {
-			driver = VSBrowser.instance.driver;
-			await utils.openFile(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+			await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
 		});
 
 		after(async function () {
-			driver = VSBrowser.instance.driver;
-			await driver.wait(async function () {
-				const editor = new TextEditor();
-				if (await editor.isDirty() === false) {
-					return true;
-				}
-
-				const workbench = new Workbench();
-				await workbench.executeCommand('File: Revert File');
-				return false;
-			});
-
-			await new EditorView().closeAllEditors();
+			await utils.closeEditor(CAMEL_CONTEXT_XML, false);
 		});
 
 		it('Language Support for Apache Camel started', async function () {
@@ -124,7 +121,7 @@ describe('Language Support for Apache Camel extension', function () {
 				catch {
 					return false;
 				}
-			}, this.timeout() - 3000, `Could not find Apache Camel element with label "${LSP_STATUS_BAR_MESSAGE}". Current label: "${await new StatusBar().getLSPSupport().catch(() => 'unknown')}"`);
+			}, this.timeout() - 3000, `Could not find Apache Camel element with label '${LSP_STATUS_BAR_MESSAGE}'. Current label: '${await new StatusBar().getLSPSupport().catch(() => 'unknown')}'`);
 		});
 	});
 });

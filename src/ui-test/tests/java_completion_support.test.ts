@@ -16,15 +16,15 @@
  */
 
 import {
-	EditorView,
 	BottomBarPanel,
 	MarkerType,
 	VSBrowser,
-	WebDriver,
 	TextEditor,
 	ContentAssist,
 	WaitUntil,
-	DefaultWait
+	DefaultWait,
+	before,
+	EditorView
 } from 'vscode-uitests-tooling';
 import { assert } from 'chai';
 import * as path from 'path';
@@ -32,27 +32,29 @@ import * as utils from '../utils/testUtils';
 import * as ca from '../utils/contentAssist';
 
 describe('Java DSL support', function () {
-	this.timeout(60000);
+	this.timeout(300000);
 
 	const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
 	const CAMEL_CONTEXT_JAVA = 'camel-context.java';
 	const URI_POSITION = 15;
 
 	let contentAssist: ContentAssist;
-	let driver: WebDriver;
+	let editor: TextEditor;
 
 	before(async function () {
-		this.timeout(20000);
-		driver = VSBrowser.instance.driver;
-		VSBrowser.instance.waitForWorkbench();
+		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.waitForWorkbench();
 	});
 
 	const _setup = function (camel_java: string) {
 		return async function () {
 			this.timeout(20000);
-			await new EditorView().closeAllEditors();
-			const absoluteCamelJavaPath = path.join(RESOURCES, camel_java);
-			await VSBrowser.instance.openResources(absoluteCamelJavaPath);
+			await VSBrowser.instance.openResources(path.join(RESOURCES, camel_java));
+			const ew = new EditorView();
+			await ew.getDriver().wait(async function () {
+				return (await ew.getOpenEditorTitles()).find(t => t === camel_java);
+			}, 10000);
+			editor = await utils.activateEditor(camel_java);
 		}
 	};
 
@@ -68,18 +70,20 @@ describe('Java DSL support', function () {
 		before(_setup(CAMEL_CONTEXT_JAVA));
 		after(_clean(CAMEL_CONTEXT_JAVA));
 
+		beforeEach(async function () {
+			editor = await utils.activateEditor(CAMEL_CONTEXT_JAVA);
+		});
+
 		it('Open "camel-context.java" file inside Editor View', async function () {
-			const editor = await new EditorView().openEditor(CAMEL_CONTEXT_JAVA);
 			const editorName = await editor.getTitle();
 			assert.equal(editorName, CAMEL_CONTEXT_JAVA);
 		});
 
 		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			const editor = new TextEditor();
-
-			await editor.typeTextAt(9, URI_POSITION, 'timer');
+			await utils.typeTextAtExt(9, URI_POSITION, 'timer');
 			const expectedContentAssist = 'timer:timerName';
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, expectedContentAssist);
+			contentAssist = await ca.waitUntilContentAssistContains(expectedContentAssist);
+
 			const timer = await contentAssist.getItem(expectedContentAssist);
 			assert.equal(await utils.getTextExt(timer), expectedContentAssist);
 			await timer.click();
@@ -88,10 +92,8 @@ describe('Java DSL support', function () {
 		});
 
 		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			const editor = new TextEditor();
-
-			await editor.typeTextAt(9, URI_POSITION + 15, '?');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
+			await utils.typeTextAtExt(9, URI_POSITION + 15, '?');
+			contentAssist = await ca.waitUntilContentAssistContains('delay');
 			const delay = await contentAssist.getItem('delay');
 			assert.equal(await utils.getTextExt(delay), 'delay');
 			await delay.click();
@@ -100,18 +102,16 @@ describe('Java DSL support', function () {
 		});
 
 		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
-			const editor = new TextEditor();
-
-			await editor.typeTextAt(9, URI_POSITION + 26, '&');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'exchangePattern');
+			await utils.typeTextAtExt(9, URI_POSITION + 26, '&');
+			contentAssist = await ca.waitUntilContentAssistContains('exchangePattern');
 			const exchange = await contentAssist.getItem('exchangePattern');
 			assert.equal(await utils.getTextExt(exchange), 'exchangePattern');
 			await exchange.click()
 
 			assert.equal((await editor.getTextAtLine(9)).trim(), 'from("timer:timerName?delay=1000&exchangePattern=").routeId("_fromID");');
 
-			await editor.typeTextAt(9, URI_POSITION + 43, 'In');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'InOnly');
+			await utils.typeTextAtExt(9, URI_POSITION + 43, 'In');
+			contentAssist = await ca.waitUntilContentAssistContains('InOnly');
 			const inOnly = await contentAssist.getItem('InOnly');
 			assert.equal(await utils.getTextExt(inOnly), 'InOnly');
 			await inOnly.click();
@@ -125,20 +125,22 @@ describe('Java DSL support', function () {
 		before(_setup(CAMEL_CONTEXT_JAVA));
 		after(_clean(CAMEL_CONTEXT_JAVA));
 
-		it('Duplicate endpoint options are filtered out', async function () {
-			const editor = new TextEditor();
+		beforeEach(async function () {
+			await utils.activateEditor(CAMEL_CONTEXT_JAVA);
+		});
 
-			await editor.typeTextAt(9, URI_POSITION, 'timer');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'timer:timerName');
+		it('Duplicate endpoint options are filtered out', async function () {
+			await utils.typeTextAtExt(9, URI_POSITION, 'timer');
+			contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
-			await editor.typeTextAt(9, URI_POSITION + 15, '?');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
+			await utils.typeTextAtExt(9, URI_POSITION + 15, '?');
+			contentAssist = await ca.waitUntilContentAssistContains('delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeTextAt(9, URI_POSITION + 26, '&de');
+			await utils.typeTextAtExt(9, URI_POSITION + 26, '&de');
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 			await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
 			const filtered = await contentAssist.hasItem('delay');
@@ -155,28 +157,31 @@ describe('Java DSL support', function () {
 		beforeEach(_setup(CAMEL_CONTEXT_JAVA));
 		afterEach(_clean(CAMEL_CONTEXT_JAVA));
 
+		beforeEach(async function () {
+			await utils.activateEditor(CAMEL_CONTEXT_JAVA);
+		});
+
 		it('LSP diagnostics support for XML DSL', async function () {
 			this.retries(3);
-			const editor = new TextEditor();
 
-			await editor.typeTextAt(9, URI_POSITION, 'timer');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'timer:timerName');
+			await utils.typeTextAtExt(9, URI_POSITION, 'timer');
+			contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
 			await timer.click();
 
-			await editor.typeTextAt(9, URI_POSITION + 15, '?');
-			contentAssist = await ca.waitUntilContentAssistContains(driver, contentAssist, editor, 'delay');
+			await utils.typeTextAtExt(9, URI_POSITION + 15, '?');
+			contentAssist = await ca.waitUntilContentAssistContains('delay');
 			const delay = await contentAssist.getItem('delay');
 			await delay.click();
 
-			await editor.typeTextAt(9, URI_POSITION + 26, 'r');
+			await utils.typeTextAtExt(9, URI_POSITION + 26, 'r');
 			const problemsView = await utils.openView('Problems');
 
-			await driver.wait(async function () {
-				const innerMarkers = await problemsView.getAllMarkers(MarkerType.Error);
+			await problemsView.getDriver().wait(async function () {
+				const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 				return innerMarkers.length > 0;
 			}, DefaultWait.TimePeriod.MEDIUM);
-			const markers = await problemsView.getAllMarkers(MarkerType.Error);
+			const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 			assert.isNotEmpty(markers, 'Problems view does not contains expected error');
 
 			const errorMessage = await markers[0].getText();

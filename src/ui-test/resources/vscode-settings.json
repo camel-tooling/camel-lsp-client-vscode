@@ -11,5 +11,11 @@
     "workbench.editor.enablePreview": false,
     "window.restoreFullscreen": true,
     "window.newWindowDimensions": "maximized",
-    "window.title": "${dirty}${activeEditorLong}${separator}${rootPath}${separator}${appName}"
+    "window.title": "${dirty}${activeEditorLong}${separator}${rootPath}${separator}${appName}",
+    "workbench.startupEditor": "none",
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.sendKeybindingsToShell": true,
+    "git.autoRepositoryDetection": false,
+    "git.openRepositoryInParentFolders": "never",
+    "extensions.ignoreRecommendations": true
 }

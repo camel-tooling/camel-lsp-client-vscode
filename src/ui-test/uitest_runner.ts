@@ -22,7 +22,7 @@ import { ExTester, ReleaseQuality } from 'vscode-uitests-tooling';
 
 const storageFolder = 'test-resources';
 const releaseType: ReleaseQuality = process.env.CODE_TYPE === 'insider' ? ReleaseQuality.Insider : ReleaseQuality.Stable;
-export const projectPath = path.resolve(__dirname, '..', '..');
+export const projectPath = path.resolve(__dirname, '..', '..', '..');
 const extensionFolder = path.join(projectPath, '.test-extensions');
 
 async function main(): Promise<void> {
