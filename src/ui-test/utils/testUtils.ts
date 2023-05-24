@@ -25,15 +25,6 @@ import {
 	Workbench
 } from "vscode-uitests-tooling";
 
-export async function openFile(fileToOpenAbsolutePath?: string): Promise<void> {
-	const workbench = new Workbench();
-	await workbench.executeCommand('File: Open...');
-	await workbench.openCommandPrompt();
-	const input = await InputBox.create();
-	await input.setText(fileToOpenAbsolutePath);
-	await input.confirm();
-}
-
 /**
  * Workaround for issue with ContentAssistItem getText() method
  * For more details please see https://github.com/djelinek/vscode-uitests-tooling/issues/17
@@ -78,4 +69,45 @@ export async function closeEditor(title: string, save?: boolean) {
 			await dialog.pushButton('Don\'t Save');
 		}
 	}
+}
+
+/**
+ * Switch to an editor tab with the given title
+ *
+ * @param title Title of editor to activate
+ */
+export async function activateEditor(title: string): Promise<TextEditor> {
+	return await new EditorView().openEditor(title) as TextEditor;
+}
+
+/**
+ * Wait until cursor is set to defined position inside Text Editor
+ *
+ * @param line
+ * @param column
+ */
+export async function waitUntilCursorAtPosition(line: number, column: number): Promise<void> {
+	const editor = new TextEditor();
+	await editor.getDriver().wait(async function () {
+		const coor = await editor.getCoordinates();
+		return coor[0] === line && coor[1] === column;
+	});
+}
+
+/**
+ * Type text at defined position inside Text Editor
+ * Workaround for https://github.com/redhat-developer/vscode-extension-tester/issues/795
+ *
+ * @param line
+ * @param column
+ * @param text
+ */
+export async function typeTextAtExt(line: number, column: number, text: string): Promise<void> {
+	const input = await new Workbench().openCommandPrompt();
+	await input.setText(`:${line},${column}`);
+	await input.confirm();
+	await waitUntilCursorAtPosition(line, column);
+
+	await new TextEditor().typeText(text);
+	await waitUntilCursorAtPosition(line, column + text.length);
 }
