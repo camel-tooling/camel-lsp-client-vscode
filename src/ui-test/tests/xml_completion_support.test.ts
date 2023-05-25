@@ -154,16 +154,14 @@ describe('XML DSL support', function () {
 
 		const EXPECTED_ERROR_MESSAGE = 'Invalid duration value: 1000r';
 
-		beforeEach(_setup(CAMEL_CONTEXT_XML));
-		afterEach(_clean(CAMEL_CONTEXT_XML));
+		before(_setup(CAMEL_CONTEXT_XML));
+		after(_clean(CAMEL_CONTEXT_XML));
 
 		beforeEach(async function () {
 			await utils.activateEditor(CAMEL_CONTEXT_XML);
 		});
 
 		it('LSP diagnostics support for XML DSL', async function () {
-			this.retries(3);
-
 			await utils.typeTextAtExt(3, URI_POSITION, 'timer');
 			contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
