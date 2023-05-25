@@ -154,16 +154,15 @@ describe('Java DSL support', function () {
 
 		const EXPECTED_ERROR_MESSAGE = 'Invalid duration value: 1000r';
 
-		beforeEach(_setup(CAMEL_CONTEXT_JAVA));
-		afterEach(_clean(CAMEL_CONTEXT_JAVA));
+		before(_setup(CAMEL_CONTEXT_JAVA));
+		after(_clean(CAMEL_CONTEXT_JAVA));
 
 		beforeEach(async function () {
 			await utils.activateEditor(CAMEL_CONTEXT_JAVA);
 		});
 
-		it('LSP diagnostics support for XML DSL', async function () {
-			this.retries(3);
 
+		it('LSP diagnostics support for Java DSL', async function () {
 			await utils.typeTextAtExt(9, URI_POSITION, 'timer');
 			contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
 			const timer = await contentAssist.getItem('timer:timerName');
