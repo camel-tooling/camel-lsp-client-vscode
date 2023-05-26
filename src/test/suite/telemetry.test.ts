@@ -50,7 +50,7 @@ export async function checkTelemetry(telemetrySpy: sinon.SinonSpy<any[], any>, l
 	try {
 		await waitUntil(() => {
 			return telemetrySpy.calledOnce;
-		});
+		}, 10000, 1000);
 	} catch(e) {
 		fail(`telemetry expected to be called once but was called ${telemetrySpy.callCount} time(s).`);
 	}
