@@ -44,7 +44,7 @@ describe('Create a Camel Route using command', function () {
 
 	const DSL_LIST = [
 		// DSL, COMMAND, FILENAME, FILENAME LONG, EXAMPLE FILE
-		['XML', 'Camel: Create a Camel Route using XML DSL', 'xmlSample', 'xmlSample.xml', 'XML.xml'],
+		['XML', 'Camel: Create a Camel Route using XML DSL', 'xmlSample', 'xmlSample.camel.xml', 'XML.xml'],
 		['Java', 'Camel: Create a Camel Route using Java DSL', 'Java', 'Java.java', 'Java.java'],
 		['Yaml', 'Camel: Create a Camel Route using Yaml DSL', 'yamlSample', 'yamlSample.camel.yaml', 'YAML.yaml']
 	];

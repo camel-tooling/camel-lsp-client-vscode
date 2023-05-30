@@ -36,7 +36,7 @@ describe('Should execute Create a Camel Route command', function () {
 	const javaFileName = 'TestRoute';
 	const fullJavaFileName = `${javaFileName}.java`;
 
-	const fullXmlFileName = `${fileName}.xml`;
+	const fullXmlFileName = `${fileName}.camel.xml`;
 
 	context('File creation', function () {
 

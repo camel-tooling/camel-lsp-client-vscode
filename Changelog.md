@@ -7,7 +7,7 @@
 - Provide command to create a Camel route defined in Java DSL using Camel JBang
 - Provide command to create a Camel route defined in XML DSL using Camel JBang
 - Deprecate features related to Camel kafka Connector
-- Update default Camel JBang version from 3.20.3 to 3.20.4
+- Update default Camel JBang version from 3.20.3 to 3.20.5
 - Provide settings for default Camel JBang version
 - Update default Camel Catalog version from 3.20.3 to 3.20.5
 
