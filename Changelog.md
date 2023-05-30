@@ -9,6 +9,7 @@
 - Deprecate features related to Camel kafka Connector
 - Update default Camel JBang version from 3.20.3 to 3.20.4
 - Provide settings for default Camel JBang version
+- Update default Camel Catalog version from 3.20.3 to 3.20.5
 
 ## 0.7.0
 
