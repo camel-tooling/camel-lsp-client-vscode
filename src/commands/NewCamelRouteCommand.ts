@@ -61,7 +61,7 @@ export class NewCamelRouteCommand {
 			case 'JAVA':
 				return { language: 'Java', extension: 'java', placeHolder: 'SampleRoute' };
 			case 'XML':
-				return { language: 'Xml', extension: 'xml', placeHolder: 'sample-route' };
+				return { language: 'Xml', extension: 'camel.xml', placeHolder: 'sample-route' };
 			default:
 				return undefined;
 		}
