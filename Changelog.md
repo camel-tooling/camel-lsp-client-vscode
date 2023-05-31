@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.9.0
+
 ## 0.8.0
 
 - Minimal version of VS Code to run this extension is 1.76.0
