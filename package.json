@@ -210,7 +210,7 @@
     "rimraf": "^5.0.1",
     "sinon": "^15.1.0",
     "typescript": "^5.0.4",
-    "vscode-uitests-tooling": "^3.0.0"
+    "vscode-uitests-tooling": "^3.0.1"
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.6.1",
