@@ -92,7 +92,18 @@ describe('Create a Camel Route using command', function () {
 			});
 
 			it('Check file content', async function () {
-				const editor = await new EditorView().openEditor(FILENAME_LONG) as TextEditor;
+				let editor: TextEditor;
+
+				// workaround for https://issues.redhat.com/browse/FUSETOOLS2-2099
+				await driver.wait(async function () {
+					try {
+						editor = await new EditorView().openEditor(FILENAME_LONG) as TextEditor;
+						return true;
+					} catch (err) {
+						await driver.actions().click().perform();
+						return false;
+					}
+				}, 10000, undefined, 500);
 
 				const text = await editor.getText();
 				expect(text).equals(getFileContent(EXAMPLE));
