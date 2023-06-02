@@ -209,7 +209,7 @@
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^5.0.1",
     "sinon": "^15.1.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.1.3",
     "vscode-uitests-tooling": "^3.0.1"
   },
   "dependencies": {
