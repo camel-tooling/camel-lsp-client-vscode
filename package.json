@@ -201,7 +201,7 @@
     "@vscode/vsce": "^2.19.0",
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.7",
-    "eslint": "^8.41.0",
+    "eslint": "^8.42.0",
     "eslint-plugin-import": "^2.27.5",
     "glob": "^10.2.6",
     "mocha": "^10.2.0",
