@@ -19,9 +19,9 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
-import { CamelJBangTask } from '../tasks/CamelJBangTask';
 
 import validFilename = require('valid-filename');
+import { CamelInitJBangTask } from '../tasks/CamelInitJBangTask';
 
 export interface CamelRouteDSL {
 	language: string;
@@ -49,7 +49,7 @@ export class NewCamelRouteCommand {
 			const fileName = this.getFullName(input, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 
-			await new CamelJBangTask(this.workspaceFolder, fileName).execute();
+			await new CamelInitJBangTask(this.workspaceFolder, fileName).execute();
 			await commands.executeCommand('vscode.open', Uri.file(filePath));
 		}
 	}

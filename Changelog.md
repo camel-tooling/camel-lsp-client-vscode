@@ -2,6 +2,7 @@
 
 ## 0.9.0
 
+- Provide command to create a Camel Quarkus project
 - Update Kamelet Catalog from 3.20.4 to 3.20.5
 
 ## 0.8.0

@@ -42,6 +42,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
   - Yaml DSL
   - Java DSL
   - XML DSL
+- Create a Camel Quarkus project
 - [Deprecated] Camel Kafka Connector support.
 - **XML DSL Only:**
   - Find references for `direct` and `direct VM` components in all open Camel files.

@@ -16,31 +16,30 @@
  */
 'use strict'
 
-import { Task, TaskDefinition, tasks, TaskScope, WorkspaceFolder } from 'vscode';
-import { CamelJBang } from '../requirements/CamelJBang';
+import { ShellExecution, Task, TaskDefinition, tasks, TaskScope, WorkspaceFolder } from 'vscode';
 
 /**
  * This class represents implementation of vscode.task for Camel JBang.
  */
-export class CamelJBangTask extends Task {
+export abstract class CamelJBangTask extends Task {
 
-	public static LABEL_PROVIDED_TASK  = 'Init Camel Route file with JBang';
+	protected label: string;
 
-	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file: string, problemMatchers?: string | string[]) {
+	constructor(scope: WorkspaceFolder | TaskScope.Workspace, label: string, shellExecution: ShellExecution) {
 
 		const taskDefinition: TaskDefinition = {
-			'label': CamelJBangTask.LABEL_PROVIDED_TASK,
+			'label': label,
 			'type': 'shell'
 		};
 
 		super(
 			taskDefinition,
 			scope,
-			CamelJBangTask.LABEL_PROVIDED_TASK,
+			label,
 			'camel',
-			new CamelJBang().init(file),
-			problemMatchers
+			shellExecution
 		);
+		this.label = label;
 	}
 
 	public async execute(): Promise<void> {
@@ -51,7 +50,7 @@ export class CamelJBangTask extends Task {
 	private async waitForEnd(): Promise<void> {
 		await new Promise<void>(resolve => {
 			const disposable = tasks.onDidEndTask(e => {
-				if (e.execution.task.name === CamelJBangTask.LABEL_PROVIDED_TASK) {
+				if (e.execution.task.name === this.label) {
 					disposable.dispose();
 					resolve();
 				}

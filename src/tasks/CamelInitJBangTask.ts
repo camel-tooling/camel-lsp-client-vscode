@@ -16,24 +16,15 @@
  */
 'use strict'
 
-import { ShellExecution, workspace } from "vscode";
+import { TaskScope, WorkspaceFolder } from "vscode";
+import { CamelJBangTask } from "./CamelJBangTask";
+import { CamelJBang } from "../requirements/CamelJBang";
 
-/**
- * Camel JBang class which allows shell execution of different jbang cli commands
- */
-export class CamelJBang {
+export class CamelInitJBangTask extends CamelJBangTask {
 
-	private camelVersion: string;
-
-	constructor() {
-		this.camelVersion = workspace.getConfiguration().get('camel.languageSupport.JBangVersion') as string;
-	}
-
-	public init(file: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'init', `'${file}'`]);
-	}
-
-	public createProject(gav: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', '--runtime=quarkus', `--gav=${gav}`]);
+	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file) {
+		super(scope,
+			'Init Camel Route file with JBang',
+			new CamelJBang().init(file));
 	}
 }
