@@ -203,7 +203,7 @@
     "chai": "^4.3.7",
     "eslint": "^8.42.0",
     "eslint-plugin-import": "^2.27.5",
-    "glob": "^10.2.6",
+    "glob": "^10.2.7",
     "mocha": "^10.2.0",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
