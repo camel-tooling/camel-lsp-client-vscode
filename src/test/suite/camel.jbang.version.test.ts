@@ -17,7 +17,7 @@
 'use strict';
 
 import { ShellExecution, workspace } from 'vscode';
-import { CamelJBangTask } from '../../tasks/CamelJBangTask';
+import { CamelInitJBangTask } from '../../tasks/CamelInitJBangTask';
 import { expect } from 'chai';
 
 describe('Should run commands with Camel JBang version specified in settings', () => {
@@ -44,7 +44,7 @@ describe('Should run commands with Camel JBang version specified in settings', (
 		expect(config.get(CAMEL_JBANG_VERSION_SETTINGS_ID)).to.not.be.equal(CAMEL_JBANG_VERSION);
 
 		await config.update(CAMEL_JBANG_VERSION_SETTINGS_ID, CAMEL_JBANG_VERSION);
-		const camelJBangTask = new CamelJBangTask(workspace.workspaceFolders[0], 'test-route.camel.yaml');
+		const camelJBangTask = new CamelInitJBangTask(workspace.workspaceFolders[0], 'test-route.camel.yaml');
 		expect((camelJBangTask.execution as ShellExecution).args[0].toString()).to.includes(CAMEL_JBANG_VERSION)
 	});
 

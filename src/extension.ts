@@ -9,6 +9,7 @@ import { NewCamelRouteCommand } from './commands/NewCamelRouteCommand';
 import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
 import * as telemetry from './Telemetry';
+import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -96,6 +97,11 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => { await new NewCamelRouteCommand('YAML').create(); }));
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => { await new NewCamelRouteCommand('JAVA').create(); }));
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async () => { await new NewCamelRouteCommand('XML').create(); }));
+
+
+	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => { await new NewCamelQuarkusProjectCommand().create(); }));
+
+
 
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }

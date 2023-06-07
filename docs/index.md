@@ -27,10 +27,11 @@ This extension provides completion, validation and documentation features for Ap
 - [Specific Runtime provider for the Camel Catalog](./content/other.md#specific-runtime-provider)
 - [Provide Additional Camel components](./content/other.md#additional-camel-components)
 - [Quick Reference Documentation](./content/other.md#quick-reference-documentation)
-- [Create a Camel Route using Camel JBang](./content/commands.md)
+- [Create a Camel Route using Camel JBang](./content/commands.md#create-a-camel-route-using-camel-jbang)
   - Yaml DSL
   - Java DSL
   - XML DSL
+- [Create a Camel Quarkus project](./content/commands.md#create-a-camel-quarkus-project-using-camel-jbang-export)
 - [Deprecated] [Camel Kafka Connector support](./content/kafka.md)
 - [XML DSL Only](./content/xml-dsl-only.md)
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components
