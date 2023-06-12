@@ -21,8 +21,6 @@ import * as fs from 'fs';
 import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { CamelJBangTask } from '../tasks/CamelJBangTask';
 
-import validFilename = require('valid-filename');
-
 export interface CamelRouteDSL {
 	language: string;
 	extension: string;
@@ -71,8 +69,8 @@ export class NewCamelRouteCommand {
 		return await window.showInputBox({
 			prompt: 'Please provide a name for the new file (without extension).',
 			placeHolder: this.camelDSL.placeHolder,
-			validateInput: (fileName) => {
-				return this.validateCamelFileName(fileName);
+			validateInput: async (fileName) => {
+				return await this.validateCamelFileName(fileName);
 			},
 		});
 	}
@@ -88,7 +86,7 @@ export class NewCamelRouteCommand {
 	 * @param name
 	 * @returns string | undefined
 	 */
-	public validateCamelFileName(name: string): string | undefined {
+	public async validateCamelFileName(name: string): Promise<string | undefined> {
 		if (!name) {
 			return 'Please provide a name for the new file (without extension).';
 		}
@@ -99,6 +97,9 @@ export class NewCamelRouteCommand {
 		if (fs.existsSync(newFilePotentialFullPath)) {
 			return 'The file already exists. Please choose a different file name.';
 		}
+		const validFilename = await import('valid-filename').then(function (vfn) {
+			return vfn.default;
+		});
 		if (!validFilename(name)) {
 			return 'The filename is invalid.';
 		}

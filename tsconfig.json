@@ -5,7 +5,7 @@
             "es6"
         ],
 		"module": "commonjs",
-		"moduleResolution": "node",
+		"moduleResolution": "node16",
 		"outDir": "out",
 		"resolveJsonModule": true
 	},
