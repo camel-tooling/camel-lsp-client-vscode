@@ -18,31 +18,30 @@
 
 import { expect } from 'chai';
 import { NewCamelQuarkusProjectCommand } from '../../commands/NewCamelQuarkusProjectCommand';
+import { NewCamelSpringBootProjectCommand } from '../../commands/NewCamelSpringBootProjectCommand';
 
 describe('Should validate Create a Camel Project command', function () {
 
-	context('GAV validation', function () {
+	const COMMANDS = [new NewCamelQuarkusProjectCommand(), new NewCamelSpringBootProjectCommand()];
 
-		let newCamelQuarkusProjectCommand: NewCamelQuarkusProjectCommand;
+	COMMANDS.forEach(command => {
+		context(`GAV validation of ${command.getRuntime()}`, function () {
 
-		before(async function () {
-			newCamelQuarkusProjectCommand = new NewCamelQuarkusProjectCommand();
-		});
+			it('Validate not empty', function () {
+				expect(command.validateGAV('')).to.not.be.undefined;
+			});
 
-		it('Validate not empty', function () {
-			expect(newCamelQuarkusProjectCommand.validateGAV('')).to.not.be.undefined;
-		});
+			it('Validate contains 2 double-dots (basic check done by Camel JBang)', function () {
+				expect(command.validateGAV('invalid')).to.not.be.undefined;
+				expect(command.validateGAV('invalid:invalid')).to.not.be.undefined;
+				expect(command.validateGAV('valid:valid:1.0-SNAPSHOT')).to.be.undefined;
+			});
 
-		it('Validate contains 2 double-dots (basic check done by Camel JBang)', function () {
-			expect(newCamelQuarkusProjectCommand.validateGAV('invalid')).to.not.be.undefined;
-			expect(newCamelQuarkusProjectCommand.validateGAV('invalid:invalid')).to.not.be.undefined;
-			expect(newCamelQuarkusProjectCommand.validateGAV('valid:valid:1.0-SNAPSHOT')).to.be.undefined;
-		});
-
-		it('Validate does not contain space', function () {
-			expect(newCamelQuarkusProjectCommand.validateGAV('invalid:with space:1.0-SNAPSHOT')).to.not.be.undefined;
-			expect(newCamelQuarkusProjectCommand.validateGAV('with space:invalid:1.0-SNAPSHOT')).to.not.be.undefined;
-			expect(newCamelQuarkusProjectCommand.validateGAV('invalid:invalid:1.0- with space')).to.not.be.undefined;
+			it('Validate does not contain space', function () {
+				expect(command.validateGAV('invalid:with space:1.0-SNAPSHOT')).to.not.be.undefined;
+				expect(command.validateGAV('with space:invalid:1.0-SNAPSHOT')).to.not.be.undefined;
+				expect(command.validateGAV('invalid:invalid:1.0- with space')).to.not.be.undefined;
+			});
 		});
 	});
 });

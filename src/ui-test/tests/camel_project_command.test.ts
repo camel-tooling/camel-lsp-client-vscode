@@ -32,7 +32,7 @@ describe('Create a Camel Project using command', function () {
 		this.timeout(200000);
 		driver = VSBrowser.instance.driver;
 
-		fs.mkdirSync(SPECIFIC_WORKSPACE, {recursive: true});
+		fs.mkdirSync(SPECIFIC_WORKSPACE, { recursive: true });
 
 		await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE);
 		await VSBrowser.instance.waitForWorkbench();
@@ -49,26 +49,31 @@ describe('Create a Camel Project using command', function () {
 
 	after(async function () {
 		await new EditorView().closeAllEditors();
-		fs.rmSync(SPECIFIC_WORKSPACE, {recursive: true});
+		fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true });
 	});
 
-	it('Create Project', async function () {
-		await new Workbench().executeCommand('camel.jbang.project.quarkus.new');
+	const COMMANDS = ['camel.jbang.project.quarkus.new', 'camel.jbang.project.springboot.new'];
 
-		await driver.wait(async function () {
-			input = await InputBox.create();
-			return (await input.isDisplayed());
-		}, 30000);
-		await input.setText('com.demo:test:1.0-SNAPSHOT');
-		await input.confirm();
+	COMMANDS.forEach(command => {
 
-		const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
-		await driver.wait(async () => {
-			const items = await tree.getVisibleItems();
+		it(`Create Project ${command}`, async function () {
+			await new Workbench().executeCommand(command);
 
-			const labels = await Promise.all(items.map(item => item.getLabel()));
-			return labels.includes('pom.xml');
-		}, 30000);
+			await driver.wait(async function () {
+				input = await InputBox.create();
+				return (await input.isDisplayed());
+			}, 30000);
+			await input.setText('com.demo:test:1.0-SNAPSHOT');
+			await input.confirm();
+
+			const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
+			await driver.wait(async () => {
+				const items = await tree.getVisibleItems();
+
+				const labels = await Promise.all(items.map(item => item.getLabel()));
+				return labels.includes('pom.xml');
+			}, 30000);
+		});
 	});
 });
 

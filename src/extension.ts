@@ -10,6 +10,7 @@ import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
 import * as telemetry from './Telemetry';
 import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
+import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -100,8 +101,7 @@ export async function activate(context: ExtensionContext) {
 
 
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => { await new NewCamelQuarkusProjectCommand().create(); }));
-
-
+	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => { await new NewCamelSpringBootProjectCommand().create(); }));
 
 	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
