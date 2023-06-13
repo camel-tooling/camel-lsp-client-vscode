@@ -31,7 +31,8 @@ This extension provides completion, validation and documentation features for Ap
   - Yaml DSL
   - Java DSL
   - XML DSL
-- [Create a Camel Quarkus project](./content/commands.md#create-a-camel-quarkus-project-using-camel-jbang-export)
+- [Create a Camel Quarkus project](./content/commands.md#quarkus)
+- [Create a Camel on SpringBoot project](./content/commands.md#springboot)
 - [Deprecated] [Camel Kafka Connector support](./content/kafka.md)
 - [XML DSL Only](./content/xml-dsl-only.md)
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components

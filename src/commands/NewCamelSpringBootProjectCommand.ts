@@ -16,24 +16,13 @@
  */
 'use strict'
 
-import { ShellExecution, workspace } from "vscode";
+import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
 
-/**
- * Camel JBang class which allows shell execution of different jbang cli commands
- */
-export class CamelJBang {
+export class NewCamelSpringBootProjectCommand extends NewCamelProjectCommand {
 
-	private camelVersion: string;
+	public static ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT = 'camel.jbang.project.springboot.new';
 
-	constructor() {
-		this.camelVersion = workspace.getConfiguration().get('camel.languageSupport.JBangVersion') as string;
-	}
-
-	public init(file: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'init', `'${file}'`]);
-	}
-
-	public createProject(gav: string, runtime: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', `--runtime=${runtime}`, `--gav=${gav}`]);
+	getRuntime(): string {
+		return 'spring-boot';
 	}
 }

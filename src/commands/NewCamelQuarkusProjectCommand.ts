@@ -16,55 +16,13 @@
  */
 'use strict'
 
-import { WorkspaceFolder, window, workspace } from "vscode";
-import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
+import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
 
-export class NewCamelQuarkusProjectCommand {
+export class NewCamelQuarkusProjectCommand extends NewCamelProjectCommand {
 
 	public static ID_COMMAND_CAMEL_QUARKUS_PROJECT = 'camel.jbang.project.quarkus.new';
 
-	async create() {
-		const input = await this.askForGAV();
-		if (input) {
-			let workspaceFolder: WorkspaceFolder | undefined;
-			if (workspace.workspaceFolders) {
-				// default to root workspace folder
-				workspaceFolder = workspace.workspaceFolders[0];
-			}
-			await new CamelExportJBangTask(workspaceFolder, input).execute();
-		}
+	getRuntime(): string {
+		return 'quarkus';
 	}
-
-	async askForGAV() {
-		return await window.showInputBox({
-			prompt: 'Please provide repository coordinate',
-			placeHolder: 'com.acme:myproject:1.0-SNAPSHOT',
-			value: 'com.acme:myproject:1.0-SNAPSHOT',
-			validateInput: (gav) => {
-				return this.validateGAV(gav);
-			},
-		});
-	}
-
-	/**
-	 * Maven GAV validation
-	 * 	- no empty name
-	 *  - Have 2 double-dots (similar check than Camel JBang)
-	 *
-	 * @param name
-	 * @returns string | undefined
-	 */
-	public validateGAV(name: string): string | undefined {
-		if (!name) {
-			return 'Please provide a GAV for the new project following groupId:artifactId:version pattern.';
-		}
-		if (name.includes(' ')) {
-			return 'The GAV cannot contain a space. It must constituted from groupId, artifactId and version following groupId:artifactId:version pattern.';
-		}
-		if (name.split(':').length !== 3) {
-			return 'The GAV needs to have double-dot `:` separator and constituted from groupId, artifactId and version';
-		}
-		return undefined;
-	}
-
 }
