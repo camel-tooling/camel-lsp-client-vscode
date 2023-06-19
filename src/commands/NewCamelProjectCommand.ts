@@ -50,6 +50,7 @@ export abstract class NewCamelProjectCommand {
 	 * Maven GAV validation
 	 * 	- no empty name
 	 *  - Have 2 double-dots (similar check than Camel JBang)
+	 *  - following mostly recommendations from Maven Central for name rules
 	 *
 	 * @param name
 	 * @returns string | undefined
@@ -61,8 +62,31 @@ export abstract class NewCamelProjectCommand {
 		if (name.includes(' ')) {
 			return 'The GAV cannot contain a space. It must constituted from groupId, artifactId and version following groupId:artifactId:version pattern.';
 		}
-		if (name.split(':').length !== 3) {
+		const gavs = name.split(':');
+		if (gavs.length !== 3) {
 			return 'The GAV needs to have double-dot `:` separator and constituted from groupId, artifactId and version';
+		}
+		const groupIdSplit = gavs[0].split('.');
+		if (groupIdSplit[0].length === 0) {
+			return 'The group id cannot start with a .';
+		}
+		for (const groupidSubPart of groupIdSplit) {
+			const regExpSearch = /^[a-z]\w*$/.exec(groupidSubPart);
+			if(regExpSearch === null || regExpSearch.length === 0) {
+				return `Invalid subpart of group Id: ${groupidSubPart}} . It must follow groupId:artifactId:version pattern with group Id subpart separated by dot needs to follow this specific pattern: [a-zA-Z]\\w*`;
+			}
+		}
+
+		const artifactId = gavs[1];
+		const regExpSearchArtifactId = /^[a-zA-Z]\w*$/.exec(artifactId);
+		if(regExpSearchArtifactId === null || regExpSearchArtifactId.length === 0) {
+			return `Invalid artifact Id: ${artifactId}} . It must follow groupId:artifactId:version pattern with artifactId specific pattern: [a-zA-Z]\\w*`;
+		}
+
+		const version = gavs[2];
+		const regExpSearch = /^\d[\w-.]*$/.exec(version);
+		if(regExpSearch === null || regExpSearch.length === 0) {
+			return `Invalid version: ${version} . It must follow groupId:artifactId:version pattern with version specific pattern: \\d[\\w-.]*`;
 		}
 		return undefined;
 	}

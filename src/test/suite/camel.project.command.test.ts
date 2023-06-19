@@ -27,6 +27,14 @@ describe('Should validate Create a Camel Project command', function () {
 	COMMANDS.forEach(command => {
 		context(`GAV validation of ${command.getRuntime()}`, function () {
 
+
+			it('Validate ok', function () {
+				expect(command.validateGAV('com.test:demo:1.0-SNAPSHOT')).to.be.undefined;
+				expect(command.validateGAV('com:demo:1.0-SNAPSHOT')).to.be.undefined;
+				expect(command.validateGAV('com.test:demo:1.0')).to.be.undefined;
+				expect(command.validateGAV('com.test:Demo:1.0')).to.be.undefined;
+			});
+
 			it('Validate not empty', function () {
 				expect(command.validateGAV('')).to.not.be.undefined;
 			});
@@ -41,6 +49,13 @@ describe('Should validate Create a Camel Project command', function () {
 				expect(command.validateGAV('invalid:with space:1.0-SNAPSHOT')).to.not.be.undefined;
 				expect(command.validateGAV('with space:invalid:1.0-SNAPSHOT')).to.not.be.undefined;
 				expect(command.validateGAV('invalid:invalid:1.0- with space')).to.not.be.undefined;
+			});
+
+			it('Validate contains valid characters', function () {
+				expect(command.validateGAV('.invalid:valid:1.0-SNAPSHOT')).to.not.be.undefined;
+				expect(command.validateGAV('%invalid:valid:1.0-SNAPSHOT')).to.not.be.undefined;
+				expect(command.validateGAV('va.lid:%invalid:1.0-SNAPSHOT')).to.not.be.undefined;
+				expect(command.validateGAV('va.lid:valid:1.0-%invalid')).to.not.be.undefined;
 			});
 		});
 	});
