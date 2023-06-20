@@ -5,6 +5,7 @@
 - Provide command to create a Camel Quarkus project
 - Provide command to create a Camel on SpringBoot project
 - Update Kamelet Catalog from 3.20.4 to 3.20.5
+- Update default Camel Catalog version from 3.20.5 to 3.20.6
 
 ## 0.8.0
 
