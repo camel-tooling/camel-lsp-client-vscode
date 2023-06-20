@@ -2,6 +2,7 @@
 
 ## 0.9.0
 
+- Provide Camel Quarkus debug profile in completion in pom.xml
 - Provide command to create a Camel Quarkus project
 - Provide command to create a Camel on SpringBoot project
 - Update Kamelet Catalog from 3.20.4 to 3.20.5
