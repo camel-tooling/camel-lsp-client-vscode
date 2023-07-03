@@ -94,11 +94,12 @@ jobs:
 
       - name: Store Camel Language Server log
         uses: actions/upload-artifact@v3
-        if: failure()
+        if: failure() && matrix.os != 'windows-latest'
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-camel-lsp-log
-          path: /tmp/log-camel-lsp.log
-
+          path: |
+            /tmp/log-camel-lsp.log
+            /tmp/log-camel*.log.gz
       - name: Store VS Code Logs
         uses: actions/upload-artifact@v3
         if: failure()
