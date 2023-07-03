@@ -3,13 +3,17 @@
 import * as vscode from 'vscode';
 import { checkExpectedCompletion, checkNotExpectedCompletion } from './completion.util';
 import { getDocUri } from './helper';
+import waitUntil from 'async-wait-until';
 
 describe('Should do completion in Camel URI using the additional component specified in preference', () => {
 	const docUriXml = getDocUri('test-additional-component.xml');
 
-	afterEach(() => {
+	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
-		config.update('camel.extra-components', undefined);
+		await config.update('camel.extra-components', undefined);
+		await waitUntil( async() =>  {
+			return ((await vscode.workspace.getConfiguration().get('camel.extra-components')) as []).length === 0;
+		});
 	});
 
 	it('Updated additional component is reflected in completion', async () => {
@@ -25,6 +29,10 @@ describe('Should do completion in Camel URI using the additional component speci
 				'syntax': 'acomponent:withsyntax'
 			}
 		}]);
+
+		await waitUntil( async() =>  {
+			return (await vscode.workspace.getConfiguration().get('camel.extra-components')) !== undefined;
+		});
 		await checkExpectedCompletion(docUriXml, positionToCallCompletion, completionItemLabel);
 
 		await config.update('camel.extra-components', undefined);
