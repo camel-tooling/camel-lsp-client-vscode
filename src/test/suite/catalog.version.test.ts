@@ -20,9 +20,12 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 		await activate(docUriXml);
 		const config = vscode.workspace.getConfiguration();
 		expect(config.get('camel.Camel catalog version')).to.not.be.equal('2.22.0');
+		console.log("Will check there si the expected completion when version is left to default");
 		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
 		await config.update('camel.Camel catalog version', '2.22.0');
 
+		expect(config.get('camel.Camel catalog version')).to.be.equal('2.22.0');
+		console.log("Will check there is not the expected completion when version is set to 2.22.0");
 		await checkNotExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
 
 		await config.update('camel.Camel catalog version', undefined);
