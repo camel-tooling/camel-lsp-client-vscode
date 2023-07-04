@@ -17,6 +17,9 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
 		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, undefined);
+		await waitUntil( async() =>  {
+			return (await vscode.workspace.getConfiguration().get(RUNTIME_PROVIDER_SETTINGS_KEY)) === undefined;
+		});
 	});
 
 	it('Updated Catalog runtime provider is reflected in completion', async () => {
