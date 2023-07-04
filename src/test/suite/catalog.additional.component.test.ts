@@ -12,7 +12,7 @@ describe('Should do completion in Camel URI using the additional component speci
 		const config = vscode.workspace.getConfiguration();
 		await config.update('camel.extra-components', undefined);
 		await waitUntil( async() =>  {
-			return (await vscode.workspace.getConfiguration().get('camel.extra-components')) === undefined;
+			return ((await vscode.workspace.getConfiguration().get('camel.extra-components')) as []).length === 0;
 		});
 	});
 
