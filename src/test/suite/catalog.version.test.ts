@@ -17,7 +17,7 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 		await config.update('camel.Camel catalog version', undefined);
 		await waitUntil( async() =>  {
 			console.log(`Catalog version in settings: ${await vscode.workspace.getConfiguration().get('camel.Camel catalog version')}`);
-			return (await vscode.workspace.getConfiguration().get('camel.Camel catalog version')) === undefined;
+			return (await vscode.workspace.getConfiguration().get('camel.Camel catalog version')) === '';
 		});
 	});
 
