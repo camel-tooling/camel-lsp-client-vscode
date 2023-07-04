@@ -8,9 +8,9 @@ import waitUntil from 'async-wait-until';
 describe('Should do completion in Camel URI using the additional component specified in preference', () => {
 	const docUriXml = getDocUri('test-additional-component.xml');
 
-	afterEach(() => {
+	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
-		config.update('camel.extra-components', undefined);
+		await config.update('camel.extra-components', undefined);
 	});
 
 	it('Updated additional component is reflected in completion', async () => {

@@ -12,9 +12,9 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	const docUriXml = getDocUri('test-catalog-version.xml');
 	const expectedCompletion = { label: 'jgroups-raft:clusterName'};
 
-	afterEach(() => {
+	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
-		config.update('camel.Camel catalog version', undefined);
+		await config.update('camel.Camel catalog version', undefined);
 	});
 
 	it('Updated Catalog version is reflected in completion', async () => {

@@ -14,9 +14,9 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	const docUriXml = getDocUri('test-catalog-version.xml');
 	const expectedCompletion = { label: 'jgroups-raft:clusterName'};
 
-	afterEach(() => {
+	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
-		config.update(RUNTIME_PROVIDER_SETTINGS_KEY, undefined);
+		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, undefined);
 	});
 
 	it('Updated Catalog runtime provider is reflected in completion', async () => {
