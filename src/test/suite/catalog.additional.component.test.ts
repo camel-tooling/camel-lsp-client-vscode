@@ -11,6 +11,9 @@ describe('Should do completion in Camel URI using the additional component speci
 	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
 		await config.update('camel.extra-components', undefined);
+		await waitUntil( async() =>  {
+			return (await vscode.workspace.getConfiguration().get('camel.extra-components')) === undefined;
+		});
 	});
 
 	it('Updated additional component is reflected in completion', async () => {
@@ -28,9 +31,10 @@ describe('Should do completion in Camel URI using the additional component speci
 		}]);
 
 		await waitUntil( async() =>  {
+			console.log(`Check extra components value updated: ${await vscode.workspace.getConfiguration().get('camel.extra-components')}`)
 			return (await vscode.workspace.getConfiguration().get('camel.extra-components')) !== undefined;
 		});
-
+		console.log('Will check expected completion available');
 		await checkExpectedCompletion(docUriXml, positionToCallCompletion, completionItemLabel);
 
 		await config.update('camel.extra-components', undefined);
