@@ -2,6 +2,8 @@
 
 ## 0.10.0
 
+- Removal of features related to Camel Kafka Connector
+
 ## 0.9.0
 
 - Provide Camel Quarkus debug profile in completion in pom.xml
