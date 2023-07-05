@@ -33,7 +33,6 @@
     "LSP",
     "Language Server Protocol",
     "Tool",
-    "Apache Camel Kafka Connector",
     "Camel Yaml"
   ],
   "engines": {
