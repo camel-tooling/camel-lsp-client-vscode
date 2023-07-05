@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.10.0
+
 ## 0.9.0
 
 - Provide Camel Quarkus debug profile in completion in pom.xml
