@@ -7,6 +7,7 @@
 - Provide command to create a Camel on SpringBoot project
 - Update Kamelet Catalog from 3.20.4 to 3.21.0
 - Update default Camel Catalog version from 3.20.5 to 3.21.0
+- Use Language Server for Apache Camel 1.11.0
 
 ## 0.8.0
 
@@ -18,6 +19,7 @@
 - Update default Camel JBang version from 3.20.3 to 3.20.5
 - Provide settings for default Camel JBang version
 - Update default Camel Catalog version from 3.20.3 to 3.20.5
+- Use Language Server for Apache Camel 1.10.0
 
 ## 0.7.0
 
@@ -25,6 +27,7 @@
 - Update Kamelet Catalog from 0.10.0 to 3.20.2
 - Update Camel Quarkus Catalog from 2.15.0 to 2.16.0
 - Provide command to create a Camel route defined in Yaml DSL using Camel JBang
+- Use Language Server for Apache Camel 1.9.0
 
 ## 0.6.0
 
