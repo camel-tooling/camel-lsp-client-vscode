@@ -53,7 +53,8 @@ For detailed information about Apache Camel supported features, see the [Apache 
 
 ### Requirements
 
-**Java 11** is currently required to launch the [Apache Camel Language Server](https://github.com/camel-tooling/camel-language-server). The `java.home` VS Code preferences can be used to use a different version of JDK than the default one installed on the machine.
+**Java 11+** is currently required to launch the [Apache Camel Language Server](https://github.com/camel-tooling/camel-language-server). The `java.home` VS Code preferences can be used to use a different version of JDK than the default one installed on the machine.
+**Java 17** will be the minimal required version in next release.
 
 ⚠️ For some features, [JBang](https://www.jbang.dev/documentation/guide/latest/index.html) must be available on a system command-line.
 
