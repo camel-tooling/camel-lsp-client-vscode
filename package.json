@@ -228,7 +228,7 @@
     "expand-home-dir": "^0.0.3",
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
-    "valid-filename": "^3.1.0",
+    "valid-filename": "^4.0.0",
     "vscode-languageclient": "^8.1.0",
     "winreg-utf8": "^0.1.1"
   }
