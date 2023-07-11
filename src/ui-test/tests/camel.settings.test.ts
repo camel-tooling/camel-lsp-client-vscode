@@ -24,12 +24,14 @@ import {
     CATALOG_VERSION_ID,
     closeEditor,
     deleteFile,
+    EXTRA_COMPONENTS_ID,
     getJBangVersion,
     getTextExt,
     initXMLFileWithJBang,
     killTerminalChannel,
     resetUserSettings,
     RESOURCES,
+    setAdditionalComponents,
     setCamelCatalogVersion,
     setJBangVersion,
     setRuntimeProvider,
@@ -250,4 +252,80 @@ describe('User preferences', function () {
             expect(await (await activateTerminalView()).getText()).to.contain(`-Dcamel.jbang.version=${OLDER_JBANG_VERSION}`);
         });
     });
+
+    describe('Additional Camel components', function () {
+        this.timeout(90000);
+
+        const EXTRA_COMPONENT = `
+        "camel.extra-components": [
+            {
+                "component": {
+                    "kind": "component",
+                    "scheme": "abcd",
+                    "syntax": "abcd:xyz"
+                }
+            }
+        ]
+        `;
+
+        before(async function () {
+            this.timeout(40000);
+
+            driver = VSBrowser.instance.driver;
+
+            await VSBrowser.instance.openResources(RESOURCES);
+            await VSBrowser.instance.waitForWorkbench();
+
+            await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+
+            await (await new ActivityBar().getViewControl('Explorer')).openView();
+
+        });
+
+        after(function () {
+            resetUserSettings(EXTRA_COMPONENTS_ID);
+        });
+
+        beforeEach(async function () {
+            await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+            await waitUntilEditorIsOpened(driver, CAMEL_CONTEXT_XML);
+        });
+
+        afterEach(async function () {
+            await closeEditor(CAMEL_CONTEXT_XML, false);
+        });
+
+        it('No extra component available', async function () {
+            await testComponentInXML('abcd', 'abcd:xyz', false, 0);
+        });
+
+        it('Extra component available', async function () {
+            await setAdditionalComponents(EXTRA_COMPONENT);
+            await testComponentInXML('abcd', 'abcd:xyz', true, 1);
+        });
+    });
 });
+
+/**
+ * Checks if component proposal is available. 
+ * 
+ * @param component Component to be tested.
+ * @param proposal Tested proposal for component.
+ * @param proposalAvailable Should be proposal available.
+ * @param proposalsCount Number of available proposals.
+ */
+async function testComponentInXML(component: string, proposal: string, proposalAvailable: boolean, proposalsCount: number): Promise<void> {
+    const editor = new TextEditor();
+    await editor.typeTextAt(3, XML_URI_POSITION, component);
+
+    contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
+    const items = await contentAssist.getItems();
+
+    if (proposalAvailable) {
+        assert.equal(items.length, proposalsCount);
+        const proposalItem = await contentAssist.getItem(proposal);
+        assert.equal(await getTextExt(proposalItem), proposal);
+    } else {
+        assert.equal(items.length, 0);
+    }
+}

@@ -333,6 +333,17 @@ export async function setCamelCatalogVersion(version: string): Promise<void> {
 }
 
 /**
+ * Set 'Extra-components' in preferences.
+ * @param components 'Extra components' as string respecting Camel Catalog syntax.
+ */
+export async function setAdditionalComponents(components: string): Promise<void> {
+	resetUserSettings(EXTRA_COMPONENTS_ID); // Remove previous value.
+	const settingsPath = path.resolve(storageFolder, 'settings', 'User', 'settings.json');
+	const newSettings = fs.readFileSync(settingsPath, 'utf-8').slice(0, -2).concat(',', components).concat('}'); // Remove '}', add ',' then additional components and give back '}'.
+	fs.writeFileSync(settingsPath, newSettings, 'utf-8');
+}
+
+/**
  * Get current value of 'JBang Version' from preferences.
  * 
  * @returns 'JBang Version' value as string.
