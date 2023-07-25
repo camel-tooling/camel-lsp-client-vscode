@@ -196,7 +196,6 @@
     "postinstall": "node ./scripts/postinstall.js",
     "test": "node ./out/src/test/runTest.js",
     "lint": "eslint src --ext .ts",
-    "preui-test": "npm run compile",
     "ui-test": "node --unhandled-rejections=warn-with-error-code out/src/ui-test/uitest_runner.js"
   },
   "devDependencies": {
