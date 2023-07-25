@@ -40,6 +40,8 @@ export const CAMEL_CONTEXT_JAVA = 'camel-context.java';
 export const CAMEL_CONTEXT_XML = 'camel-context.xml';
 export const CAMEL_CONTEXT_YAML = 'camel-context.yaml';
 export const CAMEL_ROUTE_XML = 'camel-route.xml';
+export const CODE_NAVIGATION_JAVA = 'codeNavigation.java';
+export const CODE_NAVIGATION_XML = 'code-navigation.xml';
 
 export const XML_URI_LINE = 3; //camel-context.xml
 export const XML_URI_POSITION = 33; //camel-context.xml
