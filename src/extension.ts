@@ -132,7 +132,7 @@ function getCamelSettings() {
 }
 
 function toggleItem(editor: TextEditor, item) {
-	if(editor && editor.document && SUPPORTED_LANGUAGE_IDS.includes(editor.document.languageId)){
+	if(editor?.document && SUPPORTED_LANGUAGE_IDS.includes(editor.document.languageId)){
 		item.show();
 	} else{
 		item.hide();

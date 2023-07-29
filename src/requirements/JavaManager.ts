@@ -18,7 +18,7 @@
 import { RequirementsData } from './requirements';
 
 export function retrieveJavaExecutable(requirementsData :RequirementsData) {
-	if (requirementsData && requirementsData.java_home) {
+	if (requirementsData?.java_home) {
 		return requirementsData.java_home + '/bin/java';
 	} else {
 		return 'java';

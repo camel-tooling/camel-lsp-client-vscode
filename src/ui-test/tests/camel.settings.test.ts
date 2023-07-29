@@ -112,42 +112,18 @@ describe('User preferences', function () {
                 });
 
                 it('Knative component', async function () {
-                    await testComponent(KNATIVE, KNATIVE_PROP, KNATIVE_AV, 1);
+                    await testComponentInXML(KNATIVE, KNATIVE_PROP, KNATIVE_AV, 1);
                 });
 
                 it('Mongo component', async function () {
-                    await testComponent(MONGO, MONGO_PROP, MONGO_AV, 2);
+                    await testComponentInXML(MONGO, MONGO_PROP, MONGO_AV, 2);
                 });
 
                 it('JMX component', async function () {
-                    await testComponent(JMX, JMX_PROP, JMX_AV, 1);
+                    await testComponentInXML(JMX, JMX_PROP, JMX_AV, 1);
                 });
             });
         });
-
-        /**
-         * Checks if component proposal is available. 
-         * 
-         * @param component Component to be tested.
-         * @param proposal Tested proposal for component.
-         * @param proposalAvailable Should be proposal available.
-         * @param proposalsCount Number of available proposals.
-         */
-        async function testComponent(component: string, proposal: string, proposalAvailable: boolean, proposalsCount: number): Promise<void> {
-            const editor = new TextEditor();
-            await editor.typeTextAt(3, XML_URI_POSITION, component);
-
-            contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-            const items = await contentAssist.getItems();
-
-            if (proposalAvailable) {
-                assert.equal(items.length, proposalsCount);
-                const proposalItem = await contentAssist.getItem(proposal);
-                assert.equal(await getTextExt(proposalItem), proposal);
-            } else {
-                assert.equal(items.length, 0);
-            }
-        }
     });
 
     describe('Camel Catalog version', function () {
@@ -218,7 +194,7 @@ describe('User preferences', function () {
 
         before(async function () {
             _setup();
-            deleteFile(FILENAME.concat('.camel.xml'), RESOURCES); // prevent failure 
+            deleteFile(FILENAME.concat('.camel.xml'), RESOURCES); // prevent failure
             DEFAULT_JBANG = await getJBangVersion();
         });
 
@@ -307,8 +283,8 @@ describe('User preferences', function () {
 });
 
 /**
- * Checks if component proposal is available. 
- * 
+ * Checks if component proposal is available.
+ *
  * @param component Component to be tested.
  * @param proposal Tested proposal for component.
  * @param proposalAvailable Should be proposal available.
