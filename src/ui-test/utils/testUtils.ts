@@ -380,3 +380,21 @@ export async function getCamelCatalogVersion(): Promise<string> {
 	await new EditorView().closeEditor('Settings');
 	return value;
 }
+
+/**
+ * Creates file with required name.
+ * 
+ * @param driver WebDriver. 
+ * @param name Required name for new file including suffix. 
+ */
+export async function createNewFile(driver: WebDriver, name: string): Promise<void> {
+	let input: InputBox;
+	await new Workbench().executeCommand('Create: New File...');
+    await driver.wait(async function () {
+            input = await InputBox.create();
+            return (await input.isDisplayed());
+    }, 30000);
+    await input.setText(name);
+    await input.confirm(); // confirm name
+    await input.confirm(); // confirm path 
+}
