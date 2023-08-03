@@ -47,4 +47,6 @@ async function runTest() {
 
 }
 
-runTest();
+runTest().catch((error) => {
+	console.error('Unhandled promise rejection in runTest(): ', error);
+});

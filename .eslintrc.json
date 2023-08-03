@@ -15,7 +15,8 @@
 		"sourceType": "script",
 		"ecmaFeatures": {
 			"impliedStrict": true
-		}
+		},
+		"project": "./tsconfig.json"
 	},
 	"plugins": [
 		"@typescript-eslint",
@@ -26,6 +27,7 @@
 		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
 		"@typescript-eslint/no-namespace": "off",
 		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-floating-promises": "warn",
 		"import/no-extraneous-dependencies": [
 			"error",
 			{

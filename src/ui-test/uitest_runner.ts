@@ -40,4 +40,6 @@ async function main(): Promise<void> {
     fs.rmSync(extensionFolder, { recursive: true });
 }
 
-main();
+main().catch((error) => {
+	console.error('Unhandled promise rejection in main(): ', error);
+});
