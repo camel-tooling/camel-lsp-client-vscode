@@ -20,13 +20,16 @@ import { assert } from 'chai';
 import {
 	BottomBarPanel,
 	ContentAssist,
+	DefaultTreeSection,
 	DefaultWait,
 	EditorView,
 	MarkerType,
+	SideBarView,
 	TextEditor,
 	VSBrowser,
 	WaitUntil,
-	WebDriver
+	WebDriver,
+	Workbench
 } from 'vscode-uitests-tooling';
 import * as ca from '../utils/contentAssist';
 import {
@@ -35,12 +38,18 @@ import {
 	CAMEL_CONTEXT_XML,
 	CAMEL_CONTEXT_YAML,
 	CAMEL_ROUTE_XML,
+	clearReferences,
 	closeEditor,
 	getTextExt,
+	isReferencesAvailable,
 	JAVA_URI_LINE,
 	JAVA_URI_POSITION,
+	openFileInEditor,
 	openProblemsView,
+	REFERENCES_FILE_1,
+	REFERENCES_FILE_2,
 	RESOURCES,
+	RESOURCES_REFERENCES,
 	XML_URI_LINE,
 	XML_URI_POSITION,
 	YAML_URI_LINE,
@@ -135,7 +144,7 @@ describe('Language DSL support', function () {
 			});
 
 			it('LSP diagnostics support for XML DSL', async function () {
-				await lspDignosticSupport(XML_URI_LINE, XML_URI_POSITION);
+				await lspDiagnosticSupport(XML_URI_LINE, XML_URI_POSITION);
 			});
 		});
 
@@ -154,6 +163,34 @@ describe('Language DSL support', function () {
 
 			it('Auto-completion for referenced ID of "direct-vm" component', async function () {
 				await autocompletionForReferenceIDofDirectVMComponent(13, 30, '<to id="_toID2" uri="direct-vm:testName2"/>');
+			});
+		});
+
+		describe('Find references for direct and direct VM components', function () {
+
+			beforeEach(async function () {
+				await openFileInEditor(driver, RESOURCES_REFERENCES, REFERENCES_FILE_1);
+			});
+
+			afterEach(async function () {
+				await clearReferences();
+				await new EditorView().closeAllEditors();
+			});
+
+			it('direct reference not available while file with components not opened', async function () {
+				await noReferenceAvailable(5, 32);
+			});
+
+			it('direct reference available while file with components opened', async function () {
+				await referenceAvailable(5, 32, 'myDirectIDFromAnotherFile"/>');
+			});
+
+			it('direct-vm reference not available while file with components not opened', async function () {
+				await noReferenceAvailable(10, 32);
+			});
+
+			it('direct-vm reference available while file with components opened', async function () {
+				await referenceAvailable(10, 32, 'myDirectVMIDFromAnotherFile"/>');
 			});
 		});
 	});
@@ -212,7 +249,7 @@ describe('Language DSL support', function () {
 			});
 
 			it('LSP diagnostics support for Java DSL', async function () {
-				await lspDignosticSupport(JAVA_URI_LINE, JAVA_URI_POSITION);
+				await lspDiagnosticSupport(JAVA_URI_LINE, JAVA_URI_POSITION);
 			});
 		});
 	});
@@ -266,7 +303,7 @@ describe('Language DSL support', function () {
 // Camel URI code completion
 /**
  * Check, if required camel-context is opened inside editor. File is opened by before function.
- * 
+ *
  * @param filename Filename of camel-context.* inside resources folder.
  */
 async function openContextInsideEditorView(filename: string): Promise<void> {
@@ -276,9 +313,9 @@ async function openContextInsideEditorView(filename: string): Promise<void> {
 
 /**
  * Code completion is working for component schemes (the part before the ":").
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param completedLine Expected form of completed line.
  */
 async function codeCompletionForComponentScheme(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
@@ -295,9 +332,9 @@ async function codeCompletionForComponentScheme(uriLine: number, uriPosition: nu
 
 /**
  * Code completion is working for endpoint options (the part after the "?").
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param completedLine Expected form of completed line.
  */
 async function codeCompletionForEndpointOptions(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
@@ -312,9 +349,9 @@ async function codeCompletionForEndpointOptions(uriLine: number, uriPosition: nu
 
 /**
  * Code completion is working for additional endpoint options (the part after "&").
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param anAmpersand Should be used '&amp;' instead of '&'.
  * @param completedLine Expected form of completed line.
  */
@@ -333,10 +370,10 @@ async function codeCompletionForAdditionalEndpointOptions(uriLine: number, uriPo
 }
 
 /**
- * Code completion is working for additional endpoint options (the part after "&") with value. 
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ * Code completion is working for additional endpoint options (the part after "&") with value.
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param anAmpersand Should be used '&amp;' instead of '&'.
  * @param completedLine Expected form of completed line.
  */
@@ -358,9 +395,9 @@ async function codeCompletionForAdditionalEndpointOptionsValue(uriLine: number, 
 // Endpoint options filtering
 /**
  * Duplicate endpoint options are filtered out.
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param anAmpersand Should be used '&amp;' instead of '&'.
  */
 async function duplicateEndpointOptionsFiltering(uriLine: number, uriPosition: number, anAmpersand: boolean): Promise<void> {
@@ -391,11 +428,11 @@ async function duplicateEndpointOptionsFiltering(uriLine: number, uriPosition: n
 // Diagnostics for Camel URIs - XML ONLY
 /**
  * LSP diagnostics support for XML DSL.
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  */
-async function lspDignosticSupport(uriLine: number, uriPosition: number): Promise<void> {
+async function lspDiagnosticSupport(uriLine: number, uriPosition: number): Promise<void> {
 	const EXPECTED_ERROR_MESSAGE = 'Invalid duration value: 1000r';
 
 	await editor.typeTextAt(uriLine, uriPosition, 'timer');
@@ -426,9 +463,9 @@ async function lspDignosticSupport(uriLine: number, uriPosition: number): Promis
 // Auto-completion for referenced components IDs - XML ONLY
 /**
  * Auto-completion for referenced ID of "direct" component.
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param completedLine Expected form of completed line.
  */
 async function autocompletionForReferenceIDofDirectComponent(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
@@ -445,9 +482,9 @@ async function autocompletionForReferenceIDofDirectComponent(uriLine: number, ur
 
 /**
  * Auto-completion for referenced ID of "direct-vm" component.
- * 
- * @param uriLine Line number containing uri. 
- * @param uriPosition Position of uri on line. 
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
  * @param completedLine Expected form of completed line.
  */
 async function autocompletionForReferenceIDofDirectVMComponent(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
@@ -460,4 +497,45 @@ async function autocompletionForReferenceIDofDirectVMComponent(uriLine: number, 
 	await directVM.click();
 
 	assert.equal((await editor.getTextAtLine(uriLine)).trim(), completedLine);
+}
+
+/**
+ * Checks if no item in 'Reference' SideBar is available for selected component in 'camel1.xml'.
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
+ */
+async function noReferenceAvailable(uriLine: number, uriPosition: number): Promise<void> {
+	editor = await activateEditor(driver, REFERENCES_FILE_1);
+	await editor.moveCursor(uriLine, uriPosition); // get to position in code
+	await new Workbench().executeCommand('references-view.findReferences');
+	assert.isFalse(await isReferencesAvailable()); // no reference should be available
+}
+
+/**
+ * Checks if expected item is available in 'Reference' SideBar.
+ * Used files are 'camel1.xml' as main opened file and 'camel2.xml' as file with reference.
+ *
+ * @param uriLine Line number containing uri.
+ * @param uriPosition Position of uri on line.
+ * @param expectedReference Expected reference.
+ */
+async function referenceAvailable(uriLine: number, uriPosition: number, expectedReference: string): Promise<void> {
+	await openFileInEditor(driver, RESOURCES_REFERENCES, REFERENCES_FILE_2); // has to be opened
+
+	editor = await activateEditor(driver, REFERENCES_FILE_1); // switch to other file
+	assert.isTrue((await editor.getTitle()).startsWith(REFERENCES_FILE_1));
+	await editor.moveCursor(uriLine, uriPosition); // get to position in code
+
+	await new Workbench().executeCommand('references-view.findReferences'); // find all references
+
+	// wait until 'References' refreshed
+	await driver.wait(async function () {
+		return (await isReferencesAvailable());
+	}, 15000);
+
+	const section = await new SideBarView().getContent().getSection('References') as DefaultTreeSection;
+	const visibleItems = await section.getVisibleItems();
+	assert.equal(await visibleItems.at(0).getLabel(), REFERENCES_FILE_2);
+	assert.equal(await visibleItems.at(1).getLabel(), expectedReference);
 }

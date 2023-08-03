@@ -1,0 +1,12 @@
+<camelContext id="first-context" xmlns="http://camel.apache.org/schema/spring">
+    <route id="route1">
+        <from id="from1" uri="file:work/cbr/input?allowNullBody=false"/>
+        <log id="log1" message="Receiving order ${file:name}"/>
+        <to id="blubber" uri="direct:myDirectIDFromAnotherFile"/>
+    </route>
+    <route id="route2">
+        <from id="from2" uri="file:work/cbr/input2?allowNullBody=false"/>
+        <log id="log2" message="Receiving order 2 ${file:name}"/>
+        <to id="dermis" uri="direct-vm:myDirectVMIDFromAnotherFile"/>
+    </route>
+</camelContext>

@@ -1,0 +1,10 @@
+<camelContext id="second-context" xmlns="http://camel.apache.org/schema/spring">
+    <route id="route1">
+        <from id="myDirectID" uri="direct:myDirectIDFromAnotherFile"/>
+        <to id="to2" uri="file:work/cbr/output/others1"/>
+    </route>
+    <route id="route2">
+        <from id="myDirectVMID" uri="direct-vm:myDirectVMIDFromAnotherFile"/>
+        <to id="to2" uri="file:work/cbr/output/others2"/>
+    </route>
+</camelContext>
