@@ -19,14 +19,17 @@ import {
 	By,
 	ComboSetting,
 	ContentAssistItem,
+	DefaultTreeSection,
 	EditorView,
 	InputBox,
 	Marketplace,
 	ModalDialog,
 	ProblemsView,
+	SideBarView,
 	TerminalView,
 	TextEditor,
 	TextSetting,
+	VSBrowser,
 	WebDriver,
 	Workbench
 } from "vscode-uitests-tooling";
@@ -59,7 +62,12 @@ export const CREATE_COMMAND_JAVA = 'camel.jbang.routes.java';
 export const CREATE_COMMAND_QUARKUS = 'camel.jbang.project.quarkus.new';
 export const CREATE_COMMAND_SPRINGBOOT = 'camel.jbang.project.springboot.new';
 
-// Resources for testing.
+// Resources for component reference testing.
+export const RESOURCES_REFERENCES: string = path.resolve(RESOURCES, 'component_references');
+export const REFERENCES_FILE_1 = 'camel1.xml';
+export const REFERENCES_FILE_2 = 'camel2.xml';
+
+// Resources for Camel route commands testing.
 export const RESOURCES_COMMAND: string = path.resolve(RESOURCES, 'camel_route_command');
 export const COMMAND_JAVA_FILE = 'Java.java';
 export const COMMAND_XML_FILE = 'XML.xml';
@@ -78,7 +86,7 @@ export const CATALOG_VERSION_UI = 'Camel catalog version';
 // Specific workspace for creating project with command.
 export const SPECIFIC_WORKSPACE: string = path.resolve(RESOURCES, 'create-camel-project-workspace');
 
-// Other contant items
+// Other constant items
 export const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
 
 /**
@@ -148,7 +156,7 @@ export async function activateEditor(driver: WebDriver, title: string): Promise<
 
 /**
  * Reset user setting to default value by deleting item in settings.json.
- * 
+ *
  * @param id ID of setting to reset.
  */
 export function resetUserSettings(id: string): void {
@@ -159,8 +167,8 @@ export function resetUserSettings(id: string): void {
 
 /**
  * Delete file from folder.
- * 
- * @param filename Name of file. 
+ *
+ * @param filename Name of file.
  * @param folder Folder with file to delete.
  */
 export async function deleteFile(filename: string, folder: string): Promise<void> {
@@ -173,8 +181,8 @@ export async function deleteFile(filename: string, folder: string): Promise<void
 
 /**
  * Wait until editor is opened.
- * 
- * @param driver WebDriver. 
+ *
+ * @param driver WebDriver.
  * @param title Title of editor - filename.
  * @param timeout Timeout for dynamic wait.
  */
@@ -186,11 +194,11 @@ export async function waitUntilEditorIsOpened(driver: WebDriver, title: string, 
 
 /**
  * Wait until terminal has text.
- * 
+ *
  * @param driver WebDriver.
  * @param text Text to be contained in terminal.
  * @param timeout Timeout for dynamic wait.
- * @param interval Delay between individual checks. 
+ * @param interval Delay between individual checks.
  */
 export async function waitUntilTerminalHasText(driver: WebDriver, text: string, timeout = 120000, interval = 500): Promise<void> {
 	await driver.wait(async function () {
@@ -206,7 +214,7 @@ export async function waitUntilTerminalHasText(driver: WebDriver, text: string, 
 
 /**
  * Activate terminal view.
- * 
+ *
  * @returns Opened TerminalView.
  */
 export async function activateTerminalView(): Promise<TerminalView> {
@@ -224,8 +232,8 @@ export async function killTerminal(): Promise<void> {
 
 /**
  * Kill specific terminal.
- * 
- * @param channelName Name of channel to be killed. 
+ *
+ * @param channelName Name of channel to be killed.
  */
 export async function killTerminalChannel(channelName: string): Promise<void> {
 	const terminalView = await activateTerminalView();
@@ -234,12 +242,12 @@ export async function killTerminalChannel(channelName: string): Promise<void> {
 }
 
 /**
- * Wait until required extension is activated. 
- * 
+ * Wait until required extension is activated.
+ *
  * @param driver WebDriver.
  * @param displayName Name of extension.
  * @param timeout Timeout for dynamic wait.
- * @param interval Delay between individual checks. 
+ * @param interval Delay between individual checks.
  */
 export async function waitUntilExtensionIsActivated(driver: WebDriver, displayName: string, timeout = 150000, interval = 500): Promise<void> {
 	await driver.wait(async function () {
@@ -248,8 +256,8 @@ export async function waitUntilExtensionIsActivated(driver: WebDriver, displayNa
 }
 
 /**
- * Checks, if extension is activated. 
- * 
+ * Checks, if extension is activated.
+ *
  * @param displayName Name of extension.
  * @returns true/false
  */
@@ -268,9 +276,9 @@ export async function extensionIsActivated(displayName: string): Promise<boolean
 }
 
 /**
- * Get content of specific file. 
- * 
- * @param filename Name of file. 
+ * Get content of specific file.
+ *
+ * @param filename Name of file.
  * @param folder Folder with file.
  * @returns File content as string.
  */
@@ -280,9 +288,9 @@ export function getFileContent(filename: string, folder: string): string {
 
 /**
  * Init XML file using JBang.
- * 
+ *
  * @param driver WebDriver.
- * @param filename Name of initizialized file.
+ * @param filename Name of initialized file.
  */
 export async function initXMLFileWithJBang(driver: WebDriver, filename: string): Promise<void> {
 	let input: InputBox;
@@ -300,8 +308,8 @@ export async function initXMLFileWithJBang(driver: WebDriver, filename: string):
 
 /**
  * Change 'JBang Version' value in preferences.
- * 
- * @param version Required version. 
+ *
+ * @param version Required version.
  */
 export async function setJBangVersion(version: string): Promise<void> {
 	const settings = await new Workbench().openSettings();
@@ -312,7 +320,7 @@ export async function setJBangVersion(version: string): Promise<void> {
 
 /**
  * Change 'Camel catalog runtime provider' value in preferences.
- * 
+ *
  * @param provider Required provider.
  */
 export async function setRuntimeProvider(provider: string): Promise<void> {
@@ -324,8 +332,8 @@ export async function setRuntimeProvider(provider: string): Promise<void> {
 
 /**
  * Change 'Camel catalog version' value in preferences.
- * 
- * @param version Required version. 
+ *
+ * @param version Required version.
  */
 export async function setCamelCatalogVersion(version: string): Promise<void> {
 	const settings = await new Workbench().openSettings();
@@ -347,7 +355,7 @@ export async function setAdditionalComponents(components: string): Promise<void>
 
 /**
  * Get current value of 'JBang Version' from preferences.
- * 
+ *
  * @returns 'JBang Version' value as string.
  */
 export async function getJBangVersion(): Promise<string> {
@@ -359,8 +367,8 @@ export async function getJBangVersion(): Promise<string> {
 
 /**
  * Get current value of 'Camel catalog runtime provider' from preferences.
- * 
- * @returns 'Camel catalog runtime providern' value as string.
+ *
+ * @returns 'Camel catalog runtime provider' value as string.
  */
 export async function getRuntimeProvider(): Promise<string> {
 	const setting = await (await new Workbench().openSettings()).findSetting(CATALOG_PROVIDER_UI, 'Camel');
@@ -371,7 +379,7 @@ export async function getRuntimeProvider(): Promise<string> {
 
 /**
  * Get current value of 'Camel catalog version' from preferences.
- * 
+ *
  * @returns 'Camel catalog version' value as string.
  */
 export async function getCamelCatalogVersion(): Promise<string> {
@@ -383,9 +391,9 @@ export async function getCamelCatalogVersion(): Promise<string> {
 
 /**
  * Creates file with required name.
- * 
- * @param driver WebDriver. 
- * @param name Required name for new file including suffix. 
+ *
+ * @param driver WebDriver.
+ * @param name Required name for new file including suffix.
  */
 export async function createNewFile(driver: WebDriver, name: string): Promise<void> {
 	let input: InputBox;
@@ -396,5 +404,49 @@ export async function createNewFile(driver: WebDriver, name: string): Promise<vo
     }, 30000);
     await input.setText(name);
     await input.confirm(); // confirm name
-    await input.confirm(); // confirm path 
+    await input.confirm(); // confirm path
+}
+
+/** Opens file in editor.
+ *
+ * @param driver WebDriver.
+ * @param folder Folder with file.
+ * @param file Filename.
+ * @returns Instance of Text Editor.
+ */
+export async function openFileInEditor(driver: WebDriver, folder: string, file: string): Promise<TextEditor> {
+	await VSBrowser.instance.openResources(path.join(folder, file));
+	await waitUntilEditorIsOpened(driver, file);
+	return (await activateEditor(driver, file));
+}
+
+/**
+ * Checks, if References in Side Bar is available (contains at least one reference).
+ *
+ * @returns true/false
+ */
+export async function isReferencesAvailable(): Promise<boolean> {
+	try {
+		const section = await new SideBarView().getContent().getSection('References') as DefaultTreeSection;
+		await section.click();
+		const visibelItems = await section.getVisibleItems();
+		return(visibelItems.length > 0); // at least one item is available
+	} catch (err) {
+		return false;
+	}
+}
+
+/**
+ * Clear all available references in 'References' Side Bar
+ */
+export async function clearReferences(): Promise<void> {
+	try {
+		const section = await new SideBarView().getContent().getSection('References') as DefaultTreeSection;
+		await section.click();
+		await new Workbench().executeCommand('references-view.clear'); // clear current if available - must be done
+		await new Workbench().executeCommand('references-view.clearHistory'); // clear history
+	}
+	catch (err) {
+		console.error(err); // if 'References' Side Bar is not opened
+	}
 }
