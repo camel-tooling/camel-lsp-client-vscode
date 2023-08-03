@@ -103,7 +103,7 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => { await new NewCamelQuarkusProjectCommand().create(); }));
 	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => { await new NewCamelSpringBootProjectCommand().create(); }));
 
-	(await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
+	await (await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
 
 export async function deactivate() {
@@ -119,7 +119,7 @@ async function computeRequirementsData(context: ExtensionContext) {
 		// show error
 		const selection = await window.showErrorMessage(error.message, error.label);
 		if (error.label && error.label === selection && error.command) {
-			commands.executeCommand(error.command, error.commandParam);
+			await commands.executeCommand(error.command, error.commandParam);
 		}
 		// rethrow to disrupt the chain.
 		throw error;

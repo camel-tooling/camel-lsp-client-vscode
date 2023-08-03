@@ -194,7 +194,7 @@ describe('User preferences', function () {
 
         before(async function () {
             _setup();
-            deleteFile(FILENAME.concat('.camel.xml'), RESOURCES); // prevent failure
+            await deleteFile(FILENAME.concat('.camel.xml'), RESOURCES); // prevent failure
             DEFAULT_JBANG = await getJBangVersion();
         });
 
@@ -204,10 +204,8 @@ describe('User preferences', function () {
 
         afterEach(async function () {
             await killTerminalChannel('Init Camel Route file with JBang');
-
             await new EditorView().closeAllEditors();
-
-            deleteFile(FILENAME.concat('.camel.xml'), RESOURCES);
+            await deleteFile(FILENAME.concat('.camel.xml'), RESOURCES);
         });
 
         it('Default version', async function () {

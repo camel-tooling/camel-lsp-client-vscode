@@ -25,9 +25,9 @@ export async function checkJavaPreferences(context: ExtensionContext) {
 		if (isVerified === undefined) {
 			await window.showErrorMessage(`Security Warning! Do you allow this workspace to set the java.home variable? \n java.home: ${javaHome}`, disallow, allow).then(async selection => {
 				if (selection === allow) {
-					globalState.update(key, true);
+					await globalState.update(key, true);
 				} else if (selection === disallow) {
-					globalState.update(key, false);
+					await globalState.update(key, false);
 					await workspace.getConfiguration().update('java.home', undefined, ConfigurationTarget.Workspace);
 				}
 			});
@@ -43,9 +43,9 @@ export async function checkJavaPreferences(context: ExtensionContext) {
 			if (vmargsVerified === undefined || vmargsVerified === null) {
 				await window.showErrorMessage(`Security Warning! The java.jdt.ls.vmargs variable defined in ${env.appName} settings includes the (${agentFlag}) javagent preference. Do you allow it to be used?`, disallow, allow).then(async selection => {
 					if (selection === allow) {
-						globalState.update(keyVmargs, true);
+						await globalState.update(keyVmargs, true);
 					} else if (selection === disallow) {
-						globalState.update(keyVmargs, false);
+						await globalState.update(keyVmargs, false);
 						await workspace.getConfiguration().update('java.jdt.ls.vmargs', undefined, ConfigurationTarget.Workspace);
 					}
 				});
