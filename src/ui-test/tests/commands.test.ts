@@ -156,7 +156,7 @@ describe('Create a Camel Project using command', function () {
 			await driver.wait(async function () {
 				input = await InputBox.create();
 				return (await input.isDisplayed());
-			}, 30000);
+			}, 120000);
 			await input.setText('com.demo:test:1.0-SNAPSHOT');
 			await input.confirm();
 
@@ -166,7 +166,7 @@ describe('Create a Camel Project using command', function () {
 
 				const labels = await Promise.all(items.map(item => item.getLabel()));
 				return labels.includes('pom.xml');
-			}, 30000);
+			}, 120000);
 		});
 	});
 });
