@@ -2,8 +2,9 @@
 
 ## 0.10.0
 
-- Java 11 to launch the embedded Camel Language Server is now deprecated. In next version, Java 17 will be the minimal version required.
+- Java 17 is the minimal version required to launch the embedded Camel Language Server.
 - Removal of features related to Camel Kafka Connector
+- Update default Camel Catalog version from 3.21.0 to 4.0.0
 
 ## 0.9.0
 
