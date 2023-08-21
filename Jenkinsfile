@@ -18,7 +18,7 @@ node('rhel8'){
 	}
 
 	stage('Build') {
-		env.JAVA_HOME="${tool 'openjdk-11'}"
+		env.JAVA_HOME="${tool 'openjdk-17'}"
 		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 		sh "java -version"
 
