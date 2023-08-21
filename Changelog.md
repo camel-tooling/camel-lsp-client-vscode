@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.11.0
+
 ## 0.10.0
 
 - Java 17 is the minimal version required to launch the embedded Camel Language Server.
