@@ -28,7 +28,6 @@ import {
     getJBangVersion,
     getTextExt,
     initXMLFileWithJBang,
-    killTerminalChannel,
     resetUserSettings,
     RESOURCES,
     setAdditionalComponents,
@@ -55,16 +54,14 @@ let contentAssist: ContentAssist;
 
 describe('User preferences', function () {
 
-    const _setup = function () {
-        return async function () {
-            this.timeout(40000);
-            driver = VSBrowser.instance.driver;
-            await VSBrowser.instance.openResources(RESOURCES);
-            await VSBrowser.instance.waitForWorkbench();
-            await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-            await (await new ActivityBar().getViewControl('Explorer')).openView();
-        }
-    };
+    beforeEach(async function () {
+        this.timeout(40000);
+        driver = VSBrowser.instance.driver;
+        await VSBrowser.instance.openResources(RESOURCES);
+        await VSBrowser.instance.waitForWorkbench();
+        await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+        await (await new ActivityBar().getViewControl('Explorer')).openView();
+    });
 
     describe('Camel Runtime Provider', function () {
         this.timeout(90000);
@@ -76,8 +73,6 @@ describe('User preferences', function () {
         const KNATIVE_PROP = 'knative:type/typeId';
         const MONGO_PROP = 'mongodb:connectionBean';
         const JMX_PROP = 'jmx:serverURL';
-
-        before(_setup());
 
         after(function () {
             resetUserSettings(CATALOG_PROVIDER_ID);
@@ -129,7 +124,6 @@ describe('User preferences', function () {
     describe('Camel Catalog version', function () {
         this.timeout(90000);
 
-        before(_setup());
         after(_setDefaultCamelCatalogVersion);
 
         // reset version to default
@@ -190,10 +184,9 @@ describe('User preferences', function () {
         let DEFAULT_JBANG: string;
 
         const FILENAME = 'test'; // without '.camel.xml' suffix
-        const OLDER_JBANG_VERSION = '3.20.5';
+        const OLDER_JBANG_VERSION = '3.21.0';
 
         before(async function () {
-            _setup();
             await deleteFile(FILENAME.concat('.camel.xml'), RESOURCES); // prevent failure
             DEFAULT_JBANG = await getJBangVersion();
         });
@@ -203,7 +196,6 @@ describe('User preferences', function () {
         });
 
         afterEach(async function () {
-            await killTerminalChannel('Init Camel Route file with JBang');
             await new EditorView().closeAllEditors();
             await deleteFile(FILENAME.concat('.camel.xml'), RESOURCES);
         });
@@ -218,6 +210,8 @@ describe('User preferences', function () {
         });
 
         it('Older version', async function () {
+            this.retries(2); // prevent flakiness
+
             await setJBangVersion(OLDER_JBANG_VERSION);
 
             await initXMLFileWithJBang(driver, FILENAME);
@@ -242,27 +236,13 @@ describe('User preferences', function () {
         ]
         `;
 
-        before(async function () {
-            this.timeout(40000);
-
-            driver = VSBrowser.instance.driver;
-
-            await VSBrowser.instance.openResources(RESOURCES);
-            await VSBrowser.instance.waitForWorkbench();
-
-            await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-
-            await (await new ActivityBar().getViewControl('Explorer')).openView();
-
+        beforeEach(async function () {
+            await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+            await waitUntilEditorIsOpened(driver, CAMEL_CONTEXT_XML);
         });
 
         after(function () {
             resetUserSettings(EXTRA_COMPONENTS_ID);
-        });
-
-        beforeEach(async function () {
-            await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
-            await waitUntilEditorIsOpened(driver, CAMEL_CONTEXT_XML);
         });
 
         afterEach(async function () {

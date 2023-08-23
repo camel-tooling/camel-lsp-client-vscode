@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+	ActivityBar,
 	BottomBarPanel,
 	By,
 	ComboSetting,
@@ -313,10 +314,9 @@ export async function initXMLFileWithJBang(driver: WebDriver, filename: string):
 		input = await InputBox.create();
 		return (await input.isDisplayed());
 	}, 30000);
-
 	await input.setText(filename);
 	await input.confirm();
-
+	await waitUntilFileAvailable(driver, filename.concat('.camel.xml'), 30000);
 	await waitUntilEditorIsOpened(driver, filename.concat('.camel.xml'), 30000);
 }
 
@@ -451,7 +451,7 @@ export async function isReferencesAvailable(): Promise<boolean> {
 }
 
 /**
- * Clear all available references in 'References' Side Bar
+ * Clear all available references in 'References' Side Bar.
  */
 export async function clearReferences(): Promise<void> {
 	try {
@@ -463,4 +463,36 @@ export async function clearReferences(): Promise<void> {
 	catch (err) {
 		console.error(err); // if 'References' Side Bar is not opened
 	}
+}
+
+/**
+ * Checks, if file is available in Explorer. 
+ * 
+ * @param filename Filename.
+ * @returns true/false
+ */
+export async function fileIsAvailable(filename: string): Promise<boolean> {
+	const sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
+	const tree = await sideBar.getContent().getSection('resources') as DefaultTreeSection;
+	const items = await tree.getVisibleItems();
+	const labels = await Promise.all(items.map(item => item.getLabel()));
+	return labels.includes(filename);
+}
+
+/**
+ * Waits until file is available in Explorer.
+ * 
+ * @param driver WebDriver.
+ * @param filename Filename.
+ * @param timeout Timeout for dynamic wait.
+ * @param interval Delay between individual checks.
+ */
+export async function waitUntilFileAvailable(driver: WebDriver, filename: string, timeout = 30000, interval = 500): Promise<void> {
+	await driver.wait(async function () {
+		try {
+			return await fileIsAvailable(filename);
+		} catch (err) {
+			return false;
+		}
+	}, timeout, undefined, interval);
 }
