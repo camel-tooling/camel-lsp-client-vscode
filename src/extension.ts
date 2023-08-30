@@ -1,6 +1,6 @@
 'use strict';
 
-import { TelemetryEvent } from '@redhat-developer/vscode-redhat-telemetry/lib';
+import { TelemetryEvent, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry';
 import * as path from 'path';
 import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
@@ -95,13 +95,28 @@ export async function activate(context: ExtensionContext) {
 	});
 
 	// Register commands for new Camel Route files - YAML DSL, Java DSL
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => { await new NewCamelRouteCommand('YAML').create(); }));
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => { await new NewCamelRouteCommand('JAVA').create(); }));
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async () => { await new NewCamelRouteCommand('XML').create(); }));
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => {
+		await new NewCamelRouteCommand('YAML').create();
+		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML);
+	}));
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => {
+		await new NewCamelRouteCommand('JAVA').create();
+		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA);
+	}));
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async () => {
+		await new NewCamelRouteCommand('XML').create();
+		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML);
+	}));
 
 
-	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => { await new NewCamelQuarkusProjectCommand().create(); }));
-	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => { await new NewCamelSpringBootProjectCommand().create(); }));
+	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {
+		await new NewCamelQuarkusProjectCommand().create();
+		await sendCommandTrackingEvent(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT);
+	}));
+	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => {
+		await new NewCamelSpringBootProjectCommand().create();
+		await sendCommandTrackingEvent(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT);
+	}));
 
 	await (await telemetry.getTelemetryServiceInstance()).sendStartupEvent();
 }
@@ -156,4 +171,16 @@ export function parseVMargs(params:any[], vmargsLine:string) {
 			params.push(arg);
 		}
 	});
+}
+
+async function sendCommandTrackingEvent(commandId: string) {
+	const telemetryEvent: TelemetryEvent = {
+		type: 'track',
+		name: 'command',
+		properties: {
+			identifier: commandId
+		}
+	};
+	const telemetryService :TelemetryService = await telemetry.getTelemetryServiceInstance();
+	await telemetryService.send(telemetryEvent);
 }
