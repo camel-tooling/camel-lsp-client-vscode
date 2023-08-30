@@ -8,6 +8,7 @@
   * The name of the runtime (java.runtime.name)
   * The version of the JVM (java.version)
   * The free, total, and max VM memory
+* The id of the commands contributed by this extension when used
 * Does NOT include the JAVA_HOME environment variable for privacy reasons
 
 ## How to opt in or out
