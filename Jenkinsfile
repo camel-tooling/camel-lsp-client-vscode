@@ -8,7 +8,7 @@ node('rhel8'){
 	}
 
 	stage('Install requirements') {
-		def nodeHome = tool 'nodejs-lts'
+		def nodeHome = tool 'nodejs-lts-16'
 		env.PATH="${env.PATH}:${nodeHome}/bin"
 		sh "node --version"
 		sh "npm install -g typescript"
