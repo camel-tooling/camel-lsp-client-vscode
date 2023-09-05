@@ -200,7 +200,7 @@
     "ui-test": "node --unhandled-rejections=warn-with-error-code out/src/ui-test/uitest_runner.js"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.5",
+    "@types/chai": "^4.3.6",
     "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.5.2",
