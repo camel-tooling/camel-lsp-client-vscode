@@ -23,6 +23,7 @@ import {
 	EditorView,
 	InputBox,
 	SideBarView,
+	TerminalView,
 	VSBrowser,
 	WebDriver,
 	Workbench
@@ -143,7 +144,8 @@ describe('Create a Camel Project using command', function () {
 
 	after(async function () {
 		await new EditorView().closeAllEditors();
-		fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true });
+		await new TerminalView().killTerminal();
+		fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
 	});
 
 	const COMMANDS = [CREATE_COMMAND_QUARKUS, CREATE_COMMAND_SPRINGBOOT];
