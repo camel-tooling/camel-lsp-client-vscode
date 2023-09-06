@@ -41,9 +41,18 @@ import {
 	clearReferences,
 	closeEditor,
 	getTextExt,
+	GROOVY_TESTFILE,
+	GROOVY_URI_LINE,
+	GROOVY_URI_POSITION,
 	isReferencesAvailable,
 	JAVA_URI_LINE,
 	JAVA_URI_POSITION,
+	JS_TESTFILE,
+	JS_URI_LINE,
+	JS_URI_POSITION,
+	KOTLIN_TESTFILE,
+	KOTLIN_URI_LINE,
+	KOTLIN_URI_POSITION,
 	openFileInEditor,
 	openProblemsView,
 	REFERENCES_FILE_1,
@@ -297,6 +306,90 @@ describe('Language DSL support', function () {
 				await duplicateEndpointOptionsFiltering(YAML_URI_LINE, YAML_URI_POSITION, false);
 			});
 		});
+	});
+
+	describe('Groovy DSL support', function () {
+		this.timeout(DSL_TIMEOUT);
+
+        before(_setup(GROOVY_TESTFILE));
+        after(_clean(GROOVY_TESTFILE));
+        
+        beforeEach(async function () {
+            await activateEditor(driver, GROOVY_TESTFILE);
+        });
+
+        it('Open "test.camelk.groovy" file inside Editor View', async function () {
+            await openContextInsideEditorView(GROOVY_TESTFILE);
+        });
+
+        it('Code completion is working for component schemes (the part before the ":")', async function () {
+            await codeCompletionForComponentScheme(GROOVY_URI_LINE, GROOVY_URI_POSITION, 'from(\'timer:timerName\')'); 
+        });
+
+        it('Code completion is working for endpoint options (the part after the "?")', async function () {
+            await codeCompletionForEndpointOptions(GROOVY_URI_LINE, GROOVY_URI_POSITION, 'from(\'timer:timerName?delay=1000\')');
+        });
+
+        it('Code completion is working for additional endpoint options (the part after "&")', async function () {
+            await codeCompletionForAdditionalEndpointOptions(GROOVY_URI_LINE, GROOVY_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=\')');
+            await codeCompletionForAdditionalEndpointOptionsValue(GROOVY_URI_LINE, GROOVY_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=InOnly\')');
+        });
+	});
+
+	describe('Kotlin DSL support', function () {
+		this.timeout(DSL_TIMEOUT);
+
+        before(_setup(KOTLIN_TESTFILE));
+        after(_clean(KOTLIN_TESTFILE));
+        
+        beforeEach(async function () {
+            await activateEditor(driver, KOTLIN_TESTFILE);
+        });
+
+        it('Open "TODO" file inside Editor View', async function () {
+            await openContextInsideEditorView(KOTLIN_TESTFILE);
+        });
+
+        it('Code completion is working for component schemes (the part before the ":")', async function () {
+            await codeCompletionForComponentScheme(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, 'from("timer:timerName")'); 
+        });
+
+        it('Code completion is working for endpoint options (the part after the "?")', async function () {
+            await codeCompletionForEndpointOptions(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, 'from("timer:timerName?delay=1000")');
+        });
+
+        it('Code completion is working for additional endpoint options (the part after "&")', async function () {
+            await codeCompletionForAdditionalEndpointOptions(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, false, 'from("timer:timerName?delay=1000&exchangePattern=")');
+            await codeCompletionForAdditionalEndpointOptionsValue(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, false, 'from("timer:timerName?delay=1000&exchangePattern=InOnly")');
+        });
+	});
+
+	describe('JavaScript DSL support', function () {
+		this.timeout(DSL_TIMEOUT);
+
+        before(_setup(JS_TESTFILE));
+        after(_clean(JS_TESTFILE));
+        
+        beforeEach(async function () {
+            await activateEditor(driver, JS_TESTFILE);
+        });
+
+        it('Open "TODO" file inside Editor View', async function () {
+            await openContextInsideEditorView(JS_TESTFILE);
+        });
+
+        it('Code completion is working for component schemes (the part before the ":")', async function () {
+            await codeCompletionForComponentScheme(JS_URI_LINE, JS_URI_POSITION, 'from(\'timer:timerName\')'); 
+        });
+
+        it('Code completion is working for endpoint options (the part after the "?")', async function () {
+            await codeCompletionForEndpointOptions(JS_URI_LINE, JS_URI_POSITION, 'from(\'timer:timerName?delay=1000\')');
+        });
+
+        it('Code completion is working for additional endpoint options (the part after "&")', async function () {
+            await codeCompletionForAdditionalEndpointOptions(JS_URI_LINE, JS_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=\')');
+            await codeCompletionForAdditionalEndpointOptionsValue(JS_URI_LINE, JS_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=InOnly\')');
+        });
 	});
 });
 
