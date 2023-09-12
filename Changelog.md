@@ -3,6 +3,7 @@
 ## 0.11.0
 
 - Update Camel Quarkus Catalog from 2.16.0 to 3.2.0
+- Added Auto-completion for lang property in twitter related connectors using ISO_639-1.
 
 ## 0.10.0
 
