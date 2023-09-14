@@ -5,6 +5,7 @@
 - Update Camel Quarkus Catalog from 2.16.0 to 3.2.0
 - Added Auto-completion for lang property in twitter related connectors using ISO_639-1.
 - Update Camel K trait Catalog from 1.7.0 to 2.0.1
+- Provide completion for traits in VS Code tasks.json file
 
 ## 0.10.0
 

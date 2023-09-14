@@ -59,7 +59,9 @@
     "onLanguage:javascript",
     "workspaceContains:**/*.js",
     "onLanguage:yaml",
-    "workspaceContains:**/*.yaml"
+    "workspaceContains:**/*.yaml",
+    "onLanguage:json",
+    "workspaceContains:**/tasks.json"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
