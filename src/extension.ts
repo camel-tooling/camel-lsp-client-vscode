@@ -17,7 +17,7 @@ const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
 let languageClient: LanguageClient;
 
-const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'];
+const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'json', 'jsonc'];
 export async function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
@@ -41,7 +41,7 @@ export async function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		documentSelector: SUPPORTED_LANGUAGE_IDS,
 		synchronize: {
-			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml'],
+			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'jsonc'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
@@ -50,7 +50,8 @@ export async function activate(context: ExtensionContext) {
 				workspace.createFileSystemWatcher('**/*.kts'),
 				workspace.createFileSystemWatcher('**/*.js'),
 				workspace.createFileSystemWatcher('**/*.properties'),
-				workspace.createFileSystemWatcher('**/*.yaml')
+				workspace.createFileSystemWatcher('**/*.yaml'),
+				workspace.createFileSystemWatcher('**/tasks.json')
 			],
 		},
 		initializationOptions: {
