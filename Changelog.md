@@ -3,6 +3,7 @@
 ## 0.12.0
 
 - Update Camel Quarkus Catalog from 3.2.0 to 3.4.0
+- Improve support of `*.yml` files
 
 ## 0.11.0
 
