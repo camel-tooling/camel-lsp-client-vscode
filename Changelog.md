@@ -6,6 +6,7 @@
 - Added Auto-completion for lang property in twitter related connectors using ISO_639-1.
 - Update Camel K trait Catalog from 1.7.0 to 2.0.1
 - Provide completion for traits in VS Code tasks.json file
+- Use Language Server for Apache Camel 1.13.0
 
 ## 0.10.0
 
