@@ -51,6 +51,7 @@ export async function activate(context: ExtensionContext) {
 				workspace.createFileSystemWatcher('**/*.js'),
 				workspace.createFileSystemWatcher('**/*.properties'),
 				workspace.createFileSystemWatcher('**/*.yaml'),
+				workspace.createFileSystemWatcher('**/*.yml'),
 				workspace.createFileSystemWatcher('**/tasks.json')
 			],
 		},

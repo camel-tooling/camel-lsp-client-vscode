@@ -60,6 +60,7 @@
     "workspaceContains:**/*.js",
     "onLanguage:yaml",
     "workspaceContains:**/*.yaml",
+    "workspaceContains:**/*.yml",
     "onLanguage:json",
     "workspaceContains:**/tasks.json"
   ],
@@ -154,7 +155,8 @@
       {
         "id": "yaml",
         "extensions": [
-          ".yaml"
+          ".yaml",
+          ".yml"
         ]
       }
     ],
