@@ -215,7 +215,7 @@
     "@vscode/test-electron": "^2.3.4",
     "@vscode/vsce": "^2.21.0",
     "async-wait-until": "^2.0.12",
-    "chai": "^4.3.8",
+    "chai": "^4.3.9",
     "eslint": "^8.49.0",
     "eslint-plugin-import": "^2.28.1",
     "glob": "^10.3.4",
