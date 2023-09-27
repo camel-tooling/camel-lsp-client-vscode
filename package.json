@@ -222,7 +222,7 @@
     "mocha": "^10.2.0",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
-    "rimraf": "^5.0.1",
+    "rimraf": "^5.0.5",
     "sinon": "^16.0.0",
     "typescript": "^5.2.2",
     "vscode-uitests-tooling": "^4.0.6"
