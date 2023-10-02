@@ -3,6 +3,7 @@
 ## 0.12.0
 
 - Update default Camel Catalog version from 4.0.0 to 4.0.1
+- Update Kamelet Catalog from 4.0.0 to 4.0.1
 - Update Camel Quarkus Catalog from 3.2.0 to 3.4.0
 - Improve support of `*.yml` files
 
