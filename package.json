@@ -233,7 +233,7 @@
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "valid-filename": "^3.1.0",
-    "vscode-languageclient": "^8.1.0",
+    "vscode-languageclient": "^9.0.1",
     "winreg-utf8": "^0.1.1"
   }
 }
