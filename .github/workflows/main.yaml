@@ -92,6 +92,15 @@ jobs:
       - name: vsce-package
         run: vsce package
 
+      - name: Generate SBOM
+        run: |
+          npm install --global @cyclonedx/cyclonedx-npm
+          cyclonedx-npm --omit dev --output-file manifest.json
+
+      - name: Store SBOM
+        uses: actions/upload-artifact@v3
+        with:
+          path: manifest.json
       - name: Store Camel Language Server log
         uses: actions/upload-artifact@v3
         if: failure() && matrix.os != 'windows-latest'
