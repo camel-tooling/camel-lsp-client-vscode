@@ -145,7 +145,14 @@ describe('Create a Camel Project using command', function () {
 	after(async function () {
 		await new EditorView().closeAllEditors();
 		await new TerminalView().killTerminal();
-		fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
+		await driver.wait(async () => {
+			try {
+				fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
+			} catch {
+				return false;
+			}
+			return true;
+		}, 60000);
 	});
 
 	const COMMANDS = [CREATE_COMMAND_QUARKUS, CREATE_COMMAND_SPRINGBOOT];
