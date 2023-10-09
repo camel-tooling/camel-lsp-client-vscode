@@ -93,13 +93,19 @@ jobs:
         run: vsce package
 
       - name: Generate SBOM
+        if: matrix.os == 'ubuntu-latest'
         run: |
           npm install --global @cyclonedx/cyclonedx-npm
-          cyclonedx-npm --omit dev --output-file manifest.json
+          cyclonedx-npm --omit dev --output-file node-sbom.json
+          wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64
+          chmod +x cyclonedx-linux-x64
+          ./cyclonedx-linux-x64 merge --input-files node-sbom.json camel-ls-sbom.json --output-file manifest.json
 
       - name: Store SBOM
         uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
         with:
+          name: sbom
           path: manifest.json
       - name: Store Camel Language Server log
         uses: actions/upload-artifact@v3

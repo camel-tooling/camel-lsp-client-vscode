@@ -12,3 +12,6 @@ log-camel-lsp.out
 test-resources
 test Fixture with speci@l chars/.vscode/**
 .test-extensions
+/camel-ls-sbom.json
+/manifest.json
+/node-sbom.json
