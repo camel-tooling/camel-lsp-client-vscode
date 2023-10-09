@@ -346,7 +346,7 @@ describe('Language DSL support', function () {
             await activateEditor(driver, KOTLIN_TESTFILE);
         });
 
-        it('Open "TODO" file inside Editor View', async function () {
+        it('Open "test.camelk.kts" file inside Editor View', async function () {
             await openContextInsideEditorView(KOTLIN_TESTFILE);
         });
 
@@ -374,7 +374,7 @@ describe('Language DSL support', function () {
             await activateEditor(driver, JS_TESTFILE);
         });
 
-        it('Open "TODO" file inside Editor View', async function () {
+        it('Open "camel.js" file inside Editor View', async function () {
             await openContextInsideEditorView(JS_TESTFILE);
         });
 
