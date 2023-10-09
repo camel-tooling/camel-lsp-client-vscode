@@ -144,6 +144,7 @@ describe('Create a Camel Project using command', function () {
 
 	after(async function () {
 		await new EditorView().closeAllEditors();
+		console.log(await new TerminalView().getText());
 		await new TerminalView().killTerminal();
 		await driver.wait(async () => {
 			try {
