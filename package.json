@@ -225,7 +225,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^16.1.0",
     "typescript": "^5.2.2",
-    "vscode-uitests-tooling": "^4.0.6"
+    "vscode-uitests-tooling": "^4.0.7"
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.7.0",
