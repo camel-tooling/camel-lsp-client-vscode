@@ -159,7 +159,7 @@ describe('Create a Camel Project using command', function () {
 		const currentWorkspacePath = SPECIFIC_WORKSPACE_PREFIX + currentWorkspaceIndex;
 		await driver.wait(async () => {
 			try {
-				fs.rmSync(currentWorkspacePath, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
+				fs.rmSync(currentWorkspacePath, { recursive: true, maxRetries: 100, force: true, retryDelay: 60});
 			} catch {
 				return false;
 			}
