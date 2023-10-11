@@ -144,6 +144,9 @@ describe('Create a Camel Project using command', function () {
 
 	after(async function () {
 		await new EditorView().closeAllEditors();
+		await new TerminalView().click();
+		await new Workbench().executeCommand('View: Toggle Maximized Panel');
+		await VSBrowser.instance.takeScreenshot('Screenshot with terminal maximized');
 		console.log(await new TerminalView().getText());
 		await new TerminalView().killTerminal();
 		await driver.wait(async () => {
