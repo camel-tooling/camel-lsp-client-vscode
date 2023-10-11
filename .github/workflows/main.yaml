@@ -92,6 +92,11 @@ jobs:
       - name: vsce-package
         run: vsce package
 
+      - name: get-npm-version
+        id: package-version
+        if: matrix.os == 'ubuntu-latest'
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
       - name: Generate SBOM
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -99,7 +104,7 @@ jobs:
           cyclonedx-npm --omit dev --output-file node-sbom.json
           wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64
           chmod +x cyclonedx-linux-x64
-          ./cyclonedx-linux-x64 merge --input-files node-sbom.json camel-ls-sbom.json --output-file manifest.json
+          ./cyclonedx-linux-x64 merge --hierarchical --group com.github.camel-tooling --name vscode-apache-camel --version ${{ steps.package-version.outputs.current-version}} --input-files node-sbom.json camel-ls-sbom.json --output-file manifest.json
 
       - name: Store SBOM
         uses: actions/upload-artifact@v3
