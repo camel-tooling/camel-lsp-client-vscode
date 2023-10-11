@@ -42,11 +42,13 @@ import {
 	getFileContent,
 	killTerminal,
 	RESOURCES,
-	SPECIFIC_WORKSPACE,
+	SPECIFIC_WORKSPACE_FOLDERNAME_PREFIX,
+	SPECIFIC_WORKSPACE_PREFIX,
 	waitUntilEditorIsOpened,
 	waitUntilExtensionIsActivated
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
+import { integer } from 'vscode-languageclient';
 
 let driver: WebDriver;
 let input: InputBox;
@@ -126,13 +128,17 @@ describe('Create a Camel Route using command', function () {
 describe('Create a Camel Project using command', function () {
 	this.timeout(400000);
 
+	let currentWorkspaceIndex :integer = 0;
+
 	before(async function () {
+		currentWorkspaceIndex++;
 		this.timeout(200000);
 		driver = VSBrowser.instance.driver;
+		const currentWorkspacePath = SPECIFIC_WORKSPACE_PREFIX + currentWorkspaceIndex;
 
-		fs.mkdirSync(SPECIFIC_WORKSPACE, { recursive: true });
+		fs.mkdirSync(currentWorkspacePath, { recursive: true });
 
-		await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE);
+		await VSBrowser.instance.openResources(currentWorkspacePath);
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
@@ -149,9 +155,10 @@ describe('Create a Camel Project using command', function () {
 		await VSBrowser.instance.takeScreenshot('Screenshot with terminal maximized');
 		console.log(await new TerminalView().getText());
 		await new TerminalView().killTerminal();
+		const currentWorkspacePath = SPECIFIC_WORKSPACE_PREFIX + currentWorkspaceIndex;
 		await driver.wait(async () => {
 			try {
-				fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
+				fs.rmSync(currentWorkspacePath, { recursive: true, maxRetries: 1000, force: true, retryDelay: 60});
 			} catch {
 				return false;
 			}
@@ -173,7 +180,7 @@ describe('Create a Camel Project using command', function () {
 			await input.setText('com.demo:test:1.0-SNAPSHOT');
 			await input.confirm();
 
-			const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
+			const tree = await sideBar.getContent().getSection(SPECIFIC_WORKSPACE_FOLDERNAME_PREFIX + currentWorkspaceIndex) as DefaultTreeSection;
 			await driver.wait(async () => {
 				const items = await tree.getVisibleItems();
 

@@ -57,9 +57,9 @@ export const YAML_URI_LINE = 7; //camel-context.yaml
 export const YAML_URI_POSITION = 14; //camel-context.yaml
 
 // Camel-K
-export const GROOVY_TESTFILE = 'test.camelk.groovy'; 
+export const GROOVY_TESTFILE = 'test.camelk.groovy';
 export const KOTLIN_TESTFILE = 'test.camelk.kts';
-export const JS_TESTFILE = 'camel.js'; 
+export const JS_TESTFILE = 'camel.js';
 
 export const GROOVY_URI_LINE = 1; // test.camelk.groovy
 export const GROOVY_URI_POSITION = 7; // test.camelk.groovy
@@ -99,7 +99,8 @@ export const CATALOG_PROVIDER_UI = 'Camel catalog runtime provider';
 export const CATALOG_VERSION_UI = 'Camel catalog version';
 
 // Specific workspace for creating project with command.
-export const SPECIFIC_WORKSPACE: string = path.resolve(RESOURCES, 'create-camel-project-workspace');
+export const SPECIFIC_WORKSPACE_FOLDERNAME_PREFIX = 'create-camel-project-workspace-';
+export const SPECIFIC_WORKSPACE_PREFIX: string = path.resolve(RESOURCES, SPECIFIC_WORKSPACE_FOLDERNAME_PREFIX);
 
 // Other constant items
 export const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
@@ -466,8 +467,8 @@ export async function clearReferences(): Promise<void> {
 }
 
 /**
- * Checks, if file is available in Explorer. 
- * 
+ * Checks, if file is available in Explorer.
+ *
  * @param filename Filename.
  * @returns true/false
  */
@@ -481,7 +482,7 @@ export async function fileIsAvailable(filename: string): Promise<boolean> {
 
 /**
  * Waits until file is available in Explorer.
- * 
+ *
  * @param driver WebDriver.
  * @param filename Filename.
  * @param timeout Timeout for dynamic wait.
