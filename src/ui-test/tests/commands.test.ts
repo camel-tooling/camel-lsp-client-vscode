@@ -155,6 +155,7 @@ describe('Create a Camel Project using command', function () {
 		await VSBrowser.instance.takeScreenshot('Screenshot with terminal maximized');
 		console.log(await new TerminalView().getText());
 		await new TerminalView().killTerminal();
+		await new Workbench().closeFolder();
 		const currentWorkspacePath = SPECIFIC_WORKSPACE_PREFIX + currentWorkspaceIndex;
 		await driver.wait(async () => {
 			try {
