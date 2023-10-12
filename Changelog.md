@@ -7,6 +7,7 @@
 - Update Kamelet Catalog from 4.0.0 to 4.0.1
 - Update Camel Quarkus Catalog from 3.2.0 to 3.4.0
 - Improve support of `*.yml` files
+- Improve error message when JDk 11-16 are used as Java 17+ is required.
 - Fixed autocompletion for namespaces coming from Kubernetes context, reported in [FUSETOOLS2-2190](https://issues.redhat.com/browse/FUSETOOLS2-2190)
 - Added autocompletion for secrets coming from Kubernetes context, see [camel-language-server#990](https://github.com/camel-tooling/camel-language-server/pull/990)
 
