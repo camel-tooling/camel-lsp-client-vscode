@@ -12,7 +12,7 @@ import { findJavaHomes, getJavaVersion, JavaRuntime } from './findJavaRuntimes';
 
 const isWindows = process.platform.indexOf('win') === 0;
 const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
-const REQUIRED_JRE_VERSION = 11;
+const REQUIRED_JRE_VERSION = 17;
 export interface RequirementsData {
     java_home: string;
     java_version: number;
