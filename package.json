@@ -207,7 +207,7 @@
     "@types/chai": "^4.3.7",
     "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.2",
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.8.5",
     "@types/sinon": "^10.0.19",
     "@types/vscode": "^1.76.0",
     "@types/winreg": "^1.2.33",
