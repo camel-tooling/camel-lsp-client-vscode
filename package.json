@@ -210,7 +210,7 @@
     "@types/node": "^20.8.6",
     "@types/sinon": "^10.0.19",
     "@types/vscode": "^1.76.0",
-    "@types/winreg": "^1.2.33",
+    "@types/winreg": "^1.2.34",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@vscode/test-electron": "^2.3.5",
     "@vscode/vsce": "^2.21.1",
