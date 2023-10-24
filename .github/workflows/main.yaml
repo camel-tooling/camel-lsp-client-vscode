@@ -124,14 +124,24 @@ jobs:
 
       - name: Store UI test log
         uses: actions/upload-artifact@v3
-        if: failure() && (steps.uiTest_Ubuntu.outcome == 'failure' || steps.uiTest_MacOS_Windows.outcome == 'failure')
+        if: |
+          (failure() || cancelled()) &&
+          (steps.uiTest_Ubuntu.outcome == 'failure' ||
+          steps.uiTest_MacOS_Windows.outcome == 'failure' ||
+          steps.uiTest_Ubuntu.outcome == 'cancelled' ||
+          steps.uiTest_MacOS_Windows.outcome == 'cancelled')
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-ui-test-logs
           path: test-resources/settings/logs/*
 
       - name: Store UI Test Screenshots
         uses: actions/upload-artifact@v3
-        if: failure() && (steps.uiTest_Ubuntu.outcome == 'failure' || steps.uiTest_MacOS_Windows.outcome == 'failure')
+        if: |
+          (failure() || cancelled()) &&
+          (steps.uiTest_Ubuntu.outcome == 'failure' ||
+          steps.uiTest_MacOS_Windows.outcome == 'failure' ||
+          steps.uiTest_Ubuntu.outcome == 'cancelled' ||
+          steps.uiTest_MacOS_Windows.outcome == 'cancelled')
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-ui-test-screenshots
           path: test-resources/screenshots/*.png
