@@ -5,7 +5,7 @@
 - Update default Camel Catalog version from 4.0.0 to 4.1.0
 - Update default Camel JBang version from 4.0.0 to 4.1.0
 - Update Kamelet Catalog from 4.0.0 to 4.0.1
-- Update Camel Quarkus Catalog from 3.2.0 to 3.4.0
+- Update Camel Quarkus Catalog from 3.2.0 to 3.5.0
 - Improve support of `*.yml` files
 - Improve error message when JDk 11-16 are used as Java 17+ is required.
 - Fixed autocompletion for namespaces coming from Kubernetes context, reported in [FUSETOOLS2-2190](https://issues.redhat.com/browse/FUSETOOLS2-2190)
