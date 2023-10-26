@@ -11,6 +11,7 @@
 - Fixed autocompletion for namespaces coming from Kubernetes context, reported in [FUSETOOLS2-2190](https://issues.redhat.com/browse/FUSETOOLS2-2190)
 - Added autocompletion for secrets coming from Kubernetes context, see [camel-language-server#990](https://github.com/camel-tooling/camel-language-server/pull/990)
 - Added autocompletion for config maps coming from Kubernetes context, see [camel-language-server#995](https://github.com/camel-tooling/camel-language-server/pull/995)
+- Use Language Server for Apache Camel 1.14.0
 
 ## 0.11.0
 
