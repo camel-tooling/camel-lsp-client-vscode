@@ -54,7 +54,7 @@ jobs:
         run: jbang trust add https://github.com/apache/
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.15.x
           cache: npm
