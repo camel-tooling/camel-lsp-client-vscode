@@ -27,7 +27,6 @@ describe('Should validate Create a Camel Project command', function () {
 	COMMANDS.forEach(command => {
 		context(`GAV validation of ${command.getRuntime()}`, function () {
 
-
 			it('Validate ok', function () {
 				expect(command.validateGAV('com.test:demo:1.0-SNAPSHOT')).to.be.undefined;
 				expect(command.validateGAV('com:demo:1.0-SNAPSHOT')).to.be.undefined;

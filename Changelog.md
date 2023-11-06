@@ -4,6 +4,7 @@
 
 - Update default Camel Catalog version from 4.1.0 to 4.2.0
 - Update Kamelet Catalog from 4.0.1 to 4.2.0
+- Automatically generates `.vscode` folder with `tasks.json` and `launch.json` files  after Camel Quarkus project is created. It contains predefined configurations for a build and start of a Camel Quarkus native application.
 
 ## 0.12.0
 

@@ -176,5 +176,23 @@ describe('Create a Camel Project using command', function () {
 				return labels.includes('pom.xml');
 			}, 30000);
 		});
+
+		(command.includes('quarkus') ? it : it.skip)(`Init automatically .vscode folder with config files - ${command}`, async function () {
+			const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
+			await driver.wait(async () => {
+				const item = await tree.findItem('.vscode');
+				if(item) {
+					await item.expand();
+					return true;
+				} else {
+					return false;
+				}
+			}, 10000, 'Could not expand .vscode folder');
+			await driver.wait(async () => {
+				const items = await tree.getVisibleItems();
+				const labels = await Promise.all(items.map(item => item.getLabel()));
+				return labels.includes('.vscode') && labels.includes('tasks.json') && labels.includes('launch.json');
+			}, 30000, 'Could not find .vscode folder with tasks.json and launch.json files!');
+		});
 	});
 });
