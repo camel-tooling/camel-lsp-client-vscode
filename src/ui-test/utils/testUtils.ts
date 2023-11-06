@@ -58,9 +58,9 @@ export const YAML_URI_LINE = 7; //camel-context.yaml
 export const YAML_URI_POSITION = 14; //camel-context.yaml
 
 // Camel-K
-export const GROOVY_TESTFILE = 'test.camelk.groovy'; 
+export const GROOVY_TESTFILE = 'test.camelk.groovy';
 export const KOTLIN_TESTFILE = 'test.camelk.kts';
-export const JS_TESTFILE = 'camel.js'; 
+export const JS_TESTFILE = 'camel.js';
 
 export const GROOVY_URI_LINE = 1; // test.camelk.groovy
 export const GROOVY_URI_POSITION = 7; // test.camelk.groovy
@@ -216,7 +216,8 @@ export async function waitUntilEditorIsOpened(driver: WebDriver, title: string, 
  * @param timeout Timeout for dynamic wait.
  * @param interval Delay between individual checks.
  */
-export async function waitUntilTerminalHasText(driver: WebDriver, text: string, timeout = 120000, interval = 500): Promise<void> {
+export async function waitUntilTerminalHasText(driver: WebDriver, text: string, timeout = 120000, interval = 2000): Promise<void> {
+	await driver.sleep(interval);
 	await driver.wait(async function () {
 		try {
 			const terminal = await activateTerminalView();
@@ -235,7 +236,6 @@ export async function waitUntilTerminalHasText(driver: WebDriver, text: string, 
  */
 export async function activateTerminalView(): Promise<TerminalView> {
 	await new Workbench().executeCommand('Terminal: Focus on Terminal View');
-	await new BottomBarPanel().toggle(true);
 	return await new BottomBarPanel().openTerminalView();
 }
 
@@ -467,8 +467,8 @@ export async function clearReferences(): Promise<void> {
 }
 
 /**
- * Checks, if file is available in Explorer. 
- * 
+ * Checks, if file is available in Explorer.
+ *
  * @param filename Filename.
  * @returns true/false
  */
@@ -482,7 +482,7 @@ export async function fileIsAvailable(filename: string): Promise<boolean> {
 
 /**
  * Waits until file is available in Explorer.
- * 
+ *
  * @param driver WebDriver.
  * @param filename Filename.
  * @param timeout Timeout for dynamic wait.

@@ -16,8 +16,9 @@
  */
 'use strict'
 
-import { WorkspaceFolder, window, workspace } from "vscode";
+import { Uri, WorkspaceFolder, window, workspace } from "vscode";
 import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
+import * as path from "path";
 
 export abstract class NewCamelProjectCommand {
 
@@ -29,7 +30,15 @@ export abstract class NewCamelProjectCommand {
 				// default to root workspace folder
 				workspaceFolder = workspace.workspaceFolders[0];
 			}
-			await new CamelExportJBangTask(workspaceFolder, input, this.getRuntime()).execute();
+			const runtime = this.getRuntime();
+			await new CamelExportJBangTask(workspaceFolder, input, runtime).execute();
+			if(runtime === 'quarkus') {
+				// if not exist, init .vscode with tasks.json and launch.json config files
+				await this.initFolder('.vscode');
+				for (const filename of ['tasks', 'launch']) {
+					await this.copyFile(`../../../resources/${filename}.json`, `.vscode/${filename}.json`);
+				}
+			}
 		}
 	}
 
@@ -91,4 +100,30 @@ export abstract class NewCamelProjectCommand {
 		return undefined;
 	}
 
+	/**
+	 * Create a new folder inside the root of vscode workspace
+	 *
+	 * @param folder Name of the folder
+	 */
+	private async initFolder(folder: string): Promise<void> {
+		const wsPath = workspace.workspaceFolders[0].uri.fsPath;
+		await workspace.fs.createDirectory(Uri.file(path.join(wsPath, folder)));
+	}
+
+	/**
+	 * Handles copy of the resources from the extension to the vscode workspace
+	 *
+	 * @param sourcePath Path of source
+	 * @param destPath Path of destination
+	 */
+	private async copyFile(sourcePath: string, destPath: string): Promise<void> {
+		const wsPath = workspace.workspaceFolders[0].uri.fsPath;
+		const sourcePathUri = Uri.file(path.resolve(__dirname, sourcePath));
+		const destPathUri = Uri.file(path.join(wsPath, destPath));
+		try {
+			await workspace.fs.copy(sourcePathUri, destPathUri, { overwrite: false });
+		} catch (error) {
+			// Do nothing in case there already exists tasks.json and launch.json files
+		}
+	}
 }

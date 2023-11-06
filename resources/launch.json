@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Camel native application and attach Camel debugger",
+            "type": "apache.camel",
+            "request": "attach",
+            "preLaunchTask": "Start Camel native application debug-ready"
+        }
+    ],
+    "compounds": []
+}
