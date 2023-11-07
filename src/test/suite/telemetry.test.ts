@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 'use strict';
+
 import * as telemetry from '../../Telemetry';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
@@ -23,7 +24,6 @@ import { TelemetryEvent } from '@redhat-developer/vscode-redhat-telemetry/lib';
 import { getDocUri } from './helper';
 import { waitUntil } from 'async-wait-until';
 import { fail } from 'assert';
-
 
 describe('Check Telemetry', () => {
 
