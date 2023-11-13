@@ -228,7 +228,7 @@
     "vscode-uitests-tooling": "^4.0.7"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "^0.7.0",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.7.1",
     "expand-home-dir": "^0.0.3",
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
