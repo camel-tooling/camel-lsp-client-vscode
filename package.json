@@ -211,7 +211,7 @@
     "@types/sinon": "^17.0.1",
     "@types/vscode": "^1.76.0",
     "@types/winreg": "^1.2.35",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@vscode/test-electron": "^2.3.6",
     "@vscode/vsce": "^2.22.0",
     "async-wait-until": "^2.0.12",
