@@ -212,7 +212,7 @@
     "@types/vscode": "^1.76.0",
     "@types/winreg": "^1.2.36",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@vscode/test-electron": "^2.3.6",
+    "@vscode/test-electron": "^2.3.7",
     "@vscode/vsce": "^2.22.0",
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.10",
