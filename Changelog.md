@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.14.0
+
 ## 0.13.0
 
 - Update default Camel Catalog version from 4.1.0 to 4.2.0
