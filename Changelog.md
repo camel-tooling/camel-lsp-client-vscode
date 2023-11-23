@@ -2,6 +2,8 @@
 
 ## 0.14.0
 
+- Minimal version of VS Code to run this extension is 1.82.0
+
 ## 0.13.0
 
 - Update default Camel Catalog version from 4.1.0 to 4.2.0

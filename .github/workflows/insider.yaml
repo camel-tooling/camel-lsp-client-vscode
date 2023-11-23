@@ -13,10 +13,10 @@ jobs:
   insider:
     strategy:
       matrix:
-        java: ["17"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        version: [latest] # [x.x.x | latest | max]
-        type: [insider] # [stable | insider]
+        java: [ "17" ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        version: [ latest ] # [ x.x.x | latest | max ]
+        type: [ insider ] # [ stable | insider ]
       fail-fast: false
 
     env:
