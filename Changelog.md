@@ -3,6 +3,7 @@
 ## 0.14.0
 
 - Minimal version of VS Code to run this extension is 1.82.0
+- Update Camel Quarkus Catalog from 3.5.0 to 3.6.0
 
 ## 0.13.0
 
