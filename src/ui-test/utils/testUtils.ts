@@ -72,22 +72,22 @@ export const JS_URI_LINE = 3; // camel.js
 export const JS_URI_POSITION = 7; // camel.js
 
 // Commands for creating Camel Routes.
-export const CREATE_COMMAND_XML = 'camel.jbang.routes.xml';
-export const CREATE_COMMAND_YAML = 'camel.jbang.routes.yaml';
-export const CREATE_COMMAND_JAVA = 'camel.jbang.routes.java';
-export const CREATE_COMMAND_QUARKUS = 'camel.jbang.project.quarkus.new';
-export const CREATE_COMMAND_SPRINGBOOT = 'camel.jbang.project.springboot.new';
+export const CREATE_COMMAND_XML_ID = 'camel.jbang.routes.xml';
+export const CREATE_COMMAND_YAML_ID = 'camel.jbang.routes.yaml';
+export const CREATE_COMMAND_JAVA_ID = 'camel.jbang.routes.java';
+export const CREATE_COMMAND_QUARKUS_ID = 'camel.jbang.project.quarkus.new';
+export const CREATE_COMMAND_SPRINGBOOT_ID = 'camel.jbang.project.springboot.new';
 
 // Resources for component reference testing.
-export const RESOURCES_REFERENCES: string = path.resolve(RESOURCES, 'component_references');
+export const RESOURCES_REFERENCES: string = path.join(RESOURCES, 'component_references');
 export const REFERENCES_FILE_1 = 'camel1.xml';
 export const REFERENCES_FILE_2 = 'camel2.xml';
 
 // Resources for Camel route commands testing.
-export const RESOURCES_COMMAND: string = path.resolve(RESOURCES, 'camel_route_command');
-export const COMMAND_JAVA_FILE = 'Java.java';
-export const COMMAND_XML_FILE = 'XML.xml';
-export const COMMAND_YAML_FILE = 'YAML.yaml';
+export const RESOURCES_COMMAND: string = path.join(RESOURCES, 'camel_route_command');
+export const EXAMPLE_COMMAND_JAVA_FILE = 'Java.java';
+export const EXAMPLE_COMMAND_XML_FILE = 'XML.xml';
+export const EXAMPLE_COMMAND_YAML_FILE = 'YAML.yaml';
 
 // Identifiers of user preferences inside settings.json.
 export const JBANG_VERSION_ID = 'camel.languageSupport.JBangVersion';
@@ -100,7 +100,8 @@ export const CATALOG_PROVIDER_UI = 'Camel catalog runtime provider';
 export const CATALOG_VERSION_UI = 'Camel catalog version';
 
 // Specific workspace for creating project with command.
-export const SPECIFIC_WORKSPACE: string = path.resolve(RESOURCES, 'create-camel-project-workspace');
+export const SPECIFIC_WORKSPACE_NAME: string = 'create-camel-project-workspace';
+export const SPECIFIC_WORKSPACE_PATH: string = path.join(RESOURCES, SPECIFIC_WORKSPACE_NAME);
 
 // Other constant items
 export const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
@@ -202,10 +203,10 @@ export async function deleteFile(filename: string, folder: string): Promise<void
  * @param title Title of editor - filename.
  * @param timeout Timeout for dynamic wait.
  */
-export async function waitUntilEditorIsOpened(driver: WebDriver, title: string, timeout = 10000): Promise<void> {
+export async function waitUntilEditorIsOpened(driver: WebDriver, title: string, timeout = 30000, interval = 2000): Promise<void> {
 	await driver.wait(async function () {
 		return (await new EditorView().getOpenEditorTitles()).find(t => t === title);
-	}, timeout);
+	}, timeout, `Editor ${title} was not opened properly in requested time!`, interval);
 }
 
 /**
@@ -226,7 +227,7 @@ export async function waitUntilTerminalHasText(driver: WebDriver, text: string, 
 		} catch (err) {
 			return false;
 		}
-	}, timeout, undefined, interval);
+	}, timeout, `Unable to find in terminal text: ${text}`, interval);
 }
 
 /**
@@ -310,15 +311,13 @@ export function getFileContent(filename: string, folder: string): string {
  */
 export async function initXMLFileWithJBang(driver: WebDriver, filename: string): Promise<void> {
 	let input: InputBox;
-	await new Workbench().executeCommand(CREATE_COMMAND_XML);
+	await new Workbench().executeCommand(CREATE_COMMAND_XML_ID);
 	await driver.wait(async function () {
 		input = await InputBox.create();
 		return (await input.isDisplayed());
 	}, 30000);
 	await input.setText(filename);
 	await input.confirm();
-	await waitUntilFileAvailable(driver, filename.concat('.camel.xml'), 30000);
-	await waitUntilEditorIsOpened(driver, filename.concat('.camel.xml'), 30000);
 }
 
 /**
@@ -413,13 +412,13 @@ export async function getCamelCatalogVersion(): Promise<string> {
 export async function createNewFile(driver: WebDriver, name: string): Promise<void> {
 	let input: InputBox;
 	await new Workbench().executeCommand('Create: New File...');
-    await driver.wait(async function () {
-            input = await InputBox.create();
-            return (await input.isDisplayed());
-    }, 30000);
-    await input.setText(name);
-    await input.confirm(); // confirm name
-    await input.confirm(); // confirm path
+	await driver.wait(async function () {
+		input = await InputBox.create();
+		return (await input.isDisplayed());
+	}, 30000);
+	await input.setText(name);
+	await input.confirm(); // confirm name
+	await input.confirm(); // confirm path
 }
 
 /** Opens file in editor.
@@ -445,7 +444,7 @@ export async function isReferencesAvailable(): Promise<boolean> {
 		const section = await new SideBarView().getContent().getSection('References') as DefaultTreeSection;
 		await section.click();
 		const visibelItems = await section.getVisibleItems();
-		return(visibelItems.length > 0); // at least one item is available
+		return (visibelItems.length > 0); // at least one item is available
 	} catch (err) {
 		return false;
 	}
@@ -472,9 +471,12 @@ export async function clearReferences(): Promise<void> {
  * @param filename Filename.
  * @returns true/false
  */
-export async function fileIsAvailable(filename: string): Promise<boolean> {
-	const sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
-	const tree = await sideBar.getContent().getSection('resources') as DefaultTreeSection;
+export async function fileIsAvailable(filename: string, section: string = 'resources'): Promise<boolean> {
+	const control = await new ActivityBar().getViewControl('Explorer');
+	await control.closeView();
+	const sideBar = await control.openView();
+	const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;
+	await (await tree.getAction('Refresh Explorer')).click();
 	const items = await tree.getVisibleItems();
 	const labels = await Promise.all(items.map(item => item.getLabel()));
 	return labels.includes(filename);
@@ -488,12 +490,12 @@ export async function fileIsAvailable(filename: string): Promise<boolean> {
  * @param timeout Timeout for dynamic wait.
  * @param interval Delay between individual checks.
  */
-export async function waitUntilFileAvailable(driver: WebDriver, filename: string, timeout = 30000, interval = 500): Promise<void> {
+export async function waitUntilFileAvailable(driver: WebDriver, filename: string, section: string = undefined, timeout = 30000, interval = 2000): Promise<void> {
 	await driver.wait(async function () {
 		try {
-			return await fileIsAvailable(filename);
+			return await fileIsAvailable(filename, section);
 		} catch (err) {
 			return false;
 		}
-	}, timeout, undefined, interval);
+	}, timeout, `File ${filename} is not available in Explorer view!`, interval);
 }

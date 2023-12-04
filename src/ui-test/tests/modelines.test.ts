@@ -16,139 +16,149 @@
  */
 
 import { assert } from "chai";
-import { 
-    BottomBarPanel,
-    ContentAssist,
-    MarkerType,
-    TextEditor,
-    VSBrowser,
-    WebDriver
+import {
+	ActivityBar,
+	BottomBarPanel,
+	ContentAssist,
+	EditorView,
+	MarkerType,
+	TextEditor,
+	VSBrowser,
+	WebDriver
 } from "vscode-uitests-tooling";
-import { 
-    activateEditor,
-    closeEditor,
-    createNewFile,
-    deleteFile,
-    getTextExt,
-    openProblemsView,
-    RESOURCES
+import {
+	activateEditor,
+	closeEditor,
+	createNewFile,
+	deleteFile,
+	getTextExt,
+	openProblemsView,
+	RESOURCES,
+	waitUntilExtensionIsActivated
 } from "../utils/testUtils";
 import * as ca from '../utils/contentAssist';
-
-let driver: WebDriver;
-let editor: TextEditor;
-let contentAssist: ContentAssist;
-
-const TESTFILE = 'CamelK.java';
+import * as pjson from '../../../package.json';
+import * as path from 'path';
 
 describe('Camel-K modelines support', function () {
-    this.timeout(120000);
+	this.timeout(120000);
 
-    before(async function () {
-        this.timeout(20000);
-        driver = VSBrowser.instance.driver;
+	let driver: WebDriver;
+	let editor: TextEditor;
+	let contentAssist: ContentAssist;
 
-        await VSBrowser.instance.openResources(RESOURCES);
-        await VSBrowser.instance.waitForWorkbench();
+	const TESTFILE = 'CamelK.java';
 
-        await deleteFile(TESTFILE, RESOURCES); // prevent failure
-        await createNewFile(driver, TESTFILE);
-    });
+	before(async function () {
+		this.timeout(90000);
+		driver = VSBrowser.instance.driver;
 
-    after(async function () {
-        await closeEditor(TESTFILE, false);
-        await deleteFile(TESTFILE, RESOURCES);
-    });
+		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.waitForWorkbench();
 
-    beforeEach(async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('// camel-k: ');
-    });
+		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		await (await new ActivityBar().getViewControl('Explorer')).openView();
 
-    afterEach(async function () {
-        await editor.clearText(); // clear file after each test
-    });
+		await deleteFile(TESTFILE, RESOURCES); // prevent failure
+		await createNewFile(driver, TESTFILE);
+	});
 
-    it('trait definition names', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await selectFromCA('trait');
-        await editor.typeText('=');
-        await selectFromCA('affinity');
-        await selectFromCA('enabled');
-        assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: trait=affinity.enabled=');
-    });
+	after(async function () {
+		await new EditorView().closeAllEditors();
+		await deleteFile(TESTFILE, RESOURCES);
+	});
 
-    it('property and option names', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await selectFromCA('property');
-        await editor.typeText('=');
-        await selectFromCA('camel');
-        await selectFromCA('component');
-        await selectFromCA('timer');
-        await editor.typeText('.');
-        await selectFromCA('bridgeErrorHandler');
-        assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: property=camel.component.timer.bridgeErrorHandler=false');
-    });
+	beforeEach(async function () {
+		await VSBrowser.instance.openResources(path.join(RESOURCES, TESTFILE));
+		editor = await activateEditor(driver, TESTFILE);
+		await editor.typeText('// camel-k: ');
+	});
 
-    it('diagnostic for duplicated trait properties', async function () {
-        const EXPECTED_ERROR_MESSAGE = 'More than one trait defines the same property: affinity.enabled';
+	afterEach(async function () {
+		await editor.clearText(); // clear file after each test
+		await closeEditor(TESTFILE, false);
+	});
 
-        editor = await activateEditor(driver, TESTFILE);
-        await selectFromCA('trait');
-        await editor.typeText('=');
-        await selectFromCA('affinity');
-        await selectFromCA('enabled');
-        await editor.typeText(' ');
-        await selectFromCA('trait');
-        await editor.typeText('=');
-        await selectFromCA('affinity');
-        await selectFromCA('enabled');
-        assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: trait=affinity.enabled= trait=affinity.enabled=');
+	it('trait definition names', async function () {
+		editor = await activateEditor(driver, TESTFILE);
+		await selectFromCA('trait');
+		await editor.typeText('=');
+		await selectFromCA('affinity');
+		await selectFromCA('enabled');
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: trait=affinity.enabled=');
+	});
 
-        const problemsView = await openProblemsView();
-        await driver.wait(async function () {
-            const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
-            return innerMarkers.length > 0;
-        }, 5000);
-        const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
-        assert.isNotEmpty(markers, 'Problems view does not contains duplicated trait error.');
+	it('property and option names', async function () {
+		editor = await activateEditor(driver, TESTFILE);
+		await selectFromCA('property');
+		await editor.typeText('=');
+		await selectFromCA('camel');
+		await selectFromCA('component');
+		await selectFromCA('timer');
+		await editor.typeText('.');
+		await selectFromCA('bridgeErrorHandler');
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: property=camel.component.timer.bridgeErrorHandler=false');
+	});
 
-        const errorMessage = await markers[0].getText();
-        assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
-        await new BottomBarPanel().toggle(false); // close Problems View
-    });
+	it('diagnostic for duplicated trait properties', async function () {
+		const EXPECTED_ERROR_MESSAGE = 'More than one trait defines the same property: affinity.enabled';
 
-    it('Camel artifact id for dependency', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await selectFromCA('dependency');
-        await editor.typeText('=');
-        await selectFromCA('camel-activemq');
-        assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=camel-activemq');
-    });
+		editor = await activateEditor(driver, TESTFILE);
+		await selectFromCA('trait');
+		await editor.typeText('=');
+		await selectFromCA('affinity');
+		await selectFromCA('enabled');
+		await editor.typeText(' ');
+		await selectFromCA('trait');
+		await editor.typeText('=');
+		await selectFromCA('affinity');
+		await selectFromCA('enabled');
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: trait=affinity.enabled= trait=affinity.enabled=');
 
-    it('mvn dependency', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await selectFromCA('dependency');
+		const problemsView = await openProblemsView();
+		await driver.wait(async function () {
+			const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
+			return innerMarkers.length > 0;
+		}, 5000);
+		const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
+		assert.isNotEmpty(markers, 'Problems view does not contains duplicated trait error.');
 
-        // workaround for https://issues.redhat.com/browse/FUSETOOLS2-2203
-        await editor.typeText('=mvn');
-        contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-        const items = await contentAssist.getItems();
-        const item = items.at(0);
-        await item.click();
+		const errorMessage = await markers[0].getText();
+		assert.include(errorMessage, EXPECTED_ERROR_MESSAGE);
+		await new BottomBarPanel().toggle(false); // close Problems View
+	});
 
-        assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=mvn:groupId:artifactId:version');
-    });
+	it('Camel artifact id for dependency', async function () {
+		editor = await activateEditor(driver, TESTFILE);
+		await selectFromCA('dependency');
+		await editor.typeText('=');
+		await selectFromCA('camel-activemq');
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=camel-activemq');
+	});
 
-    /**
-     * Select specific item from Content Assist proposals.
-     * 
-     * @param expectedItem Expected item in Content Assist.
-     */
-    async function selectFromCA(expectedItem: string, timeout = 10000): Promise<void> {
-        contentAssist = await ca.waitUntilContentAssistContains(expectedItem, timeout);
-        const item = await contentAssist.getItem(expectedItem);
-        assert.equal(await getTextExt(item), expectedItem);
-        await item.click();
-    }
+	it('mvn dependency', async function () {
+		editor = await activateEditor(driver, TESTFILE);
+		await selectFromCA('dependency');
+
+		// workaround for https://issues.redhat.com/browse/FUSETOOLS2-2203
+		await editor.typeText('=mvn');
+		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
+		const items = await contentAssist.getItems();
+		const item = items.at(0);
+		await item.click();
+
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=mvn:groupId:artifactId:version');
+	});
+
+	/**
+	 * Select specific item from Content Assist proposals.
+	 *
+	 * @param expectedItem Expected item in Content Assist.
+	 */
+	async function selectFromCA(expectedItem: string, timeout = 10000): Promise<void> {
+		contentAssist = await ca.waitUntilContentAssistContains(expectedItem, timeout);
+		const item = await contentAssist.getItem(expectedItem, 60000);
+		assert.equal(await getTextExt(item), expectedItem);
+		await item.click();
+	}
 });

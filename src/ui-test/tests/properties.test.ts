@@ -17,114 +17,119 @@
 
 import { assert } from "chai";
 import {
-    BottomBarPanel,
-    ContentAssist,
-    DefaultWait,
-    MarkerType,
-    TextEditor,
-    VSBrowser,
-    WebDriver
+	ActivityBar,
+	BottomBarPanel,
+	ContentAssist,
+	DefaultWait,
+	MarkerType,
+	TextEditor,
+	VSBrowser,
+	WebDriver
 } from "vscode-uitests-tooling";
 import * as ca from '../utils/contentAssist';
 import {
-    activateEditor,
-    closeEditor,
-    createNewFile,
-    deleteFile,
-    getTextExt,
-    openProblemsView,
-    RESOURCES
+	activateEditor,
+	closeEditor,
+	createNewFile,
+	deleteFile,
+	getTextExt,
+	openProblemsView,
+	RESOURCES,
+	waitUntilExtensionIsActivated
 } from "../utils/testUtils";
-
-let driver: WebDriver;
-let editor: TextEditor;
-let contentAssist: ContentAssist;
-
-const TESTFILE = 'test.properties';
+import * as pjson from '../../../package.json';
 
 describe('Camel properties auto-completion support', function () {
-    this.timeout(120000);
+	this.timeout(120000);
 
-    before(async function () {
-        this.timeout(200000);
-        driver = VSBrowser.instance.driver;
+	const TEST_FILE = 'test.properties';
 
-        await VSBrowser.instance.openResources(RESOURCES);
-        await VSBrowser.instance.waitForWorkbench();
+	let driver: WebDriver;
+	let editor: TextEditor;
+	let contentAssist: ContentAssist;
 
-        await deleteFile(TESTFILE, RESOURCES); // prevent failure
-        await createNewFile(driver, TESTFILE);
-    });
+	before(async function () {
+		this.timeout(200000);
+		driver = VSBrowser.instance.driver;
 
-    after(async function () {
-        await closeEditor(TESTFILE, false);
-        await deleteFile(TESTFILE, RESOURCES);
-    });
+		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.waitForWorkbench();
 
-    afterEach(async function () {
-        await editor.clearText(); // clear file after each test
-    });
+		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		await (await new ActivityBar().getViewControl('Explorer')).openView();
 
-    it('completion for possible enum values and booleans of a Camel component property', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('camel.');
-        await selectFromCA('component');
-        await selectFromCA('activemq');
-        assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq');
-    });
+		await createNewFile(driver, TEST_FILE);
+	});
 
-    it('the default values are automatically added when auto-completing Camel component properties', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('camel.component.activemq.');
-        await selectFromCA('acceptMessagesWhileStopping');
-        assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq.acceptMessagesWhileStopping=false'); // defualt value 'false' is added
-    });
+	after(async function () {
+		await closeEditor(TEST_FILE, false);
+		await deleteFile(TEST_FILE, RESOURCES);
+	});
 
-    it('provide filtered completion when in middle of a component id, component property or value', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('camel.component.n');
+	afterEach(async function () {
+		await editor.clearText(); // clear file after each test
+	});
 
-        contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-        await ca.waitUntilContentAssistContains('nats'); // wait until one of expected filtered options is available
-        const size = (await contentAssist.getItems()).length; // get count of fitlered options
-        assert.equal(Number(size), 4);
-    });
+	it('completion for possible enum values and booleans of a Camel component property', async function () {
+		editor = await activateEditor(driver, TEST_FILE);
+		await editor.typeText('camel.');
+		await selectFromCA('component');
+		await selectFromCA('activemq');
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq');
+	});
 
-    it('support insert-and-replace completion', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('camel.component.telegram.authorizationToken=false');
-        await editor.moveCursor(1, 27);
-        await selectFromCA('autowiredEnabled');
-        assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.telegram.autowiredEnabled=false');
-    });
+	it('the default values are automatically added when auto-completing Camel component properties', async function () {
+		editor = await activateEditor(driver, TEST_FILE);
+		await editor.typeText('camel.component.activemq.');
+		await selectFromCA('acceptMessagesWhileStopping');
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq.acceptMessagesWhileStopping=false'); // defualt value 'false' is added
+	});
 
-    it('code diagnostic is working', async function () {
-        editor = await activateEditor(driver, TESTFILE);
-        await editor.typeText('camel.component.telegram.authorizationTokn=');
+	it('provide filtered completion when in middle of a component id, component property or value', async function () {
+		editor = await activateEditor(driver, TEST_FILE);
+		await editor.typeText('camel.component.n');
 
-        const EXPECTED_ERROR_MESSAGE = 'Unknown option';
-        const problemsView = await openProblemsView();
-        await driver.wait(async function () {
-            const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
-            return innerMarkers.length > 0;
-        }, DefaultWait.TimePeriod.VERY_LONG);
-        const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
-        assert.isNotEmpty(markers, 'Problems view does not contains expected error');
+		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
+		await ca.waitUntilContentAssistContains('nats'); // wait until one of expected filtered options is available
+		const size = (await contentAssist.getItems()).length; // get count of fitlered options
+		assert.equal(Number(size), 4);
+	});
 
-        const errorMessage = await markers[0].getText();
-        assert.include(errorMessage, EXPECTED_ERROR_MESSAGE); // expected error message is included
-        await new BottomBarPanel().toggle(false); // close Problems View
-    });
+	it('support insert-and-replace completion', async function () {
+		editor = await activateEditor(driver, TEST_FILE);
+		await editor.typeText('camel.component.telegram.authorizationToken=false');
+		await editor.moveCursor(1, 27);
+		await selectFromCA('autowiredEnabled');
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.telegram.autowiredEnabled=false');
+	});
 
-    /**
-     * Select specific item from Content Assist proposals.
-     * 
-     * @param expectedItem Expected item in Content Assist.
-     */
-    async function selectFromCA(expectedItem: string): Promise<void> {
-        contentAssist = await ca.waitUntilContentAssistContains(expectedItem);
-        const item = await contentAssist.getItem(expectedItem);
-        assert.equal(await getTextExt(item), expectedItem);
-        await item.click();
-    }
+	it('code diagnostic is working', async function () {
+		editor = await activateEditor(driver, TEST_FILE);
+		await editor.typeText('camel.component.telegram.authorizationTokn=');
+
+		const EXPECTED_ERROR_MESSAGE = 'Unknown option';
+		const problemsView = await openProblemsView();
+		await driver.wait(async function () {
+			const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
+			return innerMarkers.length > 0;
+		}, DefaultWait.TimePeriod.VERY_LONG);
+		const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
+		assert.isNotEmpty(markers, 'Problems view does not contains expected error');
+
+		const errorMessage = await markers[0].getText();
+		assert.include(errorMessage, EXPECTED_ERROR_MESSAGE); // expected error message is included
+		await new BottomBarPanel().toggle(false); // close Problems View
+	});
+
+	/**
+	 * Select specific item from Content Assist proposals.
+	 *
+	 * @param expectedItem Expected item in Content Assist.
+	 */
+	async function selectFromCA(expectedItem: string): Promise<void> {
+		contentAssist = await ca.waitUntilContentAssistContains(expectedItem);
+		const item = await contentAssist.getItem(expectedItem);
+		assert.equal(await getTextExt(item), expectedItem);
+		await item.click();
+	}
 });

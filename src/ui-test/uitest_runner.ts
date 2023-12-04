@@ -16,28 +16,30 @@
  */
 'use strict';
 
+import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ExTester, ReleaseQuality } from 'vscode-uitests-tooling';
 
-export const storageFolder = 'test-resources';
+// Enforce same default storage setup as ExTester - see https://github.com/redhat-developer/vscode-extension-tester/wiki/Test-Setup#useful-env-variables
+export const storageFolder = process.env.TEST_RESOURCES ? process.env.TEST_RESOURCES : `${os.tmpdir()}/test-resources`;
 const releaseType: ReleaseQuality = process.env.CODE_TYPE === 'insider' ? ReleaseQuality.Insider : ReleaseQuality.Stable;
 export const projectPath = path.resolve(__dirname, '..', '..', '..');
 const extensionFolder = path.join(projectPath, '.test-extensions');
 
 async function main(): Promise<void> {
-    const tester = new ExTester(storageFolder, releaseType, extensionFolder);
-    await tester.setupAndRunTests('out/src/ui-test/tests/*.test.js',
-        process.env.CODE_VERSION,
-        {
-            'installDependencies': true
-        },
-        {
-            'cleanup': true,
-            'settings': './src/ui-test/resources/vscode-settings.json',
-            resources: []
-        });
-    fs.rmSync(extensionFolder, { recursive: true });
+	const tester = new ExTester(storageFolder, releaseType, extensionFolder);
+	await tester.setupAndRunTests('out/src/ui-test/tests/*.test.js',
+		process.env.CODE_VERSION,
+		{
+			'installDependencies': true
+		},
+		{
+			'cleanup': true,
+			'settings': './src/ui-test/resources/vscode-settings.json',
+			resources: []
+		});
+	fs.rmSync(extensionFolder, { recursive: true });
 }
 
 main().catch((error) => {

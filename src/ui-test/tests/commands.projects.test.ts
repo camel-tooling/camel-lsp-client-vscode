@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import {
 	ActivityBar,
 	DefaultTreeSection,
@@ -27,88 +27,77 @@ import {
 	Workbench
 } from 'vscode-uitests-tooling';
 import {
-	CREATE_COMMAND_QUARKUS,
-	CREATE_COMMAND_SPRINGBOOT,
-	SPECIFIC_WORKSPACE,
+	CREATE_COMMAND_QUARKUS_ID,
+	CREATE_COMMAND_SPRINGBOOT_ID,
+	killTerminal,
+	SPECIFIC_WORKSPACE_NAME,
+	SPECIFIC_WORKSPACE_PATH,
+	waitUntilFileAvailable,
 	waitUntilExtensionIsActivated
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
 
-let driver: WebDriver;
-let input: InputBox;
-let sideBar: SideBarView;
-
 describe('Create a Camel Project using command', function () {
 	this.timeout(400000);
 
-	before(async function () {
-		this.timeout(200000);
-		driver = VSBrowser.instance.driver;
+	let driver: WebDriver;
+	let input: InputBox;
+	let sideBar: SideBarView;
 
-		fs.mkdirSync(SPECIFIC_WORKSPACE, { recursive: true });
-
-		await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE);
-		await VSBrowser.instance.waitForWorkbench();
-
-		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-	});
-
-	before(async function () {
-		sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
-	});
-
-	after(async function () {
-		await new EditorView().closeAllEditors();
-		await new Workbench().executeCommand('Workspaces: Close Workspace');
-		await driver.wait(async () => {
-			try {
-				fs.rmSync(SPECIFIC_WORKSPACE, { recursive: true, maxRetries: 100, force: true, retryDelay: 60});
-			} catch {
-				return false;
-			}
-			return true;
-		}, 60000);
-	});
-
-	const COMMANDS = [CREATE_COMMAND_QUARKUS, CREATE_COMMAND_SPRINGBOOT];
+	const COMMANDS = [CREATE_COMMAND_QUARKUS_ID, CREATE_COMMAND_SPRINGBOOT_ID];
 
 	COMMANDS.forEach(command => {
+		describe(`${command}`, function () {
 
-		it(`Create Project ${command}`, async function () {
-			await new Workbench().executeCommand(command);
+			before(async function () {
+				this.timeout(200000);
+				driver = VSBrowser.instance.driver;
+				fs.mkdirSync(SPECIFIC_WORKSPACE_PATH, { recursive: true });
+				await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE_PATH);
+				await VSBrowser.instance.waitForWorkbench();
 
-			await driver.wait(async function () {
-				input = await InputBox.create();
-				return (await input.isDisplayed());
-			}, 30000);
-			await input.setText('com.demo:test:1.0-SNAPSHOT');
-			await input.confirm();
+				await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+				sideBar = await (await new ActivityBar().getViewControl('Explorer')).openView();
+			});
 
-			const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
-			await driver.wait(async () => {
-				const items = await tree.getVisibleItems();
+			after(async function () {
+				await new EditorView().closeAllEditors();
+				await killTerminal();
+				await new Workbench().executeCommand('Workspaces: Close Workspace');
+				await VSBrowser.instance.waitForWorkbench();
+				fs.rmSync(SPECIFIC_WORKSPACE_PATH, { recursive: true, maxRetries: 100, force: true, retryDelay: 60 });
+			});
 
-				const labels = await Promise.all(items.map(item => item.getLabel()));
-				return labels.includes('pom.xml');
-			}, 30000);
-		});
+			it(`Create project`, async function () {
+				await new Workbench().executeCommand(command);
 
-		(command.includes('quarkus') ? it : it.skip)(`Init automatically .vscode folder with config files - ${command}`, async function () {
-			const tree = await sideBar.getContent().getSection('create-camel-project-workspace') as DefaultTreeSection;
-			await driver.wait(async () => {
-				const item = await tree.findItem('.vscode');
-				if(item) {
-					await item.expand();
-					return true;
-				} else {
-					return false;
-				}
-			}, 10000, 'Could not expand .vscode folder');
-			await driver.wait(async () => {
-				const items = await tree.getVisibleItems();
-				const labels = await Promise.all(items.map(item => item.getLabel()));
-				return labels.includes('.vscode') && labels.includes('tasks.json') && labels.includes('launch.json');
-			}, 30000, 'Could not find .vscode folder with tasks.json and launch.json files!');
+				await driver.wait(async function () {
+					input = await InputBox.create();
+					return input;
+				}, 30000);
+				await input.setText('com.demo:test:1.0-SNAPSHOT');
+				await input.confirm();
+
+				await waitUntilFileAvailable(driver, 'pom.xml', SPECIFIC_WORKSPACE_NAME, 60000)
+			});
+
+			(command.includes('quarkus') ? it : it.skip)(`Init .vscode folder with config files`, async function () {
+				const tree = await sideBar.getContent().getSection(SPECIFIC_WORKSPACE_NAME) as DefaultTreeSection;
+				await driver.wait(async () => {
+					const item = await tree.findItem('.vscode');
+					if (item) {
+						await item.expand();
+						return true;
+					} else {
+						return false;
+					}
+				}, 10000, 'Could not expand .vscode folder');
+				await driver.wait(async () => {
+					const items = await tree.getVisibleItems();
+					const labels = await Promise.all(items.map(item => item.getLabel()));
+					return labels.includes('.vscode') && labels.includes('tasks.json') && labels.includes('launch.json');
+				}, 30000, 'Could not find .vscode folder with tasks.json and launch.json files!');
+			});
 		});
 	});
 });

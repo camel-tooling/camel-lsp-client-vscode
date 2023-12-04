@@ -20,14 +20,14 @@ import { RESOURCES, waitUntilExtensionIsActivated, deleteFile, killTerminal, wai
 import * as pjson from '../../../package.json';
 import { expect } from "chai";
 
-let driver: WebDriver;
-let input: InputBox;
-let sideBar: SideBarView;
-
 describe('Create a Camel Route using command', function () {
 	this.timeout(400000);
 
 	const FILENAME_ROUTE_CREATED_FROM_OPENAPI: string = 'route-created-from-open-api';
+
+	let driver: WebDriver;
+	let input: InputBox;
+	let sideBar: SideBarView;
 
 	before(async function () {
 		this.timeout(200000);
@@ -45,8 +45,8 @@ describe('Create a Camel Route using command', function () {
 
 	after(async function () {
 		await new EditorView().closeAllEditors();
-		await deleteFile(FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', RESOURCES);
 		await killTerminal();
+		await deleteFile(FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', RESOURCES);
 	});
 
 	it(`OpenAPI`, async function () {
