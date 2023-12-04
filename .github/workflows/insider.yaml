@@ -22,6 +22,7 @@ jobs:
     env:
       CODE_VERSION: ${{ matrix.version }}
       CODE_TYPE: ${{ matrix.type }}
+      TEST_RESOURCES: test-resources
 
     runs-on: ${{ matrix.os }}
     steps:

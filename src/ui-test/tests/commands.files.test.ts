@@ -18,100 +18,90 @@
 import { expect } from 'chai';
 import {
 	ActivityBar,
-	DefaultTreeSection,
 	EditorView,
 	InputBox,
-	SideBarView,
 	VSBrowser,
+	ViewControl,
 	WebDriver,
 	Workbench
 } from 'vscode-uitests-tooling';
 import {
 	activateEditor,
-	COMMAND_JAVA_FILE,
-	COMMAND_XML_FILE,
-	COMMAND_YAML_FILE,
-	CREATE_COMMAND_JAVA,
-	CREATE_COMMAND_XML,
-	CREATE_COMMAND_YAML,
+	EXAMPLE_COMMAND_JAVA_FILE,
+	EXAMPLE_COMMAND_XML_FILE,
+	EXAMPLE_COMMAND_YAML_FILE,
+	CREATE_COMMAND_JAVA_ID,
+	CREATE_COMMAND_XML_ID,
+	CREATE_COMMAND_YAML_ID,
 	deleteFile,
 	getFileContent,
 	killTerminal,
 	RESOURCES,
 	waitUntilEditorIsOpened,
-	waitUntilExtensionIsActivated
+	waitUntilFileAvailable,
+	waitUntilExtensionIsActivated,
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
-
-let driver: WebDriver;
-let input: InputBox;
-let sideBar: SideBarView;
 
 describe('Create a Camel Route using command', function () {
 	this.timeout(400000);
 
+	let driver: WebDriver;
+	let input: InputBox;
+	let control: ViewControl;
+
 	before(async function () {
 		this.timeout(200000);
 		driver = VSBrowser.instance.driver;
-
 		await VSBrowser.instance.openResources(RESOURCES);
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		control = await new ActivityBar().getViewControl('Explorer');
+		await control.openView();
 	});
 
-	const DSL_LIST = [
-		// DSL, COMMAND, FILENAME, FILENAME LONG, EXAMPLE FILE
-		['XML', CREATE_COMMAND_XML, 'xmlSample', 'xmlSample.camel.xml', COMMAND_XML_FILE],
-		['Java', CREATE_COMMAND_JAVA, 'Java', 'Java.java', COMMAND_JAVA_FILE],
-		['Yaml', CREATE_COMMAND_YAML, 'yamlSample', 'yamlSample.camel.yaml', COMMAND_YAML_FILE]
+	const params = [
+		{ dsl: 'XML', cmd: CREATE_COMMAND_XML_ID, filename: 'xmlSample', filename_ext: 'xmlSample.camel.xml', dsl_example: EXAMPLE_COMMAND_XML_FILE },
+		{ dsl: 'Java', cmd: CREATE_COMMAND_JAVA_ID, filename: 'Java', filename_ext: 'Java.java', dsl_example: EXAMPLE_COMMAND_JAVA_FILE },
+		{ dsl: 'Yaml', cmd: CREATE_COMMAND_YAML_ID, filename: 'yamlSample', filename_ext: 'yamlSample.camel.yaml', dsl_example: EXAMPLE_COMMAND_YAML_FILE }
 	];
 
-	DSL_LIST.forEach(function (dsl) {
-		const DSL = dsl.at(0);
-		const COMMAND = dsl.at(1);
-		const FILENAME = dsl.at(2);
-		const FILENAME_LONG = dsl.at(3);
-		const EXAMPLE = dsl.at(4);
-
-		describe(`${DSL} DSL`, function () {
+	params.forEach(function (param) {
+		describe(`${param.dsl} DSL`, function () {
 
 			before(async function () {
-				sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
-				await deleteFile(FILENAME_LONG, RESOURCES);
+				await control.openView();
+				await deleteFile(param.filename_ext, RESOURCES);
 			});
 
 			after(async function () {
 				await new EditorView().closeAllEditors();
-				await deleteFile(FILENAME_LONG, RESOURCES);
 				await killTerminal();
+				await deleteFile(param.filename_ext, RESOURCES);
 			});
 
 			it('Create file', async function () {
-				await new Workbench().executeCommand(COMMAND);
+				await new Workbench().executeCommand(param.cmd);
 
 				await driver.wait(async function () {
 					input = await InputBox.create();
 					return (await input.isDisplayed());
 				}, 30000);
-				await input.setText(FILENAME);
+				await input.setText(param.filename);
 				await input.confirm();
 
-				await waitUntilEditorIsOpened(driver, FILENAME_LONG);
+				await waitUntilFileAvailable(driver, param.filename_ext, undefined, 60000);
 			});
 
-			it('File available', async function () {
-				const tree: DefaultTreeSection = await sideBar.getContent().getSection('resources');
-				const items = await tree.getVisibleItems();
-
-				const labels = await Promise.all(items.map(item => item.getLabel()));
-				expect(labels).contains(FILENAME_LONG);
+			it('Editor opened', async function () {
+				await waitUntilEditorIsOpened(driver, param.filename_ext);
 			});
 
 			it('Check file content', async function () {
-				const editor = await activateEditor(driver, FILENAME_LONG);
+				const editor = await activateEditor(driver, param.filename_ext);
 				const text = await editor.getText();
-				expect(text).equals(getFileContent(EXAMPLE, RESOURCES));
+				expect(text).deep.equals(getFileContent(param.dsl_example, RESOURCES));
 			});
 		});
 
