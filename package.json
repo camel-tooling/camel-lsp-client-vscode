@@ -190,6 +190,12 @@
         "title": "Create a Camel on SpringBoot project",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
+      },
+      {
+        "command": "camel.jbang.routes.yaml.fromopenapi",
+        "title": "Create a Camel route from OpenAPI using Yaml DSL",
+        "category": "Camel",
+        "enablement": "workspaceFolderCount != 0"
       }
     ]
   },
