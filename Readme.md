@@ -42,6 +42,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
   - Yaml DSL
   - Java DSL
   - XML DSL
+  - from an OpenAPI file using Yaml DSL
 - Create a Camel Quarkus project
 - Create a Camel on SpringBoot project
 - **XML DSL Only:**

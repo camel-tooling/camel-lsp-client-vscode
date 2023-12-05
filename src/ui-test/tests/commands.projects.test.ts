@@ -16,7 +16,6 @@
  */
 
 import * as fs from 'fs';
-import { expect } from 'chai';
 import {
 	ActivityBar,
 	DefaultTreeSection,
@@ -28,21 +27,9 @@ import {
 	Workbench
 } from 'vscode-uitests-tooling';
 import {
-	activateEditor,
-	COMMAND_JAVA_FILE,
-	COMMAND_XML_FILE,
-	COMMAND_YAML_FILE,
-	CREATE_COMMAND_JAVA,
 	CREATE_COMMAND_QUARKUS,
 	CREATE_COMMAND_SPRINGBOOT,
-	CREATE_COMMAND_XML,
-	CREATE_COMMAND_YAML,
-	deleteFile,
-	getFileContent,
-	killTerminal,
-	RESOURCES,
 	SPECIFIC_WORKSPACE,
-	waitUntilEditorIsOpened,
 	waitUntilExtensionIsActivated
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
@@ -50,77 +37,6 @@ import * as pjson from '../../../package.json';
 let driver: WebDriver;
 let input: InputBox;
 let sideBar: SideBarView;
-
-describe('Create a Camel Route using command', function () {
-	this.timeout(400000);
-
-	before(async function () {
-		this.timeout(200000);
-		driver = VSBrowser.instance.driver;
-
-		await VSBrowser.instance.openResources(RESOURCES);
-		await VSBrowser.instance.waitForWorkbench();
-
-		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-	});
-
-	const DSL_LIST = [
-		// DSL, COMMAND, FILENAME, FILENAME LONG, EXAMPLE FILE
-		['XML', CREATE_COMMAND_XML, 'xmlSample', 'xmlSample.camel.xml', COMMAND_XML_FILE],
-		['Java', CREATE_COMMAND_JAVA, 'Java', 'Java.java', COMMAND_JAVA_FILE],
-		['Yaml', CREATE_COMMAND_YAML, 'yamlSample', 'yamlSample.camel.yaml', COMMAND_YAML_FILE]
-	];
-
-	DSL_LIST.forEach(function (dsl) {
-		const DSL = dsl.at(0);
-		const COMMAND = dsl.at(1);
-		const FILENAME = dsl.at(2);
-		const FILENAME_LONG = dsl.at(3);
-		const EXAMPLE = dsl.at(4);
-
-		describe(`${DSL} DSL`, function () {
-
-			before(async function () {
-				sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
-				await deleteFile(FILENAME_LONG, RESOURCES);
-			});
-
-			after(async function () {
-				await new EditorView().closeAllEditors();
-				await deleteFile(FILENAME_LONG, RESOURCES);
-				await killTerminal();
-			});
-
-			it('Create file', async function () {
-				await new Workbench().executeCommand(COMMAND);
-
-				await driver.wait(async function () {
-					input = await InputBox.create();
-					return (await input.isDisplayed());
-				}, 30000);
-				await input.setText(FILENAME);
-				await input.confirm();
-
-				await waitUntilEditorIsOpened(driver, FILENAME_LONG);
-			});
-
-			it('File available', async function () {
-				const tree = await sideBar.getContent().getSection('resources') as DefaultTreeSection;
-				const items = await tree.getVisibleItems();
-
-				const labels = await Promise.all(items.map(item => item.getLabel()));
-				expect(labels).contains(FILENAME_LONG);
-			});
-
-			it('Check file content', async function () {
-				const editor = await activateEditor(driver, FILENAME_LONG);
-				const text = await editor.getText();
-				expect(text).equals(getFileContent(EXAMPLE, RESOURCES));
-			});
-		});
-
-	});
-});
 
 describe('Create a Camel Project using command', function () {
 	this.timeout(400000);

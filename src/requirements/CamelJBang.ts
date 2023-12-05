@@ -36,4 +36,15 @@ export class CamelJBang {
 	public createProject(gav: string, runtime: string): ShellExecution {
 		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', `--runtime=${runtime}`, `--gav=${gav}`]);
 	}
+
+	public generateRest(routefile: string, openApiFile: string) {
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+			'camel@apache/camel',
+			'generate',
+			'rest',
+			`'--input=${openApiFile}'`,
+			`'--output=${routefile}'`,
+			'--routes']);
+	}
 }

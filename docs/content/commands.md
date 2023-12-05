@@ -14,6 +14,10 @@
 
 <p align="center"><img src="../images/camelRouteXMLDSL.gif" alt="Camel Route XML DSL command" class="zoom" width="90%"/></p>
 
+## From an OpenAPI file with Yaml Dsl
+
+<p align="center"><img src="../images/generateCamelRouteFromOpenAPI.gif" alt="Camel Route Yaml DSL from OpenAPI command" class="zoom" width="90%"/></p>
+
 # Create a Camel project (using Camel JBang export)
 
 - The [JBang](https://www.jbang.dev/documentation/guide/latest/index.html) cli must be available on a system command-line.
