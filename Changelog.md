@@ -5,6 +5,7 @@
 - Minimal version of VS Code to run this extension is 1.82.0
 - Update Camel Quarkus Catalog from 3.5.0 to 3.6.0
 - Provide command to create a Camel route from an OpenAPI file
+- Provide the setting `camel.ls.java.home` to configure the JDK used to start the Camel Language Server. It was previously relying on the deprecated `java.home` provided by VS Code Java.
 
 ## 0.13.0
 

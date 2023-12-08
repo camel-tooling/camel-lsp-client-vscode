@@ -106,6 +106,15 @@
           "type": "string",
           "markdownDescription": "Apache Camel JBang version used for internal VS Code JBang commands execution. Camel JBang requirements can differ between versions, it is recommended to use `default` version to ensure all extension features work properly.\n\n**Note**: This change will affect only commands provided by Language Support for Apache Camel extension.",
           "default": "4.2.0"
+        },
+        "camel.ls.java.home": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "Specifies the folder path to the JDK (17 or more recent) used to launch the Camel Language Server.\n\nOn Windows, backslashes must be escaped, i.e.\n\"camel.ls.java.home\":\"C:\\\\Program Files\\\\Java\\\\jdk17.0_3\"",
+          "scope": "machine-overridable"
         }
       }
     },

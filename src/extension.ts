@@ -47,7 +47,7 @@ export async function activate(context: ExtensionContext) {
 	const camelLanguageServerPath = context.asAbsolutePath(path.join('jars','language-server.jar'));
 	console.log(camelLanguageServerPath);
 
-	const requirementsData = await computeRequirementsData(context);
+	const requirementsData = await computeRequirementsData();
 
 	const serverOptions: Executable = {
 		command: retrieveJavaExecutable(requirementsData),
@@ -150,9 +150,9 @@ export async function deactivate() {
 	}
 }
 
-async function computeRequirementsData(context: ExtensionContext) {
+async function computeRequirementsData() {
 	try {
-		return await requirements.resolveRequirements(context);
+		return await requirements.resolveRequirements();
 	} catch (error) {
 		// show error
 		const selection = await window.showErrorMessage(error.message, error.label);
