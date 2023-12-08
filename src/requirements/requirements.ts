@@ -2,7 +2,7 @@
 
 /* Mostly duplicated from VS Code Java */
 
-import { Uri, env, ExtensionContext } from 'vscode';
+import { Uri, env } from 'vscode';
 import * as path from 'path';
 import * as fse from 'fs-extra';
 import * as expandHomeDir from 'expand-home-dir';
@@ -25,11 +25,11 @@ export interface RequirementsData {
  * if any of the requirements fails to resolve.
  *
  */
-export async function resolveRequirements(context: ExtensionContext): Promise<RequirementsData> {
+export async function resolveRequirements(): Promise<RequirementsData> {
     return new Promise(async function (resolve, reject) {
         let source: string;
         let javaVersion = 0;
-        let javaHome = await checkJavaPreferences(context);
+        let javaHome = await checkJavaPreferences();
         if (javaHome) {
             // java.home explictly specified
             source = `java.home variable defined in ${env.appName} settings`;
@@ -58,7 +58,7 @@ export async function resolveRequirements(context: ExtensionContext): Promise<Re
         }
 
         if (javaVersion < REQUIRED_JRE_VERSION) {
-            openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Java extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
+            openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Language Support for Camel extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
         }
 
         resolve({ java_home: javaHome, java_version: javaVersion });
