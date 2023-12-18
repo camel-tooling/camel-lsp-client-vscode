@@ -29,6 +29,7 @@ import {
 	initXMLFileWithJBang,
 	JBANG_VERSION_ID,
 	killTerminal,
+	readUserSetting,
 	resetUserSettings,
 	RESOURCES,
 	setAdditionalComponents,
@@ -121,7 +122,15 @@ describe('User preferences', function () {
 
 		after(async function () {
 			await new EditorView().closeAllEditors();
-			resetUserSettings(CATALOG_VERSION_ID);
+			if(process.env.CAMEL_VERSION != null){
+				await setCamelCatalogVersion(process.env.CAMEL_VERSION);
+				await driver.wait(async function () {
+					return readUserSetting(CATALOG_VERSION_ID) === process.env.CAMEL_VERSION;
+				}, 15000, `Camel Version - '${process.env.CAMEL_VERSION}' not set in time limit.`, 1500);
+
+			} else {
+				resetUserSettings(CATALOG_VERSION_ID);
+			}
 		});
 
 		afterEach(async function () {
@@ -136,7 +145,7 @@ describe('User preferences', function () {
 			// add component
 			const editor = new TextEditor();
 			await editor.isDisplayed();
-			await editor.typeTextAt(3, XML_URI_POSITION, 'file-watch');
+			await editor.typeTextAt(3, XML_URI_POSITION, 'knative');
 
 			// open ca
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
@@ -145,7 +154,7 @@ describe('User preferences', function () {
 			assert.equal(items.length, 1);
 
 			// check if content is expected
-			const expectedContentAssist = 'file-watch:path';
+			const expectedContentAssist = 'knative:type/typeId';
 			const timer = await contentAssist.getItem(expectedContentAssist);
 			assert.equal(await getTextExt(timer), expectedContentAssist);
 		});
@@ -160,7 +169,7 @@ describe('User preferences', function () {
 			// add component
 			const editor = new TextEditor();
 			await editor.isDisplayed();
-			await editor.typeTextAt(3, XML_URI_POSITION, 'file-watch');
+			await editor.typeTextAt(3, XML_URI_POSITION, 'knative');
 
 			// open ca
 			contentAssist = await editor.toggleContentAssist(true) as ContentAssist;

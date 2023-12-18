@@ -74,25 +74,22 @@ describe('Camel properties auto-completion support', function () {
 		editor = await activateEditor(driver, TEST_FILE);
 		await editor.typeText('camel.');
 		await selectFromCA('component');
-		await selectFromCA('activemq');
-		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq');
+		await selectFromCA('amqp');
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.amqp');
 	});
 
 	it('the default values are automatically added when auto-completing Camel component properties', async function () {
 		editor = await activateEditor(driver, TEST_FILE);
-		await editor.typeText('camel.component.activemq.');
+		await editor.typeText('camel.component.amqp.');
 		await selectFromCA('acceptMessagesWhileStopping');
-		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.activemq.acceptMessagesWhileStopping=false'); // defualt value 'false' is added
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.amqp.acceptMessagesWhileStopping=false'); // defualt value 'false' is added
 	});
 
 	it('provide filtered completion when in middle of a component id, component property or value', async function () {
 		editor = await activateEditor(driver, TEST_FILE);
 		await editor.typeText('camel.component.n');
-
 		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-		await ca.waitUntilContentAssistContains('nats'); // wait until one of expected filtered options is available
-		const size = (await contentAssist.getItems()).length; // get count of fitlered options
-		assert.equal(Number(size), 4);
+		assert.isTrue(await testFilteredCompletion('nats', 'amqp'));
 	});
 
 	it('support insert-and-replace completion', async function () {
@@ -131,5 +128,22 @@ describe('Camel properties auto-completion support', function () {
 		const item = await contentAssist.getItem(expectedItem);
 		assert.equal(await getTextExt(item), expectedItem);
 		await item.click();
+	}
+
+	/**
+	 * Test for filtration of values in content assist.
+	 * 
+	 * @param availableItem Item which must be available in CA.
+	 * @param notAvailableItem Item which should NOT be available in CA.
+	 * @returns true/false
+	 */
+	async function testFilteredCompletion(availableItem: string, notAvailableItem: string): Promise<boolean> {
+		try {
+			contentAssist = await ca.waitUntilContentAssistContains(availableItem);
+			await contentAssist.getItem(notAvailableItem);
+			return false;
+		} catch (error) {
+			return true;
+		}
 	}
 });

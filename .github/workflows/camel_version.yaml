@@ -1,0 +1,135 @@
+name: Camel Version CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  camel:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-13, windows-latest ]
+        camel-version: [ "4.0.0",  "4.0.0.redhat-00031" ]
+
+    env:
+      CODE_VERSION: max
+      CODE_TYPE: stable
+      TEST_RESOURCES: test-resources
+      CAMEL_VERSION: ${{ matrix.camel-version }}
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.camel-version }} / ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "temurin"
+
+      - name: Test java
+        run: java --version
+
+      - name: Install JBang (ubuntu, macOS)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          echo "$HOME/.jbang/bin" >> $GITHUB_PATH
+
+      - name: Install JBang (windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install jbang
+
+      - name: Setup JBang (trusted sources)
+        run: jbang trust add https://github.com/apache/
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.15.x
+          cache: npm
+
+      - name: Setup vsce
+        run: |
+          npm install -g typescript @vscode/vsce
+          vsce --version
+
+      - name: npm-ci
+        run: npm ci
+
+      - name: ui test (ubuntu)
+        id: uiTest_Ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: xvfb-run --auto-servernum npm run ui-test
+
+      - name: ui test (macos, windows)
+        id: uiTest_MacOS_Windows
+        if: matrix.os != 'ubuntu-latest'
+        run: npm run ui-test
+
+      - name: vsce-package
+        run: vsce package
+
+      - name: Store Camel Language Server log
+        uses: actions/upload-artifact@v3
+        if: failure() && matrix.os != 'windows-latest'
+        with:
+          name: ${{ matrix.os }}-${{ matrix.camel-version }}-camel-lsp-log
+          path: |
+            /tmp/log-camel-lsp.log
+            /tmp/log-camel*.log.gz
+
+      - name: Store UI test logs
+        uses: actions/upload-artifact@v3
+        if: |
+          (failure() || cancelled()) &&
+          (steps.uiTest_Ubuntu.outcome == 'failure' ||
+          steps.uiTest_MacOS_Windows.outcome == 'failure' ||
+          steps.uiTest_Ubuntu.outcome == 'cancelled' ||
+          steps.uiTest_MacOS_Windows.outcome == 'cancelled')
+        with:
+          name: ${{ matrix.os }}-${{ matrix.camel-version }}-ui-test-logs
+          path: test-resources/settings/logs/*
+
+      - name: Store UI Test Screenshots
+        uses: actions/upload-artifact@v3
+        if: |
+          (failure() || cancelled()) &&
+          (steps.uiTest_Ubuntu.outcome == 'failure' ||
+          steps.uiTest_MacOS_Windows.outcome == 'failure' ||
+          steps.uiTest_Ubuntu.outcome == 'cancelled' ||
+          steps.uiTest_MacOS_Windows.outcome == 'cancelled')
+        with:
+          name: ${{ matrix.os }}-${{ matrix.camel-version }}-ui-test-screenshots
+          path: test-resources/screenshots/*.png
+
+  check:
+    if: always()
+    runs-on: ubuntu-latest
+    name: Status Check
+    needs: [ camel ]
+    steps:
+      - name: Test Matrix Result
+        run: |
+          echo result = ${{ needs.camel.result }}
+      - name: Status Check - success
+        if: ${{ needs.camel.result == 'success' }}
+        run: |
+          echo "All tests successfully completed!"
+          exit 0
+      - name: Status Check - failure
+        if: ${{ needs.camel.result != 'success' }}
+        run: |
+          echo "Status Check failed!"
+          exit 1
