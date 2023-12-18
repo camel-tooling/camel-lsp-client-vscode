@@ -183,6 +183,38 @@ export function resetUserSettings(id: string): void {
 }
 
 /**
+ * Read user settings value directly from settings.json
+ *
+ * @param id ID of setting to read.
+ */
+export function readUserSetting(id: string): string | null {
+	const settingsPath = path.resolve(storageFolder, 'settings', 'User', 'settings.json');
+	const settingsContent = fs.readFileSync(settingsPath, 'utf-8');
+
+	const regex = new RegExp(`"${id}":\\s*"(.*?)"`, 'i');
+	const match = settingsContent.match(regex);
+
+	if (match == null) {
+		return null;
+	} else {
+		return match[1];
+	}
+}
+
+/**
+ * Set user setting directly inside settings.json
+ * 
+ * @param id ID of setting.
+ * @param value Value of setting.
+ */
+export function setUserSettingsDirectly(id: string, value: string): void {
+	const settingsPath = path.resolve(storageFolder, 'settings', 'User', 'settings.json');
+	const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
+	settings[id] = value;
+	fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 4), 'utf-8');
+}
+
+/**
  * Delete file from folder.
  *
  * @param filename Name of file.

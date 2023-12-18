@@ -132,8 +132,8 @@ describe('Camel-K modelines support', function () {
 		editor = await activateEditor(driver, TESTFILE);
 		await selectFromCA('dependency');
 		await editor.typeText('=');
-		await selectFromCA('camel-activemq');
-		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=camel-activemq');
+		await selectFromCA('camel-amqp');
+		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=camel-amqp');
 	});
 
 	it('mvn dependency', async function () {
