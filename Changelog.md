@@ -9,6 +9,7 @@
 - Provide command to create a Camel route from an OpenAPI file
 - Provide the setting `camel.ls.java.home` to configure the JDK used to start the Camel Language Server. It was previously relying on the deprecated `java.home` provided by VS Code Java.
 - Update default Camel version used for Camel JBang from 4.2.0 to 4.3.0
+- Use Language Server for Apache Camel 1.16.0
 
 ## 0.13.0
 
