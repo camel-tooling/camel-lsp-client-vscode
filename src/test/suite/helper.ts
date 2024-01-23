@@ -18,6 +18,7 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { waitUntil } from 'async-wait-until';
 
 export let doc: vscode.TextDocument;
 export let editor: vscode.TextEditor;
@@ -57,4 +58,26 @@ export async function setTestContent(content: string): Promise<boolean> {
 		doc.positionAt(doc.getText().length)
 	);
 	return editor.edit(eb => eb.replace(all, content));
+}
+
+export async function waitUntilEditorIsOpened(expectedFileNameWithExtension: string, timeout = 5_000): Promise<boolean> {
+	return await waitUntil(function () {
+		return vscode.window.activeTextEditor?.document.fileName.endsWith(expectedFileNameWithExtension);
+	}, timeout);
+}
+
+export async function waitUntilFileIsCreated(expectedFileNameWithExtension: string, timeout = 30_000): Promise<vscode.Uri> {
+	let createdFile: vscode.Uri;
+	await waitUntil(async function () {
+		const files = await vscode.workspace.findFiles(expectedFileNameWithExtension);
+		if (files.length === 1) {
+			createdFile = files[0];
+			return true;
+		}
+		console.log(`Waiting for file '${expectedFileNameWithExtension}' to be created...`);
+		return false;
+	}, timeout).catch(function () {
+		throw new Error(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route using JBang.`);
+	});
+	return createdFile;
 }

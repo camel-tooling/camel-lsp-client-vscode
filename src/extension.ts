@@ -28,6 +28,7 @@ import * as telemetry from './Telemetry';
 import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
 import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
 import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
+import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -130,6 +131,11 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelRouteFromOpenAPICommand.ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML, async () => {
 		await new NewCamelRouteFromOpenAPICommand('YAML').create();
 		await sendCommandTrackingEvent(NewCamelRouteFromOpenAPICommand.ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML);
+	}));
+
+	context.subscriptions.push(commands.registerCommand(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML, async () => {
+		await new NewCamelKameletCommand('YAML').create();
+		await sendCommandTrackingEvent(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML);
 	}));
 
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {

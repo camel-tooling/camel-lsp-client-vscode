@@ -89,6 +89,10 @@ export const EXAMPLE_COMMAND_JAVA_FILE = 'Java.java';
 export const EXAMPLE_COMMAND_XML_FILE = 'XML.xml';
 export const EXAMPLE_COMMAND_YAML_FILE = 'YAML.yaml';
 
+// Resources for Kamelet command testing
+export const CREATE_COMMAND_KAMELET_YAML_ID = 'camel.jbang.routes.kamelet.yaml';
+export const KAMELETS_RESOURCES_PATH: string = path.join(RESOURCES, 'kamelets');
+
 // Identifiers of user preferences inside settings.json.
 export const JBANG_VERSION_ID = 'camel.languageSupport.JBangVersion';
 export const CATALOG_PROVIDER_ID = 'camel.Camel catalog runtime provider';
@@ -203,7 +207,7 @@ export function readUserSetting(id: string): string | null {
 
 /**
  * Set user setting directly inside settings.json
- * 
+ *
  * @param id ID of setting.
  * @param value Value of setting.
  */
@@ -332,7 +336,7 @@ export async function extensionIsActivated(displayName: string): Promise<boolean
  * @returns File content as string.
  */
 export function getFileContent(filename: string, folder: string): string {
-	return fs.readFileSync(path.resolve(folder, 'camel_route_command', filename), { encoding: 'utf8', flag: 'r' });
+	return fs.readFileSync(path.resolve(folder, filename), { encoding: 'utf8', flag: 'r' });
 }
 
 /**
@@ -530,4 +534,18 @@ export async function waitUntilFileAvailable(driver: WebDriver, filename: string
 			return false;
 		}
 	}, timeout, `File ${filename} is not available in Explorer view!`, interval);
+}
+
+/**
+ * Waits until given Input Box is displayed
+ *
+ * @param driver WebDriver object
+ * @param input InputBox object
+ * @param timeout Timeout, default value 10s
+ * @param message Error message when timed out
+ */
+export async function waitUntilInputBoxIsDisplayed(driver: WebDriver, input: InputBox, timeout = 10_000, message = 'Input box was not displayed properly!'): Promise<void> {
+	await driver.wait(async function () {
+		return (await input.isDisplayed());
+	}, timeout, message);
 }

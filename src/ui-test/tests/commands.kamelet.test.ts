@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { expect } from 'chai';
 import {
 	ActivityBar,
@@ -27,34 +26,29 @@ import {
 } from 'vscode-uitests-tooling';
 import {
 	activateEditor,
-	EXAMPLE_COMMAND_JAVA_FILE,
-	EXAMPLE_COMMAND_XML_FILE,
-	EXAMPLE_COMMAND_YAML_FILE,
-	CREATE_COMMAND_JAVA_ID,
-	CREATE_COMMAND_XML_ID,
-	CREATE_COMMAND_YAML_ID,
 	deleteFile,
 	getFileContent,
 	killTerminal,
-	RESOURCES,
 	waitUntilEditorIsOpened,
 	waitUntilFileAvailable,
 	waitUntilExtensionIsActivated,
-	RESOURCES_COMMAND,
+	CREATE_COMMAND_KAMELET_YAML_ID,
+	KAMELETS_RESOURCES_PATH,
+	waitUntilInputBoxIsDisplayed,
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
 
-describe('Create a Camel Route using command', function () {
-	this.timeout(400000);
+describe('Create a Kamelet using command', function () {
+	this.timeout(400_000);
 
 	let driver: WebDriver;
 	let input: InputBox;
 	let control: ViewControl;
 
 	before(async function () {
-		this.timeout(200000);
+		this.timeout(200_000);
 		driver = VSBrowser.instance.driver;
-		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.openResources(KAMELETS_RESOURCES_PATH);
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
@@ -63,36 +57,40 @@ describe('Create a Camel Route using command', function () {
 	});
 
 	const params = [
-		{ dsl: 'XML', cmd: CREATE_COMMAND_XML_ID, filename: 'xmlSample', filename_ext: 'xmlSample.camel.xml', dsl_example: EXAMPLE_COMMAND_XML_FILE },
-		{ dsl: 'Java', cmd: CREATE_COMMAND_JAVA_ID, filename: 'Java', filename_ext: 'Java.java', dsl_example: EXAMPLE_COMMAND_JAVA_FILE },
-		{ dsl: 'Yaml', cmd: CREATE_COMMAND_YAML_ID, filename: 'yamlSample', filename_ext: 'yamlSample.camel.yaml', dsl_example: EXAMPLE_COMMAND_YAML_FILE }
+		{ kameletType: 'sink', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-sink.kamelet.yaml', dsl_example: 'test-sink.yaml' },
+		{ kameletType: 'source', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-source.kamelet.yaml', dsl_example: 'test-source.yaml' },
+		{ kameletType: 'action', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-action.kamelet.yaml', dsl_example: 'test-action.yaml' },
 	];
 
 	params.forEach(function (param) {
-		describe(`${param.dsl} DSL`, function () {
+		describe(`${param.kameletType}`, function () {
 
 			before(async function () {
 				await control.openView();
-				await deleteFile(param.filename_ext, RESOURCES);
+				await deleteFile(param.filename_ext, KAMELETS_RESOURCES_PATH);
 			});
 
 			after(async function () {
 				await new EditorView().closeAllEditors();
 				await killTerminal();
-				await deleteFile(param.filename_ext, RESOURCES);
+				await deleteFile(param.filename_ext, KAMELETS_RESOURCES_PATH);
 			});
 
 			it('Create file', async function () {
 				await new Workbench().executeCommand(param.cmd);
 
-				await driver.wait(async function () {
-					input = await InputBox.create();
-					return (await input.isDisplayed());
-				}, 30000);
+				// pick a Kamelet type
+				input = await InputBox.create();
+				await waitUntilInputBoxIsDisplayed(driver, input, undefined, 'Problem with Kamelet type quick pick!');
+				await input.selectQuickPick(param.kameletType);
+
+				// set file name
+				input = await InputBox.create();
+				await waitUntilInputBoxIsDisplayed(driver, input, 5_000, 'Problem with file name input box!');
 				await input.setText(param.filename);
 				await input.confirm();
 
-				await waitUntilFileAvailable(driver, param.filename_ext, undefined, 60000);
+				await waitUntilFileAvailable(driver, param.filename_ext, 'kamelets', 60_000);
 			});
 
 			it('Editor opened', async function () {
@@ -102,7 +100,7 @@ describe('Create a Camel Route using command', function () {
 			it('Check file content', async function () {
 				const editor = await activateEditor(driver, param.filename_ext);
 				const text = await editor.getText();
-				expect(text).deep.equals(getFileContent(param.dsl_example, RESOURCES_COMMAND));
+				expect(text).deep.equals(getFileContent(param.dsl_example, KAMELETS_RESOURCES_PATH));
 			});
 		});
 

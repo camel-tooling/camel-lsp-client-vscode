@@ -19,9 +19,9 @@
 import * as fs from 'fs';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
-import { waitUntil } from 'async-wait-until';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import { NewCamelRouteCommand } from '../../commands/NewCamelRouteCommand';
+import { waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
 
 describe('Should execute Create a Camel Route command', function () {
 
@@ -60,7 +60,7 @@ describe('Should execute Create a Camel Route command', function () {
 		it('New Camel Yaml DSL file can be created', async function () {
 			await initNewFile(fileName, 'YAML');
 
-			await waitUntilFileIsCreated(fullFileName);
+			createdFile = await waitUntilFileIsCreated(fullFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
@@ -70,7 +70,7 @@ describe('Should execute Create a Camel Route command', function () {
 		it('New Camel Yaml DSL file can be created - name with white space', async function () {
 			await initNewFile(fileNameWithSpace, 'YAML');
 
-			await waitUntilFileIsCreated(fullFileNameWithSpace);
+			createdFile = await waitUntilFileIsCreated(fullFileNameWithSpace);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileNameWithSpace);
@@ -80,7 +80,7 @@ describe('Should execute Create a Camel Route command', function () {
 		it('New Camel Java DSL file can be created', async function () {
 			await initNewFile(javaFileName, 'JAVA');
 
-			await waitUntilFileIsCreated(fullJavaFileName);
+			createdFile = await waitUntilFileIsCreated(fullJavaFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullJavaFileName);
@@ -90,7 +90,7 @@ describe('Should execute Create a Camel Route command', function () {
 		it('New Camel Xml DSL file can be created', async function () {
 			await initNewFile(fileName, 'XML');
 
-			await waitUntilFileIsCreated(fullXmlFileName);
+			createdFile = await waitUntilFileIsCreated(fullXmlFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullXmlFileName);
@@ -191,28 +191,4 @@ describe('Should execute Create a Camel Route command', function () {
 		}
 		await vscode.commands.executeCommand(command);
 	}
-
-	async function waitUntilFileIsCreated(expectedFileNameWithExtension: string): Promise<void> {
-		let files: vscode.Uri[] = [];
-		await waitUntil(async function () {
-			await vscode.workspace.findFiles(expectedFileNameWithExtension).then(res => {
-				files = res;
-			});
-			if (files.length === 1) {
-				createdFile = files[0];
-				return true;
-			}
-			console.log(`Waiting for file '${expectedFileNameWithExtension}' to be created...`);
-			return false;
-		}, 30000).catch(function () {
-			assert.fail(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route using JBang.`);
-		});
-	}
-
-	async function waitUntilEditorIsOpened(expectedFileNameWithExtension: string): Promise<boolean> {
-		return await waitUntil(function () {
-			return vscode.window.activeTextEditor?.document.fileName.endsWith(expectedFileNameWithExtension);
-		}, 5000);
-	}
-
 });

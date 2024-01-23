@@ -2,6 +2,8 @@
 
 ## 0.15.0
 
+- Provide command to create a Kamelet with YAML DSL
+
 ## 0.14.0
 
 - Minimal version of VS Code to run this extension is 1.82.0
