@@ -31,6 +31,7 @@ export abstract class AbstractNewCamelRouteCommand {
 
 	protected workspaceFolder: WorkspaceFolder | undefined;
 	protected camelDSL: CamelRouteDSL | undefined;
+	protected fileNameInputPrompt = 'Please provide a name for the new file (without extension).';
 
 	constructor(dsl: string) {
 		this.camelDSL = this.getDSL(dsl);
@@ -39,7 +40,7 @@ export abstract class AbstractNewCamelRouteCommand {
 
 	protected async showInputBoxForFileName(): Promise<string> {
 		return await window.showInputBox({
-			prompt: 'Please provide a name for the new file (without extension).',
+			prompt: this.fileNameInputPrompt,
 			placeHolder: this.camelDSL.placeHolder,
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(fileName);
@@ -47,7 +48,7 @@ export abstract class AbstractNewCamelRouteCommand {
 		});
 	}
 
-	private getDSL(dsl: string): CamelRouteDSL | undefined {
+	protected getDSL(dsl: string): CamelRouteDSL | undefined {
 		switch (dsl) {
 			case 'YAML':
 				return { language: 'Yaml', extension: 'camel.yaml', placeHolder: 'sample-route' };

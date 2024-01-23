@@ -205,6 +205,12 @@
         "title": "Create a Camel route from OpenAPI using Yaml DSL",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
+      },
+      {
+        "command": "camel.jbang.routes.kamelet.yaml",
+        "title": "Create a Kamelet using YAML DSL",
+        "category": "Camel",
+        "enablement": "workspaceFolderCount != 0"
       }
     ]
   },
