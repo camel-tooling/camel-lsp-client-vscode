@@ -3,6 +3,7 @@
 ## 0.15.0
 
 - Provide command to create a Kamelet with YAML DSL
+- Use Language Server for Apache Camel 1.17.0
 
 ## 0.14.0
 
