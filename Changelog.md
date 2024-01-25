@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.16.0
+
 ## 0.15.0
 
 - Provide command to create a Kamelet with YAML DSL
