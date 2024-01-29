@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width="125" height="125" src="https://raw.githubusercontent.com/camel-tooling/camel-lsp-client-vscode/main/icons/icon128.png">
+  <img alt="Language Support for Apache Camel" width="125" height="125" src="https://raw.githubusercontent.com/camel-tooling/camel-lsp-client-vscode/main/icons/icon128.png">
   <br>
   Language Support for Apache Camel
 </h1>
@@ -81,7 +81,7 @@ Something is not working properly? In that case, feel free to [open issues, add 
 
 ### Get Involved
 
-If you'd like to help us get better, we appriciate it!
+If you'd like to help us get better, we appreciate it!
 Check out our [Contribution Guide](Contributing.md) on how to do that.
 
 ### Data and Telemetry
