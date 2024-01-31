@@ -549,3 +549,36 @@ export async function waitUntilInputBoxIsDisplayed(driver: WebDriver, input: Inp
 		return (await input.isDisplayed());
 	}, timeout, message);
 }
+
+/**
+ * Init new Camel file with 'Create: New File... > Camel File > ...'
+ *
+ * @param type Camel file type
+ * @param name Camel file name
+ * @param kamelet Kamelet type - sink/source/action
+ */
+export async function initNewCamelFile(type: string, name: string, kamelet: string = undefined): Promise<void> {
+	let input: InputBox;
+
+	const wb = new Workbench();
+	await wb.executeCommand('Create: New File...');
+
+	// select new file type
+	input = await InputBox.create(15_000);
+	await input.selectQuickPick('Camel File');
+
+	// select Camel file type
+	input = await InputBox.create(5_000);
+	await input.selectQuickPick(type);
+
+	// if type is Kamelet, then select also Kamelet type in another step
+	if (kamelet) {
+		input = await InputBox.create(5_000)
+		await input.selectQuickPick(kamelet);
+	}
+
+	// set Camel file name
+	input = await InputBox.create(5_000);
+	await input.setText(name);
+	await input.confirm();
+}

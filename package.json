@@ -171,6 +171,12 @@
     ],
     "commands": [
       {
+        "command": "camel.new.file",
+        "title": "Camel File",
+        "category": "Camel",
+        "enablement": "false"
+      },
+      {
         "command": "camel.jbang.routes.yaml",
         "title": "Create a Camel Route using Yaml DSL",
         "category": "Camel",
@@ -212,7 +218,16 @@
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
       }
-    ]
+    ],
+    "menus": {
+      "file/newFile": [
+        {
+          "command": "camel.new.file",
+          "group": "Camel",
+          "when": "workspaceFolderCount != 0"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

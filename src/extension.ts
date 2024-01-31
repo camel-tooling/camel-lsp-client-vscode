@@ -29,6 +29,7 @@ import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProject
 import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
 import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
 import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
+import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -145,6 +146,11 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => {
 		await new NewCamelSpringBootProjectCommand().create();
 		await sendCommandTrackingEvent(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT);
+	}));
+
+	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async () => {
+		await new NewCamelFileCommand().create();
+		await sendCommandTrackingEvent(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
 	}));
 
 	await (await telemetry.getTelemetryServiceInstance()).sendStartupEvent();

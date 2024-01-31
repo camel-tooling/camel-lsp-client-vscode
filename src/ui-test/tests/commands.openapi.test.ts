@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { WebDriver, SideBarView, VSBrowser, ActivityBar, EditorView, Workbench, InputBox, DefaultTreeSection } from "vscode-uitests-tooling";
-import { RESOURCES, waitUntilExtensionIsActivated, deleteFile, killTerminal, waitUntilEditorIsOpened } from "../utils/testUtils";
+import { WebDriver, SideBarView, VSBrowser, ActivityBar, EditorView, InputBox, DefaultTreeSection } from "vscode-uitests-tooling";
+import { RESOURCES, waitUntilExtensionIsActivated, deleteFile, killTerminal, waitUntilEditorIsOpened, initNewCamelFile } from "../utils/testUtils";
 import * as pjson from '../../../package.json';
 import { expect } from "chai";
 
@@ -50,15 +50,7 @@ describe('Create a Camel Route using command', function () {
 	});
 
 	it(`OpenAPI`, async function () {
-		await new Workbench().executeCommand('Create Camel Route from OpenAPI using Yaml DSL');
-
-		await driver.wait(async function () {
-			input = await InputBox.create();
-			return (await input.isDisplayed());
-		}, 30000);
-		await input.setText(FILENAME_ROUTE_CREATED_FROM_OPENAPI);
-		await input.confirm();
-
+		await initNewCamelFile('YAML DSL from OpenAPI', FILENAME_ROUTE_CREATED_FROM_OPENAPI);
 		await driver.wait(async function () {
 			input = await InputBox.create();
 			return (await input.isDisplayed());

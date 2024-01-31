@@ -19,20 +19,15 @@ import { expect } from 'chai';
 import {
 	ActivityBar,
 	EditorView,
-	InputBox,
 	VSBrowser,
 	ViewControl,
-	WebDriver,
-	Workbench
+	WebDriver
 } from 'vscode-uitests-tooling';
 import {
 	activateEditor,
 	EXAMPLE_COMMAND_JAVA_FILE,
 	EXAMPLE_COMMAND_XML_FILE,
 	EXAMPLE_COMMAND_YAML_FILE,
-	CREATE_COMMAND_JAVA_ID,
-	CREATE_COMMAND_XML_ID,
-	CREATE_COMMAND_YAML_ID,
 	deleteFile,
 	getFileContent,
 	killTerminal,
@@ -41,6 +36,7 @@ import {
 	waitUntilFileAvailable,
 	waitUntilExtensionIsActivated,
 	RESOURCES_COMMAND,
+	initNewCamelFile,
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
 
@@ -48,7 +44,6 @@ describe('Create a Camel Route using command', function () {
 	this.timeout(400000);
 
 	let driver: WebDriver;
-	let input: InputBox;
 	let control: ViewControl;
 
 	before(async function () {
@@ -63,9 +58,9 @@ describe('Create a Camel Route using command', function () {
 	});
 
 	const params = [
-		{ dsl: 'XML', cmd: CREATE_COMMAND_XML_ID, filename: 'xmlSample', filename_ext: 'xmlSample.camel.xml', dsl_example: EXAMPLE_COMMAND_XML_FILE },
-		{ dsl: 'Java', cmd: CREATE_COMMAND_JAVA_ID, filename: 'Java', filename_ext: 'Java.java', dsl_example: EXAMPLE_COMMAND_JAVA_FILE },
-		{ dsl: 'Yaml', cmd: CREATE_COMMAND_YAML_ID, filename: 'yamlSample', filename_ext: 'yamlSample.camel.yaml', dsl_example: EXAMPLE_COMMAND_YAML_FILE }
+		{ dsl: 'XML', filename: 'xmlSample', filename_ext: 'xmlSample.camel.xml', dsl_example: EXAMPLE_COMMAND_XML_FILE },
+		{ dsl: 'Java', filename: 'Java', filename_ext: 'Java.java', dsl_example: EXAMPLE_COMMAND_JAVA_FILE },
+		{ dsl: 'YAML', filename: 'yamlSample', filename_ext: 'yamlSample.camel.yaml', dsl_example: EXAMPLE_COMMAND_YAML_FILE }
 	];
 
 	params.forEach(function (param) {
@@ -83,15 +78,7 @@ describe('Create a Camel Route using command', function () {
 			});
 
 			it('Create file', async function () {
-				await new Workbench().executeCommand(param.cmd);
-
-				await driver.wait(async function () {
-					input = await InputBox.create();
-					return (await input.isDisplayed());
-				}, 30000);
-				await input.setText(param.filename);
-				await input.confirm();
-
+				await initNewCamelFile(`${param.dsl} DSL`, param.filename);
 				await waitUntilFileAvailable(driver, param.filename_ext, undefined, 60000);
 			});
 

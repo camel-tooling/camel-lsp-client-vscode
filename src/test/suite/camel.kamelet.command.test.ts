@@ -20,8 +20,8 @@ import * as fs from 'fs';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 import { expect } from 'chai';
-import { NewCamelKameletCommand } from '../../commands/NewCamelKameletCommand';
 import { waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
+import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
 
 describe('Should execute Create a Kamelet command', function () {
 
@@ -68,8 +68,9 @@ describe('Should execute Create a Kamelet command', function () {
 	});
 
 	async function initNewFile(name: string, type: string): Promise<void> {
-		showQuickPickStub.resolves({ label: `${type}` });
+		showQuickPickStub.onFirstCall().resolves({ label: 'Kamelet' });
+		showQuickPickStub.onSecondCall().resolves({ label: `${type}` });
 		showInputBoxStub.resolves(name);
-		await vscode.commands.executeCommand(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML);
+		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
 	}
 });
