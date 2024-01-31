@@ -18,11 +18,9 @@ import { expect } from 'chai';
 import {
 	ActivityBar,
 	EditorView,
-	InputBox,
 	VSBrowser,
 	ViewControl,
-	WebDriver,
-	Workbench
+	WebDriver
 } from 'vscode-uitests-tooling';
 import {
 	activateEditor,
@@ -32,9 +30,8 @@ import {
 	waitUntilEditorIsOpened,
 	waitUntilFileAvailable,
 	waitUntilExtensionIsActivated,
-	CREATE_COMMAND_KAMELET_YAML_ID,
 	KAMELETS_RESOURCES_PATH,
-	waitUntilInputBoxIsDisplayed,
+	initNewCamelFile
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
 
@@ -42,7 +39,6 @@ describe('Create a Kamelet using command', function () {
 	this.timeout(400_000);
 
 	let driver: WebDriver;
-	let input: InputBox;
 	let control: ViewControl;
 
 	before(async function () {
@@ -56,10 +52,11 @@ describe('Create a Kamelet using command', function () {
 		await control.openView();
 	});
 
+	const fileName: string = 'example';
 	const params = [
-		{ kameletType: 'sink', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-sink.kamelet.yaml', dsl_example: 'test-sink.yaml' },
-		{ kameletType: 'source', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-source.kamelet.yaml', dsl_example: 'test-source.yaml' },
-		{ kameletType: 'action', cmd: CREATE_COMMAND_KAMELET_YAML_ID, filename: 'example', filename_ext: 'example-action.kamelet.yaml', dsl_example: 'test-action.yaml' },
+		{ kameletType: 'sink', filename_ext: `${fileName}-sink.kamelet.yaml`, dsl_example: 'test-sink.yaml' },
+		{ kameletType: 'source', filename_ext: `${fileName}-source.kamelet.yaml`, dsl_example: 'test-source.yaml' },
+		{ kameletType: 'action', filename_ext: `${fileName}-action.kamelet.yaml`, dsl_example: 'test-action.yaml' }
 	];
 
 	params.forEach(function (param) {
@@ -77,19 +74,7 @@ describe('Create a Kamelet using command', function () {
 			});
 
 			it('Create file', async function () {
-				await new Workbench().executeCommand(param.cmd);
-
-				// pick a Kamelet type
-				input = await InputBox.create();
-				await waitUntilInputBoxIsDisplayed(driver, input, undefined, 'Problem with Kamelet type quick pick!');
-				await input.selectQuickPick(param.kameletType);
-
-				// set file name
-				input = await InputBox.create();
-				await waitUntilInputBoxIsDisplayed(driver, input, 5_000, 'Problem with file name input box!');
-				await input.setText(param.filename);
-				await input.confirm();
-
+				await initNewCamelFile('Kamelet', fileName, param.kameletType);
 				await waitUntilFileAvailable(driver, param.filename_ext, 'kamelets', 60_000);
 			});
 

@@ -22,10 +22,12 @@ import * as vscode from 'vscode';
 import { expect } from 'chai';
 import { NewCamelRouteCommand } from '../../commands/NewCamelRouteCommand';
 import { waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
+import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
 
 describe('Should execute Create a Camel Route command', function () {
 
 	let showInputBoxStub: sinon.SinonStub;
+	let showQuickPickStub: sinon.SinonStub;
 	let createdFile: vscode.Uri;
 
 	const fileName = 'test-route';
@@ -41,10 +43,12 @@ describe('Should execute Create a Camel Route command', function () {
 	context('File creation', function () {
 
 		beforeEach(async function () {
+			showQuickPickStub = sinon.stub(vscode.window, 'showQuickPick');
 			showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
 		});
 
 		afterEach(async function () {
+			showQuickPickStub.restore();
 			showInputBoxStub.restore();
 			await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 			await vscode.commands.executeCommand('workbench.action.terminal.clear');
@@ -58,7 +62,7 @@ describe('Should execute Create a Camel Route command', function () {
 		});
 
 		it('New Camel Yaml DSL file can be created', async function () {
-			await initNewFile(fileName, 'YAML');
+			await initNewFile(fileName, 'YAML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
@@ -68,7 +72,7 @@ describe('Should execute Create a Camel Route command', function () {
 		});
 
 		it('New Camel Yaml DSL file can be created - name with white space', async function () {
-			await initNewFile(fileNameWithSpace, 'YAML');
+			await initNewFile(fileNameWithSpace, 'YAML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullFileNameWithSpace);
 			expect(createdFile.fsPath).not.to.be.undefined;
@@ -78,7 +82,7 @@ describe('Should execute Create a Camel Route command', function () {
 		});
 
 		it('New Camel Java DSL file can be created', async function () {
-			await initNewFile(javaFileName, 'JAVA');
+			await initNewFile(javaFileName, 'Java DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullJavaFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
@@ -88,7 +92,7 @@ describe('Should execute Create a Camel Route command', function () {
 		});
 
 		it('New Camel Xml DSL file can be created', async function () {
-			await initNewFile(fileName, 'XML');
+			await initNewFile(fileName, 'XML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullXmlFileName);
 			expect(createdFile.fsPath).not.to.be.undefined;
@@ -174,21 +178,8 @@ describe('Should execute Create a Camel Route command', function () {
 	});
 
 	async function initNewFile(name: string, dsl: string): Promise<void> {
+		showQuickPickStub.resolves({ label: dsl });
 		showInputBoxStub.resolves(name);
-		let command = '';
-		switch (dsl) {
-			case 'YAML':
-				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML;
-				break;
-			case 'JAVA':
-				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA;
-				break;
-			case 'XML':
-				command = NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML;
-				break;
-			default:
-				break;
-		}
-		await vscode.commands.executeCommand(command);
+		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
 	}
 });
