@@ -16,12 +16,11 @@
  */
 'use strict';
 
-import * as fs from 'fs';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 import { expect } from 'chai';
 import { NewCamelRouteCommand } from '../../commands/NewCamelRouteCommand';
-import { waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
+import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
 import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
 
 describe('Should execute Create a Camel Route command', function () {
@@ -50,11 +49,7 @@ describe('Should execute Create a Camel Route command', function () {
 		afterEach(async function () {
 			showQuickPickStub.restore();
 			showInputBoxStub.restore();
-			await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-			await vscode.commands.executeCommand('workbench.action.terminal.clear');
-			if (createdFile && fs.existsSync(createdFile.fsPath)) {
-				fs.unlinkSync(createdFile.fsPath);
-			}
+			await cleanCreatedFileAfterEachCommandExec(createdFile);
 		});
 
 		after(async function () {

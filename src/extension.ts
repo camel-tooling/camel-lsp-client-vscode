@@ -30,6 +30,7 @@ import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootP
 import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
 import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
 import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
+import { NewCamelPipeCommand } from './commands/NewCamelPipeCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -137,6 +138,11 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML, async () => {
 		await new NewCamelKameletCommand('YAML').create();
 		await sendCommandTrackingEvent(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML);
+	}));
+
+	context.subscriptions.push(commands.registerCommand(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML, async () => {
+		await new NewCamelPipeCommand('YAML').create();
+		await sendCommandTrackingEvent(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML);
 	}));
 
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {
