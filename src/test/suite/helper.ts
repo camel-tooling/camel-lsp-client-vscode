@@ -18,6 +18,7 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import { waitUntil } from 'async-wait-until';
 
 export let doc: vscode.TextDocument;
@@ -80,4 +81,12 @@ export async function waitUntilFileIsCreated(expectedFileNameWithExtension: stri
 		throw new Error(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route using JBang.`);
 	});
 	return createdFile;
+}
+
+export async function cleanCreatedFileAfterEachCommandExec(file: vscode.Uri): Promise<void> {
+	await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+	await vscode.commands.executeCommand('workbench.action.terminal.clear');
+	if (file && fs.existsSync(file.fsPath)) {
+		fs.unlinkSync(file.fsPath);
+	}
 }

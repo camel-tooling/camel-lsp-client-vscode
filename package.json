@@ -217,6 +217,12 @@
         "title": "Create a Kamelet using YAML DSL",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
+      },
+      {
+        "command": "camel.jbang.routes.pipe.yaml",
+        "title": "Create a Custom Resource Pipe using YAML DSL",
+        "category": "Camel",
+        "enablement": "workspaceFolderCount != 0"
       }
     ],
     "menus": {

@@ -22,49 +22,44 @@ import { expect } from 'chai';
 import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
 import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
 
-describe('Should execute Create a Kamelet command', function () {
+describe('Should execute Create a Pipe command', function () {
 
 	let showQuickPickStub: sinon.SinonStub;
 	let showInputBoxStub: sinon.SinonStub;
 	let createdFile: vscode.Uri;
 
-	const params = [{ type: 'sink' }, { type: 'source' }, { type: 'action' }];
+	context('using YAML DSL', function () {
+		const fileName = 'test';
+		const fullFileName = `${fileName}-pipe.yaml`;
 
-	params.forEach(function (param) {
-		context(`using YAML DSL - ${param.type}`, function () {
-			const fileName = 'test';
-			const fullFileName = `${fileName}-${param.type}.kamelet.yaml`;
+		beforeEach(async function () {
+			showQuickPickStub = sinon.stub(vscode.window, 'showQuickPick');
+			showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
+		});
 
-			beforeEach(async function () {
-				showQuickPickStub = sinon.stub(vscode.window, 'showQuickPick');
-				showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
-			});
+		afterEach(async function () {
+			showQuickPickStub.restore();
+			showInputBoxStub.restore();
+			await cleanCreatedFileAfterEachCommandExec(createdFile);
+		});
 
-			afterEach(async function () {
-				showQuickPickStub.restore();
-				showInputBoxStub.restore();
-				await cleanCreatedFileAfterEachCommandExec(createdFile);
-			});
+		after(async function () {
+			await vscode.commands.executeCommand('workbench.action.closePanel');
+		});
 
-			after(async function () {
-				await vscode.commands.executeCommand('workbench.action.closePanel');
-			});
+		it('New file can be created', async function () {
+			await initNewFile(fileName);
 
-			it('New file can be created', async function () {
-				await initNewFile(fileName, param.type);
+			const createdFile = await waitUntilFileIsCreated(fullFileName);
+			expect(createdFile.fsPath).not.to.be.undefined;
 
-				const createdFile = await waitUntilFileIsCreated(fullFileName);
-				expect(createdFile.fsPath).not.to.be.undefined;
-
-				const openedEditor = await waitUntilEditorIsOpened(fullFileName);
-				expect(openedEditor).to.be.true;
-			});
+			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
+			expect(openedEditor).to.be.true;
 		});
 	});
 
-	async function initNewFile(name: string, type: string): Promise<void> {
-		showQuickPickStub.onFirstCall().resolves({ label: 'Kamelet' });
-		showQuickPickStub.onSecondCall().resolves({ label: `${type}` });
+	async function initNewFile(name: string): Promise<void> {
+		showQuickPickStub.resolves({ label: 'Pipe' });
 		showInputBoxStub.resolves(name);
 		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
 	}

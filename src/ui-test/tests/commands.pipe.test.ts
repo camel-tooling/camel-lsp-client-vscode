@@ -1,0 +1,86 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License", destination); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { expect } from 'chai';
+import {
+	ActivityBar,
+	EditorView,
+	VSBrowser,
+	ViewControl,
+	WebDriver
+} from 'vscode-uitests-tooling';
+import {
+	activateEditor,
+	deleteFile,
+	getFileContent,
+	killTerminal,
+	waitUntilEditorIsOpened,
+	waitUntilFileAvailable,
+	waitUntilExtensionIsActivated,
+	initNewCamelFile,
+	RESOURCES
+} from '../utils/testUtils';
+import * as pjson from '../../../package.json';
+
+describe('Create a Pipe using command', function () {
+	this.timeout(400_000);
+
+	let driver: WebDriver;
+	let control: ViewControl;
+
+	before(async function () {
+		this.timeout(200_000);
+		driver = VSBrowser.instance.driver;
+		await VSBrowser.instance.openResources(RESOURCES);
+		await VSBrowser.instance.waitForWorkbench();
+
+		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		control = await new ActivityBar().getViewControl('Explorer');
+		await control.openView();
+	});
+
+	const fileName: string = 'example';
+	const fileName_ext: string = `${fileName}-pipe.yaml`;
+
+	describe('YAML DSL', function () {
+
+		before(async function () {
+			await control.openView();
+			await deleteFile(fileName_ext, RESOURCES);
+		});
+
+		after(async function () {
+			await new EditorView().closeAllEditors();
+			await killTerminal();
+			await deleteFile(fileName_ext, RESOURCES);
+		});
+
+		it('Create file', async function () {
+			await initNewCamelFile('Pipe', fileName);
+			await waitUntilFileAvailable(driver, fileName_ext, 'resources', 60_000);
+		});
+
+		it('Editor opened', async function () {
+			await waitUntilEditorIsOpened(driver, fileName_ext);
+		});
+
+		it('Check file content', async function () {
+			const editor = await activateEditor(driver, fileName_ext);
+			const text = await editor.getText();
+			expect(text).deep.equals(getFileContent('camel-example-pipe.yaml', RESOURCES));
+		});
+	});
+});

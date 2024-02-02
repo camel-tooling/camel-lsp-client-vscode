@@ -20,6 +20,7 @@ import { QuickPickItem, commands, window } from "vscode";
 import { NewCamelRouteCommand } from "./NewCamelRouteCommand";
 import { NewCamelRouteFromOpenAPICommand } from "./NewCamelRouteFromOpenAPICommand";
 import { NewCamelKameletCommand } from "./NewCamelKameletCommand";
+import { NewCamelPipeCommand } from "./NewCamelPipeCommand";
 
 export class NewCamelFileCommand {
 
@@ -40,6 +41,7 @@ export class NewCamelFileCommand {
 			{ label: 'XML DSL', description: 'Camel Route using XML DSL' },
 			{ label: 'YAML DSL from OpenAPI', description: 'Camel Route from OpenAPI using YAML DSL' },
 			{ label: 'Kamelet', description: 'Kamelet using YAML DSL' },
+			{ label: 'Pipe', description: 'Custom Resource Pipe using YAML DSL' }
 		]
 		return await window.showQuickPick(items, {
 			placeHolder: 'Please select a Camel File type.',
@@ -59,6 +61,8 @@ export class NewCamelFileCommand {
 				return NewCamelRouteFromOpenAPICommand.ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML;
 			case 'Kamelet':
 				return NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML;
+			case 'Pipe':
+				return NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML;
 			default:
 				break;
 		}
