@@ -64,13 +64,13 @@ describe('Should do completion in Camel URi after "ti"', () => {
 		});
 	});
 
-	it('Completes components for Yaml', async () => {
+	it('Completes components for YAML', async () => {
 		await testCompletion(docUriYaml, new vscode.Position(4, 16), {
 			items: expectedCompletion
 		});
 	});
 
-	it('Completes components for Yaml using shortcut', async () => {
+	it('Completes components for YAML using shortcut', async () => {
 		await testCompletion(docUriYaml, new vscode.Position(12, 21), {
 			items: expectedCompletion
 		});

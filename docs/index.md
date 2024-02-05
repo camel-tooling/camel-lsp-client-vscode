@@ -28,10 +28,10 @@ This extension provides completion, validation and documentation features for Ap
 - [Provide Additional Camel components](./content/other.md#additional-camel-components)
 - [Quick Reference Documentation](./content/other.md#quick-reference-documentation)
 - [Create a Camel Route using Camel JBang](./content/commands.md#create-a-camel-route-using-camel-jbang)
-  - Yaml DSL
+  - YAML DSL
   - Java DSL
   - XML DSL
-  - from an OpenAPI file using Yaml DSL
+  - from an OpenAPI file using YAML DSL
   - Kamelet with YAML DSL
   - Custom Resource Pipe with YAML DSL
 - [Create a Camel Quarkus project](./content/commands.md#quarkus)
