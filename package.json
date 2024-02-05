@@ -33,7 +33,7 @@
     "LSP",
     "Language Server Protocol",
     "Tool",
-    "Camel Yaml"
+    "Camel YAML"
   ],
   "engines": {
     "vscode": "^1.82.0"
@@ -178,7 +178,7 @@
       },
       {
         "command": "camel.jbang.routes.yaml",
-        "title": "Create a Camel Route using Yaml DSL",
+        "title": "Create a Camel Route using YAML DSL",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
       },
@@ -208,7 +208,7 @@
       },
       {
         "command": "camel.jbang.routes.yaml.fromopenapi",
-        "title": "Create a Camel route from OpenAPI using Yaml DSL",
+        "title": "Create a Camel route from OpenAPI using YAML DSL",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
       },

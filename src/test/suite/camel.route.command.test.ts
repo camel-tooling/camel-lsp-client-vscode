@@ -56,7 +56,7 @@ describe('Should execute Create a Camel Route command', function () {
 			await vscode.commands.executeCommand('workbench.action.closePanel');
 		});
 
-		it('New Camel Yaml DSL file can be created', async function () {
+		it('New Camel YAML DSL file can be created', async function () {
 			await initNewFile(fileName, 'YAML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullFileName);
@@ -66,7 +66,7 @@ describe('Should execute Create a Camel Route command', function () {
 			expect(openedEditor).to.be.true;
 		});
 
-		it('New Camel Yaml DSL file can be created - name with white space', async function () {
+		it('New Camel YAML DSL file can be created - name with white space', async function () {
 			await initNewFile(fileNameWithSpace, 'YAML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullFileNameWithSpace);

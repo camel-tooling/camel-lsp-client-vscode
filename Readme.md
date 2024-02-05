@@ -39,10 +39,10 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
 - Additional Camel components can be provided.
 - Use dashed notation in properties file and Camel K modelines.
 - Create a Camel Route using Camel JBang.
-  - Yaml DSL
+  - YAML DSL
   - Java DSL
   - XML DSL
-  - from an OpenAPI file using Yaml DSL
+  - from an OpenAPI file using YAML DSL
   - Kamelet with YAML DSL
   - Custom Resource Pipe with YAML DSL
 - Create a Camel Quarkus project

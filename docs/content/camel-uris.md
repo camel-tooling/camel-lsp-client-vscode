@@ -28,11 +28,11 @@ This feature is supported in both – XML DSL and Java DSL. Auto-completion for 
 
 <p align="center"><img src="../images/completionJavascript.gif" alt="Completion for JavaScript DSL" class="zoom" width="75%"/></p>
 
-**Camel K Yaml DSL**
+**Camel K YAML DSL**
 
 - It requires to having a file named with the pattern _*.camelk.yaml_ or that the file starts with `// camel-k:`
 
-<p align="center"><img src="../images/completionYaml.gif" alt="Completion for Yaml DSL" class="zoom" width="75%"/></p>
+<p align="center"><img src="../images/completionYaml.gif" alt="Completion for YAML DSL" class="zoom" width="75%"/></p>
 
 **Camel properties file**
 
