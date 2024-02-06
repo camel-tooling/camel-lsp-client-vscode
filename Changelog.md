@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.17.0
+
 ## 0.16.0
 
 - Update Camel Quarkus Catalog from 3.6.0 to 3.7.0
