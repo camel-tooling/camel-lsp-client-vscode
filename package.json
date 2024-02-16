@@ -223,6 +223,12 @@
         "title": "Create a Custom Resource Pipe using YAML DSL",
         "category": "Camel",
         "enablement": "workspaceFolderCount != 0"
+      },
+      {
+        "command": "camel.jbang.transform.route.yaml",
+        "title": "Transform a Camel Route to YAML DSL",
+        "category": "Camel",
+        "enablement": "resourceFilename =~ /\\.(java|xml|yaml)$/"
       }
     ],
     "menus": {

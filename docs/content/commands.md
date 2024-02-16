@@ -18,6 +18,12 @@
 
 <p align="center"><img src="../images/generateCamelRouteFromOpenAPI.gif" alt="Camel Route YAML DSL from OpenAPI command" class="zoom" width="90%"/></p>
 
+# Transform a Camel route to YAML using Camel JBang
+
+- The [JBang](https://www.jbang.dev/documentation/guide/latest/index.html) cli must be available on a system command-line.
+
+<p align="center"><img src="../images/transformCamelRouteToYAML.gif" alt="Transform Camel Routes from XML and Java to YAML using Camel JBang" class="zoom" width="90%"/></p>
+
 # Create a Camel project (using Camel JBang export)
 
 - The [JBang](https://www.jbang.dev/documentation/guide/latest/index.html) cli must be available on a system command-line.
