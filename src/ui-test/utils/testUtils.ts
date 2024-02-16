@@ -93,6 +93,13 @@ export const EXAMPLE_COMMAND_YAML_FILE = 'YAML.yaml';
 export const CREATE_COMMAND_KAMELET_YAML_ID = 'camel.jbang.routes.kamelet.yaml';
 export const KAMELETS_RESOURCES_PATH: string = path.join(RESOURCES, 'kamelets');
 
+// Resources for Camel transform commands testing.
+export const RESOURCES_TRANSFORM_COMMAND: string = path.join(RESOURCES, 'camel_transform_command');
+export const TRANSFORM_ROUTE_TO_YAML_COMMAND_ID = 'camel.jbang.transform.route.yaml';
+export const EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE = 'Java.java';
+export const EXAMPLE_TRANSFORM_COMMAND_XML_FILE = 'XML.xml';
+export const EXAMPLE_TRANSFORM_COMMAND_YAML_FILE = 'YAML.yaml';
+
 // Identifiers of user preferences inside settings.json.
 export const JBANG_VERSION_ID = 'camel.languageSupport.JBangVersion';
 export const CATALOG_PROVIDER_ID = 'camel.Camel catalog runtime provider';

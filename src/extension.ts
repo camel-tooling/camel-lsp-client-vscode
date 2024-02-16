@@ -31,6 +31,7 @@ import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpe
 import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
 import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
 import { NewCamelPipeCommand } from './commands/NewCamelPipeCommand';
+import { TransformCamelRouteToYAMLCommand } from './commands/TransformCamelRouteCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -152,6 +153,10 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => {
 		await new NewCamelSpringBootProjectCommand().create();
 		await sendCommandTrackingEvent(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT);
+	}));
+	context.subscriptions.push(commands.registerCommand(TransformCamelRouteToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML, async () => {
+		await new TransformCamelRouteToYAMLCommand().create();
+		await sendCommandTrackingEvent(TransformCamelRouteToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML);
 	}));
 
 	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async () => {

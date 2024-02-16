@@ -34,6 +34,7 @@ This extension provides completion, validation and documentation features for Ap
   - from an OpenAPI file using YAML DSL
   - Kamelet with YAML DSL
   - Custom Resource Pipe with YAML DSL
+- [Transform Camel Routes from XML and Java to YAML using Camel JBang](./content/commands.md#transform-a-camel-route-to-yaml-using-camel-jbang)
 - [Create a Camel Quarkus project](./content/commands.md#quarkus)
 - [Create a Camel on SpringBoot project](./content/commands.md#springboot)
 - [XML DSL Only](./content/xml-dsl-only.md)

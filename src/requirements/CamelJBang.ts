@@ -51,4 +51,15 @@ export class CamelJBang {
 			`'--output=${routefile}'`,
 			'--routes']);
 	}
+
+	public transformRoute(sourceFile: string, format: string, outputFile: string) {
+		return new ShellExecution('jbang',
+		[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+			'camel@apache/camel',
+			'transform',
+			'route',
+			`'${sourceFile}'`,
+			`'--format=${format}'`,
+			`'--output=${outputFile}'`,]);
+	}
 }
