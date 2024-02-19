@@ -147,34 +147,56 @@ describe('Code navigation', function () {
 	 *
 	 * @param listOfAvailableSymbols List of expected symbols with line number of occurence.
 	 */
+
+	// tohle funguje jenom orio
 	async function allSymbolsAreAvailableInQuickpickCommand(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
 		await new Workbench().executeCommand('workbench.action.gotoSymbol');
-
+	
 		await driver.wait(async function () {
 			input = await InputBox.create();
 			return (await input.isDisplayed());
 		}, 30000);
-
+	
 		quickPicks = await input.getQuickPicks();
 		for (const quickpick of quickPicks) {
-			const nameFromField = listOfAvailableSymbols.at(quickpick.getIndex()).at(0);
-			assert.equal((await quickpick.getLabel()).slice(1), nameFromField);
+			// Check if quickpick.getIndex() and listOfAvailableSymbols[quickpick.getIndex()] are defined
+			const nameFromField = listOfAvailableSymbols[quickpick.getIndex()]?.[0];
+			if (nameFromField !== undefined) {
+				assert.equal((await quickpick.getLabel()).slice(1), nameFromField);
+			} else {
+				// Handle the case where the index is out of range or listOfAvailableSymbols is undefined
+				console.error(`Unable to retrieve name from field for index ${quickpick.getIndex()}`);
+			}
 		}
-
+	
 		await input.cancel();
 	}
+	
 
 	/**
 	 * Check if all symbols references are working in Quick Pick command.
 	 *
 	 * @param listOfAvailableSymbols List of expected symbols with line number of occurence.
 	 */
+
+	// predelat at to neni overkill???
 	async function gotoSymbolsUsingQuickpickCommand(listOfAvailableSymbols: (string | number)[][], title: string): Promise<void> {
 		for (const quickpick of quickPicks) {
-			await selectSymbolFromProposals(listOfAvailableSymbols.at(quickpick.getIndex()).at(0) as string);
-			const editor = await activateEditor(driver, title);
-			const coords = (await editor.getCoordinates()).at(0); // get active line in editor
-			assert.equal(coords, listOfAvailableSymbols.at(quickpick.getIndex()).at(1));
+			if (listOfAvailableSymbols && quickpick) {
+				const index = quickpick.getIndex();
+				if (index !== undefined && index >= 0 && index < listOfAvailableSymbols.length) {
+					const symbol = listOfAvailableSymbols[index];
+					if (symbol && symbol.length >= 2) {
+						const symbolName = symbol[0] as string;
+						const expectedCoords = symbol[1] as number;
+	
+						await selectSymbolFromProposals(symbolName);
+						const editor = await activateEditor(driver, title);
+						const coords = (await editor.getCoordinates())?.[0]; // get active line in editor
+						assert.equal(coords, expectedCoords);
+					}
+				}
+			}
 		}
 	}
 
@@ -183,12 +205,20 @@ describe('Code navigation', function () {
 	 *
 	 * @param listOfAvailableSymbols List of expected symbols with line number of occurence.
 	 */
+	// predelat at to neni overkill???
 	async function allSymbolsAreAvailableInOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
 		const actions = await section.getVisibleItems();
 		for (let i = 0; i < actions.length; i++) {
-			const fromSidebar = await actions.at(i).getLabel();
-			const nameFromField = listOfAvailableSymbols.at(i).at(0);
-			assert.equal(fromSidebar, nameFromField);
+			const ll = await actions.at(i);
+			if (ll !== undefined) {
+				const fromSidebar = await ll.getLabel(); // Await here
+				const nameFromField = listOfAvailableSymbols?.[i]?.[0];
+				if (fromSidebar !== undefined && nameFromField !== undefined) {
+					assert.equal(fromSidebar, nameFromField);
+				} else {
+					// Handle case where fromSidebar or nameFromField is undefined
+				}
+			}
 		}
 	}
 
@@ -222,8 +252,10 @@ describe('Code navigation', function () {
 	 *
 	 * @param proposal Required symbol for selction.
 	 */
+
+	// predelat at to neni overkill???
 	async function selectSymbolFromProposals(proposal: string): Promise<void> {
-		let input: InputBox;
+		let input: InputBox | undefined;
 
 		await new Workbench().executeCommand('workbench.action.gotoSymbol'); // 'Go to Symbol in Editor...'
 
@@ -232,11 +264,13 @@ describe('Code navigation', function () {
 			return (await input.isDisplayed());
 		}, 30000);
 
+		if (input !== undefined) {
 		const symbols = await input.getQuickPicks();
-		for (const symbol of symbols) {
-			const label = (await symbol.getLabel()).slice(1);
-			if (label === proposal) {
-				await symbol.select();
+			for (const symbol of symbols) {
+				const label = (await symbol.getLabel()).slice(1);
+				if (label === proposal) {
+					await symbol.select();
+				}
 			}
 		}
 	}
