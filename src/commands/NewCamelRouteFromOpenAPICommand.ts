@@ -26,7 +26,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 
 	public async create(): Promise<void> {
 		const routeFileName = await this.showInputBoxForFileName();
-		if (routeFileName) {
+		if (routeFileName && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(routeFileName, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 
@@ -38,7 +38,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 		}
 	}
 
-	async showDialogToPickOpenAPIFile(): Promise<Uri> {
+	async showDialogToPickOpenAPIFile(): Promise<Uri> { 
 		const openApifileNames = await window.showOpenDialog(
 			{
 				canSelectMany: false,
@@ -49,7 +49,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 		if(openApifileNames !== undefined) {
 			return openApifileNames[0];
 		}
-		return undefined;
+		return Uri.parse('');
 	}
 }
 

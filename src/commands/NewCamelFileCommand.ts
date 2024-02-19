@@ -30,7 +30,9 @@ export class NewCamelFileCommand {
 		const selection = await this.showQuickPickForCamelFileType();
 		if (selection) {
 			const cmd = this.getCamelRouteCommandFromSelection(selection.label);
-			await commands.executeCommand(cmd);
+			if(cmd){
+				await commands.executeCommand(cmd);
+			}
 		}
 	}
 
@@ -46,7 +48,7 @@ export class NewCamelFileCommand {
 		return await window.showQuickPick(items, {
 			placeHolder: 'Please select a Camel File type.',
 			title: 'New Camel File...'
-		});
+		}) || { label: 'None' };
 	}
 
 	protected getCamelRouteCommandFromSelection(selection: string): string | undefined {
