@@ -65,9 +65,12 @@ function updateJREs(map: Map<string, string[]>, newJres: string[], source: strin
 async function fromEnv(name: string): Promise<string[]> {
     const ret: string[] = [];
     if (process.env[name]) {
-        const javaHome = await verifyJavaHome(process.env[name], JAVA_FILENAME);
+        const javaHome = process.env[name]?.toString();
         if (javaHome) {
-            ret.push(javaHome);
+            const verifiedJavaHome = await verifyJavaHome(javaHome, JAVA_FILENAME);
+            if (verifiedJavaHome) {
+                ret.push(verifiedJavaHome);
+            }
         }
     }
     return ret;

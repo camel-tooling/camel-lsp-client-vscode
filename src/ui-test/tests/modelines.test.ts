@@ -145,7 +145,7 @@ describe('Camel-K modelines support', function () {
 		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 		const items = await contentAssist.getItems();
 		const item = items.at(0);
-		await item.click();
+		await item?.click();
 
 		assert.equal((await editor.getTextAtLine(1)).trim(), '// camel-k: dependency=mvn:groupId:artifactId:version');
 	});

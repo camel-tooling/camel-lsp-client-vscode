@@ -22,7 +22,7 @@ import { CamelJBang } from "../requirements/CamelJBang";
 
 export class CamelInitJBangTask extends CamelJBangTask {
 
-	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file) {
+	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file: any) {
 		super(scope,
 			'Init Camel Route file with JBang',
 			new CamelJBang().init(file));

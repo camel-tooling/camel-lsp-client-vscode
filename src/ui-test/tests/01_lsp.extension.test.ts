@@ -41,7 +41,7 @@ import {
 } from 'vscode-uitests-tooling';
 import * as pjson from '../../../package.json';
 
-describe('Language Support for Apache Camel extension', function () {
+describe ('Language Support for Apache Camel extension', function () {
 	this.timeout(300000);
 
 	let driver: WebDriver;
@@ -75,7 +75,10 @@ describe('Language Support for Apache Camel extension', function () {
 
 		it('Find extension', async function () {
 			await driver.wait(async function () {
-				item = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
+				const ll = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
+				if (ll != undefined) {
+					item = ll;
+				}
 				return item !== undefined;
 			});
 			assert.isNotNull(item);

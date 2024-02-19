@@ -247,7 +247,9 @@
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
+    "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.0.1",
+    "@types/lodash": "^4.14.202",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.26",
     "@types/sinon": "^17.0.3",
@@ -260,6 +262,7 @@
     "chai": "^4.3.10",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
+    "expand-home-dir": "^0.0.3",
     "glob": "^10.3.10",
     "mocha": "^10.3.0",
     "mocha-jenkins-reporter": "^0.4.8",
@@ -271,7 +274,6 @@
   },
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.7.1",
-    "expand-home-dir": "^0.0.3",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "valid-filename": "^3.1.0",

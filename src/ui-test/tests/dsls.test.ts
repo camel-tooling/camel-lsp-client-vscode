@@ -69,6 +69,7 @@ import {
 	YAML_URI_POSITION
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
+import { Context } from 'mocha';
 
 describe('Language DSL support', function () {
 
@@ -79,7 +80,7 @@ describe('Language DSL support', function () {
 	let editor: TextEditor;
 
 	const _setup = function (camel_file: string) {
-		return async function () {
+		return async function (this: Context) {
 			this.timeout(20000);
 			await VSBrowser.instance.openResources(path.join(RESOURCES, camel_file));
 			await waitUntilEditorIsOpened(driver, camel_file);
@@ -88,13 +89,13 @@ describe('Language DSL support', function () {
 	};
 
 	const _clean = function (camel_file: string) {
-		return async function () {
+		return async function (this: Context) {
 			this.timeout(15000);
 			await closeEditor(camel_file, false);
 		}
 	};
 
-	before(async function () {
+	before(async function (this: Context) {
 		this.timeout(90000);
 		driver = VSBrowser.instance.driver;
 		await VSBrowser.instance.openResources(RESOURCES);
@@ -636,7 +637,7 @@ describe('Language DSL support', function () {
 
 		const section = await new SideBarView().getContent().getSection('References') as DefaultTreeSection;
 		const visibleItems = await section.getVisibleItems();
-		assert.equal(await visibleItems.at(0).getLabel(), REFERENCES_FILE_2);
-		assert.equal(await visibleItems.at(1).getLabel(), expectedReference);
+		assert.equal(await visibleItems.at(0)?.getLabel(), REFERENCES_FILE_2);
+		assert.equal(await visibleItems.at(1)?.getLabel(), expectedReference);
 	}
 });

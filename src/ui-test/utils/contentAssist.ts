@@ -19,7 +19,7 @@ import { TextEditor, ContentAssist } from 'vscode-uitests-tooling';
 
 export async function waitUntilContentAssistContains(expectedContentAssistItem: string, timeout = 10000): Promise<ContentAssist> {
 	const editor = new TextEditor();
-	let contentAssist: ContentAssist;
+	let contentAssist: ContentAssist | undefined;
 	await editor.getDriver().wait(async function () {
 		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
 		const hasItem = await contentAssist.hasItem(expectedContentAssistItem);
@@ -28,5 +28,8 @@ export async function waitUntilContentAssistContains(expectedContentAssistItem: 
 		}
 		return hasItem;
 	}, timeout);
+	if (contentAssist === undefined) {
+        throw new Error("Content assist was not initialized.");
+    }
 	return contentAssist;
 }
