@@ -255,7 +255,7 @@
     "@types/winreg": "^1.2.36",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@vscode/test-electron": "^2.3.9",
-    "@vscode/vsce": "^2.23.0",
+    "@vscode/vsce": "^2.24.0",
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.10",
     "eslint": "^8.57.0",
