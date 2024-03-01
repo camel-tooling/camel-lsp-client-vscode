@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { QuickPickItem, Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand, CamelRouteDSL } from "./AbstractNewCamelRouteCommand";
@@ -65,7 +65,7 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 			{ label: 'source', description: 'A route that produces data.', detail: 'You use a source Kamelet to retrieve data from a component.', },
 			{ label: 'sink', description: 'A route that consumes data.', detail: 'You use a sink Kamelet to send data to a component.' },
 			{ label: 'action', description: 'A route that performs an action on data.', detail: 'You can use an action Kamelet to manipulate data when it passes from a source Kamelet to a sink Kamelet.' }
-		]
+		];
 		const result = await window.showQuickPick(items, {
 			placeHolder: 'Please select a Kamelet type.',
 		});

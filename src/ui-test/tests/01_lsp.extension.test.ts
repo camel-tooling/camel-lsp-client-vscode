@@ -120,7 +120,7 @@ describe ('Language Support for Apache Camel extension', function () {
 			await driver.wait(async () => {
 				const text = await lsp.getText().catch(() => '');
 				try {
-					const codicon = await lsp.findElement(By.className('codicon'))
+					const codicon = await lsp.findElement(By.className('codicon'));
 					const klass = await codicon.getAttribute('class');
 					return text.startsWith('Camel LS') && klass.includes('codicon-thumbsup');
 				}

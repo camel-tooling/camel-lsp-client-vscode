@@ -85,14 +85,14 @@ describe('Language DSL support', function () {
 			await VSBrowser.instance.openResources(path.join(RESOURCES, camel_file));
 			await waitUntilEditorIsOpened(driver, camel_file);
 			editor = await activateEditor(driver, camel_file);
-		}
+		};
 	};
 
 	const _clean = function (camel_file: string) {
 		return async function (this: Context) {
 			this.timeout(15000);
 			await closeEditor(camel_file, false);
-		}
+		};
 	};
 
 	before(async function (this: Context) {
@@ -421,7 +421,7 @@ describe('Language DSL support', function () {
 	 */
 	async function codeCompletionForComponentScheme(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
 		await editor.typeTextAt(uriLine, uriPosition, 'timer');
-		const expectedContentAssist = 'timer:timerName'
+		const expectedContentAssist = 'timer:timerName';
 		contentAssist = await ca.waitUntilContentAssistContains(expectedContentAssist);
 
 		const timer = await contentAssist.getItem(expectedContentAssist);

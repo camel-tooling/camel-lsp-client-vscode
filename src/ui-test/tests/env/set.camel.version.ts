@@ -36,6 +36,6 @@ describe('Camel version', function () {
 		setUserSettingsDirectly(CATALOG_VERSION_ID, process.env.CAMEL_VERSION);
 
 		// check if version was set
-		assert.equal(readUserSetting(CATALOG_VERSION_ID), process.env.CAMEL_VERSION)
+		assert.equal(readUserSetting(CATALOG_VERSION_ID), process.env.CAMEL_VERSION);
 	});
 });

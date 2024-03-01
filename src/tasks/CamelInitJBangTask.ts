@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { TaskScope, WorkspaceFolder } from "vscode";
 import { CamelJBangTask } from "./CamelJBangTask";

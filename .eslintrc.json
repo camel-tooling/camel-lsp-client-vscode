@@ -49,7 +49,7 @@
 	//	"no-irregular-whitespace": "warn",
 
 		// off only for cleaner console output -> remove asap
-		"@typescript-eslint/semi": "off",
+		"@typescript-eslint/semi": "error",
 		"eqeqeq": "off",
 		"@typescript-eslint/naming-convention": "off",
 		"no-empty": "off",
