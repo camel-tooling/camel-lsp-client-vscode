@@ -89,7 +89,7 @@ export async function activate(context: ExtensionContext) {
 	};
 
 	const item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
-	item.name = 'Camel Language Server'
+	item.name = 'Camel Language Server';
 	item.text = 'Camel LS $(sync~spin)';
 	item.tooltip = 'Language Server for Apache Camel is starting...';
 	if(window.activeTextEditor){
@@ -114,7 +114,7 @@ export async function activate(context: ExtensionContext) {
 	} catch(error){
 		item.text = 'Camel LS $(thumbsdown)';
 		item.tooltip = 'Language Server for Apache Camel failed to start';
-		console.log(error)
+		console.log(error);
 	}
 
 	window.onDidChangeActiveTextEditor((editor) =>{
