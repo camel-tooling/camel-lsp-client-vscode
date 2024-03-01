@@ -1,37 +1,63 @@
 {
-    "env": {
+	"root": true, // this is root configuration for project
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "commonjs",
+		"project": "./tsconfig.json",
+		"ecmaFeatures": { // is this necessary? DAP doesn't have this
+			"impliedStrict": true
+		}
+	},
+
+	"env": {
 		"browser": true,
-		"es2022": true,
-		"node": true,
+		//"es2020": true,
 		"mocha": true
 	},
-    "extends": [
+	"extends": [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/recommended-requiring-type-checking",
 		"plugin:import/typescript"
 	],
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 2022,
-        "sourceType": "commonjs",
-        "project": "./tsconfig.json"
-    },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "rules": {
-        // eslint: recommended - disable core rules -> they're overridden by TS-eslint
-        "no-unused-vars": "off", // remove when fixed -> caused by eslint:recommended
-        "no-extra-semi": "off", // remove when fixed -> caused by eslint:recommended
-        "prefer-const": "warn",
+	
+	"plugins": [
+		"@typescript-eslint",
+		"eslint-plugin-import" //  required by no-extraneous-dependencies
+	],
+	"rules": {
+		// from dap
+		"@typescript-eslint/naming-convention": "warn",
+        
+		"semi": "off", // can be turned off -> covered by @typescript-eslint/semi
+		"@typescript-eslint/semi": "warn",
+
         "curly": "warn",
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
+
+		//lsp
+		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
 		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
+		"@typescript-eslint/no-namespace": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-floating-promises": "warn",
+
+		// test purpouse only
+		"@typescript-eslint/no-unused-vars": "warn",
+		//"no-empty": "warn",
+	//	"no-irregular-whitespace": "warn",
+
+		// off only for cleaner console output -> remove asap
+		"@typescript-eslint/semi": "off",
+		"eqeqeq": "off",
+		"@typescript-eslint/naming-convention": "off",
+		"no-empty": "off",
+		"no-irregular-whitespace": "off",
+		"curly": "off",
+
 		"import/no-extraneous-dependencies": [
-			"error",
+			"off", // change to err
 			{
 				"devDependencies": [
 					"**/test/**",
@@ -40,25 +66,6 @@
 				"optionalDependencies": false,
 				"peerDependencies": false
 			}
-		],
-        
-        // typescript-eslint/recommended
-        "@typescript-eslint/no-unused-vars": "warn",
-        "@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
-        "@typescript-eslint/no-explicit-any": "warn", // off by original
-		"@typescript-eslint/no-namespace": "off", // off by original
-
-        // typescript-eslint/recommended-requiring-type-checking
-        "@typescript-eslint/restrict-plus-operands": "warn"
-    },
-    "ignorePatterns": [
-        "out",
-        "**/*.d.ts",
-		"test Fixture with speci@l chars",
-		"src/ui-test/resources",
-		"node_modules",
-		".vscode-test",
-		"test-resources",
-		".test-extensions"
-    ]
+		]
+	}
 }
