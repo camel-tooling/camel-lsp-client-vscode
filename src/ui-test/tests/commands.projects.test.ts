@@ -78,7 +78,7 @@ describe('Create a Camel Project using command', function () {
 				await input.setText('com.demo:test:1.0-SNAPSHOT');
 				await input.confirm();
 
-				await waitUntilFileAvailable(driver, 'pom.xml', SPECIFIC_WORKSPACE_NAME, 60000)
+				await waitUntilFileAvailable(driver, 'pom.xml', SPECIFIC_WORKSPACE_NAME, 60000);
 			});
 
 			(command.includes('quarkus') ? it : it.skip)(`Init .vscode folder with config files`, async function () {

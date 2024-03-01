@@ -239,7 +239,7 @@ export async function deleteFile(filename: string, folder: string): Promise<void
 	try {
 		await fs.remove(path.resolve(folder, filename));
 	} catch (err) {
-		console.error(err)
+		console.error(err);
 	}
 }
 
@@ -584,7 +584,7 @@ export async function initNewCamelFile(type: string, name: string, kamelet: stri
 
 	// if type is Kamelet, then select also Kamelet type in another step
 	if (kamelet) {
-		input = await InputBox.create(5_000)
+		input = await InputBox.create(5_000);
 		await input.selectQuickPick(kamelet);
 	}
 

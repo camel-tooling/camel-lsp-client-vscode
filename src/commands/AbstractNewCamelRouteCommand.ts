@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { WorkspaceFolder, window, workspace } from "vscode";
 import * as fs from 'fs';
@@ -35,7 +35,7 @@ export abstract class AbstractNewCamelRouteCommand {
 
 	constructor(dsl: string) {
 		this.camelDSL = this.getDSL(dsl);
-		this.workspaceFolder = this.getWorkspaceFolder()
+		this.workspaceFolder = this.getWorkspaceFolder();
 	}
 
 	protected async showInputBoxForFileName(): Promise<string> {

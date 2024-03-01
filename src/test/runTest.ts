@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests } from '@vscode/test-electron'
+import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests } from '@vscode/test-electron';
 import * as cp from 'child_process';
-import * as path from 'path'
+import * as path from 'path';
 
 async function runTest() {
 	try {
@@ -46,10 +46,10 @@ async function runTest() {
 			extensionDevelopmentPath,
 			extensionTestsPath,
 			launchArgs: [testWorkspace, '--disable-workspace-trust', '--user-data-dir', `${extensionDevelopmentPath}/.vscode-test`]
-		})
+		});
 	} catch (err) {
 		console.error('Failed to run tests: ' + err);
-		process.exit(1)
+		process.exit(1);
 	}
 
 	function computeVSCodeVersionToPlayTestWith() {
