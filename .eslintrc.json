@@ -45,11 +45,19 @@
 
 		// test purpouse only
 		"@typescript-eslint/no-unused-vars": "warn",
-		"no-empty": "warn",
-		"no-irregular-whitespace": "warn",
+		//"no-empty": "warn",
+	//	"no-irregular-whitespace": "warn",
+
+		// off only for cleaner console output -> remove asap
+		"@typescript-eslint/semi": "off",
+		"eqeqeq": "off",
+		"@typescript-eslint/naming-convention": "off",
+		"no-empty": "off",
+		"no-irregular-whitespace": "off",
+		"curly": "off",
 
 		"import/no-extraneous-dependencies": [
-			"warn", // change to err
+			"off", // change to err
 			{
 				"devDependencies": [
 					"**/test/**",
