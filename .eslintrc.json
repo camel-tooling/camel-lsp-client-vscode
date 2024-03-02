@@ -52,7 +52,7 @@
 		"@typescript-eslint/semi": "error",
 		"eqeqeq": "off",
 		"@typescript-eslint/naming-convention": "off",
-		"no-empty": "off",
+		"no-empty": "error",
 		"no-irregular-whitespace": "off",
 		"curly": "off",
 

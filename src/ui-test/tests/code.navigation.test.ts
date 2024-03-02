@@ -231,7 +231,6 @@ describe('Code navigation', function () {
 	//upraveny? ok
 	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
 		const actions = await section.getVisibleItems();
-		
 		if (actions !== undefined) {
 			for (let i = 0; i < actions.length; i++) {
 				await actions[i].click();
@@ -241,12 +240,8 @@ describe('Code navigation', function () {
 				if (coords !== undefined) {
 					const expectedCoords = listOfAvailableSymbols[i][1];
 					assert.equal(expectedCoords, coords);
-				} else {
-
 				}
 			}
-		} else {
-
 		}
 	}
 
