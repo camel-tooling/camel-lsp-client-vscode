@@ -29,7 +29,7 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 	public async create(): Promise<void> {
 		const type = await this.showQuickPickForKameletType();
 
-		if (type && this.camelDSL && this.workspaceFolder) {
+		if (type && this.camelDSL && this.workspaceFolder) {
 			this.kameletType = type;
 			const name = await this.showInputBoxForFileName();
 			if (name) {

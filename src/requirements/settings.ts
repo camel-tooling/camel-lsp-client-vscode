@@ -9,7 +9,7 @@ export async function checkJavaPreferences() {
 
 	if (placeholder !== undefined) {
 		const javaHome = placeholder.workspaceValue;
-		if (javaHome !== undefined && javaHome !== null) {
+		if (javaHome !== undefined && javaHome !== null) {
 			return javaHome;
 		} else {
 			return placeholder.globalValue;

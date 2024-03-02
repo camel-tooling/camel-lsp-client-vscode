@@ -53,7 +53,7 @@
 		"eqeqeq": "off",
 		"@typescript-eslint/naming-convention": "off",
 		"no-empty": "error",
-		"no-irregular-whitespace": "off",
+		"no-irregular-whitespace": "error",
 		"curly": "off",
 
 		"import/no-extraneous-dependencies": [
