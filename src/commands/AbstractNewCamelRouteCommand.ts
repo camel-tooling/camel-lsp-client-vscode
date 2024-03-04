@@ -97,7 +97,9 @@ export abstract class AbstractNewCamelRouteCommand {
 			return 'Please provide a name without the extension.';
 		}
 
-		if (!this.camelDSL) return 'camelDSL is undefined.'; // camelDSL can't be undefined
+		if (!this.camelDSL) {
+			return 'camelDSL is undefined.'; // camelDSL can't be undefined
+		}
 
 		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder!, this.getFullName(name, this.camelDSL.extension));
 

@@ -54,7 +54,7 @@
 		"@typescript-eslint/naming-convention": "off",
 		"no-empty": "error",
 		"no-irregular-whitespace": "error",
-		"curly": "off",
+		"curly": "error",
 
 		"import/no-extraneous-dependencies": [
 			"off", // change to err
