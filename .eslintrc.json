@@ -54,10 +54,10 @@
 		// naming convention is causing bunch of errors so maybe we should keep it off?
 		// the list of allowed formats will almost match every possible value sooo
 		"@typescript-eslint/naming-convention": [ 
-			"off",
+			"error",
 			{
 			  "selector": "variable",
-			  "format": ["camelCase", "PascalCase", "snake_case", "UPPER_CASE"]//,
+			  "format": ["camelCase", "UPPER_CASE"]//,
 			 // "leadingUnderscore": "require"
 			}
 		  ],

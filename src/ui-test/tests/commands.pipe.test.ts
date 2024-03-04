@@ -53,32 +53,32 @@ describe('Create a Pipe using command', function () {
 	});
 
 	const fileName: string = 'example';
-	const fileName_ext: string = `${fileName}-pipe.yaml`;
+	const fileNameExt: string = `${fileName}-pipe.yaml`;
 
 	describe('YAML DSL', function () {
 
 		before(async function () {
 			await control.openView();
-			await deleteFile(fileName_ext, RESOURCES);
+			await deleteFile(fileNameExt, RESOURCES);
 		});
 
 		after(async function () {
 			await new EditorView().closeAllEditors();
 			await killTerminal();
-			await deleteFile(fileName_ext, RESOURCES);
+			await deleteFile(fileNameExt, RESOURCES);
 		});
 
 		it('Create file', async function () {
 			await initNewCamelFile('Pipe', fileName);
-			await waitUntilFileAvailable(driver, fileName_ext, 'resources', 60_000);
+			await waitUntilFileAvailable(driver, fileNameExt, 'resources', 60_000);
 		});
 
 		it('Editor opened', async function () {
-			await waitUntilEditorIsOpened(driver, fileName_ext);
+			await waitUntilEditorIsOpened(driver, fileNameExt);
 		});
 
 		it('Check file content', async function () {
-			const editor = await activateEditor(driver, fileName_ext);
+			const editor = await activateEditor(driver, fileNameExt);
 			const text = await editor.getText();
 			expect(text).deep.equals(getFileContent('camel-example-pipe.yaml', RESOURCES));
 		});
