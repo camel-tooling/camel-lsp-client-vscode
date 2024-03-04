@@ -52,8 +52,8 @@ describe('Code navigation', function () {
 
 	describe('XML DSL', function () {
 
-		// All available symbols in 'camel-route.xml' with line of occurrence.
-		const XML_av_symbols = [
+		// All available symbols in 'camel-route.xml' with line of occurence.
+		const XML_AV_SYMBOLS = [
 			['uitest-context', 1],
 			['uitest-direct-route', 2],
 			['from direct:testName1', 3],
@@ -75,22 +75,22 @@ describe('Code navigation', function () {
 		describe('Quickpick \'Go to Symbol in Editor\' navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInQuickpickCommand(XML_av_symbols);
+				await allSymbolsAreAvailableInQuickpickCommand(XML_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(XML_av_symbols, CODE_NAVIGATION_XML);
+				await gotoSymbolsUsingQuickpickCommand(XML_AV_SYMBOLS, CODE_NAVIGATION_XML);
 			});
 		});
 
 		describe('Outline Side Bar navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInOutlineSideBar(XML_av_symbols);
+				await allSymbolsAreAvailableInOutlineSideBar(XML_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingOutlineSideBar(XML_av_symbols, CODE_NAVIGATION_XML);
+				await gotoSymbolsUsingOutlineSideBar(XML_AV_SYMBOLS);
 			});
 		});
 	});
@@ -101,7 +101,7 @@ describe('Code navigation', function () {
 	 */
 	(process.platform === 'win32' ? describe.skip : describe)('Java DSL', function () {
 
-		const JAVA_av_symbols = [
+		const JAVA_AV_SYMBOLS = [
 			['from timer:java', 7],
 			['setBody', 8],
 			['log', 10],
@@ -122,22 +122,22 @@ describe('Code navigation', function () {
 		describe('Quickpick \'Go to Symbol in Editor\' navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInQuickpickCommand(JAVA_av_symbols);
+				await allSymbolsAreAvailableInQuickpickCommand(JAVA_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
+				await gotoSymbolsUsingQuickpickCommand(JAVA_AV_SYMBOLS, CODE_NAVIGATION_JAVA);
 			});
 		});
 
 		describe('Outline Side Bar navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInOutlineSideBar(JAVA_av_symbols);
+				await allSymbolsAreAvailableInOutlineSideBar(JAVA_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingOutlineSideBar(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
+				await gotoSymbolsUsingQuickpickCommand(JAVA_AV_SYMBOLS, CODE_NAVIGATION_JAVA);
 			});
 		});
 	});

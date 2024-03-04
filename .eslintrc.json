@@ -50,11 +50,23 @@
 
 		// off only for cleaner console output -> remove asap
 		"@typescript-eslint/semi": "error",
-		"eqeqeq": "off",
-		"@typescript-eslint/naming-convention": "off",
+
+		// naming convention is causing bunch of errors so maybe we should keep it off?
+		// the list of allowed formats will almost match every possible value sooo
+		"@typescript-eslint/naming-convention": [ 
+			"error",
+			{
+			  "selector": "variable",
+			  "format": ["camelCase", "UPPER_CASE"]//,
+			 // "leadingUnderscore": "require"
+			}
+		  ],
+
 		"no-empty": "error",
 		"no-irregular-whitespace": "error",
 		"curly": "error",
+
+		"eqeqeq": "error",
 
 		"import/no-extraneous-dependencies": [
 			"off", // change to err
