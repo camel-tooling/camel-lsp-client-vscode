@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
 const expandHomeDir = require('expand-home-dir');
-const WinReg = require('winreg-utf8');
+const winReg = require('winreg-utf8');
 const isWindows: boolean = process.platform.indexOf('win') === 0;
 const isMac: boolean = process.platform.indexOf('darwin') === 0;
 const isLinux: boolean = process.platform.indexOf('linux') === 0;
@@ -129,8 +129,8 @@ async function fromWindowsRegistry(): Promise<string[]> {
 
     const promisifyFindPossibleRegKey = (keyPath: string, regArch: string): Promise<Winreg.Registry[]> => {
         return new Promise<Winreg.Registry[]>((resolve) => {
-            const winreg: Winreg.Registry = new WinReg({
-                hive: WinReg.HKLM,
+            const winreg: Winreg.Registry = new winReg({
+                hive: winReg.HKLM,
                 key: keyPath,
                 arch: regArch
             });

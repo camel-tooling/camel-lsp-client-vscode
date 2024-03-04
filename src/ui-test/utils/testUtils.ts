@@ -209,7 +209,7 @@ export function readUserSetting(id: string): string | null {
 	const regex = new RegExp(`"${id}":\\s*"(.*?)"`, 'i');
 	const match = settingsContent.match(regex);
 
-	if (match == null) {
+	if (match === null) {
 		return null;
 	} else {
 		return match[1];

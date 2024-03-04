@@ -79,7 +79,7 @@ describe('Language DSL support', function () {
 	let contentAssist: ContentAssist;
 	let editor: TextEditor;
 
-	const _setup = function (camel_file: string) {
+	const setup = function (camel_file: string) {
 		return async function (this: Context) {
 			this.timeout(20000);
 			await VSBrowser.instance.openResources(path.join(RESOURCES, camel_file));
@@ -88,7 +88,7 @@ describe('Language DSL support', function () {
 		};
 	};
 
-	const _clean = function (camel_file: string) {
+	const clean = function (camel_file: string) {
 		return async function (this: Context) {
 			this.timeout(15000);
 			await closeEditor(camel_file, false);
@@ -110,8 +110,8 @@ describe('Language DSL support', function () {
 
 		describe('Camel URI code completion', function () {
 
-			before(_setup(CAMEL_CONTEXT_XML));
-			after(_clean(CAMEL_CONTEXT_XML));
+			before(setup(CAMEL_CONTEXT_XML));
+			after(clean(CAMEL_CONTEXT_XML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_XML);
@@ -137,8 +137,8 @@ describe('Language DSL support', function () {
 
 		describe('Endpoint options filtering', function () {
 
-			before(_setup(CAMEL_CONTEXT_XML));
-			after(_clean(CAMEL_CONTEXT_XML));
+			before(setup(CAMEL_CONTEXT_XML));
+			after(clean(CAMEL_CONTEXT_XML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_XML);
@@ -151,8 +151,8 @@ describe('Language DSL support', function () {
 
 		describe('Diagnostics for Camel URIs', function () {
 
-			before(_setup(CAMEL_CONTEXT_XML));
-			after(_clean(CAMEL_CONTEXT_XML));
+			before(setup(CAMEL_CONTEXT_XML));
+			after(clean(CAMEL_CONTEXT_XML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_XML);
@@ -165,8 +165,8 @@ describe('Language DSL support', function () {
 
 		describe('Auto-completion for referenced components IDs', function () {
 
-			before(_setup(CAMEL_ROUTE_XML));
-			after(_clean(CAMEL_ROUTE_XML));
+			before(setup(CAMEL_ROUTE_XML));
+			after(clean(CAMEL_ROUTE_XML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_ROUTE_XML);
@@ -219,8 +219,8 @@ describe('Language DSL support', function () {
 
 		describe('Camel URI code completion', function () {
 
-			before(_setup(CAMEL_CONTEXT_JAVA));
-			after(_clean(CAMEL_CONTEXT_JAVA));
+			before(setup(CAMEL_CONTEXT_JAVA));
+			after(clean(CAMEL_CONTEXT_JAVA));
 
 			beforeEach(async function () {
 				editor = await activateEditor(driver, CAMEL_CONTEXT_JAVA);
@@ -246,8 +246,8 @@ describe('Language DSL support', function () {
 
 		describe('Endpoint options filtering', function () {
 
-			before(_setup(CAMEL_CONTEXT_JAVA));
-			after(_clean(CAMEL_CONTEXT_JAVA));
+			before(setup(CAMEL_CONTEXT_JAVA));
+			after(clean(CAMEL_CONTEXT_JAVA));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_JAVA);
@@ -260,8 +260,8 @@ describe('Language DSL support', function () {
 
 		describe('Diagnostics for Camel URIs', function () {
 
-			before(_setup(CAMEL_CONTEXT_JAVA));
-			after(_clean(CAMEL_CONTEXT_JAVA));
+			before(setup(CAMEL_CONTEXT_JAVA));
+			after(clean(CAMEL_CONTEXT_JAVA));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_JAVA);
@@ -278,8 +278,8 @@ describe('Language DSL support', function () {
 
 		describe('Camel URI code completion', function () {
 
-			before(_setup(CAMEL_CONTEXT_YAML));
-			after(_clean(CAMEL_CONTEXT_YAML));
+			before(setup(CAMEL_CONTEXT_YAML));
+			after(clean(CAMEL_CONTEXT_YAML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_YAML);
@@ -305,8 +305,8 @@ describe('Language DSL support', function () {
 
 		describe('Endpoint options filtering', function () {
 
-			before(_setup(CAMEL_CONTEXT_YAML));
-			after(_clean(CAMEL_CONTEXT_YAML));
+			before(setup(CAMEL_CONTEXT_YAML));
+			after(clean(CAMEL_CONTEXT_YAML));
 
 			beforeEach(async function () {
 				await activateEditor(driver, CAMEL_CONTEXT_YAML);
@@ -321,8 +321,8 @@ describe('Language DSL support', function () {
 	describe('Groovy DSL support', function () {
 		this.timeout(DSL_TIMEOUT);
 
-		before(_setup(GROOVY_TESTFILE));
-		after(_clean(GROOVY_TESTFILE));
+		before(setup(GROOVY_TESTFILE));
+		after(clean(GROOVY_TESTFILE));
 
 		beforeEach(async function () {
 			await activateEditor(driver, GROOVY_TESTFILE);
@@ -349,8 +349,8 @@ describe('Language DSL support', function () {
 	describe('Kotlin DSL support', function () {
 		this.timeout(DSL_TIMEOUT);
 
-		before(_setup(KOTLIN_TESTFILE));
-		after(_clean(KOTLIN_TESTFILE));
+		before(setup(KOTLIN_TESTFILE));
+		after(clean(KOTLIN_TESTFILE));
 
 		beforeEach(async function () {
 			await activateEditor(driver, KOTLIN_TESTFILE);
@@ -377,8 +377,8 @@ describe('Language DSL support', function () {
 	describe('JavaScript DSL support', function () {
 		this.timeout(DSL_TIMEOUT);
 
-		before(_setup(JS_TESTFILE));
-		after(_clean(JS_TESTFILE));
+		before(setup(JS_TESTFILE));
+		after(clean(JS_TESTFILE));
 
 		beforeEach(async function () {
 			await activateEditor(driver, JS_TESTFILE);
