@@ -28,7 +28,7 @@ describe('Camel version', function () {
 
 	it(testDescription, async function () {
 		// no env variable set or is empty
-		if (process.env.CAMEL_VERSION == null || process.env.CAMEL_VERSION.length == 0) {
+		if (process.env.CAMEL_VERSION === undefined || process.env.CAMEL_VERSION === null || process.env.CAMEL_VERSION.length === 0) {
 			this.skip();
 		}
 

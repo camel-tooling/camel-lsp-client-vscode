@@ -76,7 +76,7 @@ describe ('Language Support for Apache Camel extension', function () {
 		it('Find extension', async function () {
 			await driver.wait(async function () {
 				const ll = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
-				if (ll != undefined) {
+				if (ll !== undefined) {
 					item = ll;
 				}
 				return item !== undefined;
