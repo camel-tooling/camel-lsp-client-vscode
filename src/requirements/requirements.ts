@@ -5,7 +5,6 @@
 import { Uri, env } from 'vscode';
 import * as path from 'path';
 import * as fse from 'fs-extra';
-//import * as expandHomeDir from 'expand-home-dir';
 import { Commands } from './commands';
 import { checkJavaPreferences } from './settings';
 import { findJavaHomes, getJavaVersion, JavaRuntime } from './findJavaRuntimes';
@@ -50,7 +49,7 @@ export async function resolveRequirements(): Promise<RequirementsData> {
                     }
                     invalidJavaHome(reject, msg);
                 }
-                javaVersion = await getJavaVersion(javaHome) || 0;
+                javaVersion = await getJavaVersion(javaHome) ?? 0;
             }
 
         } else {
