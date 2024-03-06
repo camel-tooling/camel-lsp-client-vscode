@@ -41,13 +41,13 @@ export abstract class AbstractNewCamelRouteCommand {
 	protected async showInputBoxForFileName(): Promise<string> {
 		const input = await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
-			placeHolder: this.camelDSL?.placeHolder || '',
+			placeHolder: this.camelDSL?.placeHolder ?? '',
 			validateInput: (fileName) => {
-				return this.validateCamelFileName(fileName || '');
+				return this.validateCamelFileName(fileName ?? '');
 			},
 		});
-
-		return input || '';
+	
+		return input ?? '';
 	}
 
 	protected getDSL(dsl: string): CamelRouteDSL | undefined {
@@ -98,10 +98,14 @@ export abstract class AbstractNewCamelRouteCommand {
 		}
 
 		if (!this.camelDSL) {
-			return 'camelDSL is undefined.'; // camelDSL can't be undefined
+			return 'TODO: error'; // camelDSL can't be undefined
 		}
 
-		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder!, this.getFullName(name, this.camelDSL.extension));
+		if (!this.workspaceFolder) {
+			return 'TODO: error';
+		}
+			
+		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, this.camelDSL.extension));
 
 		if (fs.existsSync(newFilePotentialFullPath)) {
 			return 'The file already exists. Please choose a different file name.';
