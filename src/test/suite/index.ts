@@ -21,12 +21,12 @@ import { globSync } from 'glob';
 
 export function run(): Promise<void> {
 	// Create the mocha test
-    const mocha = new Mocha({
-        ui: 'bdd',
-        color: true,
-        timeout: 100000,
-        reporter: 'mocha-jenkins-reporter'
-    });
+	const mocha = new Mocha({
+		ui: 'bdd',
+		color: true,
+		timeout: 100000,
+		reporter: 'mocha-jenkins-reporter'
+	});
 
 	const testsRoot = path.resolve(__dirname);
 

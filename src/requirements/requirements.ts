@@ -10,8 +10,6 @@ import { checkJavaPreferences } from './settings';
 import { findJavaHomes, getJavaVersion, JavaRuntime } from './findJavaRuntimes';
 
 const expandHomeDir = require('expand-home-dir');
-
-
 const isWindows = process.platform.indexOf('win') === 0;
 const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
 const REQUIRED_JRE_VERSION = 17;

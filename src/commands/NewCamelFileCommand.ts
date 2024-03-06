@@ -48,7 +48,7 @@ export class NewCamelFileCommand {
 		return await window.showQuickPick(items, {
 			placeHolder: 'Please select a Camel File type.',
 			title: 'New Camel File...'
-		}) || { label: 'None' };
+		}) || { label: 'Internal error: Try again.' };
 	}
 
 	protected getCamelRouteCommandFromSelection(selection: string): string | undefined {

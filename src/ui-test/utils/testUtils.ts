@@ -182,7 +182,7 @@ export async function activateEditor(driver: WebDriver, title: string): Promise<
 	if (editor !== undefined) {
 		return editor;
 	} else {
-		throw new Error("TODO");
+		throw new Error("Editor was not activated in defined time.");
 	}
 }
 
@@ -523,7 +523,7 @@ export async function fileIsAvailable(filename: string, section: string = 'resou
     await control.closeView();
     const sideBar = await control.openView();
     const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;
-    await (await tree.getAction('Refresh Explorer'))?.click(); // Add nullish coalescing operator
+    await (await tree.getAction('Refresh Explorer'))?.click();
     const items = await tree.getVisibleItems();
     const labels = await Promise.all(items.map(item => item.getLabel()));
     return labels.includes(filename);

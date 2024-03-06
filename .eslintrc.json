@@ -2,17 +2,17 @@
 	"root": true, // this is root configuration for project
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"ecmaVersion": 6,
+		"ecmaVersion": 2022,
 		"sourceType": "commonjs",
 		"project": "./tsconfig.json",
-		"ecmaFeatures": { // is this necessary? DAP doesn't have this
+		"ecmaFeatures": {
 			"impliedStrict": true
 		}
 	},
 
 	"env": {
 		"browser": true,
-		//"es2020": true,
+		"es2022": true,
 		"mocha": true
 	},
 	"extends": [
@@ -26,50 +26,27 @@
 		"eslint-plugin-import" //  required by no-extraneous-dependencies
 	],
 	"rules": {
-		// from dap
-		"@typescript-eslint/naming-convention": "warn",
-        
-		"semi": "off", // can be turned off -> covered by @typescript-eslint/semi
-		"@typescript-eslint/semi": "warn",
-
-        "curly": "warn",
-        "eqeqeq": "warn",
-        "no-throw-literal": "warn",
-
-		//lsp
 		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
 		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
 		"@typescript-eslint/no-namespace": "off",
 		"@typescript-eslint/no-explicit-any": "off",
-		"@typescript-eslint/no-floating-promises": "warn",
-
-		// test purpouse only
-		"@typescript-eslint/no-unused-vars": "warn",
-		//"no-empty": "warn",
-	//	"no-irregular-whitespace": "warn",
-
-		// off only for cleaner console output -> remove asap
-		"@typescript-eslint/semi": "error",
-
-		// naming convention is causing bunch of errors so maybe we should keep it off?
-		// the list of allowed formats will almost match every possible value sooo
 		"@typescript-eslint/naming-convention": [ 
 			"error",
 			{
 			  "selector": "variable",
-			  "format": ["camelCase", "UPPER_CASE"]//,
-			 // "leadingUnderscore": "require"
+			  "format": ["camelCase", "UPPER_CASE"]
 			}
 		  ],
-
+		"@typescript-eslint/semi": "warn",
+		"curly": "warn",
+		"eqeqeq": "warn",
+		"@typescript-eslint/no-unused-vars": "warn",
+		"no-throw-literal": "warn",
+		"@typescript-eslint/no-floating-promises": "warn",
 		"no-empty": "error",
 		"no-irregular-whitespace": "error",
-		"curly": "error",
-
-		"eqeqeq": "error",
-
 		"import/no-extraneous-dependencies": [
-			"off", // change to err
+			"error",
 			{
 				"devDependencies": [
 					"**/test/**",

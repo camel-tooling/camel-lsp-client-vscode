@@ -38,7 +38,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 		}
 	}
 
-	async showDialogToPickOpenAPIFile(): Promise<Uri> { 
+	async showDialogToPickOpenAPIFile(): Promise<Uri> {
 		const openApifileNames = await window.showOpenDialog(
 			{
 				canSelectMany: false,
