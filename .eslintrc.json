@@ -69,7 +69,7 @@
 		"eqeqeq": "error",
 
 		"import/no-extraneous-dependencies": [
-			"off", // change to err
+			"error", // change to err
 			{
 				"devDependencies": [
 					"**/test/**",
