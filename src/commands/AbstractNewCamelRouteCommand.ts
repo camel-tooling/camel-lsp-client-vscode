@@ -98,11 +98,11 @@ export abstract class AbstractNewCamelRouteCommand {
 		}
 
 		if (!this.camelDSL) {
-			return 'TODO: error'; // camelDSL can't be undefined
+			return 'Internal error: Camel DSL is undefined.'; // camelDSL can't be undefined
 		}
 
 		if (!this.workspaceFolder) {
-			return 'TODO: error';
+			return 'Internal error: Workspace folder is undefined.';
 		}
 			
 		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, this.camelDSL.extension));

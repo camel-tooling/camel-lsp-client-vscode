@@ -8,17 +8,14 @@
         ],
 		"outDir": "out",
 		"resolveJsonModule": true,
-		"strict": true, // true causes like million errors here
-		"forceConsistentCasingInFileNames": true
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true // don't know how to fix it
 	},
 	"include": [
 		"src"
 	],
 	"exclude": [
-		// "out", // ??
-        // "**/*.d.ts", // ?? 
-		// "test Fixture with speci@l chars", // ?? 
-		// "src/ui-test/resources", // ?? 
 		"node_modules",
 		".vscode-test",
 		"test-resources",
