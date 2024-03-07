@@ -82,7 +82,7 @@ export async function waitUntilFileIsCreated(expectedFileNameWithExtension: stri
 	});
 
 	if (createdFile === undefined) {
-        throw new Error(`File '${expectedFileNameWithExtension}' was not created within the specified timeout.`);
+		throw new Error(`File '${expectedFileNameWithExtension}' was not created within the specified timeout.`);
     }
 
 	return createdFile;
