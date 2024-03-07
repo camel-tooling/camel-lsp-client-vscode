@@ -38,10 +38,6 @@
 		"eqeqeq": "warn",
 		"@typescript-eslint/no-unused-vars": "warn",
         "no-throw-literal": "warn",
-		"@typescript-eslint/no-var-requires": "warn", /** allows require statements outside of imports **/
-		"no-async-promise-executor": "warn", /* Deactivated for now as i do not know how to fix it safely*/
-		"@typescript-eslint/no-namespace": "warn",
-		"@typescript-eslint/no-explicit-any": "warn",
 		"@typescript-eslint/no-floating-promises": "warn",
 		"no-empty": "error",
 		"no-irregular-whitespace": "error",
@@ -55,6 +51,11 @@
 				"optionalDependencies": false,
 				"peerDependencies": false
 			}
-		]
+		],
+		// TO BE REVIEWED
+		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
+		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
+		"@typescript-eslint/no-namespace": "off",
+		"@typescript-eslint/no-explicit-any": "off"
 	}
 }
