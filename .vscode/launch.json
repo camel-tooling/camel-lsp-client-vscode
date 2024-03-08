@@ -23,7 +23,7 @@
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}",
-				"--extensionTestsPath=${workspaceRoot}/out/src/test",
+				"--extensionTestsPath=${workspaceRoot}/out/src/test/suite/index",
 				"${workspaceRoot}/test Fixture with speci@l chars" ],
 			"stopOnEntry": false,
 			"sourceMaps": true,
