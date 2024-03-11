@@ -18,7 +18,7 @@
 
 import { TelemetryEvent, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry';
 import * as path from 'path';
-import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages } from 'vscode';
+import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages, StatusBarItem } from 'vscode';
 import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
 import { LanguageClient, Executable } from 'vscode-languageclient/node';
 import { NewCamelRouteCommand } from './commands/NewCamelRouteCommand';
@@ -88,10 +88,12 @@ export async function activate(context: ExtensionContext) {
 	};
 
 	const item = window.createStatusBarItem(StatusBarAlignment.Right, Number.MIN_VALUE);
-	item.name = 'Camel Language Server'
+	item.name = 'Camel Language Server';
 	item.text = 'Camel LS $(sync~spin)';
 	item.tooltip = 'Language Server for Apache Camel is starting...';
-	toggleItem(window.activeTextEditor, item);
+	if(window.activeTextEditor){
+		toggleItem(window.activeTextEditor, item);
+	}
 
 	// Create the language client and start the client.
 	languageClient = new LanguageClient(LANGUAGE_CLIENT_ID, 'Language Support for Apache Camel', serverOptions, clientOptions);
@@ -99,7 +101,9 @@ export async function activate(context: ExtensionContext) {
 		await languageClient.start();
 		item.text = 'Camel LS $(thumbsup)';
 		item.tooltip = 'Language Server for Apache Camel started';
-		toggleItem(window.activeTextEditor, item);
+		if(window.activeTextEditor){
+			toggleItem(window.activeTextEditor, item);
+		}
 		commands.registerCommand('apache.camel.open.output', ()=>{
 			languageClient.outputChannel.show();
 		});
@@ -109,11 +113,13 @@ export async function activate(context: ExtensionContext) {
 	} catch(error){
 		item.text = 'Camel LS $(thumbsdown)';
 		item.tooltip = 'Language Server for Apache Camel failed to start';
-		console.log(error)
+		console.log(error);
 	}
 
 	window.onDidChangeActiveTextEditor((editor) =>{
-		toggleItem(editor, item);
+		if(editor){
+			toggleItem(editor, item);
+		}
 	});
 
 	// Register commands for new Camel Route files - YAML DSL, Java DSL
@@ -171,7 +177,7 @@ export async function deactivate() {
 async function computeRequirementsData() {
 	try {
 		return await requirements.resolveRequirements();
-	} catch (error) {
+	} catch (error : any) {
 		// show error
 		const selection = await window.showErrorMessage(error.message, error.label);
 		if (error.label && error.label === selection && error.command) {
@@ -187,7 +193,7 @@ function getCamelSettings() {
 	return { [SETTINGS_TOP_LEVEL_KEY_CAMEL] : JSON.parse(JSON.stringify(camelXMLConfig))};
 }
 
-function toggleItem(editor: TextEditor, item) {
+function toggleItem(editor: TextEditor, item: StatusBarItem) {
 	if(editor?.document && SUPPORTED_LANGUAGE_IDS.includes(editor.document.languageId)){
 		item.show();
 	} else{

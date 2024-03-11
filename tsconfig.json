@@ -1,13 +1,15 @@
 {
 	"compilerOptions": {
-		"target": "es6",
+		"module": "Node16",		
+		"moduleResolution": "Node16",
+		"target": "ES2022",
 		"lib": [
-            "es6"
+            "ES2022"
         ],
-		"module": "commonjs",
-		"moduleResolution": "node",
 		"outDir": "out",
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": [
 		"src"

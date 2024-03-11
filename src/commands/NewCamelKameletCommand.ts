@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { QuickPickItem, Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand, CamelRouteDSL } from "./AbstractNewCamelRouteCommand";
@@ -24,11 +24,12 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 
 	public static ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML = 'camel.jbang.routes.kamelet.yaml';
 
-	private kameletType: string;
+	private kameletType: string = '';
 
 	public async create(): Promise<void> {
 		const type = await this.showQuickPickForKameletType();
-		if (type) {
+
+		if (type && this.camelDSL && this.workspaceFolder) {
 			this.kameletType = type;
 			const name = await this.showInputBoxForFileName();
 			if (name) {
@@ -52,11 +53,11 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 	protected async showInputBoxForFileName(): Promise<string> {
 		return await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
-			placeHolder: this.camelDSL.placeHolder,
+			placeHolder: this.camelDSL?.placeHolder,
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(`${fileName}-${this.kameletType}`);
 			},
-		});
+		}) || ''; 
 	}
 
 	protected async showQuickPickForKameletType(): Promise<string> {
@@ -64,10 +65,14 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 			{ label: 'source', description: 'A route that produces data.', detail: 'You use a source Kamelet to retrieve data from a component.', },
 			{ label: 'sink', description: 'A route that consumes data.', detail: 'You use a sink Kamelet to send data to a component.' },
 			{ label: 'action', description: 'A route that performs an action on data.', detail: 'You can use an action Kamelet to manipulate data when it passes from a source Kamelet to a sink Kamelet.' }
-		]
-		return (await window.showQuickPick(items, {
+		];
+		const result = await window.showQuickPick(items, {
 			placeHolder: 'Please select a Kamelet type.',
-		})).label;
+		});
+		if (result === undefined) {
+			return 'TODO: handle situation';
+		}
+		return result.label;
 	}
 
 	protected getKameletFullName(name: string, type: string, suffix: string): string {

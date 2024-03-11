@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { TaskScope, WorkspaceFolder } from "vscode";
 import { CamelJBangTask } from "./CamelJBangTask";
@@ -22,7 +22,7 @@ import { CamelJBang } from "../requirements/CamelJBang";
 
 export class CamelInitJBangTask extends CamelJBangTask {
 
-	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file) {
+	constructor(scope: WorkspaceFolder | TaskScope.Workspace, file: any) {
 		super(scope,
 			'Init Camel Route file with JBang',
 			new CamelJBang().init(file));

@@ -162,7 +162,7 @@ export async function closeEditor(title: string, save?: boolean) {
  */
 export async function activateEditor(driver: WebDriver, title: string): Promise<TextEditor> {
 	// workaround for https://issues.redhat.com/browse/FUSETOOLS2-2099
-	let editor: TextEditor;
+	let editor: TextEditor | undefined;
 	await driver.wait(async function () {
 		try {
 			editor = await new EditorView().openEditor(title) as TextEditor;
@@ -172,7 +172,11 @@ export async function activateEditor(driver: WebDriver, title: string): Promise<
 			return false;
 		}
 	}, 10000, undefined, 500);
-	return editor;
+	if (editor !== undefined) {
+		return editor;
+	} else {
+		throw new Error("TODO: handle situation");
+	}
 }
 
 /**
@@ -198,7 +202,7 @@ export function readUserSetting(id: string): string | null {
 	const regex = new RegExp(`"${id}":\\s*"(.*?)"`, 'i');
 	const match = settingsContent.match(regex);
 
-	if (match == null) {
+	if (match === null) {
 		return null;
 	} else {
 		return match[1];
@@ -228,7 +232,7 @@ export async function deleteFile(filename: string, folder: string): Promise<void
 	try {
 		await fs.remove(path.resolve(folder, filename));
 	} catch (err) {
-		console.error(err)
+		console.error(err);
 	}
 }
 
@@ -346,14 +350,14 @@ export function getFileContent(filename: string, folder: string): string {
  * @param filename Name of initialized file.
  */
 export async function initXMLFileWithJBang(driver: WebDriver, filename: string): Promise<void> {
-	let input: InputBox;
+	let input: InputBox | undefined;
 	await new Workbench().executeCommand(CREATE_COMMAND_XML_ID);
 	await driver.wait(async function () {
 		input = await InputBox.create();
 		return (await input.isDisplayed());
 	}, 30000);
-	await input.setText(filename);
-	await input.confirm();
+	await input?.setText(filename);
+	await input?.confirm();
 }
 
 /**
@@ -446,15 +450,15 @@ export async function getCamelCatalogVersion(): Promise<string> {
  * @param name Required name for new file including suffix.
  */
 export async function createNewFile(driver: WebDriver, name: string): Promise<void> {
-	let input: InputBox;
+	let input: InputBox | undefined;
 	await new Workbench().executeCommand('Create: New File...');
 	await driver.wait(async function () {
 		input = await InputBox.create();
 		return (await input.isDisplayed());
 	}, 30000);
-	await input.setText(name);
-	await input.confirm(); // confirm name
-	await input.confirm(); // confirm path
+	await input?.setText(name);
+	await input?.confirm(); // confirm name
+	await input?.confirm(); // confirm path
 }
 
 /** Opens file in editor.
@@ -508,14 +512,14 @@ export async function clearReferences(): Promise<void> {
  * @returns true/false
  */
 export async function fileIsAvailable(filename: string, section: string = 'resources'): Promise<boolean> {
-	const control = await new ActivityBar().getViewControl('Explorer');
-	await control.closeView();
-	const sideBar = await control.openView();
-	const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;
-	await (await tree.getAction('Refresh Explorer')).click();
-	const items = await tree.getVisibleItems();
-	const labels = await Promise.all(items.map(item => item.getLabel()));
-	return labels.includes(filename);
+    const control = await new ActivityBar().getViewControl('Explorer');
+    await control.closeView();
+    const sideBar = await control.openView();
+    const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;
+    await (await tree.getAction('Refresh Explorer'))?.click();
+    const items = await tree.getVisibleItems();
+    const labels = await Promise.all(items.map(item => item.getLabel()));
+    return labels.includes(filename);
 }
 
 /**
@@ -526,7 +530,7 @@ export async function fileIsAvailable(filename: string, section: string = 'resou
  * @param timeout Timeout for dynamic wait.
  * @param interval Delay between individual checks.
  */
-export async function waitUntilFileAvailable(driver: WebDriver, filename: string, section: string = undefined, timeout = 30000, interval = 2000): Promise<void> {
+export async function waitUntilFileAvailable(driver: WebDriver, filename: string, section: string | undefined = undefined, timeout = 30000, interval = 2000): Promise<void> {
 	await driver.wait(async function () {
 		try {
 			return await fileIsAvailable(filename, section);
@@ -557,7 +561,7 @@ export async function waitUntilInputBoxIsDisplayed(driver: WebDriver, input: Inp
  * @param name Camel file name
  * @param kamelet Kamelet type - sink/source/action
  */
-export async function initNewCamelFile(type: string, name: string, kamelet: string = undefined): Promise<void> {
+export async function initNewCamelFile(type: string, name: string, kamelet: string | undefined = undefined): Promise<void> {
 	let input: InputBox;
 
 	const wb = new Workbench();
@@ -573,7 +577,7 @@ export async function initNewCamelFile(type: string, name: string, kamelet: stri
 
 	// if type is Kamelet, then select also Kamelet type in another step
 	if (kamelet) {
-		input = await InputBox.create(5_000)
+		input = await InputBox.create(5_000);
 		await input.selectQuickPick(kamelet);
 	}
 

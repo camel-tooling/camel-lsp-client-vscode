@@ -53,7 +53,7 @@ describe('Code navigation', function () {
 	describe('XML DSL', function () {
 
 		// All available symbols in 'camel-route.xml' with line of occurence.
-		const XML_av_symbols = [
+		const XML_AV_SYMBOLS = [
 			['uitest-context', 1],
 			['uitest-direct-route', 2],
 			['from direct:testName1', 3],
@@ -75,22 +75,22 @@ describe('Code navigation', function () {
 		describe('Quickpick \'Go to Symbol in Editor\' navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInQuickpickCommand(XML_av_symbols);
+				await allSymbolsAreAvailableInQuickpickCommand(XML_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(XML_av_symbols, CODE_NAVIGATION_XML);
+				await gotoSymbolsUsingQuickpickCommand(XML_AV_SYMBOLS, CODE_NAVIGATION_XML);
 			});
 		});
 
 		describe('Outline Side Bar navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInOutlineSideBar(XML_av_symbols);
+				await allSymbolsAreAvailableInOutlineSideBar(XML_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingOutlineSideBar(XML_av_symbols);
+				await gotoSymbolsUsingOutlineSideBar(XML_AV_SYMBOLS);
 			});
 		});
 	});
@@ -101,7 +101,7 @@ describe('Code navigation', function () {
 	 */
 	(process.platform === 'win32' ? describe.skip : describe)('Java DSL', function () {
 
-		const JAVA_av_symbols = [
+		const JAVA_AV_SYMBOLS = [
 			['from timer:java', 7],
 			['setBody', 8],
 			['log', 10],
@@ -122,22 +122,22 @@ describe('Code navigation', function () {
 		describe('Quickpick \'Go to Symbol in Editor\' navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInQuickpickCommand(JAVA_av_symbols);
+				await allSymbolsAreAvailableInQuickpickCommand(JAVA_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
+				await gotoSymbolsUsingQuickpickCommand(JAVA_AV_SYMBOLS, CODE_NAVIGATION_JAVA);
 			});
 		});
 
 		describe('Outline Side Bar navigation', function () {
 
 			it('all symbol proposals are available', async function () {
-				await allSymbolsAreAvailableInOutlineSideBar(JAVA_av_symbols);
+				await allSymbolsAreAvailableInOutlineSideBar(JAVA_AV_SYMBOLS);
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
+				await gotoSymbolsUsingQuickpickCommand(JAVA_AV_SYMBOLS, CODE_NAVIGATION_JAVA);
 			});
 		});
 	});
@@ -157,12 +157,19 @@ describe('Code navigation', function () {
 
 		quickPicks = await input.getQuickPicks();
 		for (const quickpick of quickPicks) {
-			const nameFromField = listOfAvailableSymbols.at(quickpick.getIndex()).at(0);
-			assert.equal((await quickpick.getLabel()).slice(1), nameFromField);
+			// Check if quickpick.getIndex() and listOfAvailableSymbols[quickpick.getIndex()] are defined
+			const nameFromField = listOfAvailableSymbols[quickpick.getIndex()]?.[0];
+			if (nameFromField !== undefined) {
+				assert.equal((await quickpick.getLabel()).slice(1), nameFromField);
+			} else {
+				// Handle the case where the index is out of range or listOfAvailableSymbols is undefined
+				console.error(`Unable to retrieve name from field for index ${quickpick.getIndex()}`);
+			}
 		}
 
 		await input.cancel();
 	}
+
 
 	/**
 	 * Check if all symbols references are working in Quick Pick command.
@@ -171,10 +178,20 @@ describe('Code navigation', function () {
 	 */
 	async function gotoSymbolsUsingQuickpickCommand(listOfAvailableSymbols: (string | number)[][], title: string): Promise<void> {
 		for (const quickpick of quickPicks) {
-			await selectSymbolFromProposals(listOfAvailableSymbols.at(quickpick.getIndex()).at(0) as string);
-			const editor = await activateEditor(driver, title);
-			const coords = (await editor.getCoordinates()).at(0); // get active line in editor
-			assert.equal(coords, listOfAvailableSymbols.at(quickpick.getIndex()).at(1));
+			const index = quickpick.getIndex();
+			if (index !== undefined && index < listOfAvailableSymbols.length) {
+				const symbol = listOfAvailableSymbols[index][0] as string;
+				await selectSymbolFromProposals(symbol);
+				const editor = await activateEditor(driver, title);
+				const coords = (await editor.getCoordinates())[0]; // get active line in editor
+				if (coords === undefined) {
+					throw new Error("Unable to get coordinates from the editor.");
+				}
+				const expectedLineNumber = listOfAvailableSymbols[index][1] as number;
+				assert.equal(coords, expectedLineNumber);
+			} else {
+				throw new Error("Invalid index or index out of range.");
+			}
 		}
 	}
 
@@ -186,9 +203,13 @@ describe('Code navigation', function () {
 	async function allSymbolsAreAvailableInOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
 		const actions = await section.getVisibleItems();
 		for (let i = 0; i < actions.length; i++) {
-			const fromSidebar = await actions.at(i).getLabel();
-			const nameFromField = listOfAvailableSymbols.at(i).at(0);
-			assert.equal(fromSidebar, nameFromField);
+			const fromSidebar = (await actions.at(i)?.getLabel()) ?? undefined;
+			const nameFromField = listOfAvailableSymbols[i]?.[0];
+			if (fromSidebar !== undefined && nameFromField !== undefined) {
+				assert.equal(fromSidebar, nameFromField);
+			} else {
+				throw new Error(`Undefined value found at index ${i}`);
+			}
 		}
 	}
 
@@ -200,10 +221,12 @@ describe('Code navigation', function () {
 	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
 		const actions = await section.getVisibleItems();
 		for (let i = 0; i < actions.length; i++) {
-			await actions.at(i).click();
+			await actions[i].click();
 			const editor = await activateEditor(driver, CODE_NAVIGATION_XML);
-			const coords = (await editor.getCoordinates()).at(0);
-			assert.equal(listOfAvailableSymbols.at(i).at(1), coords);
+			const coords = (await editor.getCoordinates())?.[0];
+			const expectedLineNumber = listOfAvailableSymbols[i]?.[1];
+			assert(coords !== undefined && expectedLineNumber !== undefined, `Critical error: Failed to retrieve coordinates or expected line number at index ${i}`);
+			assert.equal(coords, expectedLineNumber);
 		}
 	}
 
@@ -213,7 +236,7 @@ describe('Code navigation', function () {
 	 * @param proposal Required symbol for selction.
 	 */
 	async function selectSymbolFromProposals(proposal: string): Promise<void> {
-		let input: InputBox;
+		let input: InputBox | undefined;
 
 		await new Workbench().executeCommand('workbench.action.gotoSymbol'); // 'Go to Symbol in Editor...'
 
@@ -222,11 +245,13 @@ describe('Code navigation', function () {
 			return (await input.isDisplayed());
 		}, 30000);
 
-		const symbols = await input.getQuickPicks();
-		for (const symbol of symbols) {
-			const label = (await symbol.getLabel()).slice(1);
-			if (label === proposal) {
-				await symbol.select();
+		if (input !== undefined) {
+			const symbols = await input.getQuickPicks();
+			for (const symbol of symbols) {
+				const label = (await symbol.getLabel()).slice(1);
+				if (label === proposal) {
+					await symbol.select();
+				}
 			}
 		}
 	}

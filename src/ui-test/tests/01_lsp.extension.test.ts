@@ -75,7 +75,10 @@ describe('Language Support for Apache Camel extension', function () {
 
 		it('Find extension', async function () {
 			await driver.wait(async function () {
-				item = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
+				const it = await (await extensionsView.getContent().getSection('Installed') as ExtensionsViewSection).findItem(`@installed ${pjson.displayName}`);
+				if (it !== undefined) {
+					item = it;
+				}
 				return item !== undefined;
 			});
 			assert.isNotNull(item);
@@ -117,7 +120,7 @@ describe('Language Support for Apache Camel extension', function () {
 			await driver.wait(async () => {
 				const text = await lsp.getText().catch(() => '');
 				try {
-					const codicon = await lsp.findElement(By.className('codicon'))
+					const codicon = await lsp.findElement(By.className('codicon'));
 					const klass = await codicon.getAttribute('class');
 					return text.startsWith('Camel LS') && klass.includes('codicon-thumbsup');
 				}

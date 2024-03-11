@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { QuickPickItem, commands, window } from "vscode";
 import { NewCamelRouteCommand } from "./NewCamelRouteCommand";
@@ -30,7 +30,9 @@ export class NewCamelFileCommand {
 		const selection = await this.showQuickPickForCamelFileType();
 		if (selection) {
 			const cmd = this.getCamelRouteCommandFromSelection(selection.label);
-			await commands.executeCommand(cmd);
+			if(cmd){
+				await commands.executeCommand(cmd);
+			}
 		}
 	}
 
@@ -42,11 +44,11 @@ export class NewCamelFileCommand {
 			{ label: 'YAML DSL from OpenAPI', description: 'Camel Route from OpenAPI using YAML DSL' },
 			{ label: 'Kamelet', description: 'Kamelet using YAML DSL' },
 			{ label: 'Pipe', description: 'Custom Resource Pipe using YAML DSL' }
-		]
+		];
 		return await window.showQuickPick(items, {
 			placeHolder: 'Please select a Camel File type.',
 			title: 'New Camel File...'
-		});
+		}) || { label: 'TODO: handle situation' };
 	}
 
 	protected getCamelRouteCommandFromSelection(selection: string): string | undefined {

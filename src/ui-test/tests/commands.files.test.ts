@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { expect } from 'chai';
 import {
 	ActivityBar,
@@ -25,29 +24,25 @@ import {
 } from 'vscode-uitests-tooling';
 import {
 	activateEditor,
-	EXAMPLE_COMMAND_JAVA_FILE,
-	EXAMPLE_COMMAND_XML_FILE,
-	EXAMPLE_COMMAND_YAML_FILE,
 	deleteFile,
 	getFileContent,
 	killTerminal,
-	RESOURCES,
 	waitUntilEditorIsOpened,
 	waitUntilFileAvailable,
 	waitUntilExtensionIsActivated,
-	RESOURCES_COMMAND,
 	initNewCamelFile,
+	RESOURCES
 } from '../utils/testUtils';
 import * as pjson from '../../../package.json';
 
-describe('Create a Camel Route using command', function () {
-	this.timeout(400000);
+describe('Create a Pipe using command', function () {
+	this.timeout(400_000);
 
 	let driver: WebDriver;
 	let control: ViewControl;
 
 	before(async function () {
-		this.timeout(200000);
+		this.timeout(200_000);
 		driver = VSBrowser.instance.driver;
 		await VSBrowser.instance.openResources(RESOURCES);
 		await VSBrowser.instance.waitForWorkbench();
@@ -57,41 +52,35 @@ describe('Create a Camel Route using command', function () {
 		await control.openView();
 	});
 
-	const params = [
-		{ dsl: 'XML', filename: 'xmlSample', filename_ext: 'xmlSample.camel.xml', dsl_example: EXAMPLE_COMMAND_XML_FILE },
-		{ dsl: 'Java', filename: 'Java', filename_ext: 'Java.java', dsl_example: EXAMPLE_COMMAND_JAVA_FILE },
-		{ dsl: 'YAML', filename: 'yamlSample', filename_ext: 'yamlSample.camel.yaml', dsl_example: EXAMPLE_COMMAND_YAML_FILE }
-	];
+	const fileName: string = 'example';
+	const fileNameExt: string = `${fileName}-pipe.yaml`;
 
-	params.forEach(function (param) {
-		describe(`${param.dsl} DSL`, function () {
+	describe('YAML DSL', function () {
 
-			before(async function () {
-				await control.openView();
-				await deleteFile(param.filename_ext, RESOURCES);
-			});
-
-			after(async function () {
-				await new EditorView().closeAllEditors();
-				await killTerminal();
-				await deleteFile(param.filename_ext, RESOURCES);
-			});
-
-			it('Create file', async function () {
-				await initNewCamelFile(`${param.dsl} DSL`, param.filename);
-				await waitUntilFileAvailable(driver, param.filename_ext, undefined, 60000);
-			});
-
-			it('Editor opened', async function () {
-				await waitUntilEditorIsOpened(driver, param.filename_ext);
-			});
-
-			it('Check file content', async function () {
-				const editor = await activateEditor(driver, param.filename_ext);
-				const text = await editor.getText();
-				expect(text).deep.equals(getFileContent(param.dsl_example, RESOURCES_COMMAND));
-			});
+		before(async function () {
+			await control.openView();
+			await deleteFile(fileNameExt, RESOURCES);
 		});
 
+		after(async function () {
+			await new EditorView().closeAllEditors();
+			await killTerminal();
+			await deleteFile(fileNameExt, RESOURCES);
+		});
+
+		it('Create file', async function () {
+			await initNewCamelFile('Pipe', fileName);
+			await waitUntilFileAvailable(driver, fileNameExt, 'resources', 60_000);
+		});
+
+		it('Editor opened', async function () {
+			await waitUntilEditorIsOpened(driver, fileNameExt);
+		});
+
+		it('Check file content', async function () {
+			const editor = await activateEditor(driver, fileNameExt);
+			const text = await editor.getText();
+			expect(text).deep.equals(getFileContent('camel-example-pipe.yaml', RESOURCES));
+		});
 	});
 });

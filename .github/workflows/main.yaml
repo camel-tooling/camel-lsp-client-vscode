@@ -2,7 +2,7 @@ name: Main CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, FUSETOOLS2-2256-2 ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:

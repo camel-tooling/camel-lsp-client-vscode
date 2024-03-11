@@ -122,7 +122,7 @@ describe('User preferences', function () {
 
 		after(async function () {
 			await new EditorView().closeAllEditors();
-			if(process.env.CAMEL_VERSION != null){
+			if(process.env.CAMEL_VERSION){
 				await setCamelCatalogVersion(process.env.CAMEL_VERSION);
 				await driver.wait(async function () {
 					return readUserSetting(CATALOG_VERSION_ID) === process.env.CAMEL_VERSION;

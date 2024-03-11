@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
@@ -26,7 +26,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 
 	public async create(): Promise<void> {
 		const routeFileName = await this.showInputBoxForFileName();
-		if (routeFileName) {
+		if (routeFileName && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(routeFileName, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 
@@ -49,8 +49,6 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 		if(openApifileNames !== undefined) {
 			return openApifileNames[0];
 		}
-		return undefined;
+		return Uri.parse('');
 	}
 }
-
-

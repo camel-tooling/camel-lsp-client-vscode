@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { WorkspaceFolder, window, workspace } from "vscode";
 import * as fs from 'fs';
@@ -35,17 +35,19 @@ export abstract class AbstractNewCamelRouteCommand {
 
 	constructor(dsl: string) {
 		this.camelDSL = this.getDSL(dsl);
-		this.workspaceFolder = this.getWorkspaceFolder()
+		this.workspaceFolder = this.getWorkspaceFolder();
 	}
 
 	protected async showInputBoxForFileName(): Promise<string> {
-		return await window.showInputBox({
+		const input = await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
-			placeHolder: this.camelDSL.placeHolder,
+			placeHolder: this.camelDSL?.placeHolder ?? '',
 			validateInput: (fileName) => {
-				return this.validateCamelFileName(fileName);
+				return this.validateCamelFileName(fileName ?? '');
 			},
 		});
+	
+		return input ?? '';
 	}
 
 	protected getDSL(dsl: string): CamelRouteDSL | undefined {
@@ -66,7 +68,7 @@ export abstract class AbstractNewCamelRouteCommand {
 	 *
 	 * @returns WorkspaceFolder object
 	 */
-	private getWorkspaceFolder(): WorkspaceFolder {
+	private getWorkspaceFolder(): WorkspaceFolder | undefined {
 		let workspaceFolder: WorkspaceFolder | undefined;
 		if (workspace.workspaceFolders) {
 			// default to root workspace folder
@@ -90,16 +92,28 @@ export abstract class AbstractNewCamelRouteCommand {
 		if (!name) {
 			return 'Please provide a name for the new file (without extension).';
 		}
+
 		if (name.includes('.')) {
 			return 'Please provide a name without the extension.';
 		}
+
+		if (!this.camelDSL) {
+			return 'TODO: handle situation'; // camelDSL can't be undefined
+		}
+
+		if (!this.workspaceFolder) {
+			return 'TODO: handle situation';
+		}
+			
 		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, this.camelDSL.extension));
+
 		if (fs.existsSync(newFilePotentialFullPath)) {
 			return 'The file already exists. Please choose a different file name.';
 		}
 		if (!validFilename(name)) {
 			return 'The filename is invalid.';
 		}
+		
 		const patternJavaNamingConvention = '\\b[A-Z][a-zA-Z_$0-9]*';
 		if ((this.camelDSL.language === 'Java') && (!name.match(patternJavaNamingConvention) || name.includes(' '))) {
 			return `The filename needs to follow the ${this.camelDSL.language} naming convention. I.e. ${patternJavaNamingConvention}`;
