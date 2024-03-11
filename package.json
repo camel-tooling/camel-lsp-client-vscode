@@ -252,6 +252,7 @@
     "@types/lodash": "^4.14.202",
     "@types/mocha": "^10.0.6",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@types/node": "^20.11.26",
     "@types/sinon": "^17.0.3",
     "@types/vscode": "^1.82.0",
@@ -264,6 +265,13 @@
     "@types/winreg": "^1.2.36",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
 >>>>>>> dbb501b (improve code)
+=======
+    "@types/node": "^20.11.25",
+    "@types/sinon": "^17.0.3",
+    "@types/vscode": "^1.82.0",
+    "@types/winreg": "^1.2.36",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+>>>>>>> 91f6b28 (package)
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^2.23.0",
     "async-wait-until": "^2.0.12",
@@ -276,7 +284,7 @@
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.1",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "vscode-uitests-tooling": "^4.0.12"
   },
   "dependencies": {
