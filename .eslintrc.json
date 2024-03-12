@@ -37,7 +37,7 @@
 		"curly": "warn",
 		"eqeqeq": "warn",
 		"@typescript-eslint/no-unused-vars": "warn",
-        "no-throw-literal": "warn",
+		"no-throw-literal": "warn",
 		"@typescript-eslint/no-floating-promises": "warn",
 		"no-empty": "error",
 		"no-irregular-whitespace": "error",
