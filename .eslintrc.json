@@ -26,6 +26,10 @@
 		"eslint-plugin-import" //  required by no-extraneous-dependencies
 	],
 	"rules": {
+		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
+		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
+		"@typescript-eslint/no-namespace": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/naming-convention": [ 
 			"error",
 			{
@@ -51,11 +55,6 @@
 				"optionalDependencies": false,
 				"peerDependencies": false
 			}
-		],
-		// TO BE REVIEWED
-		"@typescript-eslint/no-var-requires": "off", /** allows require statements outside of imports **/
-		"no-async-promise-executor": "off", /* Deactivated for now as i do not know how to fix it safely*/
-		"@typescript-eslint/no-namespace": "off",
-		"@typescript-eslint/no-explicit-any": "off"
+		]
 	}
 }
