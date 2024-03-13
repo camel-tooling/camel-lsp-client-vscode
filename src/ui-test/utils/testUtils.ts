@@ -175,7 +175,7 @@ export async function activateEditor(driver: WebDriver, title: string): Promise<
 	if (editor !== undefined) {
 		return editor;
 	} else {
-		throw new Error("TODO: handle situation");
+		throw new Error("Editor was not activated in defined time.");
 	}
 }
 

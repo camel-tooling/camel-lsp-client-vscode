@@ -70,7 +70,7 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 			placeHolder: 'Please select a Kamelet type.',
 		});
 		if (result === undefined) {
-			return 'TODO: handle situation';
+			return 'Internal error: Try again.';
 		}
 		return result.label;
 	}
