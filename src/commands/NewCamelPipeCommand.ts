@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand, CamelRouteDSL } from "./AbstractNewCamelRouteCommand";
@@ -26,7 +26,7 @@ export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 
 	public async create(): Promise<void> {
 		const name = await this.showInputBoxForFileName();
-		if (name) {
+		if (name && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getPipeFullName(name, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 
@@ -46,11 +46,11 @@ export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 	protected async showInputBoxForFileName(): Promise<string> {
 		return await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
-			placeHolder: this.camelDSL.placeHolder,
+			placeHolder: this.camelDSL?.placeHolder,
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(`${fileName}-pipe`);
 			},
-		});
+		}) || '';
 	}
 
 	protected getPipeFullName(name: string, suffix: string): string {

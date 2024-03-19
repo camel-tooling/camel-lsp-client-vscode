@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { commands, Uri } from 'vscode';
 import { CamelInitJBangTask } from '../tasks/CamelInitJBangTask';
@@ -28,7 +28,7 @@ export class NewCamelRouteCommand extends AbstractNewCamelRouteCommand {
 
 	public async create(): Promise<void> {
 		const input = await this.showInputBoxForFileName();
-		if(input) {
+		if(input && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(input, this.camelDSL.extension);
 			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
 

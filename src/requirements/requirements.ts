@@ -5,14 +5,15 @@
 import { Uri, env } from 'vscode';
 import * as path from 'path';
 import * as fse from 'fs-extra';
-import * as expandHomeDir from 'expand-home-dir';
 import { Commands } from './commands';
 import { checkJavaPreferences } from './settings';
 import { findJavaHomes, getJavaVersion, JavaRuntime } from './findJavaRuntimes';
 
+const expandHomeDir = require('expand-home-dir');
 const isWindows = process.platform.indexOf('win') === 0;
 const JAVA_FILENAME = 'java' + (isWindows ? '.exe' : '');
 const REQUIRED_JRE_VERSION = 17;
+
 export interface RequirementsData {
     java_home: string;
     java_version: number;
@@ -34,18 +35,21 @@ export async function resolveRequirements(): Promise<RequirementsData> {
             // java.home explictly specified
             source = `java.home variable defined in ${env.appName} settings`;
             javaHome = expandHomeDir(javaHome);
-            if (!await fse.pathExists(javaHome)) {
-                invalidJavaHome(reject, `The ${source} points to a missing or inaccessible folder (${javaHome})`);
-            } else if (!await fse.pathExists(path.resolve(javaHome, 'bin', JAVA_FILENAME))) {
-                let msg: string;
-                if (await fse.pathExists(path.resolve(javaHome, JAVA_FILENAME))) {
-                    msg = `'bin' should be removed from the ${source} (${javaHome})`;
-                } else {
-                    msg = `The ${source} (${javaHome}) does not point to a JRE.`;
+            if(javaHome !== undefined){
+                if (!await fse.pathExists(javaHome)) {
+                    invalidJavaHome(reject, `The ${source} points to a missing or inaccessible folder (${javaHome})`);
+                } else if (!await fse.pathExists(path.resolve(javaHome, 'bin', JAVA_FILENAME))) {
+                    let msg: string;
+                    if (await fse.pathExists(path.resolve(javaHome, JAVA_FILENAME))) {
+                        msg = `'bin' should be removed from the ${source} (${javaHome})`;
+                    } else {
+                        msg = `The ${source} (${javaHome}) does not point to a JRE.`;
+                    }
+                    invalidJavaHome(reject, msg);
                 }
-                invalidJavaHome(reject, msg);
+                javaVersion = await getJavaVersion(javaHome) ?? 0;
             }
-            javaVersion = await getJavaVersion(javaHome);
+
         } else {
             // java.home not specified, search valid REs from env.JAVA_HOME, env.PATH, Registry(Window), Common directories
             const javaRuntimes = await findJavaHomes();
@@ -61,7 +65,9 @@ export async function resolveRequirements(): Promise<RequirementsData> {
             openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Language Support for Camel extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
         }
 
-        resolve({ java_home: javaHome, java_version: javaVersion });
+        if (javaHome !== undefined) {
+            resolve({ java_home: javaHome, java_version: javaVersion });
+        }
     });
 }
 
@@ -97,7 +103,7 @@ export function parseMajorVersion(version: string): number {
     return javaVersion;
 }
 
-function openJDKDownload(reject, cause) {
+function openJDKDownload(reject: any, cause: any) {
     const jdkUrl = getJdkUrl();
     reject({
         message: cause,
@@ -115,7 +121,7 @@ function getJdkUrl() {
     return jdkUrl;
 }
 
-function invalidJavaHome(reject, cause: string) {
+function invalidJavaHome(reject: any, cause: string) {
     if (cause.indexOf('java.home') > -1) {
         reject({
             message: cause,

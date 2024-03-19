@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import { Uri, WorkspaceFolder, window, workspace } from "vscode";
 import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
@@ -31,7 +31,9 @@ export abstract class NewCamelProjectCommand {
 				workspaceFolder = workspace.workspaceFolders[0];
 			}
 			const runtime = this.getRuntime();
-			await new CamelExportJBangTask(workspaceFolder, input, runtime).execute();
+			if(workspaceFolder){ 
+				await new CamelExportJBangTask(workspaceFolder, input, runtime).execute();
+			} 
 			if(runtime === 'quarkus') {
 				// if not exist, init .vscode with tasks.json and launch.json config files
 				await this.initFolder('.vscode');
@@ -106,8 +108,10 @@ export abstract class NewCamelProjectCommand {
 	 * @param folder Name of the folder
 	 */
 	private async initFolder(folder: string): Promise<void> {
-		const wsPath = workspace.workspaceFolders[0].uri.fsPath;
-		await workspace.fs.createDirectory(Uri.file(path.join(wsPath, folder)));
+		if (workspace.workspaceFolders){
+			const wsPath = workspace.workspaceFolders[0].uri.fsPath;
+			await workspace.fs.createDirectory(Uri.file(path.join(wsPath, folder)));
+		}
 	}
 
 	/**
@@ -117,13 +121,15 @@ export abstract class NewCamelProjectCommand {
 	 * @param destPath Path of destination
 	 */
 	private async copyFile(sourcePath: string, destPath: string): Promise<void> {
-		const wsPath = workspace.workspaceFolders[0].uri.fsPath;
-		const sourcePathUri = Uri.file(path.resolve(__dirname, sourcePath));
-		const destPathUri = Uri.file(path.join(wsPath, destPath));
-		try {
-			await workspace.fs.copy(sourcePathUri, destPathUri, { overwrite: false });
-		} catch (error) {
-			// Do nothing in case there already exists tasks.json and launch.json files
+		if (workspace.workspaceFolders){
+			const wsPath = workspace.workspaceFolders[0].uri.fsPath;
+			const sourcePathUri = Uri.file(path.resolve(__dirname, sourcePath));
+			const destPathUri = Uri.file(path.join(wsPath, destPath));
+			try {
+				await workspace.fs.copy(sourcePathUri, destPathUri, { overwrite: false });
+			} catch (error) {
+				// Do nothing in case there already exists tasks.json and launch.json files
+			}
 		}
 	}
 }

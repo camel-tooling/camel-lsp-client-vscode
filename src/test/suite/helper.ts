@@ -32,7 +32,7 @@ export let platformEol: string;
 export async function activate(docUri: vscode.Uri) {
 	// The extensionId is `publisher.name` from package.json
 	const ext = vscode.extensions.getExtension('redhat.vscode-apache-camel');
-	await ext.activate();
+	await ext?.activate();
 	try {
 		doc = await vscode.workspace.openTextDocument(docUri);
 		editor = await vscode.window.showTextDocument(doc);
@@ -64,11 +64,11 @@ export async function setTestContent(content: string): Promise<boolean> {
 export async function waitUntilEditorIsOpened(expectedFileNameWithExtension: string, timeout = 5_000): Promise<boolean> {
 	return await waitUntil(function () {
 		return vscode.window.activeTextEditor?.document.fileName.endsWith(expectedFileNameWithExtension);
-	}, timeout);
+	}, timeout) ?? false;
 }
 
 export async function waitUntilFileIsCreated(expectedFileNameWithExtension: string, timeout = 30_000): Promise<vscode.Uri> {
-	let createdFile: vscode.Uri;
+	let createdFile: vscode.Uri | undefined;
 	await waitUntil(async function () {
 		const files = await vscode.workspace.findFiles(expectedFileNameWithExtension);
 		if (files.length === 1) {
@@ -80,6 +80,11 @@ export async function waitUntilFileIsCreated(expectedFileNameWithExtension: stri
 	}, timeout).catch(function () {
 		throw new Error(`File with expected name '${expectedFileNameWithExtension}' not found in the workspace when calling command to create a new Camel route using JBang.`);
 	});
+
+	if (createdFile === undefined) {
+		throw new Error(`File '${expectedFileNameWithExtension}' was not created within the specified timeout.`);
+    }
+
 	return createdFile;
 }
 
