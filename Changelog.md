@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.18.0
+
 ## 0.17.0
 
 - Update default Camel version used for Camel JBang from 4.3.0 to 4.4.0

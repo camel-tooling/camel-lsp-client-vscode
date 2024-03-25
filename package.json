@@ -3,7 +3,7 @@
   "displayName": "Language Support for Apache Camel by Red Hat",
   "description": "Provides completion, validation and documentation features for Apache Camel URI elements.",
   "license": "Apache-2.0",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "preview": true,
   "publisher": "redhat",
   "icon": "icons/icon128.png",
