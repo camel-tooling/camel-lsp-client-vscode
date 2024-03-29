@@ -2,9 +2,13 @@
 
 ## 0.18.0
 
+- Update default Camel version used for Camel JBang from 4.4.0 to 4.5.0
+- Update default Camel Catalog version from 4.4.0 to 4.5.0
+
 ## 0.17.0
 
 - Update default Camel version used for Camel JBang from 4.3.0 to 4.4.0
+- Update default Camel Catalog version from 4.3.0 to 4.4.0
 - Update Camel Quarkus Catalog from 3.7.0 to 3.9.0
 - Update Kamelet Catalog from 4.3.0 to 4.4.1
 - Use Language Server for Apache Camel 1.19.0

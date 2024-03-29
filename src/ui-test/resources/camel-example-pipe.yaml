@@ -10,7 +10,6 @@ spec:
       name: timer-source
     properties:
       message: "hello world"
-
   sink:
     ref:
       kind: Kamelet
