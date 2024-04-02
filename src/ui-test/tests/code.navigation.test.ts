@@ -203,7 +203,11 @@ describe('Code navigation', function () {
 			await actions.at(i).click();
 			const editor = await activateEditor(driver, CODE_NAVIGATION_XML);
 			const coords = (await editor.getCoordinates()).at(0);
-			assert.equal(listOfAvailableSymbols.at(i).at(1), coords);
+			assert.equal(coords, listOfAvailableSymbols.at(i).at(1),
+			`Clicked on symbol on outline sidebar ${await actions.at(i).getText()}.
+			The current expected text to be clicked on is: ${listOfAvailableSymbols.at(i).at(0)}.
+			It is expected to have line on editor selected: ${listOfAvailableSymbols.at(i).at(1)}
+			The currently selected line is ${coords}`);
 		}
 	}
 
