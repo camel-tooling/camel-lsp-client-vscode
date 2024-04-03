@@ -18,7 +18,7 @@ jobs:
         camel-version: [ "4.0.0",  "4.0.0.redhat-00036" ]
 
     env:
-      CODE_VERSION: max
+      CODE_VERSION: 1.86.0
       CODE_TYPE: stable
       TEST_RESOURCES: test-resources
       CAMEL_VERSION: ${{ matrix.camel-version }}
