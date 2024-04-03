@@ -171,6 +171,7 @@ export async function activateEditor(driver: WebDriver, title: string): Promise<
 	// workaround for https://issues.redhat.com/browse/FUSETOOLS2-2099
 	let editor: TextEditor;
 	await driver.wait(async function () {
+		console.log('search for editor...');
 		try {
 			editor = await new EditorView().openEditor(title) as TextEditor;
 			return true;

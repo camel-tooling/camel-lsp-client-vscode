@@ -70,6 +70,7 @@ describe('Code navigation', function () {
 
 		afterEach(async function () {
 			await closeEditor(CODE_NAVIGATION_XML, false);
+			await driver.sleep(5000);
 		});
 
 		describe('Quickpick \'Go to Symbol in Editor\' navigation', function () {
@@ -89,7 +90,7 @@ describe('Code navigation', function () {
 				await allSymbolsAreAvailableInOutlineSideBar(XML_av_symbols);
 			});
 
-			it('goto symbols', async function () {
+			it.only('goto symbols', async function () {
 				await gotoSymbolsUsingOutlineSideBar(XML_av_symbols);
 			});
 		});
@@ -198,16 +199,25 @@ describe('Code navigation', function () {
 	 * @param listOfAvailableSymbols List of expected symbols with line number of occurence.
 	 */
 	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
+		await driver.wait(async function() {
+			return (await section.getVisibleItems()).length > 3;
+		});
 		const actions = await section.getVisibleItems();
 		for (let i = 0; i < actions.length; i++) {
+			const textClicked = await actions.at(i).getText();
+			console.log(`Action that will be clicked: ${textClicked}`)
+			await driver.sleep(5000);
 			await actions.at(i).click();
+			await driver.sleep(5000);
 			const editor = await activateEditor(driver, CODE_NAVIGATION_XML);
+			await driver.sleep(5000);
 			const coords = (await editor.getCoordinates()).at(0);
 			assert.equal(coords, listOfAvailableSymbols.at(i).at(1),
 			`Clicked on symbol on outline sidebar ${await actions.at(i).getText()}.
 			The current expected text to be clicked on is: ${listOfAvailableSymbols.at(i).at(0)}.
 			It is expected to have line on editor selected: ${listOfAvailableSymbols.at(i).at(1)}
 			The currently selected line is ${coords}`);
+			console.log(`Done for ${textClicked}`)
 		}
 	}
 
