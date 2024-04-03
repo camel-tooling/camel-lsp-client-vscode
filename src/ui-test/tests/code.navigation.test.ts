@@ -206,11 +206,8 @@ describe('Code navigation', function () {
 		for (let i = 0; i < actions.length; i++) {
 			const textClicked = await actions.at(i).getText();
 			console.log(`Action that will be clicked: ${textClicked}`)
-			await driver.sleep(5000);
 			await actions.at(i).click();
-			await driver.sleep(5000);
 			const editor = await activateEditor(driver, CODE_NAVIGATION_XML);
-			await driver.sleep(5000);
 			const coords = (await editor.getCoordinates()).at(0);
 			assert.equal(coords, listOfAvailableSymbols.at(i).at(1),
 			`Clicked on symbol on outline sidebar ${await actions.at(i).getText()}.
