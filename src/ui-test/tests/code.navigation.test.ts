@@ -52,7 +52,7 @@ describe('Code navigation', function () {
 
 	describe('XML DSL', function () {
 
-		// All available symbols in 'camel-route.xml' with line of occurence.
+		// All available symbols in 'camel-route.xml' with line of occurrence.
 		const XML_av_symbols = [
 			['uitest-context', 1],
 			['uitest-direct-route', 2],
@@ -90,7 +90,7 @@ describe('Code navigation', function () {
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingOutlineSideBar(XML_av_symbols);
+				await gotoSymbolsUsingOutlineSideBar(XML_av_symbols, CODE_NAVIGATION_XML);
 			});
 		});
 	});
@@ -137,7 +137,7 @@ describe('Code navigation', function () {
 			});
 
 			it('goto symbols', async function () {
-				await gotoSymbolsUsingQuickpickCommand(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
+				await gotoSymbolsUsingOutlineSideBar(JAVA_av_symbols, CODE_NAVIGATION_JAVA);
 			});
 		});
 	});
@@ -195,18 +195,24 @@ describe('Code navigation', function () {
 	/**
 	 * Check if all symbols references are working in Outline side bar.
 	 *
-	 * @param listOfAvailableSymbols List of expected symbols with line number of occurence.
+	 * @param listOfAvailableSymbols List of expected symbols with line number of occurrence.
 	 */
-	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][]): Promise<void> {
-		const actions = await section.getVisibleItems();
-		for (let i = 0; i < actions.length; i++) {
-			await actions.at(i).click();
-			const editor = await activateEditor(driver, CODE_NAVIGATION_XML);
+	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][], title: string): Promise<void> {
+		for (const symbol of listOfAvailableSymbols) {
+			const label = symbol.at(0) as string;
+			const labelCoord = +symbol.at(1);
+			await (await section.findItem(label)).click();
+			await section.getDriver().wait(async function () {
+				const item = await section.findItem(label);
+				return item !== undefined && await item.getAttribute('aria-selected') === 'true';
+			}, 5_000);
+			const editor = await activateEditor(driver, title);
 			const coords = (await editor.getCoordinates()).at(0);
-			assert.equal(coords, listOfAvailableSymbols.at(i).at(1),
-			`Clicked on symbol on outline sidebar ${await actions.at(i).getText()}.
-			The current expected text to be clicked on is: ${listOfAvailableSymbols.at(i).at(0)}.
-			It is expected to have line on editor selected: ${listOfAvailableSymbols.at(i).at(1)}
+
+			assert.equal(coords, labelCoord,
+				`Clicked on symbol on outline sidebar ${label}.
+			The current expected text to be clicked on is: ${label}.
+			It is expected to have line on editor selected: ${labelCoord}
 			The currently selected line is ${coords}`);
 		}
 	}
