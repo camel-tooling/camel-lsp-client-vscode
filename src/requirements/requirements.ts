@@ -103,7 +103,7 @@ export function parseMajorVersion(version: string): number {
     return javaVersion;
 }
 
-function openJDKDownload(reject: any, cause: any) {
+function openJDKDownload(reject: any, cause: string) {
     const jdkUrl = getJdkUrl();
     reject({
         message: cause,
