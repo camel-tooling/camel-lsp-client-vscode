@@ -221,8 +221,8 @@ describe('Code navigation', function () {
 	async function gotoSymbolsUsingOutlineSideBar(listOfAvailableSymbols: (string | number)[][], title: string): Promise<void> {
 		for (const symbol of listOfAvailableSymbols) {
 			const label = symbol.at(0) as string;
-			const labelCoord = +symbol.at(1);
-			await (await section.findItem(label)).click();
+			const labelCoord = symbol.length > 1 ? +symbol[1] : 0; // if the second element doesn't exist
+			await (await section.findItem(label))?.click();
 			await section.getDriver().wait(async function () {
 				const item = await section.findItem(label);
 				return item !== undefined && await item.getAttribute('aria-selected') === 'true';
