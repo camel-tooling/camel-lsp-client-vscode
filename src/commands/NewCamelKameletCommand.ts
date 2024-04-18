@@ -57,7 +57,7 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(`${fileName}-${this.kameletType}`);
 			},
-		}) || ''; 
+		}) ?? ''; 
 	}
 
 	protected async showQuickPickForKameletType(): Promise<string> {
