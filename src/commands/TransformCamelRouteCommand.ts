@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict'
+'use strict';
 
 import * as path from 'path';
-import * as validFilename from 'valid-filename';
+import validFilename from 'valid-filename';
 import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { CamelTransformRouteToYAMLJBangTask } from '../tasks/CamelTransformRouteToYAMLJBangTask';
 
@@ -35,17 +35,19 @@ export class TransformCamelRouteToYAMLCommand {
 
 	public async create(): Promise<void> {
 
-		const currentOpenedFileUri = window.activeTextEditor.document.uri;
-		const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
-		const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
-		const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.yaml');
-
-
-		if (transformedRouteFileName) {
-
-			const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
-			await new CamelTransformRouteToYAMLJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, transformedRouteFilePath).execute();
-			await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
+		if (window.activeTextEditor) {
+			const currentOpenedFileUri = window.activeTextEditor.document.uri;
+			const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
+			const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
+			const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.yaml');
+		
+			if (transformedRouteFileName) {
+				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
+				if (this.workspaceFolder){
+					await new CamelTransformRouteToYAMLJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, transformedRouteFilePath).execute();
+					await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
+				}
+			}
 		}
 	}
 
@@ -54,7 +56,7 @@ export class TransformCamelRouteToYAMLCommand {
 	 *
 	 * @returns WorkspaceFolder object
 	 */
-	private getWorkspaceFolder(): WorkspaceFolder {
+	private getWorkspaceFolder(): WorkspaceFolder | undefined {
 		let workspaceFolder: WorkspaceFolder | undefined;
 		if (workspace.workspaceFolders) {
 			// default to root workspace folder
@@ -64,13 +66,19 @@ export class TransformCamelRouteToYAMLCommand {
 	}
 
 	protected async showInputBoxForFileName(placeHolder: string): Promise<string> {
-		return await window.showInputBox({
+		const output = await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
 			placeHolder: placeHolder,
 			validateInput: (fileName) => {
 				return this.validateFileName(fileName);
 			},
 		});
+
+		if (output === undefined) {
+			return '';
+		}
+
+		return output;
 	}
 
 	/**
