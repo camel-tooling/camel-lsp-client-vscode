@@ -55,10 +55,15 @@ describe('Create a Camel Route using command', function () {
 			input = await InputBox.create();
 			return (await input.isDisplayed());
 		}, 30000);
-		await input.setText((await input.getText()) + '/petstore.json');
+		await input.setText((await input.getText()) + 'petstore.json');
 		await input.confirm();
+		if(await input.isDisplayed()) {
+			// from some reason, sometimes there is a need to execute confirm method twice
+			// reported issue - https://github.com/redhat-developer/vscode-extension-tester/issues/1278
+			await input.confirm();
+		}
 
-		await waitUntilEditorIsOpened(driver, FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', 30000);
+		await waitUntilEditorIsOpened(driver, FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', 60000);
 
 		const tree: DefaultTreeSection = await sideBar.getContent().getSection('resources');
 		const items = await tree.getVisibleItems();
