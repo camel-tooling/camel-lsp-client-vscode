@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-13, windows-latest ]
-        version: [ "1.82.3", max ] # [ "x.x.x" | latest | max ]
+        version: [ "1.86.2", max ] # [ "x.x.x" | latest | max ]
         type: [ stable ] # [ stable | insider ]
       fail-fast: false
 
