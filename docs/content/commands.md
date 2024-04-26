@@ -34,7 +34,7 @@ It is asking for the Maven GAV (group id, artifact id, version) to be used to ge
 
 In case there are Camel files in the workspace, it is copying them in `src/main/resources/camel` folder of the created Camel Quarkus based project.
 
-<p align="center"><img src="../images/createCamelQuarkusprojectBasic.mp4" alt="Command to create a Camel Quarkus project in VS Code. From command-palette, it can be found by typing `Camel Quarkus`." class="zoom" width="90%"/></p>
+<p align="center"><img src="../images/createCamelQuarkusProjectBasic.gif" alt="Command to create a Camel Quarkus project in VS Code. From command-palette, it can be found by typing `Camel Quarkus`." class="zoom" width="90%"/></p>
 
 ## SpringBoot
 
@@ -42,4 +42,4 @@ It is asking for the Maven GAV (group id, artifact id, version) to be used to ge
 
 In case there are Camel files in the workspace, it is copying them in `src/main/resources/camel` folder of the created Camel Quarkus based project.
 
-<p align="center"><img src="../images/createCamelSpringBootprojectBasic.mp4" alt="Command to create a Camel on SpringBoot project in VS Code. From command-palette, it can be found by typing `Camel SpringBoot`." class="zoom" width="90%"/></p>
+<p align="center"><img src="../images/createCamelSpringBootProjectBasic.gif" alt="Command to create a Camel on SpringBoot project in VS Code. From command-palette, it can be found by typing `Camel SpringBoot`." class="zoom" width="90%"/></p>
