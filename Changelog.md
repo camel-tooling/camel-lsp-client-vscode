@@ -5,6 +5,7 @@
 - Update default Camel version used for Camel JBang from 4.4.0 to 4.5.0
 - Update default Camel Catalog version from 4.4.0 to 4.5.0
 - Update Kamelet Catalog from 4.4.1 to 4.5.0
+- Update Camel Quarkus Catalog from 3.9.0 to 3.10.0
 
 ## 0.17.0
 
