@@ -270,7 +270,6 @@
     "chai": "^4.3.10",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
-    "expand-home-dir": "^0.0.3",
     "glob": "^10.3.12",
     "mocha": "^10.4.0",
     "mocha-jenkins-reporter": "^0.4.8",

@@ -2,6 +2,8 @@
 
 ## 0.19.0
 
+- Fix regression of extension not activating with `Cannot find module 'expand-home-dir'` error
+
 ## 0.18.0
 
 - Update default Camel version used for Camel JBang from 4.4.0 to 4.5.0
