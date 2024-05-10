@@ -15,3 +15,5 @@ test Fixture with speci@l chars/.vscode/**
 /camel-ls-sbom.json
 /manifest.json
 /node-sbom.json
+coverage
+.camel-jbang

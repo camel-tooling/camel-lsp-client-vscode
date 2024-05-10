@@ -21,3 +21,10 @@ test-resources
 test Fixture with speci@l chars/**
 testFixture/**
 .test-extensions
+camel-ls-sbom.json
+docs
+coverage
+.camel-jbang
+node_modules
+out/src/ui-test
+out/src/test
