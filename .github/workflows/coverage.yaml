@@ -1,0 +1,67 @@
+name: UI Code Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    env:
+      CODE_VERSION: max
+      TEST_RESOURCES: test-resources
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "temurin"
+
+      - name: Install JBang
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          echo "$HOME/.jbang/bin" >> $GITHUB_PATH
+
+      - name: Setup JBang (trusted sources)
+        run: jbang trust add https://github.com/apache/
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Compile
+        run: npm run compile
+
+      # 'set +e' and 'exit 0' - that means the workflow will not fail even the test failures are present. The failing tests are not directive for the code coverage reports itself
+      - name: Coverage
+        run: |
+          set +e
+          xvfb-run --auto-servernum npm run ui-coverage
+          exit 0
+
+      - name: Upload Coverage Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-coverage
+          path: ${{ github.workspace }}/coverage
+

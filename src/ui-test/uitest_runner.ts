@@ -26,9 +26,10 @@ export const storageFolder = process.env.TEST_RESOURCES ? process.env.TEST_RESOU
 const releaseType: ReleaseQuality = process.env.CODE_TYPE === 'insider' ? ReleaseQuality.Insider : ReleaseQuality.Stable;
 export const projectPath = path.resolve(__dirname, '..', '..', '..');
 const extensionFolder = path.join(projectPath, '.test-extensions');
+const coverage = process.argv[2] === 'coverage';
 
 async function main(): Promise<void> {
-	const tester = new ExTester(storageFolder, releaseType, extensionFolder);
+	const tester = new ExTester(storageFolder, releaseType, extensionFolder, coverage);
 	await tester.setupAndRunTests(
 		[
 			'out/src/ui-test/tests/env/set.camel.version.js',
@@ -48,5 +49,5 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-	console.error('Unhandled promise rejection in main(): ', error);
+	throw Error('Unhandled promise rejection in main(): ', error);
 });
