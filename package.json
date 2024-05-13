@@ -274,7 +274,7 @@
     "mocha": "^10.4.0",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "sinon": "^17.0.2",
     "typescript": "^5.4.5",
     "vscode-uitests-tooling": "^4.1.2"
