@@ -2,6 +2,8 @@
 
 ## 0.20.0
 
+- Update default Camel Catalog version from 4.5.0 to 4.6.0
+
 ## 0.19.0
 
 - Fix regression of extension not activating with `Cannot find module 'expand-home-dir'` error
