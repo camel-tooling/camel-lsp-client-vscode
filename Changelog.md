@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.20.0
+## 1.0.0
 
 - Update default Camel Catalog version from 4.5.0 to 4.6.0
 - Update default Camel version used for Camel JBang from 4.5.0 to 4.6.0
