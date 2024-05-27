@@ -2,6 +2,8 @@
 
 ## 1.1.0
 
+- Update Red Hat telemetry dependency to reduce number of event sent (startup information will be sent one time per day per user)
+
 ## 1.0.0
 
 - Update default Camel Catalog version from 4.5.0 to 4.6.0
