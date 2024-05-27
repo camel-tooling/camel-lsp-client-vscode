@@ -18,9 +18,9 @@
 import { expect } from "chai";
 import { ActivityBar, DefaultTreeSection, EditorView, InputBox, SideBarView, VSBrowser, WebDriver, Workbench } from "vscode-uitests-tooling";
 import * as pjson from '../../../package.json';
-import * as testUtils from "../utils/testUtils";
+import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from "../utils/testUtils";
 
-describe('Transform Camel Routes to YAML using command', function () {
+describe('Transform Camel Routes to YAML using commands', function () {
 	this.timeout(600000);
 
 	let driver: WebDriver;
@@ -28,49 +28,51 @@ describe('Transform Camel Routes to YAML using command', function () {
 	let sideBar: SideBarView;
 
 	before(async function () {
-		this.timeout(200000);
+		this.timeout(150000);
 		driver = VSBrowser.instance.driver;
 
-		await VSBrowser.instance.openResources(testUtils.RESOURCES_TRANSFORM_COMMAND);
+		await VSBrowser.instance.openResources(FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND);
 		await VSBrowser.instance.waitForWorkbench();
 
-		await testUtils.waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+
+		sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
+	});
+
+	after(async function () {
+		await new EditorView().closeAllEditors();
+		await killTerminal();
 	});
 
 	const routesToBeTransformed = [
-		{ sourceFile: testUtils.EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, type: 'Java' },
-		{ sourceFile: testUtils.EXAMPLE_TRANSFORM_COMMAND_XML_FILE, type: 'XML' },
-		{ sourceFile: testUtils.EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, type: 'YAML' }
+		{ fileName: EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, fileExtension: '.java', type: 'Java' },
+		{ fileName: EXAMPLE_TRANSFORM_COMMAND_XML_FILE, fileExtension: '.xml', type: 'XML' },
+		{ fileName: EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, fileExtension: '.yaml', type: 'YAML' }
 	];
+
 	routesToBeTransformed.forEach(function (route) {
 		describe('Camel Transform Routes', function () {
 
-			const FILENAME_CREATED_FROM_CAMEL_TRANSFORM: string = `transformedFrom${route.type}.yaml`;
-
-			before(async function () {
-				sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
-			});
+			const FILENAME_CREATED_FROM_CAMEL_TRANSFORM: string = `transformedFrom${route.type}${route.fileExtension}`;
 
 			after(async function () {
-				await new EditorView().closeAllEditors();
-				await testUtils.killTerminal();
-				await testUtils.deleteFile(FILENAME_CREATED_FROM_CAMEL_TRANSFORM, testUtils.RESOURCES_TRANSFORM_COMMAND);
+				await deleteFile(FILENAME_CREATED_FROM_CAMEL_TRANSFORM, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND);
 			});
 
 			it(`${route.type} to YAML`, async function () {
+				const routeFile = route.fileName + route.fileExtension;
 
-				await testUtils.openFileInEditor(driver, testUtils.RESOURCES_TRANSFORM_COMMAND, route.sourceFile);
-				await testUtils.waitUntilEditorIsOpened(driver, route.sourceFile, 45000);
-				await new Workbench().executeCommand(testUtils.TRANSFORM_ROUTE_TO_YAML_COMMAND_ID);
+				await openFileInEditor(driver, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, routeFile);
+				await waitUntilEditorIsOpened(driver, routeFile, 45000);
+				await driver.sleep(1000);
+				await new Workbench().executeCommand(TRANSFORM_ROUTE_TO_YAML_COMMAND_ID);
+				await driver.sleep(1000);
 
-				await driver.wait(async function () {
-					input = await InputBox.create();
-					return (await input.isDisplayed());
-				}, 45000);
+				input = await InputBox.create(45000);
 				await input.setText(FILENAME_CREATED_FROM_CAMEL_TRANSFORM);
 				await input.confirm();
 
-				await testUtils.waitUntilEditorIsOpened(driver, FILENAME_CREATED_FROM_CAMEL_TRANSFORM, 45000);
+				await waitUntilEditorIsOpened(driver, FILENAME_CREATED_FROM_CAMEL_TRANSFORM, 45000);
 
 				const tree: DefaultTreeSection = await sideBar.getContent().getSection('camel_transform_command');
 				const items = await tree.getVisibleItems();
@@ -79,6 +81,33 @@ describe('Transform Camel Routes to YAML using command', function () {
 				expect(labels).contains(FILENAME_CREATED_FROM_CAMEL_TRANSFORM);
 			});
 		});
+	});
+
+	it('Transform files in folder to YAML', async function () {
+		await new Workbench().executeCommand(TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID);
+		input = await InputBox.create(45000);
+
+		// Confirm both prompts since we want to use the same folder as source and destination
+		// Also avoids possible bug when confirming https://github.com/redhat-developer/vscode-extension-tester/issues/1278
+		while (await input.isDisplayed()) {
+			await input.confirm();
+		}
+
+		const tree: DefaultTreeSection = await sideBar.getContent().getSection('camel_transform_command');
+		const items = await tree.getVisibleItems();
+		const labels = await Promise.all(items.map(item => item.getLabel()));
+
+		// Wait until all the transformed routes files are created
+		await driver.wait(async function () {
+			return routesToBeTransformed.every(route => labels.includes(route.fileName + route.fileExtension));
+		}, 45000);
+
+		// Asserts that every file was created
+		routesToBeTransformed.forEach(async route => {
+			const routeFile = route.fileName + '.yaml';
+			expect(labels).contains(routeFile);
+		});
+
 	});
 });
 
