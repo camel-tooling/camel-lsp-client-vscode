@@ -18,20 +18,21 @@
 
 import { TelemetryEvent, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry';
 import * as path from 'path';
-import { workspace, ExtensionContext, window, StatusBarAlignment, commands, TextEditor, languages, StatusBarItem } from 'vscode';
-import { LanguageClientOptions, DidChangeConfigurationNotification } from 'vscode-languageclient';
-import { LanguageClient, Executable } from 'vscode-languageclient/node';
+import { ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, commands, languages, window, workspace } from 'vscode';
+import { DidChangeConfigurationNotification, LanguageClientOptions } from 'vscode-languageclient';
+import { Executable, LanguageClient } from 'vscode-languageclient/node';
+import * as telemetry from './Telemetry';
+import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
+import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
+import { NewCamelPipeCommand } from './commands/NewCamelPipeCommand';
+import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
 import { NewCamelRouteCommand } from './commands/NewCamelRouteCommand';
+import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
+import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
+import { TransformCamelRouteToYAMLCommand } from './commands/TransformCamelRouteCommand';
+import { TransformCamelRoutesInFolderToYAMLCommand } from './commands/TransformCamelRoutesInFolderCommand';
 import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
-import * as telemetry from './Telemetry';
-import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
-import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
-import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
-import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
-import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
-import { NewCamelPipeCommand } from './commands/NewCamelPipeCommand';
-import { TransformCamelRouteToYAMLCommand } from './commands/TransformCamelRouteCommand';
 
 const LANGUAGE_CLIENT_ID = 'LANGUAGE_ID_APACHE_CAMEL';
 const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
@@ -164,7 +165,10 @@ export async function activate(context: ExtensionContext) {
 		await new TransformCamelRouteToYAMLCommand().create();
 		await sendCommandTrackingEvent(TransformCamelRouteToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML);
 	}));
-
+	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML, async () => {
+		await new TransformCamelRoutesInFolderToYAMLCommand().create();
+		await sendCommandTrackingEvent(TransformCamelRoutesInFolderToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML);
+	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async () => {
 		await new NewCamelFileCommand().create();
 		await sendCommandTrackingEvent(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);

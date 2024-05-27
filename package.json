@@ -229,6 +229,11 @@
         "title": "Transform a Camel Route to YAML DSL",
         "category": "Camel",
         "enablement": "resourceFilename =~ /\\.(java|xml|yaml)$/"
+      },
+      {
+        "command": "camel.jbang.transform.routes.in.folder.yaml",
+        "title": "Transform any Camel Route in a specified folder to YAML DSL",
+        "category": "Camel"
       }
     ],
     "menus": {

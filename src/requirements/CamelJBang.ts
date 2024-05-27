@@ -17,6 +17,7 @@
 'use strict';
 
 import { ShellExecution, workspace } from "vscode";
+import path from 'path';
 
 /**
  * Camel JBang class which allows shell execution of different jbang cli commands
@@ -44,22 +45,34 @@ export class CamelJBang {
 	public generateRest(routefile: string, openApiFile: string) {
 		return new ShellExecution('jbang',
 			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
-			'camel@apache/camel',
-			'generate',
-			'rest',
-			`'--input=${openApiFile}'`,
-			`'--output=${routefile}'`,
-			'--routes']);
+				'camel@apache/camel',
+				'generate',
+				'rest',
+				`'--input=${openApiFile}'`,
+				`'--output=${routefile}'`,
+				'--routes']);
 	}
 
-	public transformRoute(sourceFile: string, format: string, outputFile: string) {
+	public transformSingleRoute(sourcePath: string, format: string, outputPath: string) {
 		return new ShellExecution('jbang',
-		[`'-Dcamel.jbang.version=${this.camelVersion}'`,
-			'camel@apache/camel',
-			'transform',
-			'route',
-			`'${sourceFile}'`,
-			`'--format=${format}'`,
-			`'--output=${outputFile}'`,]);
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'transform',
+				'route',
+				`'${sourcePath}'`,
+				`'--format=${format}'`,
+				`'--output=${outputPath}'`,]);
 	}
+
+	public transformRoutesInFolder(sourcePath: string, format: string, outputPath: string,) {
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'transform',
+				'route',
+				`'${sourcePath}'${path.sep}*`,
+				`'--format=${format}'`,
+				`'--output=${outputPath}'`,]);
+	}
+
 }

@@ -16,15 +16,22 @@
  */
 'use strict';
 
-import { TaskScope, WorkspaceFolder } from "vscode";
-import { CamelJBangTask } from "./CamelJBangTask";
-import { CamelJBang } from "../requirements/CamelJBang";
+import { CamelTransformRoutesInFolderToYAMLJBangTask } from '../tasks/CamelTransformRoutesInFolderToYAMLJBangTask';
+import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
-export class CamelTransformRouteToYAMLJBangTask extends CamelJBangTask {
+export class TransformCamelRoutesInFolderToYAMLCommand extends AbstractTransformCamelRouteCommand{
 
-	constructor(scope: WorkspaceFolder | TaskScope.Workspace, sourcePath: string, outputPath: string) {
-		super(scope,
-			'Transform a Camel Route to YAML DSL',
-			new CamelJBang().transformSingleRoute(sourcePath, 'yaml', outputPath));
+	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML = 'camel.jbang.transform.routes.in.folder.yaml';
+
+	public async create(): Promise<void> {
+
+		const sourceFolder = await this.showDialogToPickFolder(false);
+		const destinationFolder = await this.showDialogToPickFolder(true);
+
+		if (sourceFolder && destinationFolder && this.workspaceFolder) {
+			await new CamelTransformRoutesInFolderToYAMLJBangTask(this.workspaceFolder, sourceFolder.fsPath, destinationFolder.fsPath).execute();
+		}
+
 	}
+
 }

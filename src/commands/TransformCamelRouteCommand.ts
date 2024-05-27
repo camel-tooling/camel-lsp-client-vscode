@@ -18,20 +18,16 @@
 
 import * as path from 'path';
 import validFilename from 'valid-filename';
-import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
+import { commands, Uri, window } from 'vscode';
 import { CamelTransformRouteToYAMLJBangTask } from '../tasks/CamelTransformRouteToYAMLJBangTask';
+import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
 
-export class TransformCamelRouteToYAMLCommand {
+export class TransformCamelRouteToYAMLCommand extends AbstractTransformCamelRouteCommand{
 
-	public static ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML = 'camel.jbang.transform.route.yaml';
+	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML = 'camel.jbang.transform.route.yaml';
 
-	protected workspaceFolder: WorkspaceFolder | undefined;
 	protected fileNameInputPrompt = 'Please provide a name for the new transformed Camel Route.';
-
-	constructor() {
-		this.workspaceFolder = this.getWorkspaceFolder();
-	}
 
 	public async create(): Promise<void> {
 
@@ -40,7 +36,7 @@ export class TransformCamelRouteToYAMLCommand {
 			const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
 			const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
 			const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.yaml');
-		
+
 			if (transformedRouteFileName) {
 				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
 				if (this.workspaceFolder){
@@ -49,20 +45,6 @@ export class TransformCamelRouteToYAMLCommand {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Resolves first opened folder in vscode existing workspace
-	 *
-	 * @returns WorkspaceFolder object
-	 */
-	private getWorkspaceFolder(): WorkspaceFolder | undefined {
-		let workspaceFolder: WorkspaceFolder | undefined;
-		if (workspace.workspaceFolders) {
-			// default to root workspace folder
-			workspaceFolder = workspace.workspaceFolders[0];
-		}
-		return workspaceFolder;
 	}
 
 	protected async showInputBoxForFileName(placeHolder: string): Promise<string> {
