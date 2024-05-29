@@ -17,9 +17,6 @@ node('rhel8'){
 		sh "jbang trust add https://github.com/apache/"
 		//install cyclonedx-npm
 		sh "npm install --global @cyclonedx/cyclonedx-npm"
-		//install cyclonedx:
-		sh "wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64"
-		sh "chmod +x cyclonedx-linux-x64"
 	}
 
 	stage('Build') {
@@ -60,6 +57,10 @@ node('rhel8'){
 	stage('Generate SBOM'){
 		packageVersion = sh(script: 'jq -rcM .version < package.json', returnStdout: true ).trim()
 		sh "cyclonedx-npm --omit dev --output-file node-sbom.json"
+		// install cyclonedx cli used to merge sboms:
+		sh "wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64"
+		sh "chmod +x cyclonedx-linux-x64"
+
 		sh """./cyclonedx-linux-x64 merge \
 		--hierarchical \
 		--group com.github.camel-tooling \
