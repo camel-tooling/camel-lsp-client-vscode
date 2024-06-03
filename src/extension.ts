@@ -31,6 +31,7 @@ import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpe
 import { NewCamelSpringBootProjectCommand } from './commands/NewCamelSpringBootProjectCommand';
 import { TransformCamelRouteToYAMLCommand } from './commands/TransformCamelRouteCommand';
 import { TransformCamelRoutesInFolderToYAMLCommand } from './commands/TransformCamelRoutesInFolderCommand';
+import { TransformCamelRoutesInMultipleFilesToYAMLCommand } from './commands/TransformCamelRoutesInMultipleFilesCommand';
 import { retrieveJavaExecutable } from './requirements/JavaManager';
 import * as requirements from './requirements/requirements';
 
@@ -168,6 +169,10 @@ export async function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML, async () => {
 		await new TransformCamelRoutesInFolderToYAMLCommand().create();
 		await sendCommandTrackingEvent(TransformCamelRoutesInFolderToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML);
+	}));
+	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInMultipleFilesToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_YAML, async () => {
+		await new TransformCamelRoutesInMultipleFilesToYAMLCommand().create();
+		await sendCommandTrackingEvent(TransformCamelRoutesInMultipleFilesToYAMLCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_YAML);
 	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async () => {
 		await new NewCamelFileCommand().create();

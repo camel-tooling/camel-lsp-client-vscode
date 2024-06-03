@@ -54,4 +54,19 @@ export abstract class AbstractTransformCamelRouteCommand {
 		}
 		return Uri.parse('');
 	}
+
+	protected async showDialogToPickFiles(): Promise<Uri[]> {
+		const selectedFiles = await window.showOpenDialog(
+			{
+				canSelectMany: true,
+				canSelectFolders: false,
+				canSelectFiles: true,
+				openLabel: 'Select',
+				title: 'Select files to be transformed'
+			});
+		if (selectedFiles !== undefined) {
+			return selectedFiles;
+		}
+		return [Uri.parse('')];
+	}
 }

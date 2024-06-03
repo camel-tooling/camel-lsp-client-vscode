@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import { expect } from "chai";
-import { ActivityBar, DefaultTreeSection, EditorView, InputBox, SideBarView, VSBrowser, WebDriver, Workbench } from "vscode-uitests-tooling";
+import { expect } from 'chai';
+import { ActivityBar, DefaultTreeSection, EditorView, InputBox, SideBarView, VSBrowser, WebDriver, Workbench } from 'vscode-uitests-tooling';
 import * as pjson from '../../../package.json';
-import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from "../utils/testUtils";
+import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from '../utils/testUtils';
 
 describe('Transform Camel Routes to YAML using commands', function () {
 	this.timeout(600000);
@@ -109,5 +109,10 @@ describe('Transform Camel Routes to YAML using commands', function () {
 		});
 
 	});
+
+	// We can't use the OS native file selection dialog because it's not interactible.
+	// Using the simple dialog provided by VSCode does not allow selecting more than one file/folder
+	// See https://github.com/microsoft/vscode/issues/186637
+	it.skip('Transform multiple files to YAML - simple file dialog does not allow selecting multiple files yet');
 });
 
