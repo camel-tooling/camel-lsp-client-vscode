@@ -75,4 +75,18 @@ export class CamelJBang {
 				`'--output=${outputPath}'`,]);
 	}
 
+	public transformRoutesInMultipleFiles(sourcePaths: string[], format: string, outputPath: string) {
+		const joinedSourcePaths = sourcePaths.map(
+			sourcePath => `'${sourcePath}'`
+		).join(' ');
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'transform',
+				'route',
+				joinedSourcePaths,
+			`'--format=${format}'`,
+			`'--output=${outputPath}'`,]);
+	}
+
 }

@@ -234,6 +234,11 @@
         "command": "camel.jbang.transform.routes.in.folder.yaml",
         "title": "Transform any Camel Route in a specified folder to YAML DSL",
         "category": "Camel"
+      },
+      {
+        "command": "camel.jbang.transform.routes.in.files.yaml",
+        "title": "Transform Camel Routes in multiple files to YAML DSL",
+        "category": "Camel"
       }
     ],
     "menus": {
