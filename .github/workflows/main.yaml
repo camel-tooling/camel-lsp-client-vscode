@@ -103,7 +103,7 @@ jobs:
         run: |
           npm install --global @cyclonedx/cyclonedx-npm
           cyclonedx-npm --omit dev --output-file node-sbom.json
-          wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64
+          wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.1/cyclonedx-linux-x64
           chmod +x cyclonedx-linux-x64
           ./cyclonedx-linux-x64 merge --hierarchical --group com.github.camel-tooling --name vscode-apache-camel --version ${{ steps.package-version.outputs.current-version}} --input-files node-sbom.json camel-ls-sbom.json --output-file manifest.json
 

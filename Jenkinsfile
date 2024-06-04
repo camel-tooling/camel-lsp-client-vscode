@@ -58,7 +58,7 @@ node('rhel8'){
 		packageVersion = sh(script: 'jq -rcM .version < package.json', returnStdout: true ).trim()
 		sh "cyclonedx-npm --omit dev --output-file node-sbom.json"
 		// install cyclonedx cli used to merge sboms:
-		sh "wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.0/cyclonedx-linux-x64"
+		sh "wget https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.25.1/cyclonedx-linux-x64"
 		sh "chmod +x cyclonedx-linux-x64"
 
 		sh """./cyclonedx-linux-x64 merge \
