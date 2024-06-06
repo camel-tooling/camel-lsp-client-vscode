@@ -17,8 +17,9 @@
 'use strict';
 
 import { QuickPickItem, Uri, commands, window } from "vscode";
-import { AbstractNewCamelRouteCommand, CamelRouteDSL } from "./AbstractNewCamelRouteCommand";
+import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelInitJBangTask } from "../tasks/CamelInitJBangTask";
+import { CamelRouteDSL } from "./AbstractCamelCommand";
 
 export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 
@@ -57,7 +58,7 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 			validateInput: (fileName) => {
 				return this.validateCamelFileName(`${fileName}-${this.kameletType}`);
 			},
-		}) ?? ''; 
+		}) ?? '';
 	}
 
 	protected async showQuickPickForKameletType(): Promise<string> {

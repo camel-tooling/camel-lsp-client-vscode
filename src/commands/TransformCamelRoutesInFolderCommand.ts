@@ -16,12 +16,13 @@
  */
 'use strict';
 
-import { CamelTransformRoutesInFolderToYAMLJBangTask } from '../tasks/CamelTransformRoutesInFolderToYAMLJBangTask';
+import { CamelTransformRoutesInFolderJBangTask } from '../tasks/CamelTransformRoutesInFolderJBangTask';
 import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
-export class TransformCamelRoutesInFolderToYAMLCommand extends AbstractTransformCamelRouteCommand{
+export class TransformCamelRoutesInFolderCommand extends AbstractTransformCamelRouteCommand{
 
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML = 'camel.jbang.transform.routes.in.folder.yaml';
+	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_XML = 'camel.jbang.transform.routes.in.folder.xml';
 
 	public async create(): Promise<void> {
 
@@ -29,7 +30,8 @@ export class TransformCamelRoutesInFolderToYAMLCommand extends AbstractTransform
 		const destinationFolder = await this.showDialogToPickFolder(true);
 
 		if (sourceFolder && destinationFolder && this.workspaceFolder) {
-			await new CamelTransformRoutesInFolderToYAMLJBangTask(this.workspaceFolder, sourceFolder.fsPath, destinationFolder.fsPath).execute();
+			const format = this.camelDSL?.language ?? 'Yaml'; //Defaults to Yaml
+			await new CamelTransformRoutesInFolderJBangTask(this.workspaceFolder, sourceFolder.fsPath, format, destinationFolder.fsPath).execute();
 		}
 
 	}

@@ -17,8 +17,9 @@
 'use strict';
 
 import { Uri, commands, window } from "vscode";
-import { AbstractNewCamelRouteCommand, CamelRouteDSL } from "./AbstractNewCamelRouteCommand";
+import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelBindJBangTask } from "../tasks/CamelBindJBangTask";
+import { CamelRouteDSL } from "./AbstractCamelCommand";
 
 export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 

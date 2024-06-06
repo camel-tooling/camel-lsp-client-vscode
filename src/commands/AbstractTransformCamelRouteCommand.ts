@@ -16,29 +16,10 @@
  */
 'use strict';
 
-import { Uri, WorkspaceFolder, window, workspace } from "vscode";
+import { Uri, window } from "vscode";
+import { AbstractCamelCommand } from "./AbstractCamelCommand";
 
-export abstract class AbstractTransformCamelRouteCommand {
-
-	protected workspaceFolder: WorkspaceFolder | undefined;
-
-	constructor() {
-		this.workspaceFolder = this.getWorkspaceFolder();
-	}
-
-	/**
-	 * Resolves first opened folder in vscode existing workspace
-	 *
-	 * @returns WorkspaceFolder object
-	 */
-	private getWorkspaceFolder(): WorkspaceFolder | undefined {
-		let workspaceFolder: WorkspaceFolder | undefined;
-		if (workspace.workspaceFolders) {
-			// default to root workspace folder
-			workspaceFolder = workspace.workspaceFolders[0];
-		}
-		return workspaceFolder;
-	}
+export abstract class AbstractTransformCamelRouteCommand extends AbstractCamelCommand{
 
 	protected async showDialogToPickFolder(isOutputFolder: boolean): Promise<Uri> {
 		const selectedFolders = await window.showOpenDialog(
