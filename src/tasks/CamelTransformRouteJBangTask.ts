@@ -20,11 +20,11 @@ import { TaskScope, WorkspaceFolder } from "vscode";
 import { CamelJBangTask } from "./CamelJBangTask";
 import { CamelJBang } from "../requirements/CamelJBang";
 
-export class CamelTransformRoutesInFolderToYAMLJBangTask extends CamelJBangTask {
+export class CamelTransformRouteJBangTask extends CamelJBangTask {
 
-	constructor(scope: WorkspaceFolder | TaskScope.Workspace, sourcePath: string, outputPath: string) {
+	constructor(scope: WorkspaceFolder | TaskScope.Workspace, sourcePath: string, format: string, outputPath: string) {
 		super(scope,
-			'Transform any Camel Route in a specified folder to YAML DSL',
-			new CamelJBang().transformRoutesInFolder(sourcePath, 'yaml', outputPath));
+			`Transform a Camel Route to ${format} DSL`,
+			new CamelJBang().transformSingleRoute(sourcePath, format, outputPath));
 	}
 }

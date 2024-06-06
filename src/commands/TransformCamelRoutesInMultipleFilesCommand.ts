@@ -16,12 +16,13 @@
  */
 'use strict';
 
-import { CamelTransformRoutesInMultipleFilesToYAMLJBangTask } from '../tasks/CamelTransformRoutesInMultipleFilesToYAMLJBangTask';
+import { CamelTransformRoutesInMultipleFilesJBangTask } from '../tasks/CamelTransformRoutesInMultipleFilesJBangTask';
 import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
-export class TransformCamelRoutesInMultipleFilesToYAMLCommand extends AbstractTransformCamelRouteCommand {
+export class TransformCamelRoutesInMultipleFilesCommand extends AbstractTransformCamelRouteCommand {
 
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_YAML = 'camel.jbang.transform.routes.in.files.yaml';
+	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_XML = 'camel.jbang.transform.routes.in.files.xml';
 
 	public async create(): Promise<void> {
 
@@ -29,9 +30,11 @@ export class TransformCamelRoutesInMultipleFilesToYAMLCommand extends AbstractTr
 		const destinationFolder = await this.showDialogToPickFolder(true);
 
 		if (sourceFiles && destinationFolder && this.workspaceFolder) {
-			await new CamelTransformRoutesInMultipleFilesToYAMLJBangTask(
+			const format = this.camelDSL?.language ?? 'Yaml'; //Defaults to Yaml
+			await new CamelTransformRoutesInMultipleFilesJBangTask(
 				this.workspaceFolder,
 				sourceFiles.map(file => file.fsPath),
+				format,
 				destinationFolder.fsPath).execute();
 		}
 

@@ -231,6 +231,12 @@
         "enablement": "resourceFilename =~ /\\.(java|xml|yaml)$/"
       },
       {
+        "command": "camel.jbang.transform.route.xml",
+        "title": "Transform a Camel Route to XML DSL",
+        "category": "Camel",
+        "enablement": "resourceFilename =~ /\\.(java|xml|yaml)$/"
+      },
+      {
         "command": "camel.jbang.transform.routes.in.folder.yaml",
         "title": "Transform any Camel Route in a specified folder to YAML DSL",
         "category": "Camel"
@@ -238,6 +244,16 @@
       {
         "command": "camel.jbang.transform.routes.in.files.yaml",
         "title": "Transform Camel Routes in multiple files to YAML DSL",
+        "category": "Camel"
+      },
+      {
+        "command": "camel.jbang.transform.routes.in.folder.xml",
+        "title": "Transform any Camel Route in a specified folder to XML DSL",
+        "category": "Camel"
+      },
+      {
+        "command": "camel.jbang.transform.routes.in.files.xml",
+        "title": "Transform Camel Routes in multiple files to XML DSL",
         "category": "Camel"
       }
     ],

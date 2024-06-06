@@ -16,27 +16,15 @@
  */
 'use strict';
 
-import { WorkspaceFolder, window, workspace } from "vscode";
+import { WorkspaceFolder, window } from "vscode";
 import * as fs from 'fs';
 import validFilename = require("valid-filename");
 import path = require("path");
+import { AbstractCamelCommand } from "./AbstractCamelCommand";
 
-export interface CamelRouteDSL {
-	language: string;
-	extension: string;
-	placeHolder: string;
-}
+export abstract class AbstractNewCamelRouteCommand extends AbstractCamelCommand{
 
-export abstract class AbstractNewCamelRouteCommand {
-
-	protected workspaceFolder: WorkspaceFolder | undefined;
-	protected camelDSL: CamelRouteDSL | undefined;
 	protected fileNameInputPrompt = 'Please provide a name for the new file (without extension).';
-
-	constructor(dsl: string) {
-		this.camelDSL = this.getDSL(dsl);
-		this.workspaceFolder = this.getWorkspaceFolder();
-	}
 
 	protected async showInputBoxForFileName(): Promise<string> {
 		const input = await window.showInputBox({
@@ -46,35 +34,8 @@ export abstract class AbstractNewCamelRouteCommand {
 				return this.validateCamelFileName(fileName ?? '');
 			},
 		});
-	
+
 		return input ?? '';
-	}
-
-	protected getDSL(dsl: string): CamelRouteDSL | undefined {
-		switch (dsl) {
-			case 'YAML':
-				return { language: 'Yaml', extension: 'camel.yaml', placeHolder: 'sample-route' };
-			case 'JAVA':
-				return { language: 'Java', extension: 'java', placeHolder: 'SampleRoute' };
-			case 'XML':
-				return { language: 'Xml', extension: 'camel.xml', placeHolder: 'sample-route' };
-			default:
-				return undefined;
-		}
-	}
-
-	/**
-	 * Resolves first opened folder in vscode existing workspace
-	 *
-	 * @returns WorkspaceFolder object
-	 */
-	private getWorkspaceFolder(): WorkspaceFolder | undefined {
-		let workspaceFolder: WorkspaceFolder | undefined;
-		if (workspace.workspaceFolders) {
-			// default to root workspace folder
-			workspaceFolder = workspace.workspaceFolders[0];
-		}
-		return workspaceFolder;
 	}
 
 	/**
@@ -104,7 +65,7 @@ export abstract class AbstractNewCamelRouteCommand {
 		if (!this.workspaceFolder) {
 			return 'Internal error: Workspace folder is undefined.';
 		}
-			
+
 		const newFilePotentialFullPath: string = this.computeFullPath(this.workspaceFolder, this.getFullName(name, this.camelDSL.extension));
 
 		if (fs.existsSync(newFilePotentialFullPath)) {
@@ -113,7 +74,7 @@ export abstract class AbstractNewCamelRouteCommand {
 		if (!validFilename(name)) {
 			return 'The filename is invalid.';
 		}
-		
+
 		const patternJavaNamingConvention = '\\b[A-Z][a-zA-Z_$0-9]*';
 		if ((this.camelDSL.language === 'Java') && (!name.match(patternJavaNamingConvention) || name.includes(' '))) {
 			return `The filename needs to follow the ${this.camelDSL.language} naming convention. I.e. ${patternJavaNamingConvention}`;

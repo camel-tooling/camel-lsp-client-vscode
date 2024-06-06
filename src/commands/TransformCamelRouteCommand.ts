@@ -19,13 +19,13 @@
 import * as path from 'path';
 import validFilename from 'valid-filename';
 import { commands, Uri, window } from 'vscode';
-import { CamelTransformRouteToYAMLJBangTask } from '../tasks/CamelTransformRouteToYAMLJBangTask';
+import { CamelTransformRouteJBangTask } from '../tasks/CamelTransformRouteJBangTask';
 import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
-
-export class TransformCamelRouteToYAMLCommand extends AbstractTransformCamelRouteCommand{
+export class TransformCamelRouteCommand extends AbstractTransformCamelRouteCommand{
 
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML = 'camel.jbang.transform.route.yaml';
+	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_XML = 'camel.jbang.transform.route.xml';
 
 	protected fileNameInputPrompt = 'Please provide a name for the new transformed Camel Route.';
 
@@ -40,7 +40,8 @@ export class TransformCamelRouteToYAMLCommand extends AbstractTransformCamelRout
 			if (transformedRouteFileName) {
 				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
 				if (this.workspaceFolder){
-					await new CamelTransformRouteToYAMLJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, transformedRouteFilePath).execute();
+					const format = this.camelDSL?.language ?? 'Yaml'; //Defaults to Yaml
+					await new CamelTransformRouteJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, format, transformedRouteFilePath).execute();
 					await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
 				}
 			}
