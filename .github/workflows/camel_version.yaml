@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        camel-version: [ "4.0.0",  "4.0.0.redhat-00036" ]
+        camel-version: [ "4.4.0",  "4.0.0.redhat-00036", "4.4.0.redhat-00019"]
 
     env:
       CODE_VERSION: max
