@@ -39,7 +39,7 @@ describe('Transform Camel Routes to YAML using commands', function () {
 		sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 	});
 
-	after(async function () {
+	afterEach(async function () {
 		await new EditorView().closeAllEditors();
 		await killTerminal();
 	});
