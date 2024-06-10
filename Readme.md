@@ -45,7 +45,7 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
   - from an OpenAPI file using YAML DSL
   - Kamelet with YAML DSL
   - Custom Resource Pipe with YAML DSL
-- Transform Camel Routes from XML and Java to YAML using Camel JBang.
+- Transform Camel Routes from XML, Yaml or Java to YAML or XML io using Camel JBang.
 - Create a Camel Quarkus project
 - Create a Camel on SpringBoot project
 - **XML DSL Only:**
