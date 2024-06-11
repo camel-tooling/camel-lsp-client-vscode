@@ -35,8 +35,8 @@ export class TransformCamelRouteCommand extends AbstractTransformCamelRouteComma
 			const currentOpenedFileUri = window.activeTextEditor.document.uri;
 			const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
 			const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
-			const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.yaml');
-
+			const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.camel.yaml');
+		
 			if (transformedRouteFileName) {
 				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
 				if (this.workspaceFolder){
