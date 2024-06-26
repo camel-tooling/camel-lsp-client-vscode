@@ -298,7 +298,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "glob": "^10.4.1",
-    "mocha": "^10.4.0",
+    "mocha": "^10.5.1",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^5.0.7",
