@@ -291,7 +291,7 @@
     "@types/winreg": "^1.2.36",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.14.1",
-    "@vscode/test-electron": "^2.3.9",
+    "@vscode/test-electron": "^2.4.0",
     "@vscode/vsce": "^2.29.0",
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.10",
