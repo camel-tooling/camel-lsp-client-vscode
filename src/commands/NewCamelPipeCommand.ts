@@ -29,7 +29,7 @@ export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 		const name = await this.showInputBoxForFileName();
 		if (name && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getPipeFullName(name, this.camelDSL.extension);
-			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
+			const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
 
 			await new CamelBindJBangTask(this.workspaceFolder, fileName).execute();
 			await commands.executeCommand('vscode.open', Uri.file(filePath));

@@ -17,12 +17,11 @@
 'use strict';
 
 import * as path from 'path';
-import validFilename from 'valid-filename';
 import { commands, Uri, window } from 'vscode';
 import { CamelTransformRouteJBangTask } from '../tasks/CamelTransformRouteJBangTask';
 import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
 
-export class TransformCamelRouteCommand extends AbstractTransformCamelRouteCommand{
+export class TransformCamelRouteCommand extends AbstractTransformCamelRouteCommand {
 
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML = 'camel.jbang.transform.route.yaml';
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_XML = 'camel.jbang.transform.route.xml';
@@ -35,12 +34,14 @@ export class TransformCamelRouteCommand extends AbstractTransformCamelRouteComma
 			const currentOpenedFileUri = window.activeTextEditor.document.uri;
 			const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
 			const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
-			const transformedRouteFileName = await this.showInputBoxForFileName(currentOpenedFileName + '.camel.yaml');
-		
-			if (transformedRouteFileName) {
-				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
-				if (this.workspaceFolder){
-					const format = this.camelDSL?.language ?? 'Yaml'; //Defaults to Yaml
+			const input = await this.showInputBoxForFileName(currentOpenedFileName, currentOpenedFileDir);
+
+			if (input && this.camelDSL && this.workspaceFolder) {
+				const transformedRouteFileName = input + `.${this.camelDSL.extension}`;
+
+				if (transformedRouteFileName) {
+					const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
+					const format = this.camelDSL.language;
 					await new CamelTransformRouteJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, format, transformedRouteFilePath).execute();
 					await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
 				}
@@ -48,12 +49,12 @@ export class TransformCamelRouteCommand extends AbstractTransformCamelRouteComma
 		}
 	}
 
-	protected async showInputBoxForFileName(placeHolder: string): Promise<string> {
+	protected async showInputBoxForFileName(placeHolder: string, folderPath: string): Promise<string> {
 		const output = await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
 			placeHolder: placeHolder,
 			validateInput: (fileName) => {
-				return this.validateFileName(fileName);
+				return this.validateCamelFileName(fileName, folderPath);
 			},
 		});
 
@@ -62,28 +63,6 @@ export class TransformCamelRouteCommand extends AbstractTransformCamelRouteComma
 		}
 
 		return output;
-	}
-
-	/**
-	 * File name validation
-	 *  - no empty name
-	 *  - no name without extension
-	 *  - name cannot contains eg. special characters
-	 *
-	 * @param name
-	 * @returns string | undefined
-	 */
-	public validateFileName(name: string): string | undefined {
-		if (!name) {
-			return 'Please provide a name for the new file.';
-		}
-		if (!name.includes('.')) {
-			return 'Please provide a name with an extension.';
-		}
-		if (!validFilename(name)) {
-			return 'The filename is invalid.';
-		}
-		return undefined;
 	}
 
 }

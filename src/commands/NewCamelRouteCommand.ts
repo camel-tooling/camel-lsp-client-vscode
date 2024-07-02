@@ -30,7 +30,7 @@ export class NewCamelRouteCommand extends AbstractNewCamelRouteCommand {
 		const input = await this.showInputBoxForFileName();
 		if(input && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(input, this.camelDSL.extension);
-			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
+			const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
 
 			await new CamelInitJBangTask(this.workspaceFolder, fileName).execute();
 			await commands.executeCommand('vscode.open', Uri.file(filePath));
