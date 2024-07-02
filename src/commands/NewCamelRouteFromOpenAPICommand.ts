@@ -28,7 +28,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 		const routeFileName = await this.showInputBoxForFileName();
 		if (routeFileName && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(routeFileName, this.camelDSL.extension);
-			const filePath = this.computeFullPath(this.workspaceFolder, fileName);
+			const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
 
 			const openAPIfilePath = await this.showDialogToPickOpenAPIFile();
 			if (openAPIfilePath) {

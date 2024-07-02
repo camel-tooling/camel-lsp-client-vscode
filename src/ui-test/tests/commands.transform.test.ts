@@ -53,7 +53,8 @@ describe('Transform Camel Routes to YAML using commands', function () {
 	routesToBeTransformed.forEach(function (route) {
 		describe('Camel Transform Routes', function () {
 
-			const FILENAME_CREATED_FROM_CAMEL_TRANSFORM: string = `transformedFrom${route.type}${route.fileExtension}`;
+			const INPUT_FILENAME: string = `transformedFrom${route.type}`;
+			const FILENAME_CREATED_FROM_CAMEL_TRANSFORM: string = `transformedFrom${route.type}.camel.yaml`;
 
 			after(async function () {
 				await deleteFile(FILENAME_CREATED_FROM_CAMEL_TRANSFORM, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND);
@@ -69,7 +70,7 @@ describe('Transform Camel Routes to YAML using commands', function () {
 				await driver.sleep(1000);
 
 				input = await InputBox.create(45000);
-				await input.setText(FILENAME_CREATED_FROM_CAMEL_TRANSFORM);
+				await input.setText(INPUT_FILENAME);
 				await input.confirm();
 
 				await waitUntilEditorIsOpened(driver, FILENAME_CREATED_FROM_CAMEL_TRANSFORM, 45000);
