@@ -5,6 +5,7 @@
 - Update Camel Quarkus Catalog from 3.10.0 to 3.12.0
 - Provides commands to transform Camel routes to Yaml or XML by specifying a folder or selecting several files
 - Use `.camel.yaml` as placeholder for output format for transforming Camel Routes
+- Update Kamelet Catalog from 4.6.0 to 4.7.0
 
 ## 1.1.0
 
