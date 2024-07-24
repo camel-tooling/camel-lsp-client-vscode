@@ -16,9 +16,10 @@
  */
 'use strict';
 
-import { Uri, commands, window } from "vscode";
+import { Uri, commands, window, workspace } from "vscode";
 import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelOpenAPIJBangTask } from "../tasks/CamelOpenAPIJBangTask";
+import { CamelAddPluginJBangTask } from "../tasks/CamelAddPluginJBangTask";
 
 export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteCommand {
 
@@ -32,6 +33,11 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 
 			const openAPIfilePath = await this.showDialogToPickOpenAPIFile();
 			if (openAPIfilePath) {
+				const camelVersion = workspace.getConfiguration().get('camel.languageSupport.JBangVersion') as string;
+				if (this.isVersionNewer('4.7', camelVersion)) {
+					// In 4.7, the generate command was moved to a specific plugin which requires to be installed.
+					await new CamelAddPluginJBangTask('generate').execute();
+				}
 				await new CamelOpenAPIJBangTask(this.workspaceFolder, fileName, openAPIfilePath.fsPath).execute();
 				await commands.executeCommand('vscode.open', Uri.file(filePath));
 			}
@@ -50,6 +56,26 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 			return openApifileNames[0];
 		}
 		return Uri.parse('');
+	}
+
+	/**
+	 * Compare two versions in format "^\d+(\.\d+)*$".
+	 * @param base Base version.
+	 * @param target Version to be compared with base version.
+	 * @returns true if target is newer or same as base, false otherwise
+	 */
+	isVersionNewer(base: string, target: string): boolean {
+		const partsBase = base.split('.').map(Number);
+		const partsTarget = target.split('.').map(Number);
+		const maxLength = Math.max(partsBase.length, partsTarget.length);
+		for (let i = 0; i < maxLength; i++) {
+			const basePart = i < partsBase.length ? partsBase[i] : 0;
+			const comparatorPart = i < partsTarget.length ? partsTarget[i] : 0;
+
+			if (basePart < comparatorPart) { return true; }
+			if (basePart > comparatorPart) { return false; }
+		}
+		return true;
 	}
 }
 

@@ -42,7 +42,7 @@ export class CamelJBang {
 		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', `--runtime=${runtime}`, `--gav=${gav}`]);
 	}
 
-	public generateRest(routefile: string, openApiFile: string) {
+	public generateRest(routefile: string, openApiFile: string): ShellExecution {
 		return new ShellExecution('jbang',
 			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
 				'camel@apache/camel',
@@ -89,4 +89,12 @@ export class CamelJBang {
 			`'--output=${outputPath}'`,]);
 	}
 
+	public add(plugin: string): ShellExecution {
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'plugin',
+				'add',
+				plugin]);
+	}
 }
