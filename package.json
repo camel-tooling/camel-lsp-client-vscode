@@ -303,7 +303,7 @@
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^5.0.7",
     "sinon": "^18.0.0",
-    "typescript": "^5.5.3",
+    "typescript": "^5.5.4",
     "vscode-uitests-tooling": "^4.1.4"
   },
   "dependencies": {
