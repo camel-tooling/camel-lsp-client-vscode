@@ -8,6 +8,7 @@
 - Update Kamelet Catalog from 4.6.0 to 4.7.0
 - Update default Camel Catalog version from 4.6.0 to 4.7.0
 - Update default Camel version used for Camel JBang from 4.6.0 to 4.7.0
+- Use Language Server for Apache Camel 1.23.0
 
 ## 1.1.0
 
