@@ -16,6 +16,7 @@
  */
 'use strict';
 
+import * as path from 'path';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 import { expect } from 'chai';
@@ -70,6 +71,17 @@ describe('Should execute Create a Camel Route command', function () {
 			await initNewFile(fileNameWithSpace, 'YAML DSL');
 
 			createdFile = await waitUntilFileIsCreated(fullFileNameWithSpace);
+			expect(createdFile.fsPath).not.to.be.undefined;
+
+			const openedEditor = await waitUntilEditorIsOpened(fullFileNameWithSpace);
+			expect(openedEditor).to.be.true;
+		});
+
+		it('New Camel YAML DSL file can be created - in subfolder', async function () {
+			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			await initNewFile(fileNameWithSpace, 'YAML DSL', vscode.Uri.file(path.posix.join(workspaceFolder.uri.fsPath, 'a sub folder')));
+
+			createdFile = await waitUntilFileIsCreated(path.posix.join('a sub folder', fullFileNameWithSpace));
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileNameWithSpace);
@@ -132,6 +144,11 @@ describe('Should execute Create a Camel Route command', function () {
 				expect(newCamelRouteCommand.validateCamelFileName('jbangInitRoute')).to.not.be.undefined;
 			});
 
+			it('Validate file already exists in subfolder', function () {
+				const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+				expect(newCamelRouteCommand.validateCamelFileName('jbangInitRouteInSubFolder', path.posix.join(workspaceFolder.uri.fsPath, 'a sub folder'))).to.not.be.undefined;
+			});
+
 			it('Validate special characters', function () {
 				expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
 			});
@@ -172,9 +189,9 @@ describe('Should execute Create a Camel Route command', function () {
 
 	});
 
-	async function initNewFile(name: string, dsl: string): Promise<void> {
+	async function initNewFile(name: string, dsl: string, targetFolder?: vscode.Uri): Promise<void> {
 		showQuickPickStub.resolves({ label: dsl });
 		showInputBoxStub.resolves(name);
-		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
+		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, targetFolder);
 	}
 });

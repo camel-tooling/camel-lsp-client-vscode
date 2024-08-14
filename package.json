@@ -172,9 +172,9 @@
     "commands": [
       {
         "command": "camel.new.file",
-        "title": "Camel File",
+        "title": "New Camel File",
         "category": "Camel",
-        "enablement": "false"
+        "enablement": "resource != undefined"
       },
       {
         "command": "camel.jbang.routes.yaml",
@@ -259,6 +259,13 @@
     ],
     "menus": {
       "file/newFile": [
+        {
+          "command": "camel.new.file",
+          "group": "Camel",
+          "when": "workspaceFolderCount != 0"
+        }
+      ],
+      "explorer/context": [
         {
           "command": "camel.new.file",
           "group": "Camel",

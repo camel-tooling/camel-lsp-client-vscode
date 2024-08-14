@@ -24,12 +24,12 @@ export abstract class AbstractNewCamelRouteCommand extends AbstractCamelCommand 
 
 	protected fileNameInputPrompt = 'Please provide a name for the new file (without extension).';
 
-	protected async showInputBoxForFileName(): Promise<string> {
+	protected async showInputBoxForFileName(targetFolder? :string): Promise<string> {
 		const input = await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
 			placeHolder: this.camelDSL?.placeHolder ?? '',
 			validateInput: (fileName) => {
-				return this.validateCamelFileName(fileName ?? '');
+				return this.validateCamelFileName(fileName ?? '', targetFolder);
 			},
 		});
 

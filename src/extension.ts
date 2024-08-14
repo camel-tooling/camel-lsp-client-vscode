@@ -18,7 +18,7 @@
 
 import { TelemetryEvent, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry';
 import * as path from 'path';
-import { ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, commands, languages, window, workspace } from 'vscode';
+import { ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, Uri, commands, languages, window, workspace } from 'vscode';
 import { DidChangeConfigurationNotification, LanguageClientOptions } from 'vscode-languageclient';
 import { Executable, LanguageClient } from 'vscode-languageclient/node';
 import * as telemetry from './Telemetry';
@@ -126,16 +126,16 @@ export async function activate(context: ExtensionContext) {
 	});
 
 	// Register commands for new Camel Route files - YAML DSL, Java DSL
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async () => {
-		await new NewCamelRouteCommand('YAML').create();
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML, async (uri :Uri) => {
+		await new NewCamelRouteCommand('YAML').create(uri);
 		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_YAML);
 	}));
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async () => {
-		await new NewCamelRouteCommand('JAVA').create();
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA, async (uri :Uri) => {
+		await new NewCamelRouteCommand('JAVA').create(uri);
 		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA);
 	}));
-	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async () => {
-		await new NewCamelRouteCommand('XML').create();
+	context.subscriptions.push(commands.registerCommand(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML, async (uri :Uri) => {
+		await new NewCamelRouteCommand('XML').create(uri);
 		await sendCommandTrackingEvent(NewCamelRouteCommand.ID_COMMAND_CAMEL_ROUTE_JBANG_XML);
 	}));
 
@@ -186,8 +186,8 @@ export async function activate(context: ExtensionContext) {
 		await new TransformCamelRoutesInMultipleFilesCommand('XML').create();
 		await sendCommandTrackingEvent(TransformCamelRoutesInMultipleFilesCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_XML);
 	}));
-	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async () => {
-		await new NewCamelFileCommand().create();
+	context.subscriptions.push(commands.registerCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, async (uri :Uri) => {
+		await new NewCamelFileCommand().create(uri);
 		await sendCommandTrackingEvent(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
 	}));
 
