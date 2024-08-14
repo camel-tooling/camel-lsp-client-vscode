@@ -16,7 +16,7 @@
  */
 'use strict';
 
-import { QuickPickItem, commands, window } from "vscode";
+import { QuickPickItem, Uri, commands, window } from "vscode";
 import { NewCamelRouteCommand } from "./NewCamelRouteCommand";
 import { NewCamelRouteFromOpenAPICommand } from "./NewCamelRouteFromOpenAPICommand";
 import { NewCamelKameletCommand } from "./NewCamelKameletCommand";
@@ -26,12 +26,12 @@ export class NewCamelFileCommand {
 
 	public static readonly ID_COMMAND_CAMEL_NEW_FILE = 'camel.new.file';
 
-	public async create(): Promise<void> {
+	public async create(uri: Uri): Promise<void> {
 		const selection = await this.showQuickPickForCamelFileType();
 		if (selection) {
 			const cmd = this.getCamelRouteCommandFromSelection(selection.label);
 			if(cmd){
-				await commands.executeCommand(cmd);
+				await commands.executeCommand(cmd, uri);
 			}
 		}
 	}

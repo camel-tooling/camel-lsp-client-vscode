@@ -2,6 +2,8 @@
 
 ## 1.4.0
 
+- Provide contextual menu `New Camel file` in Explorer. For `Create Camel Route with XXX DSL`, it creates them in the right-clicked folder.
+
 ## 1.3.0
 
 - Update Camel Quarkus Catalog from 3.10.0 to 3.13.0
