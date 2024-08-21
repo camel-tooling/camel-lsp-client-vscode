@@ -1,6 +1,21 @@
 {
     "version": "2.0.0",
     "tasks": [
+		{
+            "label": "Start Camel application with Maven Quarkus Dev with camel.debug profile",
+            "type": "shell",
+            "command": "mvn", // mvn binary of Maven must be available on command-line
+            "args": [
+                "compile",
+                "quarkus:dev",
+                "'-Pcamel.debug'" // This depends on your project. The goal here is to have camel-debug on the classpath.
+            ],
+            "problemMatcher": "$camel.debug.problemMatcher",
+            "presentation": {
+                "reveal": "always"
+            },
+            "isBackground": true // Must be set as background as the Maven commands doesn't return until the Camel application stops.
+        },
         {
             "label": "Build a Camel Quarkus application as a Native executable debug-ready",
             "detail": "This task will build Camel Quarkus application with JMX and Camel Debugger enabled using GraalVM",

@@ -13,6 +13,7 @@
 - Provides commands to transform Camel routes to Yaml or XML by specifying a folder or selecting several files
 - Use `.camel.yaml` as placeholder for output format for transforming Camel Routes
 - Update default Camel version used for Camel JBang from 4.6.0 to 4.7.0
+- Provide pre-configured launch and task configuration to Camel debug a Camel Quarkus application when using `Create a Camel Quarkus project` command
 
 ## 1.2.0
 
