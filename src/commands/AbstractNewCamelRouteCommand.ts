@@ -16,9 +16,10 @@
  */
 'use strict';
 
-import { window } from "vscode";
+import { FileType, Uri, window, workspace, WorkspaceFolder } from "vscode";
 
 import { AbstractCamelCommand } from "./AbstractCamelCommand";
+import path from "path";
 
 export abstract class AbstractNewCamelRouteCommand extends AbstractCamelCommand {
 
@@ -34,6 +35,20 @@ export abstract class AbstractNewCamelRouteCommand extends AbstractCamelCommand 
 		});
 
 		return input ?? '';
+	}
+
+	protected async computeTargetFolder(workspaceFolder: WorkspaceFolder, targetUri: Uri) {
+		let parentFolder;
+		if (targetUri !== undefined) {
+			if ((await workspace.fs.stat(targetUri)).type === FileType.Directory) {
+				parentFolder = targetUri.fsPath;
+			} else {
+				parentFolder = path.dirname(targetUri.fsPath);
+			}
+		} else {
+			parentFolder = workspaceFolder.uri.fsPath;
+		}
+		return parentFolder;
 	}
 
 }

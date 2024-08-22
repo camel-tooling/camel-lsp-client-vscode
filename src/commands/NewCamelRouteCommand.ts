@@ -16,7 +16,7 @@
  */
 'use strict';
 
-import { commands, FileType, Uri, workspace } from 'vscode';
+import { commands, Uri } from 'vscode';
 import { CamelInitJBangTask } from '../tasks/CamelInitJBangTask';
 import { AbstractNewCamelRouteCommand } from './AbstractNewCamelRouteCommand';
 import * as path from 'path';
@@ -31,16 +31,7 @@ export class NewCamelRouteCommand extends AbstractNewCamelRouteCommand {
 		const input = await this.showInputBoxForFileName(targetFolder ? targetFolder.fsPath : undefined);
 		if(input && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(input, this.camelDSL.extension);
-			let parentFolder;
-			if (targetFolder !== undefined) {
-				if((await workspace.fs.stat(targetFolder)).type === FileType.Directory) {
-					parentFolder = targetFolder.fsPath;
-				} else {
-					parentFolder = path.dirname(targetFolder.fsPath);
-				}
-			} else {
-				parentFolder = this.workspaceFolder.uri.fsPath;
-			}
+			const parentFolder = await this.computeTargetFolder(this.workspaceFolder, targetFolder);
 			const filePath = this.computeFullPath(parentFolder, fileName);
 
 			await new CamelInitJBangTask(this.workspaceFolder, path.relative(this.workspaceFolder.uri.fsPath, filePath)).execute();
