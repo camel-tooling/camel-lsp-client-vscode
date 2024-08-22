@@ -20,7 +20,7 @@ import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
 
 export class NewCamelQuarkusProjectCommand extends NewCamelProjectCommand {
 
-	public static ID_COMMAND_CAMEL_QUARKUS_PROJECT = 'camel.jbang.project.quarkus.new';
+	public static readonly ID_COMMAND_CAMEL_QUARKUS_PROJECT = 'camel.jbang.project.quarkus.new';
 
 	getRuntime(): string {
 		return 'quarkus';
