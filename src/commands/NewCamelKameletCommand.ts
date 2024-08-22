@@ -23,7 +23,7 @@ import { CamelRouteDSL } from "./AbstractCamelCommand";
 
 export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 
-	public static ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML = 'camel.jbang.routes.kamelet.yaml';
+	public static readonly ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML = 'camel.jbang.routes.kamelet.yaml';
 
 	private kameletType: string = '';
 

@@ -23,7 +23,7 @@ import { CamelAddPluginJBangTask } from "../tasks/CamelAddPluginJBangTask";
 
 export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteCommand {
 
-	public static ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML = 'camel.jbang.routes.yaml.fromopenapi';
+	public static readonly ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML = 'camel.jbang.routes.yaml.fromopenapi';
 
 	public async create(): Promise<void> {
 		const routeFileName = await this.showInputBoxForFileName();

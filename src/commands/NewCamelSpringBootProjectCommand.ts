@@ -20,7 +20,7 @@ import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
 
 export class NewCamelSpringBootProjectCommand extends NewCamelProjectCommand {
 
-	public static ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT = 'camel.jbang.project.springboot.new';
+	public static readonly ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT = 'camel.jbang.project.springboot.new';
 
 	getRuntime(): string {
 		return 'spring-boot';

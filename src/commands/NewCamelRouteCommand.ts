@@ -23,9 +23,9 @@ import * as path from 'path';
 
 export class NewCamelRouteCommand extends AbstractNewCamelRouteCommand {
 
-	public static ID_COMMAND_CAMEL_ROUTE_JBANG_YAML = 'camel.jbang.routes.yaml';
-	public static ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA = 'camel.jbang.routes.java';
-	public static ID_COMMAND_CAMEL_ROUTE_JBANG_XML = 'camel.jbang.routes.xml';
+	public static readonly ID_COMMAND_CAMEL_ROUTE_JBANG_YAML = 'camel.jbang.routes.yaml';
+	public static readonly ID_COMMAND_CAMEL_ROUTE_JBANG_JAVA = 'camel.jbang.routes.java';
+	public static readonly ID_COMMAND_CAMEL_ROUTE_JBANG_XML = 'camel.jbang.routes.xml';
 
 	public async create(targetFolder : Uri): Promise<void> {
 		const input = await this.showInputBoxForFileName(targetFolder ? targetFolder.fsPath : undefined);
