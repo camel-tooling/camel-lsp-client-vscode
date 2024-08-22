@@ -144,8 +144,8 @@ export async function activate(context: ExtensionContext) {
 		await sendCommandTrackingEvent(NewCamelRouteFromOpenAPICommand.ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML);
 	}));
 
-	context.subscriptions.push(commands.registerCommand(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML, async () => {
-		await new NewCamelKameletCommand('YAML').create();
+	context.subscriptions.push(commands.registerCommand(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML, async (uri :Uri) => {
+		await new NewCamelKameletCommand('YAML').create(uri);
 		await sendCommandTrackingEvent(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML);
 	}));
 

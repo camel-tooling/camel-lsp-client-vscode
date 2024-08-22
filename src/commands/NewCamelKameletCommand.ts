@@ -16,10 +16,11 @@
  */
 'use strict';
 
-import { QuickPickItem, Uri, commands, window } from "vscode";
+import {  QuickPickItem, Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelInitJBangTask } from "../tasks/CamelInitJBangTask";
 import { CamelRouteDSL } from "./AbstractCamelCommand";
+import path from "path";
 
 export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 
@@ -27,17 +28,18 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 
 	private kameletType: string = '';
 
-	public async create(): Promise<void> {
+	public async create(targetFolder: Uri): Promise<void> {
 		const type = await this.showQuickPickForKameletType();
 
 		if (type && this.camelDSL && this.workspaceFolder) {
 			this.kameletType = type;
-			const name = await this.showInputBoxForFileName();
+			const name = await this.showInputBoxForFileName(targetFolder ? targetFolder.fsPath : undefined);
 			if (name) {
 				const fileName = this.getKameletFullName(name, type, this.camelDSL.extension);
-				const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
+				const parentFolder = await this.computeTargetFolder(this.workspaceFolder, targetFolder);
+				const filePath = this.computeFullPath(parentFolder, fileName);
 
-				await new CamelInitJBangTask(this.workspaceFolder, fileName).execute();
+				await new CamelInitJBangTask(this.workspaceFolder, path.relative(this.workspaceFolder.uri.fsPath, filePath)).execute();
 				await commands.executeCommand('vscode.open', Uri.file(filePath));
 			}
 		}
@@ -51,12 +53,12 @@ export class NewCamelKameletCommand extends AbstractNewCamelRouteCommand {
 		}
 	}
 
-	protected async showInputBoxForFileName(): Promise<string> {
+	protected async showInputBoxForFileName(targetFolder?: string): Promise<string> {
 		return await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
 			placeHolder: this.camelDSL?.placeHolder,
 			validateInput: (fileName) => {
-				return this.validateCamelFileName(`${fileName}-${this.kameletType}`);
+				return this.validateCamelFileName(`${fileName}-${this.kameletType}`, targetFolder);
 			},
 		}) ?? '';
 	}
