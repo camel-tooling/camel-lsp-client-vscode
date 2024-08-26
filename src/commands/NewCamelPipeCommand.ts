@@ -20,18 +20,20 @@ import { Uri, commands, window } from "vscode";
 import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelBindJBangTask } from "../tasks/CamelBindJBangTask";
 import { CamelRouteDSL } from "./AbstractCamelCommand";
+import path from "path";
 
 export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 
 	public static readonly ID_COMMAND_CAMEL_ROUTE_PIPE_YAML = 'camel.jbang.routes.pipe.yaml';
 
-	public async create(): Promise<void> {
-		const name = await this.showInputBoxForFileName();
+	public async create(targetFolder: Uri): Promise<void> {
+		const name = await this.showInputBoxForFileName(targetFolder ? targetFolder.fsPath : undefined);
 		if (name && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getPipeFullName(name, this.camelDSL.extension);
-			const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
+			const parentFolder = await this.computeTargetFolder(this.workspaceFolder, targetFolder);
+			const filePath = this.computeFullPath(parentFolder, fileName);
 
-			await new CamelBindJBangTask(this.workspaceFolder, fileName).execute();
+			await new CamelBindJBangTask(this.workspaceFolder, path.relative(this.workspaceFolder.uri.fsPath, filePath)).execute();
 			await commands.executeCommand('vscode.open', Uri.file(filePath));
 		}
 	}
@@ -44,12 +46,12 @@ export class NewCamelPipeCommand extends AbstractNewCamelRouteCommand {
 		}
 	}
 
-	protected async showInputBoxForFileName(): Promise<string> {
+	protected async showInputBoxForFileName(targetFolder?: string): Promise<string> {
 		return await window.showInputBox({
 			prompt: this.fileNameInputPrompt,
 			placeHolder: this.camelDSL?.placeHolder,
 			validateInput: (fileName) => {
-				return this.validateCamelFileName(`${fileName}-pipe`);
+				return this.validateCamelFileName(`${fileName}-pipe`, targetFolder);
 			},
 		}) || '';
 	}

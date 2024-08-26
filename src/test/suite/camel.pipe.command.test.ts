@@ -21,6 +21,7 @@ import * as vscode from 'vscode';
 import { expect } from 'chai';
 import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
 import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
+import path from 'path';
 
 describe('Should execute Create a Pipe command', function () {
 
@@ -56,11 +57,22 @@ describe('Should execute Create a Pipe command', function () {
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
 			expect(openedEditor).to.be.true;
 		});
+
+		it('New file can be created - in subfolder', async function () {
+			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			await initNewFile(fileName, vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, 'a sub folder')));
+
+			const createdFile = await waitUntilFileIsCreated(fullFileName);
+			expect(createdFile.fsPath).not.to.be.undefined;
+
+			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
+			expect(openedEditor).to.be.true;
+		});
 	});
 
-	async function initNewFile(name: string): Promise<void> {
+	async function initNewFile(name: string, targetFolder?: vscode.Uri): Promise<void> {
 		showQuickPickStub.resolves({ label: 'Pipe' });
 		showInputBoxStub.resolves(name);
-		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE);
+		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, targetFolder);
 	}
 });
