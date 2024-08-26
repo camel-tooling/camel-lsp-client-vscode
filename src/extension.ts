@@ -149,8 +149,8 @@ export async function activate(context: ExtensionContext) {
 		await sendCommandTrackingEvent(NewCamelKameletCommand.ID_COMMAND_CAMEL_ROUTE_KAMELET_YAML);
 	}));
 
-	context.subscriptions.push(commands.registerCommand(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML, async () => {
-		await new NewCamelPipeCommand('YAML').create();
+	context.subscriptions.push(commands.registerCommand(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML, async (uri :Uri) => {
+		await new NewCamelPipeCommand('YAML').create(uri);
 		await sendCommandTrackingEvent(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML);
 	}));
 
