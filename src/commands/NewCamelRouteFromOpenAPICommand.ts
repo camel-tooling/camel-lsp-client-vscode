@@ -20,16 +20,18 @@ import { Uri, commands, window, workspace } from "vscode";
 import { AbstractNewCamelRouteCommand } from "./AbstractNewCamelRouteCommand";
 import { CamelOpenAPIJBangTask } from "../tasks/CamelOpenAPIJBangTask";
 import { CamelAddPluginJBangTask } from "../tasks/CamelAddPluginJBangTask";
+import path from "path";
 
 export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteCommand {
 
 	public static readonly ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML = 'camel.jbang.routes.yaml.fromopenapi';
 
-	public async create(): Promise<void> {
-		const routeFileName = await this.showInputBoxForFileName();
+	public async create(targetFolder: Uri): Promise<void> {
+		const routeFileName = await this.showInputBoxForFileName(targetFolder ? targetFolder.fsPath : undefined);
 		if (routeFileName && this.camelDSL && this.workspaceFolder) {
 			const fileName = this.getFullName(routeFileName, this.camelDSL.extension);
-			const filePath = this.computeFullPath(this.workspaceFolder.uri.fsPath, fileName);
+			const parentFolder = await this.computeTargetFolder(this.workspaceFolder, targetFolder);
+			const filePath = this.computeFullPath(parentFolder, fileName);
 
 			const openAPIfilePath = await this.showDialogToPickOpenAPIFile();
 			if (openAPIfilePath) {
@@ -38,7 +40,7 @@ export class NewCamelRouteFromOpenAPICommand extends AbstractNewCamelRouteComman
 					// In 4.7, the generate command was moved to a specific plugin which requires to be installed.
 					await new CamelAddPluginJBangTask('generate').execute();
 				}
-				await new CamelOpenAPIJBangTask(this.workspaceFolder, fileName, openAPIfilePath.fsPath).execute();
+				await new CamelOpenAPIJBangTask(this.workspaceFolder, path.relative(this.workspaceFolder.uri.fsPath, filePath), openAPIfilePath.fsPath).execute();
 				await commands.executeCommand('vscode.open', Uri.file(filePath));
 			}
 		}
