@@ -20,26 +20,26 @@ import * as sinon from 'sinon';
 import * as vscode from 'vscode';
 import { expect } from 'chai';
 import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
-import { NewCamelFileCommand } from '../../commands/NewCamelFileCommand';
 import path from 'path';
+import { NewCamelRouteFromOpenAPICommand } from '../../commands/NewCamelRouteFromOpenAPICommand';
 
-describe('Should execute Create a Pipe command', function () {
+describe('Should execute Create a route from open api command', function () {
 
-	let showQuickPickStub: sinon.SinonStub;
+	let showOpenDialogStub: sinon.SinonStub;
 	let showInputBoxStub: sinon.SinonStub;
 	let createdFile: vscode.Uri;
 
-	context('using YAML DSL', function () {
+	context('Using Yaml DSL', function () {
 		const fileName = 'test';
-		const fullFileName = `${fileName}-pipe.yaml`;
+		const fullFileName = `${fileName}.camel.yaml`;
 
 		beforeEach(async function () {
-			showQuickPickStub = sinon.stub(vscode.window, 'showQuickPick');
+			showOpenDialogStub = sinon.stub(vscode.window, 'showOpenDialog');
 			showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
 		});
 
 		afterEach(async function () {
-			showQuickPickStub.restore();
+			showOpenDialogStub.restore();
 			showInputBoxStub.restore();
 			await cleanCreatedFileAfterEachCommandExec(createdFile);
 		});
@@ -56,6 +56,8 @@ describe('Should execute Create a Pipe command', function () {
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
 			expect(openedEditor).to.be.true;
+			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			expect(vscode.window.activeTextEditor?.document.uri.fsPath).to.be.equal(path.join(workspaceFolder.uri.fsPath, fullFileName));
 		});
 
 		it('New file can be created - in subfolder', async function () {
@@ -72,8 +74,10 @@ describe('Should execute Create a Pipe command', function () {
 	});
 
 	async function initNewFile(name: string, targetFolder?: vscode.Uri): Promise<void> {
-		showQuickPickStub.resolves({ label: 'Pipe' });
+		const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+		console.log(path.join(workspaceFolder.uri.fsPath, 'petstore.json'));
+		showOpenDialogStub.resolves([vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, 'petstore.json'))]);
 		showInputBoxStub.resolves(name);
-		await vscode.commands.executeCommand(NewCamelFileCommand.ID_COMMAND_CAMEL_NEW_FILE, targetFolder);
+		await vscode.commands.executeCommand(NewCamelRouteFromOpenAPICommand.ID_COMMAND_CAMEL_ROUTE_FROM_OPEN_API_JBANG_YAML, targetFolder);
 	}
 });

@@ -70,6 +70,7 @@ describe('Should execute Create a Kamelet command', function () {
 
 				const openedEditor = await waitUntilEditorIsOpened(fullFileName);
 				expect(openedEditor).to.be.true;
+				expect(vscode.window.activeTextEditor?.document.uri.fsPath).to.be.equal(path.join(workspaceFolder.uri.fsPath, 'a sub folder', fullFileName));
 			});
 		});
 	});
