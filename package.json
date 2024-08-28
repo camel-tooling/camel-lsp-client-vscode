@@ -268,7 +268,7 @@
       "explorer/context": [
         {
           "command": "camel.new.file",
-          "group": "Camel",
+          "group": "1_camel",
           "when": "workspaceFolderCount != 0"
         }
       ]
