@@ -31,15 +31,13 @@ export abstract class NewCamelProjectCommand {
 				workspaceFolder = workspace.workspaceFolders[0];
 			}
 			const runtime = this.getRuntime();
-			if(workspaceFolder){ 
+			if(workspaceFolder){
 				await new CamelExportJBangTask(workspaceFolder, input, runtime).execute();
-			} 
-			if(runtime === 'quarkus') {
-				// if not exist, init .vscode with tasks.json and launch.json config files
-				await this.initFolder('.vscode');
-				for (const filename of ['tasks', 'launch']) {
-					await this.copyFile(`../../../resources/${filename}.json`, `.vscode/${filename}.json`);
-				}
+			}
+			// if not exist, init .vscode with tasks.json and launch.json config files
+			await this.initFolder('.vscode');
+			for (const filename of ['tasks', 'launch']) {
+				await this.copyFile(`../../../resources/${runtime}/${filename}.json`, `.vscode/${filename}.json`);
 			}
 		}
 	}

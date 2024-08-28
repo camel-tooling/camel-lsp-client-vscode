@@ -4,6 +4,7 @@
 
 - Provide contextual menu `New Camel file` in Explorer. For `Camel Route using XXX DSL`, `Pipe` and `Kamelet`, it creates them in the right-clicked folder.
 - Provide pre-configured launch and task configuration to Camel debug a Camel Quarkus application when using `Create a Camel Quarkus project` command
+- Provide pre-configured launch and task configuration to Camel debug a Camel Spring Boot application when using `Create a Camel Sprint Boot project` command
 - Update Camel Quarkus Catalog from 3.13.0 to 3.14.0
 
 ## 1.3.0
