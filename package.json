@@ -267,12 +267,50 @@
       ],
       "explorer/context": [
         {
-          "command": "camel.new.file",
+          "submenu": "camel.new.file",
           "group": "1_camel",
           "when": "workspaceFolderCount != 0"
         }
+      ],
+      "camel.new.file": [
+        {
+          "command": "camel.jbang.routes.yaml",
+          "group": "1_camel@1",
+          "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.routes.java",
+          "group": "1_camel@2",
+          "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.routes.xml",
+          "group": "1_camel@3",
+          "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.routes.kamelet.yaml",
+          "group": "1_camel@3",
+          "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.routes.pipe.yaml",
+          "group": "1_camel@4",
+          "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.routes.yaml.fromopenapi",
+          "group": "1_camel@5",
+          "when": "workspaceFolderCount != 0"
+        }
       ]
-    }
+    },
+    "submenus": [
+      {
+        "id": "camel.new.file",
+        "label": "New Camel File"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
