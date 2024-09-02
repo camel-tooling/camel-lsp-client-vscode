@@ -11,7 +11,7 @@
 			],
 			"options": {
 				"env": {
-					"CAMEL_DEBUGGER_SUSPEND": "false" // Camel on Spring Boot is not working with setting to true. A debugger must be attached for message to be processed.
+					"CAMEL_DEBUGGER_SUSPEND": "false" // Can be turned on with Camel on Spring Boot 4.8+. A debugger must be attached for message to be processed.
 				}
 			},
 			"problemMatcher": "$camel.debug.problemMatcher",
