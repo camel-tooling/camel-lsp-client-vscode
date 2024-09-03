@@ -341,7 +341,7 @@
     "async-wait-until": "^2.0.12",
     "chai": "^4.3.10",
     "eslint": "^8.57.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.30.0",
     "glob": "^11.0.0",
     "mocha": "^10.7.3",
     "mocha-jenkins-reporter": "^0.4.8",
