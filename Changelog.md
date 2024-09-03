@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.5.0
+
 ## 1.4.0
 
 - Provide contextual menu `New Camel file` in Explorer. It creates the file in the right-clicked folder.
