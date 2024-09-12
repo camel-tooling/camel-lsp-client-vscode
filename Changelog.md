@@ -2,6 +2,8 @@
 
 ## 1.5.0
 
+- Provide completion for Camel component Maven dependency in pom.xml. Take care to have the correct runtime provider selected in Preferences.
+
 ## 1.4.0
 
 - Provide contextual menu `New Camel file` in Explorer. It creates the file in the right-clicked folder.

@@ -52,6 +52,9 @@ This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> exte
   - Find references for `direct` and `direct VM` components in all open Camel files.
   - Navigation to Camel contexts and routes in the VS Code outline panel and in the **Go > Go to Symbol in Editor...** navigation panel.
   - Auto-completion for referenced IDs of `direct`, `direct VM`, `VM` and `SEDA` components.
+- Completion in pom.xml
+  - Completion for Camel component Maven dependency in pom.xml. Take care to have the correct runtime provider selected in Preferences.
+  - Completion to add Camel Quarkus debug profile
 
 For detailed information about Apache Camel supported features, see the [Apache Camel Language Server](https://github.com/camel-tooling/camel-language-server#features).
 
