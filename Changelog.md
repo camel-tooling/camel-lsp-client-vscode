@@ -5,6 +5,7 @@
 - Provide completion for Camel component Maven dependency in pom.xml. Take care to have the correct runtime provider selected in Preferences.
 - Update default Camel Catalog version from 4.7.0 to 4.8.0
 - Update default Camel version used for Camel JBang from 4.7.0 to 4.8.0
+- Update Kamelet Catalog from 4.7.0 to 4.8.0
 
 ## 1.4.0
 
