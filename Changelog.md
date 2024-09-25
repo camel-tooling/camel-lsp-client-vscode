@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.6.0
+
 ## 1.5.0
 
 - Provide completion for Camel component Maven dependency in pom.xml. Take care to have the correct runtime provider selected in Preferences.
