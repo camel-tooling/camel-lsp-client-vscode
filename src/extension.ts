@@ -162,20 +162,20 @@ export async function activate(context: ExtensionContext) {
 		await new NewCamelSpringBootProjectCommand().create();
 		await sendCommandTrackingEvent(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT);
 	}));
-	context.subscriptions.push(commands.registerCommand(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML, async () => {
-		await new TransformCamelRouteCommand('YAML').create();
+	context.subscriptions.push(commands.registerCommand(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML, async (uri: Uri) => {
+		await new TransformCamelRouteCommand('YAML').create(uri);
 		await sendCommandTrackingEvent(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML);
 	}));
-	context.subscriptions.push(commands.registerCommand(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_XML, async () => {
-		await new TransformCamelRouteCommand('XML').create();
+	context.subscriptions.push(commands.registerCommand(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_XML, async (uri: Uri) => {
+		await new TransformCamelRouteCommand('XML').create(uri);
 		await sendCommandTrackingEvent(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_XML);
 	}));
-	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML, async () => {
-		await new TransformCamelRoutesInFolderCommand('YAML').create();
+	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML, async (uri: Uri) => {
+		await new TransformCamelRoutesInFolderCommand('YAML').create(uri);
 		await sendCommandTrackingEvent(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML);
 	}));
-	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_XML, async () => {
-		await new TransformCamelRoutesInFolderCommand('XML').create();
+	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_XML, async (uri: Uri) => {
+		await new TransformCamelRoutesInFolderCommand('XML').create(uri);
 		await sendCommandTrackingEvent(TransformCamelRoutesInFolderCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_XML);
 	}));
 	context.subscriptions.push(commands.registerCommand(TransformCamelRoutesInMultipleFilesCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_MULTIPLES_FILES_TO_YAML, async () => {

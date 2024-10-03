@@ -21,6 +21,8 @@ import {
 	By,
 	ComboSetting,
 	ContentAssistItem,
+	ContextMenu,
+	ContextMenuItem,
 	DefaultTreeSection,
 	EditorView,
 	InputBox,
@@ -31,6 +33,7 @@ import {
 	TerminalView,
 	TextEditor,
 	TextSetting,
+	ViewItem,
 	VSBrowser,
 	WebDriver,
 	Workbench
@@ -114,6 +117,10 @@ export const CATALOG_VERSION_UI = 'Camel catalog version';
 // Specific workspace for creating project with command.
 export const SPECIFIC_WORKSPACE_NAME: string = 'create-camel-project-workspace';
 export const SPECIFIC_WORKSPACE_PATH: string = path.join(RESOURCES, SPECIFIC_WORKSPACE_NAME);
+
+//Context menu labels.
+export const NEW_CAMEL_FILE_LABEL = 'New Camel File';
+export const TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL = 'Transform a Camel Route to YAML DSL';
 
 // Other constant items
 export const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
@@ -593,4 +600,31 @@ export async function initNewCamelFile(type: string, name: string, kamelet: stri
 	input = await InputBox.create(5_000);
 	await input.setText(name);
 	await input.confirm();
+}
+
+/**
+ * Opens the context menu for a given route in the sidebar.
+ * @param route The route for which the context menu should be opened.
+ * @returns A promise that resolves to the opened ContextMenu.
+ */
+export async function openContextMenu(route: string): Promise<ContextMenu> {
+    const item = await (await new SideBarView().getContent().getSection('explorer')).findItem(route) as ViewItem;
+    const menu = await item.openContextMenu();
+    return menu;
+}
+
+/**
+ * Selects a specific command from a given context menu.
+ * @param command The command to select from the context menu.
+ * @param menu The ContextMenu instance from which to select the command.
+ * @returns A promise that resolves once the command is selected.
+ * @throws An error if the specified command is not found in the context menu.
+ */
+export async function selectContextMenuItem(command: string, menu: ContextMenu): Promise<void> {
+    const button = await menu.getItem(command);
+    if (button instanceof ContextMenuItem) {
+        await button.select();
+    } else {
+        throw new Error(`Button ${command} not found in context menu`);
+    }
 }
