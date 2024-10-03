@@ -16,17 +16,24 @@
  */
 'use strict';
 
+import { FileType, Uri, workspace } from 'vscode';
 import { CamelTransformRoutesInFolderJBangTask } from '../tasks/CamelTransformRoutesInFolderJBangTask';
 import { AbstractTransformCamelRouteCommand } from './AbstractTransformCamelRouteCommand';
+import { isEqual } from 'lodash';
 
 export class TransformCamelRoutesInFolderCommand extends AbstractTransformCamelRouteCommand{
 
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_YAML = 'camel.jbang.transform.routes.in.folder.yaml';
 	public static readonly ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTES_IN_FOLDER_TO_XML = 'camel.jbang.transform.routes.in.folder.xml';
 
-	public async create(): Promise<void> {
+	public async create(uri?: Uri): Promise<void> {
 
-		const sourceFolder = await this.showDialogToPickFolder(false);
+		// If an Uri was passed and it is a folder use it otherwise defaults to opening a dialog to select a soucer folder
+		let sourceFolder = uri;
+		if (!sourceFolder || !(await workspace.fs.stat(sourceFolder).then(stat => isEqual(stat.type,FileType.Directory)))) {
+			sourceFolder = await this.showDialogToPickFolder(false);
+		}
+
 		const destinationFolder = await this.showDialogToPickFolder(true);
 
 		if (sourceFolder && destinationFolder && this.workspaceFolder) {

@@ -302,7 +302,28 @@
           "command": "camel.jbang.routes.yaml.fromopenapi",
           "group": "1_camel@5",
           "when": "workspaceFolderCount != 0"
+        },
+        {
+          "command": "camel.jbang.transform.route.yaml",
+          "group": "1_camel@6",
+          "when": "workspaceFolderCount != 0 && !explorerResourceIsFolder"
+        },
+        {
+          "command": "camel.jbang.transform.route.xml",
+          "group": "1_camel@7",
+          "when": "workspaceFolderCount != 0 && !explorerResourceIsFolder"
+        },
+        {
+          "command": "camel.jbang.transform.routes.in.folder.yaml",
+          "group": "1_camel@8",
+          "when": "workspaceFolderCount != 0 && explorerResourceIsFolder"
+        },
+        {
+          "command": "camel.jbang.transform.routes.in.folder.xml",
+          "group": "1_camel@9",
+          "when": "workspaceFolderCount != 0 && explorerResourceIsFolder"
         }
+
       ]
     },
     "submenus": [

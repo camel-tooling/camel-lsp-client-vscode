@@ -28,25 +28,32 @@ export class TransformCamelRouteCommand extends AbstractTransformCamelRouteComma
 
 	protected fileNameInputPrompt = 'Please provide a name for the new transformed Camel Route.';
 
-	public async create(): Promise<void> {
+	public async create(uri?: Uri): Promise<void> {
 
-		if (window.activeTextEditor) {
-			const currentOpenedFileUri = window.activeTextEditor.document.uri;
-			const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
-			const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
-			const input = await this.showInputBoxForFileName(currentOpenedFileName, currentOpenedFileDir);
+		// If an Uri was passed use it otherwise defaults to the file in the active editor
+		const selectedUri = uri ?? (window.activeTextEditor ? window.activeTextEditor.document.uri : undefined);
 
-			if (input && this.camelDSL && this.workspaceFolder) {
-				const transformedRouteFileName = input + `.${this.camelDSL.extension}`;
+		if (!selectedUri) {
+			await window.showErrorMessage('No file or folder selected.');
+			return;
+		}
 
-				if (transformedRouteFileName) {
-					const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
-					const format = this.camelDSL.language;
-					await new CamelTransformRouteJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, format, transformedRouteFilePath).execute();
-					await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
-				}
+		const currentOpenedFileUri = selectedUri;
+		const currentOpenedFileDir = path.parse(currentOpenedFileUri.fsPath).dir;
+		const currentOpenedFileName = path.parse(currentOpenedFileUri.fsPath).name;
+		const input = await this.showInputBoxForFileName(currentOpenedFileName, currentOpenedFileDir);
+
+		if (input && this.camelDSL && this.workspaceFolder) {
+			const transformedRouteFileName = input + `.${this.camelDSL.extension}`;
+
+			if (transformedRouteFileName) {
+				const transformedRouteFilePath = path.join(currentOpenedFileDir, transformedRouteFileName);
+				const format = this.camelDSL.language;
+				await new CamelTransformRouteJBangTask(this.workspaceFolder, currentOpenedFileUri.fsPath, format, transformedRouteFilePath).execute();
+				await commands.executeCommand('vscode.open', Uri.file(transformedRouteFilePath));
 			}
 		}
+
 	}
 
 	protected async showInputBoxForFileName(placeHolder: string, folderPath: string): Promise<string> {

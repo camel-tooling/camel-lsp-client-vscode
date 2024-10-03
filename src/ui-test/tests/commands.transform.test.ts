@@ -16,11 +16,11 @@
  */
 
 import { expect } from 'chai';
-import { ActivityBar, DefaultTreeSection, EditorView, InputBox, SideBarView, VSBrowser, WebDriver, Workbench } from 'vscode-uitests-tooling';
+import { ActivityBar, DefaultTreeSection, EditorView, InputBox, Menu, SideBarView, VSBrowser, ViewItem, WebDriver, Workbench } from 'vscode-uitests-tooling';
 import * as pjson from '../../../package.json';
-import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from '../utils/testUtils';
+import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, NEW_CAMEL_FILE_LABEL, TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from '../utils/testUtils';
 
-describe('Transform Camel Routes to YAML using commands', function () {
+describe.only('Transform Camel Routes to YAML using commands', function () {
 	this.timeout(600000);
 
 	let driver: WebDriver;
@@ -115,5 +115,41 @@ describe('Transform Camel Routes to YAML using commands', function () {
 	// Using the simple dialog provided by VSCode does not allow selecting more than one file/folder
 	// See https://github.com/microsoft/vscode/issues/186637
 	it.skip('Transform multiple files to YAML - simple file dialog does not allow selecting multiple files yet');
+
+	it('Transform file to YAML using context menu', async function () {
+		if (process.platform === "darwin"){
+			//VSCode on MacOS uses native contextual menus making the test fail, so we skip it.
+			this.skip();
+		}
+		const transformedFileName: string = `transformedFrom${EXAMPLE_TRANSFORM_COMMAND_XML_FILE}`;
+
+		const item = await (await new SideBarView().getContent().getSection('camel_transform_command')).findItem(`${EXAMPLE_TRANSFORM_COMMAND_XML_FILE}.xml`) as ViewItem;
+		const menu = await item.openContextMenu();
+
+		const submenu = await menu.select(NEW_CAMEL_FILE_LABEL);
+
+		if (submenu instanceof Menu) {
+			await submenu.select(TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL);
+		} else {
+			throw new Error(`Button ${TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL} not found in context menu`);
+		}
+
+		await driver.sleep(1000);
+
+		input = await InputBox.create(45000);
+		await input.setText(transformedFileName);
+		await input.confirm();
+
+		await waitUntilEditorIsOpened(driver, `${transformedFileName}.camel.yaml`, 45000);
+
+		const tree: DefaultTreeSection = await sideBar.getContent().getSection('camel_transform_command');
+		const items = await tree.getVisibleItems();
+
+		const labels = await Promise.all(items.map(item => item.getLabel()));
+		expect(labels).contains(`${transformedFileName}.camel.yaml`);
+
+		await deleteFile(`${transformedFileName}.camel.yaml`, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND);
+
+	});
 });
 
