@@ -26,16 +26,16 @@ import {
 	WebDriver,
 	Workbench
 } from 'vscode-extension-tester';
+import * as pjson from '../../../package.json';
 import {
 	CREATE_COMMAND_QUARKUS_ID,
 	CREATE_COMMAND_SPRINGBOOT_ID,
 	killTerminal,
 	SPECIFIC_WORKSPACE_NAME,
 	SPECIFIC_WORKSPACE_PATH,
-	waitUntilFileAvailable,
-	waitUntilExtensionIsActivated
+	waitUntilExtensionIsActivated,
+	waitUntilFileAvailable
 } from '../utils/testUtils';
-import * as pjson from '../../../package.json';
 
 describe('Create a Camel Project using command', function () {
 	this.timeout(400000);
@@ -71,12 +71,13 @@ describe('Create a Camel Project using command', function () {
 			it(`Create project`, async function () {
 				await new Workbench().executeCommand(command);
 
-				await driver.wait(async function () {
-					input = await InputBox.create();
-					return input;
-				}, 30000);
+				input = await InputBox.create(30000);
 				await input.setText('com.demo:test:1.0-SNAPSHOT');
 				await input.confirm();
+
+				input = await InputBox.create(30000);
+				await input.confirm();
+				await driver.sleep(1000);
 
 				await waitUntilFileAvailable(driver, 'pom.xml', SPECIFIC_WORKSPACE_NAME, 60000);
 			});

@@ -2,6 +2,8 @@
 
 ## 1.8.0
 
+- Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command
+
 ## 1.7.0
 
 - Update Kamelet Catalog from 4.8.0 to 4.8.1

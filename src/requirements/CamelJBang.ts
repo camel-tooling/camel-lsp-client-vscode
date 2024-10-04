@@ -16,8 +16,9 @@
  */
 'use strict';
 
-import { ShellExecution, workspace } from "vscode";
 import path from 'path';
+import { ShellExecution, workspace } from "vscode";
+import { arePathsEqual, getCurrentWorkingDirectory } from "./utils";
 
 /**
  * Camel JBang class which allows shell execution of different jbang cli commands
@@ -38,8 +39,27 @@ export class CamelJBang {
 		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'bind', '--source', source, '--sink', sink, `'${file}'`]);
 	}
 
-	public createProject(gav: string, runtime: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', `--runtime=${runtime}`, `--gav=${gav}`]);
+	public createProject(gav: string, runtime: string, outputPath: string): ShellExecution {
+
+		// Workaround for an issue during camel jbang execution in windows machines.
+		// Specifying the --directory option with the complete path when it is equal to the current working directory causes issues.
+		// Omitting the option or in this case using '.' works as expected.
+		let cwd = getCurrentWorkingDirectory();
+		if (cwd && arePathsEqual(cwd, outputPath)) {
+			outputPath = '.';
+		} else{
+			// In case there is no folder open we use the outputPath as the current working directory to avoid using the users home folder.
+			cwd = outputPath;
+		}
+
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'export',
+				`--runtime=${runtime}`,
+				`--gav=${gav}`,
+				`'--directory=${outputPath}'`], {cwd});
+
 	}
 
 	public generateRest(routefile: string, openApiFile: string): ShellExecution {
@@ -97,4 +117,5 @@ export class CamelJBang {
 				'add',
 				plugin]);
 	}
+
 }
