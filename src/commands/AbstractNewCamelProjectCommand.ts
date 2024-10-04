@@ -23,7 +23,7 @@ import { arePathsEqual, getCurrentWorkingDirectory } from "../requirements/utils
 
 export abstract class AbstractNewCamelProjectCommand {
 
-	async create() {
+	async create(openInNewWindow: boolean = true) {
 		const runtime = await this.getRuntime();
 		const input = await this.askForGAV();
 		if (runtime && input) {
@@ -39,10 +39,10 @@ export abstract class AbstractNewCamelProjectCommand {
 			// potentially deleting files in the selected folder.
 			// Executing the command from the same folder does not delete files.
 			const cwd = getCurrentWorkingDirectory();
-			if (cwd && !arePathsEqual(cwd, outputFolder.fsPath)){
+			if (cwd && !arePathsEqual(cwd, outputFolder.fsPath)) {
 				const userChoice = await this.confirmDestructiveActionInSelectedFolder(outputFolder.fsPath);
 
-				if (userChoice === undefined){
+				if (userChoice === undefined) {
 					await window.showInformationMessage('Camel project creation canceled');
 					return;
 				}
@@ -57,12 +57,15 @@ export abstract class AbstractNewCamelProjectCommand {
 			}
 
 			// open the newly created project in a new vscode instance
-			await commands.executeCommand('vscode.openFolder', outputFolder, true);
+			if (openInNewWindow) {
+				await commands.executeCommand('vscode.openFolder', outputFolder, true);
+			}
+
 
 		}
 	}
 
-	abstract getRuntime(): Promise<string|undefined>;
+	abstract getRuntime(): Promise<string | undefined>;
 
 	async askForGAV() {
 		return await window.showInputBox({

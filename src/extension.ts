@@ -169,7 +169,7 @@ export async function activate(context: ExtensionContext) {
 	}));
 
 	context.subscriptions.push(commands.registerCommand(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT, async () => {
-		await new NewCamelProjectCommand().create();
+		await new NewCamelProjectCommand().create(false);
 		await sendCommandTrackingEvent(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT);
 	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {
