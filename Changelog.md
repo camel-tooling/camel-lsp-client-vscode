@@ -1,6 +1,7 @@
 # Change Log
 
 ## 1.6.0
+- Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command
 
 - Provide contextual menu to transform routes. In the `New Camel file` menu tranform the right clicked files or all the file in a clicked folder.
 
