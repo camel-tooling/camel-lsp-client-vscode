@@ -38,8 +38,14 @@ export class CamelJBang {
 		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'bind', '--source', source, '--sink', sink, `'${file}'`]);
 	}
 
-	public createProject(gav: string, runtime: string): ShellExecution {
-		return new ShellExecution('jbang', [`'-Dcamel.jbang.version=${this.camelVersion}'`, 'camel@apache/camel', 'export', `--runtime=${runtime}`, `--gav=${gav}`]);
+	public createProject(gav: string, runtime: string, outputPath: string): ShellExecution {
+		return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'export',
+				`--runtime=${runtime}`,
+				`--gav=${gav}`,
+				`'--directory=${outputPath}'`]);
 	}
 
 	public generateRest(routefile: string, openApiFile: string): ShellExecution {

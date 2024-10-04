@@ -197,14 +197,12 @@
       {
         "command": "camel.jbang.project.quarkus.new",
         "title": "Create a Camel Quarkus project",
-        "category": "Camel",
-        "enablement": "workspaceFolderCount != 0"
+        "category": "Camel"
       },
       {
         "command": "camel.jbang.project.springboot.new",
         "title": "Create a Camel on SpringBoot project",
-        "category": "Camel",
-        "enablement": "workspaceFolderCount != 0"
+        "category": "Camel"
       },
       {
         "command": "camel.jbang.routes.yaml.fromopenapi",

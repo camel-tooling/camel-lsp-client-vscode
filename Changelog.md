@@ -1,6 +1,7 @@
 # Change Log
 
 ## 1.6.0
+- Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command
 
 ## 1.5.0
 

@@ -77,6 +77,15 @@ describe('Create a Camel Project using command', function () {
 				}, 30000);
 				await input.setText('com.demo:test:1.0-SNAPSHOT');
 				await input.confirm();
+				await driver.sleep(1000);
+
+				await driver.wait(async function () {
+					input = await InputBox.create();
+					return input;
+				}, 30000);
+				while (await input.isDisplayed()) {
+					await input.confirm();
+				}
 
 				await waitUntilFileAvailable(driver, 'pom.xml', SPECIFIC_WORKSPACE_NAME, 60000);
 			});
