@@ -16,13 +16,13 @@
  */
 'use strict';
 
-import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
+import { AbstractNewCamelProjectCommand } from "./AbstractNewCamelProjectCommand";
 
-export class NewCamelQuarkusProjectCommand extends NewCamelProjectCommand {
+export class NewCamelQuarkusProjectCommand extends AbstractNewCamelProjectCommand {
 
 	public static readonly ID_COMMAND_CAMEL_QUARKUS_PROJECT = 'camel.jbang.project.quarkus.new';
 
-	getRuntime(): string {
+	async getRuntime(): Promise<string> {
 		return 'quarkus';
 	}
 }

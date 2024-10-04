@@ -25,6 +25,7 @@ import * as telemetry from './Telemetry';
 import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
 import { NewCamelKameletCommand } from './commands/NewCamelKameletCommand';
 import { NewCamelPipeCommand } from './commands/NewCamelPipeCommand';
+import { NewCamelProjectCommand } from './commands/NewCamelProjectCommand';
 import { NewCamelQuarkusProjectCommand } from './commands/NewCamelQuarkusProjectCommand';
 import { NewCamelRouteCommand } from './commands/NewCamelRouteCommand';
 import { NewCamelRouteFromOpenAPICommand } from './commands/NewCamelRouteFromOpenAPICommand';
@@ -167,6 +168,10 @@ export async function activate(context: ExtensionContext) {
 		await sendCommandTrackingEvent(NewCamelPipeCommand.ID_COMMAND_CAMEL_ROUTE_PIPE_YAML);
 	}));
 
+	context.subscriptions.push(commands.registerCommand(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT, async () => {
+		await new NewCamelProjectCommand().create();
+		await sendCommandTrackingEvent(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT);
+	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {
 		await new NewCamelQuarkusProjectCommand().create();
 		await sendCommandTrackingEvent(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT);
