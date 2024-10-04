@@ -16,13 +16,13 @@
  */
 'use strict';
 
-import { NewCamelProjectCommand } from "./NewCamelProjectCommand";
+import { AbstractNewCamelProjectCommand } from "./AbstractNewCamelProjectCommand";
 
-export class NewCamelSpringBootProjectCommand extends NewCamelProjectCommand {
+export class NewCamelSpringBootProjectCommand extends AbstractNewCamelProjectCommand {
 
 	public static readonly ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT = 'camel.jbang.project.springboot.new';
 
-	getRuntime(): string {
+	async getRuntime(): Promise<string> {
 		return 'spring-boot';
 	}
 }

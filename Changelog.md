@@ -2,6 +2,8 @@
 
 ## 1.9.0
 
+- Add button to create new Camel project while no folder/workspace is opened.
+
 ## 1.8.0
 
 - Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command

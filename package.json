@@ -195,6 +195,12 @@
         "enablement": "workspaceFolderCount != 0"
       },
       {
+        "command": "camel.jbang.project.new",
+        "title": "Create a Camel project",
+        "category": "Camel",
+        "enablement": "false"
+      },
+      {
         "command": "camel.jbang.project.quarkus.new",
         "title": "Create a Camel Quarkus project",
         "category": "Camel"
@@ -327,6 +333,12 @@
       {
         "id": "camel.new.file",
         "label": "New Camel File"
+      }
+    ],
+    "viewsWelcome": [
+      {
+        "view": "workbench.explorer.emptyView",
+        "contents": "Create a new Camel project using the button below.\n[Create a Camel project](command:camel.jbang.project.new)\nLearn more about Language Support for Apache Camel by Red Hat by reading the [documentation](https://camel-tooling.github.io/camel-lsp-client-vscode/)"
       }
     ]
   },
