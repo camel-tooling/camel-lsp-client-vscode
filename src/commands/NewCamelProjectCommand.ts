@@ -16,29 +16,35 @@
  */
 'use strict';
 
-import { Uri, WorkspaceFolder, window, workspace } from "vscode";
-import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
 import * as path from "path";
+import { TaskScope, Uri, commands, window, workspace } from "vscode";
+import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
 
 export abstract class NewCamelProjectCommand {
 
 	async create() {
 		const input = await this.askForGAV();
 		if (input) {
-			let workspaceFolder: WorkspaceFolder | undefined;
-			if (workspace.workspaceFolders) {
-				// default to root workspace folder
-				workspaceFolder = workspace.workspaceFolders[0];
+
+			// Uses the user selected folder otherwise default to the root workspace folder
+			const outputFolder = await this.showDialogToPickFolder();
+			if (!outputFolder) {
+				await window.showErrorMessage('Operation canceled or invalid folder selection');
+				return;
 			}
+
 			const runtime = this.getRuntime();
-			if(workspaceFolder){
-				await new CamelExportJBangTask(workspaceFolder, input, runtime).execute();
-			}
+			await new CamelExportJBangTask(TaskScope.Workspace, input, runtime, outputFolder.fsPath).execute();
+
 			// if not exist, init .vscode with tasks.json and launch.json config files
-			await this.initFolder('.vscode');
+			await workspace.fs.createDirectory(Uri.file(path.join(outputFolder.fsPath, '.vscode')));
 			for (const filename of ['tasks', 'launch']) {
-				await this.copyFile(`../../../resources/${runtime}/${filename}.json`, `.vscode/${filename}.json`);
+				await this.copyFile(`../../../resources/${runtime}/${filename}.json`, path.join(outputFolder.fsPath, `.vscode/${filename}.json`));
 			}
+
+			// open the newly created project in a new vscode instance
+			await commands.executeCommand('vscode.openFolder', outputFolder, true);
+
 		}
 	}
 
@@ -81,35 +87,43 @@ export abstract class NewCamelProjectCommand {
 		}
 		for (const groupidSubPart of groupIdSplit) {
 			const regExpSearch = /^[a-z]\w*$/.exec(groupidSubPart);
-			if(regExpSearch === null || regExpSearch.length === 0) {
+			if (regExpSearch === null || regExpSearch.length === 0) {
 				return `Invalid subpart of group Id: ${groupidSubPart}} . It must follow groupId:artifactId:version pattern with group Id subpart separated by dot needs to follow this specific pattern: [a-zA-Z]\\w*`;
 			}
 		}
 
 		const artifactId = gavs[1];
 		const regExpSearchArtifactId = /^[a-zA-Z]\w*$/.exec(artifactId);
-		if(regExpSearchArtifactId === null || regExpSearchArtifactId.length === 0) {
+		if (regExpSearchArtifactId === null || regExpSearchArtifactId.length === 0) {
 			return `Invalid artifact Id: ${artifactId}} . It must follow groupId:artifactId:version pattern with artifactId specific pattern: [a-zA-Z]\\w*`;
 		}
 
 		const version = gavs[2];
 		const regExpSearch = /^\d[\w-.]*$/.exec(version);
-		if(regExpSearch === null || regExpSearch.length === 0) {
+		if (regExpSearch === null || regExpSearch.length === 0) {
 			return `Invalid version: ${version} . It must follow groupId:artifactId:version pattern with version specific pattern: \\d[\\w-.]*`;
 		}
 		return undefined;
 	}
 
 	/**
-	 * Create a new folder inside the root of vscode workspace
+	 * Open a dialog to select a folder to create the project in.
 	 *
-	 * @param folder Name of the folder
+	 * @returns Uri of the selected folder or undefined if canceled by the user.
 	 */
-	private async initFolder(folder: string): Promise<void> {
-		if (workspace.workspaceFolders){
-			const wsPath = workspace.workspaceFolders[0].uri.fsPath;
-			await workspace.fs.createDirectory(Uri.file(path.join(wsPath, folder)));
+	private async showDialogToPickFolder(): Promise<Uri | undefined> {
+		const selectedFolders = await window.showOpenDialog(
+			{
+				canSelectMany: false,
+				canSelectFolders: true,
+				canSelectFiles: false,
+				openLabel: 'Select',
+				title: 'Select a folder to create the project in. ESC to cancel the project creation'
+			});
+		if (selectedFolders !== undefined) {
+			return selectedFolders[0];
 		}
+		return undefined;
 	}
 
 	/**
@@ -119,15 +133,14 @@ export abstract class NewCamelProjectCommand {
 	 * @param destPath Path of destination
 	 */
 	private async copyFile(sourcePath: string, destPath: string): Promise<void> {
-		if (workspace.workspaceFolders){
-			const wsPath = workspace.workspaceFolders[0].uri.fsPath;
-			const sourcePathUri = Uri.file(path.resolve(__dirname, sourcePath));
-			const destPathUri = Uri.file(path.join(wsPath, destPath));
-			try {
-				await workspace.fs.copy(sourcePathUri, destPathUri, { overwrite: false });
-			} catch (error) {
-				// Do nothing in case there already exists tasks.json and launch.json files
-			}
+
+		const sourcePathUri = Uri.file(path.resolve(__dirname, sourcePath));
+		const destPathUri = Uri.file(path.resolve(__dirname, destPath));
+		try {
+			await workspace.fs.copy(sourcePathUri, destPathUri, { overwrite: false });
+		} catch (error) {
+			// Do nothing in case there already exists tasks.json and launch.json files
 		}
+
 	}
 }
