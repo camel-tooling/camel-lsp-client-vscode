@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
+import * as fs from 'fs-extra';
+import * as path from 'path';
 import {
 	ActivityBar,
 	BottomBarPanel,
 	By,
 	ComboSetting,
 	ContentAssistItem,
-	ContextMenu,
-	ContextMenuItem,
 	DefaultTreeSection,
 	EditorView,
 	InputBox,
@@ -33,14 +33,11 @@ import {
 	TerminalView,
 	TextEditor,
 	TextSetting,
-	ViewItem,
 	VSBrowser,
 	WebDriver,
 	Workbench
 } from "vscode-uitests-tooling";
 import { storageFolder } from "../uitest_runner";
-import * as path from 'path';
-import * as fs from 'fs-extra';
 
 // Resources and file names inside.
 export const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
@@ -602,29 +599,3 @@ export async function initNewCamelFile(type: string, name: string, kamelet: stri
 	await input.confirm();
 }
 
-/**
- * Opens the context menu for a given route in the sidebar.
- * @param route The route for which the context menu should be opened.
- * @returns A promise that resolves to the opened ContextMenu.
- */
-export async function openContextMenu(route: string): Promise<ContextMenu> {
-    const item = await (await new SideBarView().getContent().getSection('explorer')).findItem(route) as ViewItem;
-    const menu = await item.openContextMenu();
-    return menu;
-}
-
-/**
- * Selects a specific command from a given context menu.
- * @param command The command to select from the context menu.
- * @param menu The ContextMenu instance from which to select the command.
- * @returns A promise that resolves once the command is selected.
- * @throws An error if the specified command is not found in the context menu.
- */
-export async function selectContextMenuItem(command: string, menu: ContextMenu): Promise<void> {
-    const button = await menu.getItem(command);
-    if (button instanceof ContextMenuItem) {
-        await button.select();
-    } else {
-        throw new Error(`Button ${command} not found in context menu`);
-    }
-}

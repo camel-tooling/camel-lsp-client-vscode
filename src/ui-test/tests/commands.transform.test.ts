@@ -20,7 +20,7 @@ import { ActivityBar, DefaultTreeSection, EditorView, InputBox, Menu, SideBarVie
 import * as pjson from '../../../package.json';
 import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, NEW_CAMEL_FILE_LABEL, TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from '../utils/testUtils';
 
-describe.only('Transform Camel Routes to YAML using commands', function () {
+describe('Transform Camel Routes to YAML using commands', function () {
 	this.timeout(600000);
 
 	let driver: WebDriver;
