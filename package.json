@@ -323,7 +323,6 @@
           "group": "1_camel@9",
           "when": "workspaceFolderCount != 0 && explorerResourceIsFolder"
         }
-
       ]
     },
     "submenus": [
@@ -339,14 +338,14 @@
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./scripts/postinstall.js",
     "test": "node ./out/src/test/runTest.js",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint src",
     "preui-test": "npm run compile",
     "ui-test": "node ./out/src/ui-test/uitest_runner.js",
     "ui-coverage": "npm run ui-test -- coverage"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.8.0",
-    "@types/chai": "^4.3.11",
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "@types/chai": "^4.3.20",
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.0.1",
     "@types/lodash": "^4.17.10",
@@ -355,13 +354,14 @@
     "@types/sinon": "^17.0.3",
     "@types/vscode": "^1.82.0",
     "@types/winreg": "^1.2.36",
-    "@typescript-eslint/eslint-plugin": "^7.17.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^3.1.1",
     "async-wait-until": "^2.0.12",
-    "chai": "^4.3.10",
-    "eslint": "^8.57.1",
+    "chai": "^4.5.0",
+    "eslint": "^9.12.0",
+    "eslint-define-config": "^2.1.0",
     "eslint-plugin-import": "^2.31.0",
     "glob": "^11.0.0",
     "mocha": "^10.7.3",
@@ -369,7 +369,7 @@
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^6.0.1",
     "sinon": "^19.0.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "vscode-uitests-tooling": "^4.1.9"
   },
   "dependencies": {
