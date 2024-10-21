@@ -357,7 +357,7 @@
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
     "@vscode/test-electron": "^2.3.9",
-    "@vscode/vsce": "^3.1.1",
+    "@vscode/vsce": "^3.2.0",
     "async-wait-until": "^2.0.12",
     "chai": "^4.5.0",
     "eslint": "^9.12.0",
