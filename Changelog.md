@@ -3,6 +3,7 @@
 ## 1.6.0
 
 - Provide contextual menu to transform routes. In the `New Camel file` menu tranform the right clicked files or all the file in a clicked folder.
+- Update default Camel version used for Camel JBang from 4.8.0 to 4.8.1
 
 ## 1.5.0
 
