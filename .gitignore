@@ -17,3 +17,4 @@ test Fixture with speci@l chars/.vscode/**
 /node-sbom.json
 coverage
 .camel-jbang
+.camel-jbang-run
