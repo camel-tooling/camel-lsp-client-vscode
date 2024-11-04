@@ -38,7 +38,7 @@ import {
 	VSBrowser,
 	ViewControl,
 	WebDriver
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import * as pjson from '../../../package.json';
 
 describe('Language Support for Apache Camel extension', function () {
@@ -127,7 +127,7 @@ describe('Language Support for Apache Camel extension', function () {
 				catch {
 					return false;
 				}
-			}, this.timeout() - 3000, `Could not find Apache Camel element with label '${LSP_STATUS_BAR_MESSAGE}'. Current label: '${await new StatusBar().getLSPSupport().catch(() => 'unknown')}'`);
+			}, this.timeout() - 3000, `Could not find Apache Camel element with label '${LSP_STATUS_BAR_MESSAGE}'. Current label: '${await new StatusBar().findElement(By.id('redhat.vscode-apache-camel')).getText().catch(() => 'unknown')}'`);
 		});
 	});
 });

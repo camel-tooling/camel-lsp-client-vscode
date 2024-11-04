@@ -16,7 +16,7 @@
  */
 
 import { assert } from "chai";
-import { ActivityBar, DefaultTreeSection, InputBox, QuickPickItem, SideBarView, VSBrowser, WebDriver, Workbench } from "vscode-uitests-tooling";
+import { ActivityBar, DefaultTreeSection, InputBox, QuickPickItem, SideBarView, VSBrowser, WebDriver, Workbench } from "vscode-extension-tester";
 import { CODE_NAVIGATION_XML, CODE_NAVIGATION_JAVA, RESOURCES, closeEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated, activateEditor } from "../utils/testUtils";
 import * as pjson from '../../../package.json';
 import * as path from 'path';
@@ -39,7 +39,7 @@ describe('Code navigation', function () {
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
 
-		await (await new ActivityBar().getViewControl('Explorer')).openView();
+		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 		await (await new SideBarView().getContent().getSection('resources')).collapse();
 
 		section = await new SideBarView().getContent().getSection('Outline') as DefaultTreeSection;

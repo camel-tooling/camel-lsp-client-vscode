@@ -21,7 +21,7 @@ import {
 	VSBrowser,
 	ViewControl,
 	WebDriver
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import {
 	activateEditor,
 	deleteFile,
@@ -48,7 +48,7 @@ describe('Create a Pipe using command', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		control = await new ActivityBar().getViewControl('Explorer');
+		control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
 		await control.openView();
 	});
 

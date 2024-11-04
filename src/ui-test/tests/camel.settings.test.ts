@@ -45,11 +45,12 @@ import {
 import {
 	ActivityBar,
 	ContentAssist,
+	ContentAssistItem,
 	EditorView,
 	TextEditor,
 	VSBrowser,
 	WebDriver
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import * as pjson from '../../../package.json';
 
 describe('User preferences', function () {
@@ -64,7 +65,7 @@ describe('User preferences', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		await (await new ActivityBar().getViewControl('Explorer')).openView();
+		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 	});
 
 	describe('Camel Runtime Provider', function () {
@@ -155,7 +156,7 @@ describe('User preferences', function () {
 
 			// check if content is expected
 			const expectedContentAssist = 'knative:type/typeId';
-			const timer = await contentAssist.getItem(expectedContentAssist);
+			const timer = await contentAssist.getItem(expectedContentAssist) as ContentAssistItem;
 			assert.equal(await getTextExt(timer), expectedContentAssist);
 		});
 
@@ -273,7 +274,7 @@ describe('User preferences', function () {
 
 		if (proposalAvailable) {
 			assert.equal(items.length, proposalsCount);
-			const proposalItem = await contentAssist.getItem(proposal);
+			const proposalItem = await contentAssist.getItem(proposal) as ContentAssistItem;
 			assert.equal(await getTextExt(proposalItem), proposal);
 		} else {
 			assert.equal(items.length, 0);
