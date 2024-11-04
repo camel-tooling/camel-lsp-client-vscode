@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { WebDriver, SideBarView, VSBrowser, ActivityBar, EditorView, InputBox, DefaultTreeSection } from "vscode-uitests-tooling";
+import { WebDriver, SideBarView, VSBrowser, ActivityBar, EditorView, InputBox, DefaultTreeSection } from "vscode-extension-tester";
 import { RESOURCES, waitUntilExtensionIsActivated, deleteFile, killTerminal, waitUntilEditorIsOpened, initNewCamelFile } from "../utils/testUtils";
 import * as pjson from '../../../package.json';
 import { expect } from "chai";
@@ -40,7 +40,7 @@ describe('Create a Camel Route using command', function () {
 	});
 
 	before(async function () {
-		sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView();
+		sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView() as SideBarView;
 	});
 
 	after(async function () {

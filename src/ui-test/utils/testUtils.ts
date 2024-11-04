@@ -25,18 +25,20 @@ import {
 	ContentAssistItem,
 	DefaultTreeSection,
 	EditorView,
+	ExtensionsViewItem,
+	ExtensionsViewSection,
 	InputBox,
-	Marketplace,
 	ModalDialog,
 	ProblemsView,
 	SideBarView,
 	TerminalView,
 	TextEditor,
 	TextSetting,
+	ViewControl,
 	VSBrowser,
 	WebDriver,
 	Workbench
-} from "vscode-uitests-tooling";
+} from "vscode-extension-tester";
 import { storageFolder } from "../uitest_runner";
 
 // Resources and file names inside.
@@ -332,7 +334,9 @@ export async function waitUntilExtensionIsActivated(driver: WebDriver, displayNa
  */
 export async function extensionIsActivated(displayName: string): Promise<boolean> {
 	try {
-		const item = await (await Marketplace.open()).findExtension(`@installed ${displayName}`);
+		const extensionsView = await (await new ActivityBar().getViewControl('Extensions'))?.openView();
+		const marketplace = (await extensionsView?.getContent().getSection('Installed')) as ExtensionsViewSection;
+		const item = await marketplace.findItem(`@installed ${displayName}`) as ExtensionsViewItem;
 		const activationTime = await item.findElement(By.className('activationTime'));
 		if (activationTime !== undefined) {
 			return true;
@@ -524,7 +528,7 @@ export async function clearReferences(): Promise<void> {
  * @returns true/false
  */
 export async function fileIsAvailable(filename: string, section: string = 'resources'): Promise<boolean> {
-    const control = await new ActivityBar().getViewControl('Explorer');
+    const control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
     await control.closeView();
     const sideBar = await control.openView();
     const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;

@@ -20,12 +20,12 @@ import {
 	ActivityBar,
 	BottomBarPanel,
 	ContentAssist,
-	DefaultWait,
+	ContentAssistItem,
 	MarkerType,
 	TextEditor,
 	VSBrowser,
 	WebDriver
-} from "vscode-uitests-tooling";
+} from "vscode-extension-tester";
 import * as ca from '../utils/contentAssist';
 import {
 	activateEditor,
@@ -56,7 +56,7 @@ describe('Camel properties auto-completion support', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		await (await new ActivityBar().getViewControl('Explorer')).openView();
+		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 
 		await createNewFile(driver, TEST_FILE);
 	});
@@ -82,7 +82,7 @@ describe('Camel properties auto-completion support', function () {
 		editor = await activateEditor(driver, TEST_FILE);
 		await editor.typeText('camel.component.amqp.');
 		await selectFromCA('acceptMessagesWhileStopping');
-		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.amqp.acceptMessagesWhileStopping=false'); // defualt value 'false' is added
+		assert.equal((await editor.getTextAtLine(1)).trim(), 'camel.component.amqp.acceptMessagesWhileStopping=false'); // default value 'false' is added
 	});
 
 	it('provide filtered completion when in middle of a component id, component property or value', async function () {
@@ -109,7 +109,7 @@ describe('Camel properties auto-completion support', function () {
 		await driver.wait(async function () {
 			const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 			return innerMarkers.length > 0;
-		}, DefaultWait.TimePeriod.VERY_LONG);
+		}, 30_000);
 		const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 		assert.isNotEmpty(markers, 'Problems view does not contains expected error');
 
@@ -125,7 +125,7 @@ describe('Camel properties auto-completion support', function () {
 	 */
 	async function selectFromCA(expectedItem: string): Promise<void> {
 		contentAssist = await ca.waitUntilContentAssistContains(expectedItem);
-		const item = await contentAssist.getItem(expectedItem);
+		const item = await contentAssist.getItem(expectedItem) as ContentAssistItem;
 		assert.equal(await getTextExt(item), expectedItem);
 		await item.click();
 	}
@@ -140,7 +140,7 @@ describe('Camel properties auto-completion support', function () {
 	async function testFilteredCompletion(availableItem: string, notAvailableItem: string): Promise<boolean> {
 		try {
 			contentAssist = await ca.waitUntilContentAssistContains(availableItem);
-			await contentAssist.getItem(notAvailableItem);
+			await ca.waitUntilContentAssistContains(notAvailableItem, 5_000);
 			return false;
 		} catch (error) {
 			return true;

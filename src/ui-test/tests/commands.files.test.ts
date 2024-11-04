@@ -22,7 +22,7 @@ import {
 	VSBrowser,
 	ViewControl,
 	WebDriver
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import {
 	activateEditor,
 	EXAMPLE_COMMAND_JAVA_FILE,
@@ -53,7 +53,7 @@ describe('Create a Camel Route using command', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		control = await new ActivityBar().getViewControl('Explorer');
+		control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
 		await control.openView();
 	});
 

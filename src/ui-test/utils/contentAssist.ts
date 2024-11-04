@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { TextEditor, ContentAssist } from 'vscode-uitests-tooling';
+import { TextEditor, ContentAssist } from 'vscode-extension-tester';
 
 export async function waitUntilContentAssistContains(expectedContentAssistItem: string, timeout = 10000): Promise<ContentAssist> {
 	const editor = new TextEditor();

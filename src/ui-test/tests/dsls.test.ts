@@ -21,18 +21,17 @@ import {
 	ActivityBar,
 	BottomBarPanel,
 	ContentAssist,
+	ContentAssistItem,
 	DefaultTreeSection,
-	DefaultWait,
 	EditorView,
 	MarkerType,
 	SideBarView,
 	TextEditor,
 	VSBrowser,
-	WaitUntil,
 	WebDriver,
 	Workbench,
 	before
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import * as ca from '../utils/contentAssist';
 import {
 	activateEditor,
@@ -102,7 +101,7 @@ describe('Language DSL support', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		await (await new ActivityBar().getViewControl('Explorer')).openView();
+		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 	});
 
 	describe('XML DSL support', function () {
@@ -193,7 +192,7 @@ describe('Language DSL support', function () {
 			});
 
 			after(async function () {
-				await (await new ActivityBar().getViewControl('Explorer')).openView();
+				await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 			});
 
 			it('direct reference not available while file with components not opened', async function () {
@@ -424,7 +423,7 @@ describe('Language DSL support', function () {
 		const expectedContentAssist = 'timer:timerName';
 		contentAssist = await ca.waitUntilContentAssistContains(expectedContentAssist);
 
-		const timer = await contentAssist.getItem(expectedContentAssist);
+		const timer = await contentAssist.getItem(expectedContentAssist) as ContentAssistItem;
 		assert.equal(await getTextExt(timer), expectedContentAssist);
 		await timer.click();
 
@@ -441,7 +440,7 @@ describe('Language DSL support', function () {
 	async function codeCompletionForEndpointOptions(uriLine: number, uriPosition: number, completedLine: string): Promise<void> {
 		await editor.typeTextAt(uriLine, uriPosition + 15, '?');
 		contentAssist = await ca.waitUntilContentAssistContains('delay');
-		const delay = await contentAssist.getItem('delay');
+		const delay = await contentAssist.getItem('delay') as ContentAssistItem;
 		assert.equal(await getTextExt(delay), 'delay');
 		await delay.click();
 
@@ -463,7 +462,7 @@ describe('Language DSL support', function () {
 			await editor.typeTextAt(uriLine, uriPosition + 26, '&');
 		}
 		contentAssist = await ca.waitUntilContentAssistContains('exchangePattern');
-		const exchange = await contentAssist.getItem('exchangePattern');
+		const exchange = await contentAssist.getItem('exchangePattern') as ContentAssistItem;
 		assert.equal(await getTextExt(exchange), 'exchangePattern');
 		await exchange.click();
 
@@ -486,7 +485,7 @@ describe('Language DSL support', function () {
 		}
 
 		contentAssist = await ca.waitUntilContentAssistContains('InOnly');
-		const inOnly = await contentAssist.getItem('InOnly');
+		const inOnly = await contentAssist.getItem('InOnly') as ContentAssistItem;
 		assert.equal(await getTextExt(inOnly), 'InOnly');
 		await inOnly.click();
 
@@ -504,12 +503,12 @@ describe('Language DSL support', function () {
 	async function duplicateEndpointOptionsFiltering(uriLine: number, uriPosition: number, anAmpersand: boolean): Promise<void> {
 		await editor.typeTextAt(uriLine, uriPosition, 'timer');
 		contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
-		const timer = await contentAssist.getItem('timer:timerName');
+		const timer = await contentAssist.getItem('timer:timerName') as ContentAssistItem;
 		await timer.click();
 
 		await editor.typeTextAt(uriLine, uriPosition + 15, '?');
 		contentAssist = await ca.waitUntilContentAssistContains('delay');
-		const delay = await contentAssist.getItem('delay');
+		const delay = await contentAssist.getItem('delay') as ContentAssistItem;
 		await delay.click();
 
 		if (anAmpersand) {
@@ -519,11 +518,27 @@ describe('Language DSL support', function () {
 		}
 
 		contentAssist = await editor.toggleContentAssist(true) as ContentAssist;
-		await new WaitUntil().assistHasItems(contentAssist, DefaultWait.TimePeriod.DEFAULT);
+		await assistHasItems(contentAssist, 5_000);
 		const filtered = await contentAssist.hasItem('delay');
 
 		assert.isFalse(filtered);
 		await editor.toggleContentAssist(false);
+	}
+
+	/**
+	 * Waits until invoked Content Assistant has items
+	 * @param contentAssistant ContentAssist obj
+	 * @param timePeriod Timeout in ms
+	 */
+	async function assistHasItems(contentAssistant: ContentAssist, timePeriod: number) {
+		await driver.wait(
+			async function () {
+				const items = await contentAssistant.getItems();
+				if (items.length > 0) {
+					return true;
+				}
+				return false;
+			}, timePeriod);
 	}
 
 	// Diagnostics for Camel URIs - XML ONLY
@@ -538,12 +553,12 @@ describe('Language DSL support', function () {
 
 		await editor.typeTextAt(uriLine, uriPosition, 'timer');
 		contentAssist = await ca.waitUntilContentAssistContains('timer:timerName');
-		const timer = await contentAssist.getItem('timer:timerName');
+		const timer = await contentAssist.getItem('timer:timerName') as ContentAssistItem;
 		await timer.click();
 
 		await editor.typeTextAt(uriLine, uriPosition + 15, '?');
 		contentAssist = await ca.waitUntilContentAssistContains('delay');
-		const delay = await contentAssist.getItem('delay');
+		const delay = await contentAssist.getItem('delay') as ContentAssistItem;
 		await delay.click();
 
 		await editor.typeTextAt(uriLine, uriPosition + 26, 'r');
@@ -552,7 +567,7 @@ describe('Language DSL support', function () {
 		await driver.wait(async function () {
 			const innerMarkers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 			return innerMarkers.length > 0;
-		}, DefaultWait.TimePeriod.MEDIUM);
+		}, 3_000);
 		const markers = await problemsView.getAllVisibleMarkers(MarkerType.Error);
 		assert.isNotEmpty(markers, 'Problems view does not contains expected error');
 
@@ -575,7 +590,7 @@ describe('Language DSL support', function () {
 		await editor.typeTextAt(uriLine, uriPosition, DIRECT_COMPONENT_NAME);
 		contentAssist = await ca.waitUntilContentAssistContains(DIRECT_COMPONENT_NAME);
 
-		const direct = await contentAssist.getItem(DIRECT_COMPONENT_NAME);
+		const direct = await contentAssist.getItem(DIRECT_COMPONENT_NAME) as ContentAssistItem;
 		await direct.click();
 
 		assert.equal((await editor.getTextAtLine(uriLine)).trim(), completedLine);
@@ -594,7 +609,7 @@ describe('Language DSL support', function () {
 		await editor.typeTextAt(uriLine, uriPosition, DIRECT_VM_COMPONENT_NAME);
 		contentAssist = await ca.waitUntilContentAssistContains(DIRECT_VM_COMPONENT_NAME);
 
-		const directVM = await contentAssist.getItem(DIRECT_VM_COMPONENT_NAME);
+		const directVM = await contentAssist.getItem(DIRECT_VM_COMPONENT_NAME) as ContentAssistItem;
 		await directVM.click();
 
 		assert.equal((await editor.getTextAtLine(uriLine)).trim(), completedLine);

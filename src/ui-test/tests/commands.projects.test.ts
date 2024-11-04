@@ -25,7 +25,7 @@ import {
 	VSBrowser,
 	WebDriver,
 	Workbench
-} from 'vscode-uitests-tooling';
+} from 'vscode-extension-tester';
 import {
 	CREATE_COMMAND_QUARKUS_ID,
 	CREATE_COMMAND_SPRINGBOOT_ID,
@@ -57,7 +57,7 @@ describe('Create a Camel Project using command', function () {
 				await VSBrowser.instance.waitForWorkbench();
 
 				await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-				sideBar = await (await new ActivityBar().getViewControl('Explorer')).openView();
+				sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView() as SideBarView;
 			});
 
 			after(async function () {

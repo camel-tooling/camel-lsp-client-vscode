@@ -20,12 +20,13 @@ import {
 	ActivityBar,
 	BottomBarPanel,
 	ContentAssist,
+	ContentAssistItem,
 	EditorView,
 	MarkerType,
 	TextEditor,
 	VSBrowser,
 	WebDriver
-} from "vscode-uitests-tooling";
+} from "vscode-extension-tester";
 import {
 	activateEditor,
 	closeEditor,
@@ -57,7 +58,7 @@ describe('Camel-K modelines support', function () {
 		await VSBrowser.instance.waitForWorkbench();
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
-		await (await new ActivityBar().getViewControl('Explorer')).openView();
+		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 
 		await deleteFile(TESTFILE, RESOURCES); // prevent failure
 		await createNewFile(driver, TESTFILE);
@@ -157,8 +158,14 @@ describe('Camel-K modelines support', function () {
 	 */
 	async function selectFromCA(expectedItem: string, timeout = 10000): Promise<void> {
 		contentAssist = await ca.waitUntilContentAssistContains(expectedItem, timeout);
-		const item = await contentAssist.getItem(expectedItem, 60000);
+		const item = await getItem(expectedItem, 60000);
 		assert.equal(await getTextExt(item), expectedItem);
 		await item.click();
+	}
+
+	async function getItem(label: string, timeout: number = 30000): Promise<ContentAssistItem> {
+		return await driver.wait(() => contentAssist.getItem(label),
+			timeout, `Could not find item with label "${label}".`
+		) as ContentAssistItem;
 	}
 });
