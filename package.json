@@ -364,7 +364,7 @@
     "eslint-define-config": "^2.1.0",
     "eslint-plugin-import": "^2.31.0",
     "glob": "^11.0.0",
-    "mocha": "^10.7.3",
+    "mocha": "^10.8.2",
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^6.0.1",
