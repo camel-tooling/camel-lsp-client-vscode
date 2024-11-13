@@ -2,6 +2,8 @@
 
 ## 1.7.0
 
+- Update Kamelet Catalog from 4.8.0 to 4.8.1
+
 ## 1.6.0
 
 - Provide contextual menu to transform routes. In the `New Camel file` menu transform the right clicked files or all the file in a clicked folder.
