@@ -62,7 +62,7 @@ export async function resolveRequirements(): Promise<RequirementsData> {
         }
 
         if (javaVersion < REQUIRED_JRE_VERSION) {
-            openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Language Support for Camel extension. Please download and install a recent JDK. You can still compile your projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
+            openJDKDownload(reject, `Java ${REQUIRED_JRE_VERSION} or more recent is required to run the Language Support for Camel extension. Please download and install a recent JDK. Even if not installed as default Java on the system, you can point to it by configuring 'camel.ls.java.home'. Also note that you can still compile your Java projects with older JDKs by configuring ['java.configuration.runtimes'](https://github.com/redhat-developer/vscode-java/wiki/JDK-Requirements#java.configuration.runtimes)`);
         }
 
         if (javaHome !== undefined) {
