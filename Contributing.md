@@ -22,7 +22,7 @@ When testing new version of the Camel Language Server, just replace the jar in `
 - Check that someone listed as _submitter_ in [Jenkinsfile](./Jenkinsfile) is available
 - Create a tag
 - Push the tag to `camel-tooling/camel-lsp-client-vscode` repository
-- Start build on [Jenkins CI](https://studio-jenkins-csb-codeready.apps.ocp-c1.prod.psi.redhat.com/job/Fuse/job/VSCode/job/vscode-camel-lsp-release/) with _publishToMarketPlace_ and _publishToOVSX_ parameters checked
+- Start build on [Jenkins CI](https://master-jenkins-csb-fusetools-qe.apps.ocp-c1.prod.psi.redhat.com/view/VS%20Code%20-%20release/job/vscode/job/eng/job/vscode-camel-lsp-release/) with _publishToMarketPlace_ and _publishToOVSX_ parameters checked
 - Wait the build is waiting on step _Publish to Marketplace_
 - For someone from _submitter_ list:
   - Ensure you are logged in
