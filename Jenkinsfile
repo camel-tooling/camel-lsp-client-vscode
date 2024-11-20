@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-node('rhel8'){
+node('rhel9'){
 	stage('Checkout repo') {
 		deleteDir()
 		git url: 'https://github.com/camel-tooling/camel-lsp-client-vscode.git',
@@ -73,7 +73,7 @@ node('rhel8'){
 	}
 }
 
-node('rhel8'){
+node('rhel9'){
 	if(publishToMarketPlace.equals('true')){
 		timeout(time:5, unit:'DAYS') {
 			input message:'Approve deployment?', submitter: 'apupier,lheinema,jraez,tsedmik,djelinek,mdinizde'
