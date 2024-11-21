@@ -3,6 +3,7 @@
 ## 1.7.0
 
 - Update Kamelet Catalog from 4.8.0 to 4.8.1
+- Use Language Server for Apache Camel 1.27.0
 
 ## 1.6.0
 
