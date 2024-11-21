@@ -350,7 +350,7 @@
     "@types/glob": "^8.0.1",
     "@types/lodash": "^4.17.13",
     "@types/mocha": "^10.0.9",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.9.1",
     "@types/sinon": "^17.0.3",
     "@types/vscode": "^1.82.0",
     "@types/winreg": "^1.2.36",
