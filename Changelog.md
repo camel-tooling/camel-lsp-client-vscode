@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.8.0
+
 ## 1.7.0
 
 - Update Kamelet Catalog from 4.8.0 to 4.8.1
