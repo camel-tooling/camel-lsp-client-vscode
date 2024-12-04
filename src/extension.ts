@@ -19,7 +19,7 @@
 import { TelemetryEvent, TelemetryService } from '@redhat-developer/vscode-redhat-telemetry';
 import * as path from 'path';
 import { ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, Uri, commands, languages, window, workspace } from 'vscode';
-import { DidChangeConfigurationNotification, LanguageClientOptions } from 'vscode-languageclient';
+import { DidChangeConfigurationNotification, DocumentFilter, LanguageClientOptions } from 'vscode-languageclient';
 import { Executable, LanguageClient } from 'vscode-languageclient/node';
 import * as telemetry from './Telemetry';
 import { NewCamelFileCommand } from './commands/NewCamelFileCommand';
@@ -40,7 +40,21 @@ const SETTINGS_TOP_LEVEL_KEY_CAMEL = 'camel';
 
 let languageClient: LanguageClient;
 
-const SUPPORTED_LANGUAGE_IDS = ['xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'json', 'jsonc'];
+const DOCUMENT_SELECTORS :DocumentFilter[] = [
+	{ language: 'xml' },
+	{ language: 'java' },
+	{ language: 'groovy' },
+	{ language: 'kotlin' },
+	{ language: 'javascript' },
+	{ language: 'properties' },
+	{ language: 'quarkus-properties' },
+	{ language: 'spring-boot-properties' },
+	{ language: 'yaml' },
+	{ language: 'json', pattern: '**/.vscode/*.json' },
+	{ language: 'jsonc', pattern: '**/.vscode/*.json' },
+];
+const SUPPORTED_LANGUAGE_IDS = DOCUMENT_SELECTORS.flatMap(docSel => docSel.language);
+
 export async function activate(context: ExtensionContext) {
 	// Let's enable Javadoc symbols autocompletion, shamelessly copied from MIT licensed code at
 	// https://github.com/Microsoft/vscode/blob/9d611d4dfd5a4a101b5201b8c9e21af97f06e7a7/extensions/typescript/src/typescriptMain.ts#L186
@@ -61,7 +75,7 @@ export async function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		documentSelector: SUPPORTED_LANGUAGE_IDS,
+		documentSelector: DOCUMENT_SELECTORS,
 		synchronize: {
 			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'jsonc'],
 			// Notify the server about file changes to .xml files contain in the workspace
