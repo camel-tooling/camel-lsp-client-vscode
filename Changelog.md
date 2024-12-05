@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.9.0
+
 ## 1.8.0
 
 - Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command
