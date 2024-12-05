@@ -3,6 +3,7 @@
 ## 1.9.0
 
 - Add button to create new Camel project while no folder/workspace is opened.
+- Update default Camel version used for Camel JBang from 4.8.1 to 4.9.0
 
 ## 1.8.0
 

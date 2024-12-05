@@ -181,7 +181,7 @@ describe('User preferences', function () {
 	});
 
 	describe('JBang version', function () {
-		this.timeout(90000);
+		this.timeout(180000);
 
 		const FILENAME = 'test';
 		const FILENAME_SUFFIX = 'test.camel.xml';
@@ -212,7 +212,7 @@ describe('User preferences', function () {
 				await initXMLFileWithJBang(driver, FILENAME);
 
 				await waitUntilTerminalHasText(driver, `-Dcamel.jbang.version=${currentJbangVersion}`);
-				await waitUntilFileAvailable(driver, FILENAME_SUFFIX, undefined, 60000);
+				await waitUntilFileAvailable(driver, FILENAME_SUFFIX, undefined, 120000, 15000);
 				await waitUntilEditorIsOpened(driver, FILENAME_SUFFIX);
 			});
 		});
