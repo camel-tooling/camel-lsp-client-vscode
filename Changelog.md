@@ -4,6 +4,7 @@
 
 - Provide folder selection when using `Create Camel Quarkus/SpringBoot Project` command
 - Avoid being notified for package.json opening and close as no support is provided for it and every 2 minutes there is a notification for these files
+- Fix to not have Camel Language Server shutdowned on new action after being opened overnight when Java temporary folder contains a folder without access rights to VS Code
 
 ## 1.7.0
 
