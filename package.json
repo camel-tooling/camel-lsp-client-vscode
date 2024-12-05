@@ -3,7 +3,7 @@
   "displayName": "Language Support for Apache Camel by Red Hat",
   "description": "Provides completion, validation and documentation features for Apache Camel URI elements.",
   "license": "Apache-2.0",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "preview": false,
   "publisher": "redhat",
   "icon": "icons/icon128.png",
@@ -105,7 +105,7 @@
         "camel.languageSupport.JBangVersion": {
           "type": "string",
           "markdownDescription": "Apache Camel JBang version used for internal VS Code JBang commands execution. Camel JBang requirements can differ between versions, it is recommended to use `default` version to ensure all extension features work properly.\n\n**Note**: This change will affect only commands provided by Language Support for Apache Camel extension.",
-          "default": "4.8.1"
+          "default": "4.9.0"
         },
         "camel.ls.java.home": {
           "type": [
