@@ -24,8 +24,9 @@ describe('Should validate Create a Camel Project command', function () {
 
 	const COMMANDS = [new NewCamelQuarkusProjectCommand(), new NewCamelSpringBootProjectCommand()];
 
-	COMMANDS.forEach(command => {
-		context(`GAV validation of ${command.getRuntime()}`, function () {
+	COMMANDS.forEach(async command => {
+		const runtime = await command.getRuntime();
+		context(`GAV validation of ${runtime}`, function () {
 
 			it('Validate ok', function () {
 				expect(command.validateGAV('com.test:demo:1.0-SNAPSHOT')).to.be.undefined;
