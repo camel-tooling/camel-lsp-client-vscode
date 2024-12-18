@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         java: [ "17" ]
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-22.04, macos-latest, windows-latest ]
         version: [ latest ] # [ x.x.x | latest | max ]
         type: [ insider ] # [ stable | insider ]
       fail-fast: false
@@ -61,21 +61,21 @@ jobs:
         run: vsce package
 
       - name: test (ubuntu)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
         run: xvfb-run --auto-servernum npm test
 
       - name: test (macos, windows)
-        if: matrix.os != 'ubuntu-latest'
+        if: matrix.os != 'ubuntu-22.04'
         run: npm test
 
       - name: ui test (ubuntu)
         id: uiTest_Ubuntu
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
         run: xvfb-run --auto-servernum npm run ui-test
 
       # - name: ui test (macos, windows)
       #   id: uiTest_MacOS_Windows
-      #   if: matrix.os != 'ubuntu-latest'
+      #   if: matrix.os != 'ubuntu-22.04'
       #   run: npm run ui-test
 
       - name: Store Camel Language Server log
@@ -87,7 +87,7 @@ jobs:
 
       - name: Store VS Code Logs (Ubuntu)
         uses: actions/upload-artifact@v4
-        if: failure() && matrix.os == 'ubuntu-latest'
+        if: failure() && matrix.os == 'ubuntu-22.04'
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
           path: ~/.config/Code/logs/*
