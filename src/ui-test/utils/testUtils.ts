@@ -531,7 +531,9 @@ export async function fileIsAvailable(filename: string, section: string = 'resou
     const control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
     await control.closeView();
     const sideBar = await control.openView();
-    const tree = await sideBar.getContent().getSection(section) as DefaultTreeSection;
+	// Click on it to have focus on the view and ensure the action buttons are visible
+	await sideBar.click();
+    const tree :DefaultTreeSection = await sideBar.getContent().getSection(section);
     await (await tree.getAction('Refresh Explorer'))?.click();
     const items = await tree.getVisibleItems();
     const labels = await Promise.all(items.map(item => item.getLabel()));
