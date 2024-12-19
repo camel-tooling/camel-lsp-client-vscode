@@ -534,7 +534,8 @@ export async function fileIsAvailable(filename: string, section: string = 'resou
 	// Click on it to have focus on the view and ensure the action buttons are visible
 	await sideBar.click();
     const tree :DefaultTreeSection = await sideBar.getContent().getSection(section);
-    await (await tree.getAction('Refresh Explorer'))?.click();
+	const refreshExplorerAction = await tree.getAction('Refresh Explorer');
+    await refreshExplorerAction?.click();
     const items = await tree.getVisibleItems();
     const labels = await Promise.all(items.map(item => item.getLabel()));
     return labels.includes(filename);
@@ -548,7 +549,7 @@ export async function fileIsAvailable(filename: string, section: string = 'resou
  * @param timeout Timeout for dynamic wait.
  * @param interval Delay between individual checks.
  */
-export async function waitUntilFileAvailable(driver: WebDriver, filename: string, section: string | undefined = undefined, timeout = 30000, interval = 2000): Promise<void> {
+export async function waitUntilFileAvailable(driver: WebDriver, filename: string, section: string | undefined = undefined, timeout = 30000, interval = 5000): Promise<void> {
 	await driver.wait(async function () {
 		try {
 			return await fileIsAvailable(filename, section);
