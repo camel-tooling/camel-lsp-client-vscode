@@ -3,6 +3,9 @@
 ## 1.9.0
 
 - Add button to create new Camel project while no folder/workspace is opened.
+- Update default Camel Catalog version from 4.8.1 to 4.9.0
+- Update Kamelet Catalog from 4.8.1 to 4.9.0
+- Update Camel Quarkus Catalog from 3.16.0 to 3.17.0
 - Update default Camel version used for Camel JBang from 4.8.1 to 4.9.0
 
 ## 1.8.0
