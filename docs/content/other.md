@@ -41,3 +41,7 @@ You can add a list of Camel components definition. This json definition can be f
 Quick reference documentation when you hover the cursor over a Camel component.
 
 <p align="center"><img src="../images/hoverDoc.png" alt="Quick Reference for XML DSL" class="zoom" width="75%"/></p>
+
+## Automatic schema association for Camel YAML file
+
+To easily allow schema association we can install [YAML Language Support by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) extension. If you take a look into documentation there are examples of usage. See [Associating schemas](https://github.com/redhat-developer/vscode-yaml?tab=readme-ov-file#associating-schemas).
