@@ -4,6 +4,9 @@ updates:
   directory: "/"
   schedule:
     interval: daily
+  groups:
+    ESLint:
+      patterns: ["*eslint*"]
   open-pull-requests-limit: 10
   reviewers:
   - camel-tooling/vs-code-dependabot-reviewers
