@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-22.04, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
         camel-version: [ "4.4.0",  "4.0.0.redhat-00036", "4.4.0.redhat-00019"]
 
     env:
@@ -42,7 +42,7 @@ jobs:
         run: java --version
 
       - name: Install JBang (ubuntu, macOS)
-        if: matrix.os == 'ubuntu-22.04' || matrix.os == 'macos-latest'
+        if: ${{ startsWith(matrix.os, 'ubuntu') }} || matrix.os == 'macos-latest'
         run: |
           curl -Ls https://sh.jbang.dev | bash -s - app setup
           echo "$HOME/.jbang/bin" >> $GITHUB_PATH
@@ -68,14 +68,18 @@ jobs:
       - name: npm-ci
         run: npm ci
 
+      - name: Allow unprivileged user namespace (ubuntu)
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: ui test (ubuntu)
         id: uiTest_Ubuntu
-        if: matrix.os == 'ubuntu-22.04'
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: xvfb-run --auto-servernum npm run ui-test
 
       - name: ui test (macos, windows)
         id: uiTest_MacOS_Windows
-        if: matrix.os != 'ubuntu-22.04'
+        if: ${{ !startsWith(matrix.os, 'ubuntu') }}
         run: npm run ui-test
 
       - name: vsce-package
@@ -116,7 +120,7 @@ jobs:
 
   check:
     if: always()
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     name: Status Check
     needs: [ camel ]
     steps:

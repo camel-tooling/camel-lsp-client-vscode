@@ -17,7 +17,7 @@ jobs:
       CODE_VERSION: max
       TEST_RESOURCES: test-resources
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -50,6 +50,9 @@ jobs:
 
       - name: Compile
         run: npm run compile
+
+      - name: Allow unprivileged user namespace (ubuntu)
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
       # 'set +e' and 'exit 0' - that means the workflow will not fail even the test failures are present. The failing tests are not directive for the code coverage reports itself
       - name: Coverage
