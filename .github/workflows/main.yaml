@@ -130,7 +130,7 @@ jobs:
         if: failure()
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-test-logs
-          path: .vscode-test/logs/*
+          path: .vscode-test/user-data/logs/*
 
       - name: Store UI test log
         uses: actions/upload-artifact@v4
