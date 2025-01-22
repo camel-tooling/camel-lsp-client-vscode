@@ -8,6 +8,7 @@
 - Update Camel Quarkus Catalog from 3.16.0 to 3.17.0
 - Update default Camel version used for Camel JBang from 4.8.1 to 4.9.0
 - Avoid potential NPE when VS Code is requesting Folding Ranges on a not opened document
+- Use Language Server for Apache Camel 1.29.0
 
 ## 1.8.0
 
