@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.10.0
+
+- Update Camel Quarkus Catalog from 3.17.0 to 3.18.0
+
 ## 1.9.0
 
 - Add button to create new Camel project while no folder/workspace is opened.
