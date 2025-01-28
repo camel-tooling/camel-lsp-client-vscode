@@ -358,7 +358,7 @@
     "@types/chai": "^4.3.20",
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^8.0.1",
-    "@types/lodash": "^4.17.14",
+    "@types/lodash": "^4.17.15",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.10",
     "@types/sinon": "^17.0.3",
