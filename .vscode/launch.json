@@ -1,19 +1,23 @@
 // A launch configuration that compiles the extension and then opens it inside a new window
 {
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"configurations": [
 		{
 			"name": "Launch Camel LSP client Extension",
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceRoot}", "--debug" ],
-			"stopOnEntry": false,
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}",
+				"--debug"
+			],
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/out/src/**/*.js"],
+			"outFiles": [
+				"${workspaceRoot}/out/src/**/*.js"
+			],
 			"preLaunchTask": "compile",
 			"env": {
-				"VSCODE_REDHAT_TELEMETRY_DEBUG":"true"
+				"VSCODE_REDHAT_TELEMETRY_DEBUG": "true"
 			}
 		},
 		{
@@ -24,10 +28,46 @@
 			"args": [
 				"--extensionDevelopmentPath=${workspaceRoot}",
 				"--extensionTestsPath=${workspaceRoot}/out/src/test/suite/index",
-				"${workspaceRoot}/test Fixture with speci@l chars" ],
-			"stopOnEntry": false,
+				"${workspaceRoot}/test Fixture with speci@l chars"
+			],
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/out/src/test/**/*.js"]
+			"outFiles": [
+				"${workspaceRoot}/out/src/test/**/*.js"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Camel Language Server UI Tests",
+			"preLaunchTask": "compile",
+			"program": "${workspaceFolder}/out/src/ui-test/uitest_runner.js",
+			"sourceMaps": true,
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": [
+				"--nolazy",
+				"--inspect"
+			],
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"autoAttachChildProcesses": true,
+			"env": {
+				"CODE_VERSION": "max"
+			}
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to Node Process",
+			"port": 9229,
+			"restart": true,
+			"timeout": 10000,
+			"sourceMaps": true,
+			"cwd": "${workspaceFolder}",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"autoAttachChildProcesses": true
 		}
 	]
 }
