@@ -47,9 +47,10 @@ export class CamelJBang {
 		let cwd = getCurrentWorkingDirectory();
 		if (cwd && arePathsEqual(cwd, outputPath)) {
 			outputPath = '.';
-		} else{
+		} else if (!cwd) {
 			// In case there is no folder open we use the outputPath as the current working directory to avoid using the users home folder.
 			cwd = outputPath;
+			outputPath = '.';
 		}
 
 		return new ShellExecution('jbang',

@@ -123,6 +123,7 @@ export const TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL = 'Transform a Camel Route to 
 
 // Other constant items
 export const LSP_STATUS_BAR_MESSAGE = 'Camel LS';
+export const TASK_FINISHED_IN_TERMINAL_TEXT = 'Terminal will be reused by tasks, press any key to close it.';
 
 /**
  * Workaround for issue with ContentAssistItem getText() method.
@@ -604,5 +605,37 @@ export async function initNewCamelFile(type: string, name: string, kamelet: stri
 	input = await InputBox.create(5_000);
 	await input.setText(name);
 	await input.confirm();
+}
+/**
+ * Expand item in tree.
+ *
+ * @param driver WebDriver.
+ * @param itemName Name of item to expand. Will generate an error if item is not expandable.
+ * @param tree Name of the tree section where the item is located.
+ */
+export async function expandItemInTree(driver: WebDriver, itemName: string, tree: DefaultTreeSection) {
+	await driver.wait(async () => {
+		const item = await tree.findItem(itemName);
+		if (item) {
+			await item.expand();
+			return true;
+		} else {
+			return false;
+		}
+	}, 10000, `Could not expand ${itemName} folder`);
+}
+
+/**
+ * Waits until given Modal Dialog is displayed
+ *
+ * @param driver WebDriver object
+ * @param modalDialog InputBox object
+ * @param timeout Timeout, default value 10s
+ * @param message Error message when timed out
+ */
+export async function waitUntilModalDialogIsDisplayed(driver: WebDriver, modalDialog: ModalDialog, timeout = 10_000, message = 'Modal Dialog was not displayed properly!'): Promise<void> {
+	await driver.wait(async function () {
+		return (await modalDialog.isDisplayed());
+	}, timeout, message);
 }
 

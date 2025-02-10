@@ -169,15 +169,15 @@ export async function activate(context: ExtensionContext) {
 	}));
 
 	context.subscriptions.push(commands.registerCommand(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT, async () => {
-		await new NewCamelProjectCommand().create();
+		await new NewCamelProjectCommand().create(false);
 		await sendCommandTrackingEvent(NewCamelProjectCommand.ID_COMMAND_CAMEL_PROJECT);
 	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT, async () => {
-		await new NewCamelQuarkusProjectCommand().create();
+		await new NewCamelQuarkusProjectCommand().create(false);
 		await sendCommandTrackingEvent(NewCamelQuarkusProjectCommand.ID_COMMAND_CAMEL_QUARKUS_PROJECT);
 	}));
 	context.subscriptions.push(commands.registerCommand(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT, async () => {
-		await new NewCamelSpringBootProjectCommand().create();
+		await new NewCamelSpringBootProjectCommand().create(false);
 		await sendCommandTrackingEvent(NewCamelSpringBootProjectCommand.ID_COMMAND_CAMEL_SPRINGBOOT_PROJECT);
 	}));
 	context.subscriptions.push(commands.registerCommand(TransformCamelRouteCommand.ID_COMMAND_CAMEL_JBANG_TRANSFORM_ROUTE_TO_YAML, async (uri: Uri) => {
