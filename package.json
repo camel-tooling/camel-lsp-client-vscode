@@ -105,7 +105,7 @@
         "camel.languageSupport.JBangVersion": {
           "type": "string",
           "markdownDescription": "Apache Camel JBang version used for internal VS Code JBang commands execution. Camel JBang requirements can differ between versions, it is recommended to use `default` version to ensure all extension features work properly.\n\n**Note**: This change will affect only commands provided by Language Support for Apache Camel extension.",
-          "default": "4.9.0"
+          "default": "4.10.0"
         },
         "camel.ls.java.home": {
           "type": [
