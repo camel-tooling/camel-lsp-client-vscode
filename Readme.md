@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> extension that adds language support for <a href="http://camel.apache.org/">Apache Camel</a> for XML, Java and Yaml DSL code.
+This is the <a href="https://code.visualstudio.com/">Visual Studio Code</a> extension that adds language support for <a href="http://camel.apache.org/">Apache Camel</a> for XML, Java and Yaml DSL code. Dummy change
 </p><br/>
 
 <p align="center"><img src="./docs/images/completion.gif" alt="Completion for XML DSL" width="100%"/></p>
