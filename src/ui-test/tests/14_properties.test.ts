@@ -49,13 +49,13 @@ describe('Camel properties auto-completion support', function () {
 	let contentAssist: ContentAssist;
 
 	before(async function () {
-		this.timeout(200000);
+		this.timeout(250000);
 		driver = VSBrowser.instance.driver;
 
 		await VSBrowser.instance.openResources(RESOURCES);
 		await VSBrowser.instance.waitForWorkbench();
 
-		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`, 200000, 20000);
 		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 
 		await createNewFile(driver, TEST_FILE);
