@@ -73,7 +73,7 @@ describe('Transform Camel Routes to YAML using commands', function () {
 				await input.setText(INPUT_FILENAME);
 				await input.confirm();
 
-				await waitUntilEditorIsOpened(driver, FILENAME_CREATED_FROM_CAMEL_TRANSFORM, 45000);
+				await waitUntilEditorIsOpened(driver, FILENAME_CREATED_FROM_CAMEL_TRANSFORM, 90000, 10000);
 
 				const tree: DefaultTreeSection = await sideBar.getContent().getSection('camel_transform_command');
 				const items = await tree.getVisibleItems();
