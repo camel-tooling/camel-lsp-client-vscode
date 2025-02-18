@@ -161,6 +161,14 @@ export async function closeEditor(title: string, save?: boolean) {
 	const dirty = await new TextEditor().isDirty();
 	await new EditorView().closeEditor(title);
 	if (dirty) {
+		await VSBrowser.instance.driver.wait(() => {
+			try {
+				new ModalDialog();
+				return true;
+			} catch {
+				return false;
+			}
+		});
 		const dialog = new ModalDialog();
 		if (save) {
 			await dialog.pushButton('Save');
