@@ -168,7 +168,7 @@ export async function closeEditor(title: string, save?: boolean) {
 			} catch {
 				return false;
 			}
-		});
+		}, 10000, 'Expecting a modal dialog to be opened asking to save or not the file content but it was not found.');
 		const dialog = new ModalDialog();
 		if (save) {
 			await dialog.pushButton('Save');
