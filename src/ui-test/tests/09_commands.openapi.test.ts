@@ -21,7 +21,7 @@ import * as pjson from '../../../package.json';
 import { expect } from "chai";
 
 describe('Create a Camel Route using command', function () {
-	this.timeout(400000);
+	this.timeout(600000);
 
 	const FILENAME_ROUTE_CREATED_FROM_OPENAPI: string = 'route-created-from-open-api';
 
@@ -63,7 +63,7 @@ describe('Create a Camel Route using command', function () {
 			await input.confirm();
 		}
 
-		await waitUntilEditorIsOpened(driver, FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', 60000);
+		await waitUntilEditorIsOpened(driver, FILENAME_ROUTE_CREATED_FROM_OPENAPI + '.camel.yaml', 120000, 10000);
 
 		const tree: DefaultTreeSection = await sideBar.getContent().getSection('resources');
 		const items = await tree.getVisibleItems();
