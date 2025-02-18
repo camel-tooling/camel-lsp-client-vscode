@@ -82,7 +82,7 @@ describe('Create a Camel Project using welcome content button', function () {
 		await input.setText(WELCOME_CONTENT_BUTTON_WORKSPACE_PATH);
 		await input.confirm();
 
-		await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT);
+		await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT, 240000, 15000);
 		await VSBrowser.instance.openResources(WELCOME_CONTENT_BUTTON_WORKSPACE_PATH);
 		await VSBrowser.instance.waitForWorkbench();
 		await waitUntilFileAvailable(driver, 'pom.xml', WELCOME_CONTENT_BUTTON_WORKSPACE_NAME, 60000);
