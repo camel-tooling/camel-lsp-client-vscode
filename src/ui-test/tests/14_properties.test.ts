@@ -62,7 +62,7 @@ describe('Camel properties auto-completion support', function () {
 	});
 
 	after(async function () {
-		await closeEditor(TEST_FILE, false);
+		await closeEditor(TEST_FILE, true);
 		await deleteFile(TEST_FILE, RESOURCES);
 	});
 
@@ -132,7 +132,7 @@ describe('Camel properties auto-completion support', function () {
 
 	/**
 	 * Test for filtration of values in content assist.
-	 * 
+	 *
 	 * @param availableItem Item which must be available in CA.
 	 * @param notAvailableItem Item which should NOT be available in CA.
 	 * @returns true/false
