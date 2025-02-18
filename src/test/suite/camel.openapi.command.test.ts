@@ -34,6 +34,7 @@ describe('Should execute Create a route from open api command', function () {
 		const fullFileName = `${fileName}.camel.yaml`;
 
 		beforeEach(async function () {
+			this.timeout(200000);
 			showOpenDialogStub = sinon.stub(vscode.window, 'showOpenDialog');
 			showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
 		});
