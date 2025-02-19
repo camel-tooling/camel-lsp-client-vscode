@@ -3,6 +3,7 @@
 ## 1.10.0
 
 - Update Camel Quarkus Catalog from 3.17.0 to 3.18.0
+- Update default Camel Catalog version from 4.9.0 to 4.10.0
 
 ## 1.9.0
 
