@@ -37,6 +37,7 @@ jobs:
         with:
           java-version: 17
           distribution: "temurin"
+          cache: "maven"
 
       - name: Test java
         run: java --version
