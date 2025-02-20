@@ -59,20 +59,6 @@ export const JAVA_URI_POSITION = 15; //camel-context.java
 export const YAML_URI_LINE = 7; //camel-context.yaml
 export const YAML_URI_POSITION = 14; //camel-context.yaml
 
-// Camel-K
-export const GROOVY_TESTFILE = 'test.camelk.groovy';
-export const KOTLIN_TESTFILE = 'test.camelk.kts';
-export const JS_TESTFILE = 'camel.js';
-
-export const GROOVY_URI_LINE = 1; // test.camelk.groovy
-export const GROOVY_URI_POSITION = 7; // test.camelk.groovy
-
-export const KOTLIN_URI_LINE = 1; // test.camelk.kts
-export const KOTLIN_URI_POSITION = 7; // test.camelk.kts
-
-export const JS_URI_LINE = 3; // camel.js
-export const JS_URI_POSITION = 7; // camel.js
-
 // Commands for creating Camel Routes.
 export const CREATE_COMMAND_XML_ID = 'camel.jbang.routes.xml';
 export const CREATE_COMMAND_YAML_ID = 'camel.jbang.routes.yaml';
