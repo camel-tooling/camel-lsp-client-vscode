@@ -42,18 +42,9 @@ import {
 	clearReferences,
 	closeEditor,
 	getTextExt,
-	GROOVY_TESTFILE,
-	GROOVY_URI_LINE,
-	GROOVY_URI_POSITION,
 	isReferencesAvailable,
 	JAVA_URI_LINE,
 	JAVA_URI_POSITION,
-	JS_TESTFILE,
-	JS_URI_LINE,
-	JS_URI_POSITION,
-	KOTLIN_TESTFILE,
-	KOTLIN_URI_LINE,
-	KOTLIN_URI_POSITION,
 	openFileInEditor,
 	openProblemsView,
 	REFERENCES_FILE_1,
@@ -317,89 +308,6 @@ describe('Language DSL support', function () {
 		});
 	});
 
-	describe('Groovy DSL support', function () {
-		this.timeout(DSL_TIMEOUT);
-
-		before(setup(GROOVY_TESTFILE));
-		after(clean(GROOVY_TESTFILE));
-
-		beforeEach(async function () {
-			await activateEditor(driver, GROOVY_TESTFILE);
-		});
-
-		it('Open "test.camelk.groovy" file inside Editor View', async function () {
-			await openContextInsideEditorView(GROOVY_TESTFILE);
-		});
-
-		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			await codeCompletionForComponentScheme(GROOVY_URI_LINE, GROOVY_URI_POSITION, 'from(\'timer:timerName\')');
-		});
-
-		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			await codeCompletionForEndpointOptions(GROOVY_URI_LINE, GROOVY_URI_POSITION, 'from(\'timer:timerName?delay=1000\')');
-		});
-
-		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
-			await codeCompletionForAdditionalEndpointOptions(GROOVY_URI_LINE, GROOVY_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=\')');
-			await codeCompletionForAdditionalEndpointOptionsValue(GROOVY_URI_LINE, GROOVY_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=InOnly\')');
-		});
-	});
-
-	describe('Kotlin DSL support', function () {
-		this.timeout(DSL_TIMEOUT);
-
-		before(setup(KOTLIN_TESTFILE));
-		after(clean(KOTLIN_TESTFILE));
-
-		beforeEach(async function () {
-			await activateEditor(driver, KOTLIN_TESTFILE);
-		});
-
-		it('Open "test.camelk.kts" file inside Editor View', async function () {
-			await openContextInsideEditorView(KOTLIN_TESTFILE);
-		});
-
-		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			await codeCompletionForComponentScheme(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, 'from("timer:timerName")');
-		});
-
-		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			await codeCompletionForEndpointOptions(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, 'from("timer:timerName?delay=1000")');
-		});
-
-		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
-			await codeCompletionForAdditionalEndpointOptions(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, false, 'from("timer:timerName?delay=1000&exchangePattern=")');
-			await codeCompletionForAdditionalEndpointOptionsValue(KOTLIN_URI_LINE, KOTLIN_URI_POSITION, false, 'from("timer:timerName?delay=1000&exchangePattern=InOnly")');
-		});
-	});
-
-	describe('JavaScript DSL support', function () {
-		this.timeout(DSL_TIMEOUT);
-
-		before(setup(JS_TESTFILE));
-		after(clean(JS_TESTFILE));
-
-		beforeEach(async function () {
-			await activateEditor(driver, JS_TESTFILE);
-		});
-
-		it('Open "camel.js" file inside Editor View', async function () {
-			await openContextInsideEditorView(JS_TESTFILE);
-		});
-
-		it('Code completion is working for component schemes (the part before the ":")', async function () {
-			await codeCompletionForComponentScheme(JS_URI_LINE, JS_URI_POSITION, 'from(\'timer:timerName\')');
-		});
-
-		it('Code completion is working for endpoint options (the part after the "?")', async function () {
-			await codeCompletionForEndpointOptions(JS_URI_LINE, JS_URI_POSITION, 'from(\'timer:timerName?delay=1000\')');
-		});
-
-		it('Code completion is working for additional endpoint options (the part after "&")', async function () {
-			await codeCompletionForAdditionalEndpointOptions(JS_URI_LINE, JS_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=\')');
-			await codeCompletionForAdditionalEndpointOptionsValue(JS_URI_LINE, JS_URI_POSITION, false, 'from(\'timer:timerName?delay=1000&exchangePattern=InOnly\')');
-		});
-	});
 	// Camel URI code completion
 	/**
 	 * Check, if required camel-context is opened inside editor. File is opened by before function.
