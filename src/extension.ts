@@ -44,9 +44,6 @@ let languageClient: LanguageClient;
 const DOCUMENT_SELECTORS :DocumentFilter[] = [
 	{ language: 'xml' },
 	{ language: 'java' },
-	{ language: 'groovy' },
-	{ language: 'kotlin' },
-	{ language: 'javascript' },
 	{ language: 'properties' },
 	{ language: 'quarkus-properties' },
 	{ language: 'spring-boot-properties' },
@@ -78,14 +75,11 @@ export async function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		documentSelector: DOCUMENT_SELECTORS,
 		synchronize: {
-			configurationSection: ['camel', 'xml', 'java', 'groovy', 'kotlin', 'javascript', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'jsonc'],
+			configurationSection: ['camel', 'xml', 'java', 'properties', 'quarkus-properties', 'spring-boot-properties', 'yaml', 'jsonc'],
 			// Notify the server about file changes to .xml files contain in the workspace
 			fileEvents: [
 				workspace.createFileSystemWatcher('**/*.xml'),
 				workspace.createFileSystemWatcher('**/*.java'),
-				workspace.createFileSystemWatcher('**/*.groovy'),
-				workspace.createFileSystemWatcher('**/*.kts'),
-				workspace.createFileSystemWatcher('**/*.js'),
 				workspace.createFileSystemWatcher('**/*.properties'),
 				workspace.createFileSystemWatcher('**/*.yaml'),
 				workspace.createFileSystemWatcher('**/*.yml'),

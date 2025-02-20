@@ -48,16 +48,10 @@
     "workspaceContains:**/*.xml",
     "onLanguage:java",
     "workspaceContains:**/*.java",
-    "onLanguage:groovy",
-    "workspaceContains:**/*.groovy",
     "onLanguage:properties",
     "onLanguage:spring-boot-properties",
     "onLanguage:quarkus-properties",
     "workspaceContains:**/*.properties",
-    "onLanguage:kotlin",
-    "workspaceContains:**/*.kts",
-    "onLanguage:javascript",
-    "workspaceContains:**/*.js",
     "onLanguage:yaml",
     "workspaceContains:**/*.yaml",
     "workspaceContains:**/*.yml",
@@ -132,12 +126,6 @@
         ]
       },
       {
-        "id": "groovy",
-        "extensions": [
-          ".groovy"
-        ]
-      },
-      {
         "id": "properties",
         "extensions": [
           ".properties"
@@ -147,18 +135,6 @@
         "id": "spring-boot-properties",
         "extensions": [
           "application.properties"
-        ]
-      },
-      {
-        "id": "kotlin",
-        "extensions": [
-          ".kts"
-        ]
-      },
-      {
-        "id": "javascript",
-        "extensions": [
-          ".js"
         ]
       },
       {
