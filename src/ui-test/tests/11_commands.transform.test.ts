@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import { ActivityBar, DefaultTreeSection, EditorView, InputBox, Menu, SideBarView, VSBrowser, ViewItem, WebDriver, Workbench } from 'vscode-extension-tester';
 import * as pjson from '../../../package.json';
-import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, NEW_CAMEL_FILE_LABEL, TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated } from '../utils/testUtils';
+import { EXAMPLE_TRANSFORM_COMMAND_JAVA_FILE, EXAMPLE_TRANSFORM_COMMAND_XML_FILE, EXAMPLE_TRANSFORM_COMMAND_YAML_FILE, FOLDER_WITH_RESOURCES_FOR_TRANSFORM_COMMAND, NEW_CAMEL_FILE_LABEL, TASK_FINISHED_IN_TERMINAL_TEXT, TRANSFORM_CAMEL_ROUTE_YAML_DSL_LABEL, TRANSFORM_ROUTES_IN_FOLDER_TO_YAML_COMMAND_ID, TRANSFORM_ROUTE_TO_YAML_COMMAND_ID, deleteFile, killTerminal, openFileInEditor, waitUntilEditorIsOpened, waitUntilExtensionIsActivated, waitUntilTerminalHasText } from '../utils/testUtils';
 
 describe('Transform Camel Routes to YAML using commands', function () {
 	this.timeout(600000);
@@ -94,20 +94,17 @@ describe('Transform Camel Routes to YAML using commands', function () {
 			await input.confirm();
 		}
 
+		await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT);
+
 		const tree: DefaultTreeSection = await sideBar.getContent().getSection('camel_transform_command');
 		const items = await tree.getVisibleItems();
 		const labels = await Promise.all(items.map(item => item.getLabel()));
 
-		// Wait until all the transformed routes files are created
-		await driver.wait(async function () {
-			return routesToBeTransformed.every(route => labels.includes(route.fileName + route.fileExtension));
-		}, 45000);
-
 		// Asserts that every file was created
-		routesToBeTransformed.forEach(async route => {
-			const routeFile = route.fileName + '.yaml';
-			expect(labels).contains(routeFile);
-		});
+		for (const route of routesToBeTransformed) {
+		const routeFile = route.fileName + '.yaml';
+		expect(labels).to.include(routeFile);
+}
 
 	});
 
