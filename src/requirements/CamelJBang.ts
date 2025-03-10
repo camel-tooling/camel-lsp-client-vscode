@@ -86,12 +86,13 @@ export class CamelJBang {
 	}
 
 	public transformRoutesInFolder(sourcePath: string, format: string, outputPath: string,) {
+		const pathSeparatorAndWildcard = process.platform === 'win32' ? `${path.sep}*'` : `'${path.sep}*`;
 		return new ShellExecution('jbang',
 			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
 				'camel@apache/camel',
 				'transform',
 				'route',
-				`'${sourcePath}'${path.sep}*`,
+				`'${sourcePath}${pathSeparatorAndWildcard}`,
 				`'--format=${format}'`,
 				`'--output=${outputPath}'`,]);
 	}
