@@ -4,7 +4,7 @@
 
 - Update default Camel version used for Camel JBang from 4.9.0 to 4.10.0
 - Update Camel Quarkus Catalog from 3.17.0 to 3.19.0
-- Update default Camel Catalog version from 4.9.0 to 4.10.0
+- Update default Camel Catalog version from 4.9.0 to 4.10.2
 - Update Kamelet Catalog from 4.9.0 to 4.10.0
 - Remove support for Groovy, JavaScript and Kotlin DSL. These DSLs were removed in Camel 4.8.
 
