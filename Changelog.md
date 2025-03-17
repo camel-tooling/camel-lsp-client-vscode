@@ -7,6 +7,7 @@
 - Update default Camel Catalog version from 4.9.0 to 4.10.2
 - Update Kamelet Catalog from 4.9.0 to 4.10.2
 - Remove support for Groovy, JavaScript and Kotlin DSL. These DSLs were removed in Camel 4.8.
+- Use Language Server for Apache Camel 1.30.0
 
 ## 1.9.0
 
