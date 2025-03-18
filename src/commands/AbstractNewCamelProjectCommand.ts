@@ -102,23 +102,23 @@ export abstract class AbstractNewCamelProjectCommand {
 		if (groupIdSplit[0].length === 0) {
 			return 'The group id cannot start with a .';
 		}
-		for (const groupidSubPart of groupIdSplit) {
-			const regExpSearch = /^[a-z]\w*$/.exec(groupidSubPart);
+		for (const groupIdSubPart of groupIdSplit) {
+			const regExpSearch = /^(?!\.)[a-z0-9]+(\.[a-z0-9]+)*$/.exec(groupIdSubPart);
 			if (regExpSearch === null || regExpSearch.length === 0) {
-				return `Invalid subpart of group Id: ${groupidSubPart}} . It must follow groupId:artifactId:version pattern with group Id subpart separated by dot needs to follow this specific pattern: [a-zA-Z]\\w*`;
+				return `Invalid subpart of groupId: '${groupIdSubPart}'. The groupId is expected to follow the Java package naming conventions.`;
 			}
 		}
 
 		const artifactId = gavs[1];
-		const regExpSearchArtifactId = /^[a-zA-Z]\w*$/.exec(artifactId);
+		const regExpSearchArtifactId = /^(?!-)[a-z0-9]+(-[a-z0-9]+)*$/.exec(artifactId);
 		if (regExpSearchArtifactId === null || regExpSearchArtifactId.length === 0) {
-			return `Invalid artifact Id: ${artifactId}} . It must follow groupId:artifactId:version pattern with artifactId specific pattern: [a-zA-Z]\\w*`;
+			return `Invalid artifactId: '${artifactId}'. The identifiers should only consist of lowercase letters, digits, and hyphens.`;
 		}
 
 		const version = gavs[2];
-		const regExpSearch = /^\d[\w-.]*$/.exec(version);
+		const regExpSearch = /^(\d+\.\d+(\.\d+)?(-[A-Za-z0-9]+(-\d+)?)?(\+[A-Za-z0-9]+)?)$/.exec(version);
 		if (regExpSearch === null || regExpSearch.length === 0) {
-			return `Invalid version: ${version} . It must follow groupId:artifactId:version pattern with version specific pattern: \\d[\\w-.]*`;
+			return `Invalid version: '${version}'. The version is expected be compliant with Semantic Versioning 1.0.0.`;
 		}
 		return undefined;
 	}

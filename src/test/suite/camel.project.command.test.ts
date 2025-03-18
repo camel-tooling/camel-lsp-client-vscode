@@ -32,7 +32,8 @@ describe('Should validate Create a Camel Project command', function () {
 				expect(command.validateGAV('com.test:demo:1.0-SNAPSHOT')).to.be.undefined;
 				expect(command.validateGAV('com:demo:1.0-SNAPSHOT')).to.be.undefined;
 				expect(command.validateGAV('com.test:demo:1.0')).to.be.undefined;
-				expect(command.validateGAV('com.test:Demo:1.0')).to.be.undefined;
+				expect(command.validateGAV('com.test:demo-with-hyphen:1.0')).to.be.undefined;
+				expect(command.validateGAV('com.test:demo:1.0+df0')).to.be.undefined;
 			});
 
 			it('Validate not empty', function () {
@@ -51,11 +52,14 @@ describe('Should validate Create a Camel Project command', function () {
 				expect(command.validateGAV('invalid:invalid:1.0- with space')).to.not.be.undefined;
 			});
 
-			it('Validate contains valid characters', function () {
+			it('Validate contains invalid characters', function () {
 				expect(command.validateGAV('.invalid:valid:1.0-SNAPSHOT')).to.not.be.undefined;
 				expect(command.validateGAV('%invalid:valid:1.0-SNAPSHOT')).to.not.be.undefined;
 				expect(command.validateGAV('va.lid:%invalid:1.0-SNAPSHOT')).to.not.be.undefined;
 				expect(command.validateGAV('va.lid:valid:1.0-%invalid')).to.not.be.undefined;
+				expect(command.validateGAV('valid:Invalid:1.0-%invalid')).to.not.be.undefined;
+				expect(command.validateGAV('valid:Invalid:1.0')).to.not.be.undefined;
+				expect(command.validateGAV('valid:in_valid:1.0')).to.not.be.undefined;
 			});
 		});
 	});
