@@ -16,13 +16,14 @@
  */
 'use strict';
 
+import { expect } from 'chai';
+import path from 'path';
 import * as sinon from 'sinon';
 import * as vscode from 'vscode';
-import { expect } from 'chai';
-import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
-import path from 'path';
 import { NewCamelRouteFromOpenAPICommand } from '../../commands/NewCamelRouteFromOpenAPICommand';
+import { cleanCreatedFileAfterEachCommandExec, waitUntilEditorIsOpened, waitUntilFileIsCreated } from './helper';
 
+const SUB_FOLDER_NAME = 'a sub folder';
 describe('Should execute Create a route from open api command', function () {
 
 	let showOpenDialogStub: sinon.SinonStub;
@@ -34,7 +35,7 @@ describe('Should execute Create a route from open api command', function () {
 		const fullFileName = `${fileName}.camel.yaml`;
 
 		beforeEach(async function () {
-			this.timeout(200000);
+			this.timeout(240000);
 			showOpenDialogStub = sinon.stub(vscode.window, 'showOpenDialog');
 			showInputBoxStub = sinon.stub(vscode.window, 'showInputBox');
 		});
@@ -52,30 +53,31 @@ describe('Should execute Create a route from open api command', function () {
 		it('New file can be created', async function () {
 			await initNewFile(fileName);
 
-			const createdFile = await waitUntilFileIsCreated(fullFileName, 10_000);
+			createdFile = await waitUntilFileIsCreated(fullFileName, 10_000);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
 			expect(openedEditor).to.be.true;
-			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			const workspaceFolder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
 			expect(vscode.window.activeTextEditor?.document.uri.fsPath).to.be.equal(path.join(workspaceFolder.uri.fsPath, fullFileName));
 		});
 
 		it('New file can be created - in subfolder', async function () {
-			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
-			await initNewFile(fileName, vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, 'a sub folder')));
+			const workspaceFolder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			await initNewFile(fileName, vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, SUB_FOLDER_NAME)));
 
-			const createdFile = await waitUntilFileIsCreated(fullFileName);
+			createdFile = await waitUntilFileIsCreated(path.join(SUB_FOLDER_NAME, fullFileName));
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
 			expect(openedEditor).to.be.true;
-			expect(vscode.window.activeTextEditor?.document.uri.fsPath).to.be.equal(path.join(workspaceFolder.uri.fsPath, 'a sub folder', fullFileName));
+			expect(vscode.window.activeTextEditor?.document.uri.fsPath).to.be.equal(path.join(workspaceFolder.uri.fsPath, SUB_FOLDER_NAME, fullFileName));
+
 		});
 	});
 
 	async function initNewFile(name: string, targetFolder?: vscode.Uri): Promise<void> {
-		const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+		const workspaceFolder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
 		console.log(path.join(workspaceFolder.uri.fsPath, 'petstore.json'));
 		showOpenDialogStub.resolves([vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, 'petstore.json'))]);
 		showInputBoxStub.resolves(name);
