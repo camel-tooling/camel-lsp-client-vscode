@@ -161,12 +161,31 @@ export async function closeEditor(title: string, save?: boolean) {
 		const dialog = new ModalDialog();
 		if (save) {
 			console.log('Will click on Save in modal dialog asking to save o rnot changes to the file');
+			await awaitButtonAvailableAndEnabled(dialog, 'Save');
 			await dialog.pushButton('Save');
 		} else {
 			console.log('Will click on Don\'t Save in modal dialog asking to save o rnot changes to the file');
+			await awaitButtonAvailableAndEnabled(dialog, 'Don\'t Save');
 			await dialog.pushButton('Don\'t Save');
 		}
 	}
+}
+
+async function awaitButtonAvailableAndEnabled(dialog: ModalDialog, textButton: string) {
+	await VSBrowser.instance.driver.wait(async () => {
+		try {
+			const buttons = await dialog.getButtons();
+			for (let button of buttons) {
+				if ((await button.getText()) === textButton) {
+					return await button.isEnabled();
+				}
+			};
+			return false;
+		} catch {
+			return false;
+		}
+	}, 10000, `Awaiting for ${textButton} button to appear and be enabled`);
+	console.log(`${textButton} button found and enabled, will click on it`);
 }
 
 /**
