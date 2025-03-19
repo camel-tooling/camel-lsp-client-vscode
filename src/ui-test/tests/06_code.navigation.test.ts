@@ -39,11 +39,18 @@ describe('Code navigation', function () {
 
 		await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
 
+		console.log('beforeAll: extension activated');
+
 		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
+		console.log('beforeAll: Explorer view opened');
 		await (await new SideBarView().getContent().getSection('resources')).collapse();
+		console.log('beforeAll: resources section collapsed');
+
 
 		section = await new SideBarView().getContent().getSection('Outline') as DefaultTreeSection;
+		console.log('beforeAll: will expand the outline');
 		await section.expand();
+		console.log('beforeAll finished: outline expanded');
 	});
 
 	after(async function () {
