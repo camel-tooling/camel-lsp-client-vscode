@@ -144,9 +144,11 @@ export async function openProblemsView(): Promise<ProblemsView> {
  * @param save true/false
  */
 export async function closeEditor(title: string, save?: boolean) {
+	console.log(`closeEditor ${title} with save or not? ${save}`);
 	const dirty = await new TextEditor().isDirty();
 	await new EditorView().closeEditor(title);
 	if (dirty) {
+		console.log('editor was dirty');
 		await VSBrowser.instance.driver.wait(() => {
 			try {
 				new ModalDialog();
@@ -155,10 +157,13 @@ export async function closeEditor(title: string, save?: boolean) {
 				return false;
 			}
 		}, 10000, 'Expecting a modal dialog to be opened asking to save or not the file content but it was not found.');
+		console.log('Modal dialog askking to save or not the file found');
 		const dialog = new ModalDialog();
 		if (save) {
+			console.log('Will click on Save in modal dialog asking to save o rnot changes to the file');
 			await dialog.pushButton('Save');
 		} else {
+			console.log('Will click on Don\'t Save in modal dialog asking to save o rnot changes to the file');
 			await dialog.pushButton('Don\'t Save');
 		}
 	}
