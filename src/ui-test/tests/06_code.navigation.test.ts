@@ -42,8 +42,8 @@ describe('Code navigation', function () {
 		await (await new ActivityBar().getViewControl('Explorer'))?.openView();
 		await (await new SideBarView().getContent().getSection('resources')).collapse();
 
-		section = await new SideBarView().getContent().getSection('Outline') as DefaultTreeSection;
-		await section.expand();
+		section = await new SideBarView().getContent().getSection('Outline');
+		await section.expand(5000);
 	});
 
 	after(async function () {
