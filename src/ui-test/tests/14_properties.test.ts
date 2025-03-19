@@ -62,7 +62,7 @@ describe('Camel properties auto-completion support', function () {
 	});
 
 	after(async function () {
-		await closeEditor(TEST_FILE, true);
+		await closeEditor(TEST_FILE, false);
 		await deleteFile(TEST_FILE, RESOURCES);
 	});
 
