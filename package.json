@@ -354,7 +354,7 @@
     "mocha-jenkins-reporter": "^0.4.8",
     "mvn-artifact-download": "^6.1.1",
     "rimraf": "^6.0.1",
-    "sinon": "^19.0.2",
+    "sinon": "^19.0.4",
     "typescript": "^5.6.3",
     "vscode-extension-tester": "^8.13.0"
   },
