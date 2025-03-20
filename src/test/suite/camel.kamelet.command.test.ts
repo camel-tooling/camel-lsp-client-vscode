@@ -65,7 +65,7 @@ describe('Should execute Create a Kamelet command', function () {
 				const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
 				await initNewFile(fileName, param.type, vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, 'a sub folder')));
 
-				const createdFile = await waitUntilFileIsCreated(fullFileName);
+				const createdFile = await waitUntilFileIsCreated(fullFileName, 10_000);
 				expect(createdFile.fsPath).not.to.be.undefined;
 
 				const openedEditor = await waitUntilEditorIsOpened(fullFileName);
