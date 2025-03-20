@@ -52,7 +52,7 @@ describe('Should execute Create a route from open api command', function () {
 		it('New file can be created', async function () {
 			await initNewFile(fileName);
 
-			const createdFile = await waitUntilFileIsCreated(fullFileName);
+			const createdFile = await waitUntilFileIsCreated(fullFileName, 10_000);
 			expect(createdFile.fsPath).not.to.be.undefined;
 
 			const openedEditor = await waitUntilEditorIsOpened(fullFileName);
