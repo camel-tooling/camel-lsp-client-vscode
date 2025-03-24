@@ -94,9 +94,13 @@ describe('Create a Camel Project in a new output folder', function () {
 				return await inputForFolder.isEnabled() && await inputForFolder.isDisplayed();
 			});
 			await inputForFolder.confirm(); // it uses the 'confirm' button
+			console.log('second confirm hit, now will wait for the modal dialog');
 			const dialog = new ModalDialog();
+			console.log('ModalDialog object created');
 			await waitUntilModalDialogIsDisplayed(driver, dialog);
+			console.log('ModalDialog found, will click on Continue');
 			await dialog.pushButton('Continue');
+			console.log('Continue button cliked in ModalDialog');
 
 			//Expands the new folder under the workspace so that it can be visible later
 			await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT);
