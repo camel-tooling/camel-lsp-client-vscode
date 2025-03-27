@@ -52,6 +52,8 @@ async function main(): Promise<void> {
 	fs.rmSync(extensionFolder, { recursive: true });
 }
 
-main().catch((error) => {
-	throw Error('Unhandled promise rejection in main(): ', error);
-});
+if (require.main === module) {
+	main().catch((error) => {
+		throw Error('Unhandled promise rejection in main(): ', error);
+	});
+}
