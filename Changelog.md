@@ -4,6 +4,7 @@
 
 - Allow hyphen in artifact id when exporting to a Camel Quarkus or Spring Boot project
 - Update Camel Quarkus Catalog from 3.19.0 to 3.20.0
+- Update default Camel Catalog version from 4.10.2 to 4.10.3
 
 ## 1.10.0
 
