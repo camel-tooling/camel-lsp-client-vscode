@@ -3,6 +3,7 @@
 ## 1.11.0
 
 - Allow hyphen in artifact id when exporting to a Camel Quarkus or Spring Boot project
+- Update default Camel version used for Camel JBang from 4.10.2 to 4.10.3
 - Update Camel Quarkus Catalog from 3.19.0 to 3.20.0
 
 ## 1.10.0
