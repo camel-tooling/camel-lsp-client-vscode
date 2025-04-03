@@ -1,27 +1,27 @@
 {
-	"compilerOptions": {
-		"module": "Node16",
-		"moduleResolution": "Node16",
-		"target": "ES2022",
-		"lib": [
-			"ES2022"
-		],
-		"outDir": "out",
-		"resolveJsonModule": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true, // don't know how to fix it
-		"sourceMap": true,
-		"inlineSources": true,
-		"rootDir": "."
-	},
-	"include": [
-		"src"
-	],
-	"exclude": [
-		"node_modules",
-		".vscode-test",
-		"test-resources",
-		".test-extensions"
-	]
+    "compilerOptions": {
+        "module": "Node16",
+        "moduleResolution": "Node16",
+        "target": "ES2022",
+        "lib": [
+            "ES2022"
+        ],
+        "outDir": "out",
+        "resolveJsonModule": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "rootDir": "."
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        ".vscode-test",
+        "test-resources",
+        ".test-extensions"
+    ]
 }
