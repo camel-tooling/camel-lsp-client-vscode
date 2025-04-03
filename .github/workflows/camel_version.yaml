@@ -16,6 +16,7 @@ jobs:
       matrix:
         camel-version:
           - "4.8.5"
+          - "4.10.3"
           - "4.0.0.redhat-00036"
           - "4.4.0.redhat-00046"
           - "4.8.3.redhat-00004"
