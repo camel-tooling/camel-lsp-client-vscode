@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests } from '@vscode/test-electron';
+import { downloadAndUnzipVSCode, runVSCodeCommand, runTests } from '@vscode/test-electron';
 import * as cp from 'child_process';
 import * as path from 'path';
 
@@ -34,12 +34,9 @@ async function runTest() {
 		const vscodeExecutablePath: string = await downloadAndUnzipVSCode(vscodeVersion);
 		console.log(`vscodeExecutablePath = ${vscodeExecutablePath}`);
 
-		const [cliPath, ...args] = resolveCliArgsFromVSCodeExecutablePath(vscodeExecutablePath);
-		cp.spawnSync(cliPath, [...args, '--install-extension', 'redhat.vscode-quarkus', '--force'],
-			{
-				encoding: 'utf-8',
-				stdio: 'inherit'
-			});
+		const { stdout, stderr} =  await runVSCodeCommand(['--install-extension', 'redhat.vscode-quarkus']);
+		console.log(stdout);
+		console.log(stderr);
 
 		await runTests({
 			vscodeExecutablePath,
