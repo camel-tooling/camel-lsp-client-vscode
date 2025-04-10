@@ -7,6 +7,7 @@
 - Update Camel Quarkus Catalog from 3.19.0 to 3.20.0
 - Update default Camel Catalog version from 4.10.2 to 4.11.0
 - Update Kamelet Catalog from 4.10.2 to 4.11.0
+- Use Language Server for Apache Camel 1.31.0
 
 ## 1.10.0
 
