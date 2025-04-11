@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.12.0
+
 ## 1.11.0
 
 - Allow hyphen in artifact id when exporting to a Camel Quarkus or Spring Boot project
