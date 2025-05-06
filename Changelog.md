@@ -2,6 +2,8 @@
 
 ## 1.12.0
 
+- Update Camel Quarkus Catalog from 3.20.0 to 3.22.0
+
 ## 1.11.0
 
 - Allow hyphen in artifact id when exporting to a Camel Quarkus or Spring Boot project
