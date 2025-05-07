@@ -6,7 +6,7 @@ const download = require("mvn-artifact-download").default;
 const fs = require('fs');
 const path = require('path');
 
-const MAVEN_REPO_URL = 'https://oss.sonatype.org/content/repositories/snapshots/';
+const MAVEN_REPO_URL = 'https://central.sonatype.com/repository/maven-snapshots/';
 
 download('com.github.camel-tooling:camel-lsp-server:' + LSP_SERVER_VERSION,
 	'./jars/', MAVEN_REPO_URL).then((filename)=>{
