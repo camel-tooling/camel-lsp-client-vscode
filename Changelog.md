@@ -2,7 +2,7 @@
 
 ## 1.12.0
 
-- Update Camel Quarkus Catalog from 3.20.0 to 3.22.0
+- Update Camel Quarkus Catalog from 3.20.0 to 3.23.0
 
 ## 1.11.0
 
