@@ -5,6 +5,9 @@
 - Remove support for Karaf as Runtime for the Catalog
 - Support Camel XML IO namespace
 - Update Camel Quarkus Catalog from 3.20.0 to 3.23.0
+- Update default Camel Catalog version from 4.11.0 to 4.12.0
+- Update default Camel version used for Camel JBang from 4.11.0 to 4.12.0
+  - Note that due to regression [CAMEL-22131](https://issues.apache.org/jira/browse/CAMEL-22131) in Camel JBang 4.12, the project creation on Windows doesn't include the Maven wrapper with 4.12.x Camel Jbang version.
 
 ## 1.11.0
 
