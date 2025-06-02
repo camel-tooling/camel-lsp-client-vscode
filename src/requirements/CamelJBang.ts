@@ -19,6 +19,9 @@
 import path from 'path';
 import { ShellExecution, workspace } from "vscode";
 import { arePathsEqual, getCurrentWorkingDirectory } from "./utils";
+import * as vscode from 'vscode';
+
+const isWindows: boolean = process.platform.startsWith('win');
 
 /**
  * Camel JBang class which allows shell execution of different jbang cli commands
@@ -53,14 +56,25 @@ export class CamelJBang {
 			outputPath = '.';
 		}
 
-		return new ShellExecution('jbang',
+		if (this.camelVersion.startsWith('4.12') && isWindows) {
+			vscode.window.showInformationMessage('The created project do not have the Maven wrapper because Camel JBang 4.12 is used on Windows. If you want the Maven wrapper either: call `mvn wrapper:wrapper` on the created project, recreate the project using a different Camel Version or using a non-Windows OS.');
+			return new ShellExecution('jbang',
+			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
+				'camel@apache/camel',
+				'export',
+				`--runtime=${runtime}`,
+				`--gav=${gav}`,
+				`'--directory=${outputPath}'`,
+				'--maven-wrapper=false'], {cwd});
+		} else {
+			return new ShellExecution('jbang',
 			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
 				'camel@apache/camel',
 				'export',
 				`--runtime=${runtime}`,
 				`--gav=${gav}`,
 				`'--directory=${outputPath}'`], {cwd});
-
+		}
 	}
 
 	public generateRest(routefile: string, openApiFile: string): ShellExecution {
