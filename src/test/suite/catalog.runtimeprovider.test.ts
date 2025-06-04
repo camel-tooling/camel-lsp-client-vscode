@@ -27,8 +27,8 @@ const expect = chai.expect;
 const RUNTIME_PROVIDER_SETTINGS_KEY = 'camel.Camel catalog runtime provider';
 
 describe('Should do completion in Camel URI using the Camel Catalog version specified in preference', () => {
-	const docUriXml = getDocUri('test-catalog-version.xml');
-	const expectedCompletion = { label: 'jgroups-raft:clusterName'};
+	const docUriXml = getDocUri('test-catalog-provider.xml');
+	const expectedCompletion = { label: 'avro:transport:host:port/messageName'};
 
 	afterEach(async () => {
 		const config = vscode.workspace.getConfiguration();
@@ -41,18 +41,18 @@ describe('Should do completion in Camel URI using the Camel Catalog version spec
 	it('Updated Catalog runtime provider is reflected in completion', async () => {
 		await activate(docUriXml);
 		const config = vscode.workspace.getConfiguration();
-		expect(config.get(RUNTIME_PROVIDER_SETTINGS_KEY)).to.not.be.equal('KARAF');
-		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
-		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, 'KARAF');
+		expect(config.get(RUNTIME_PROVIDER_SETTINGS_KEY)).to.not.be.equal('QUARKUS');
+		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 15), expectedCompletion);
+		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, 'QUARKUS');
 
 		await waitUntil( async() =>  {
-			return (await vscode.workspace.getConfiguration().get(RUNTIME_PROVIDER_SETTINGS_KEY)) === 'KARAF';
+			return (await vscode.workspace.getConfiguration().get(RUNTIME_PROVIDER_SETTINGS_KEY)) === 'QUARKUS';
 		});
 
-		await checkNotExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
+		await checkNotExpectedCompletion(docUriXml, new vscode.Position(0, 15), expectedCompletion);
 
 		await config.update(RUNTIME_PROVIDER_SETTINGS_KEY, undefined);
-		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 21), expectedCompletion);
+		await checkExpectedCompletion(docUriXml, new vscode.Position(0, 15), expectedCompletion);
 	});
 
 });

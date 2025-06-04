@@ -73,8 +73,7 @@ describe('User preferences', function () {
 
 		const PROVIDERS_LIST = [
 			{ runtime: 'SPRINGBOOT', knative: true, mongo: true, jmx: true },
-			{ runtime: 'QUARKUS', knative: true, mongo: true, jmx: false },
-			{ runtime: 'KARAF', knative: false, mongo: true, jmx: true }
+			{ runtime: 'QUARKUS', knative: true, mongo: true, jmx: false }
 		];
 
 		after(function () {
