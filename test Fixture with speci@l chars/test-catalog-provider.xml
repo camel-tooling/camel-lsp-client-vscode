@@ -1,0 +1,1 @@
+<from uri="avro:transport:host:port/messageName" xmlns="http://camel.apache.org/schema/blueprint"></from>
