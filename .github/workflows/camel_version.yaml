@@ -105,7 +105,7 @@ jobs:
           steps.uiTest.outcome == 'cancelled')
         with:
           name: ${{ matrix.camel-version }}-ui-test-screenshots
-          path: test-resources/screenshots/*.png
+          path: test-resources/screenshots/*/*.png
 
   check:
     if: always()

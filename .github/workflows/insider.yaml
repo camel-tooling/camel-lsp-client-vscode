@@ -132,4 +132,4 @@ jobs:
           steps.uiTest_MacOS_Windows.outcome == 'cancelled')
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-ui-test-screenshots
-          path: test-resources/screenshots/*.png
+          path: test-resources/screenshots/*/*.png
