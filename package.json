@@ -81,11 +81,6 @@
           "type": "array",
           "description": "(Experimental)List of additional components to include in the Camel Catalog described with a Json list respecting Camel catalog syntax."
         },
-        "camel.Kafka Connection URL": {
-          "type": "string",
-          "description": "Kafka Connection URl used by the Camel language Server to provide dynamic completion.",
-          "default": "localhost:9092"
-        },
         "redhat.telemetry.enabled": {
           "type": "boolean",
           "default": null,

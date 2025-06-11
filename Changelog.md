@@ -2,6 +2,7 @@
 
 ## 1.12.0
 
+- Remove support for Kafka connected mode completion
 - Remove support for Karaf as Runtime for the Catalog
 - Support Camel XML IO namespace
 - Update Camel Quarkus Catalog from 3.20.0 to 3.23.0
