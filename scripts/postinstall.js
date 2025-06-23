@@ -1,12 +1,14 @@
 'use strict';
 
-const LSP_SERVER_VERSION = "1.32.0-SNAPSHOT";
+const LSP_SERVER_VERSION = "1.32.0";
 
 const download = require("mvn-artifact-download").default;
 const fs = require('fs');
 const path = require('path');
 
-const MAVEN_REPO_URL = 'https://central.sonatype.com/repository/maven-snapshots/';
+// Released versions: https://repo1.maven.org/maven2/
+// Snapshot versions: https://central.sonatype.com/repository/maven-snapshots/
+const MAVEN_REPO_URL = 'https://repo1.maven.org/maven2/';
 
 download('com.github.camel-tooling:camel-lsp-server:' + LSP_SERVER_VERSION,
 	'./jars/', MAVEN_REPO_URL).then((filename)=>{

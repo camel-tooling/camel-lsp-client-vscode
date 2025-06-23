@@ -10,6 +10,7 @@
 - Update default Camel version used for Camel JBang from 4.11.0 to 4.12.0
   - Note that due to regression [CAMEL-22131](https://issues.apache.org/jira/browse/CAMEL-22131) in Camel JBang 4.12, the project creation on Windows doesn't include the Maven wrapper with 4.12.x Camel Jbang version.
 - Update Kamelet Catalog from 4.11.0 to 4.12.0
+- Use Language Server for Apache Camel 1.32.0
 
 ## 1.11.0
 
