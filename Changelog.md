@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.13.0
+
 ## 1.12.0
 
 - Remove support for Kafka connected mode completion
