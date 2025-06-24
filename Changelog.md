@@ -2,6 +2,8 @@
 
 ## 1.13.0
 
+- Update Camel Quarkus Catalog from 3.23.0 to 3.24.0
+
 ## 1.12.0
 
 - Remove support for Kafka connected mode completion
