@@ -46,6 +46,8 @@ This extension provides completion, validation and documentation features for Ap
 
 To export a standalone Camel file to a Red Hat productized version, you can use an `application.properties` file.
 
+### How to export with Red Hat productized version using Quarkus runtime
+
 For instance for Quarkus, you can provide this content:
 ```
 camel.jbang.repos=https://maven.repository.redhat.com/ga/
@@ -54,5 +56,16 @@ camel.jbang.quarkusVersion=3.15.2.redhat-00003
 camel.jbang.quarkusGroupId=com.redhat.quarkus.platform
 ```
 Then you can use as usual the command `Camel: Create a Camel Quarkus project` from the command palette.
+
+### How to export with Red Hat productized version using Spring boot runtime
+
+For instance for Spring Boot, you can provide this content:
+```
+camel.jbang.repos=https://maven.repository.redhat.com/ga/
+# The version is the Camel on Spring Boot bom https://maven.repository.redhat.com/ga/com/redhat/camel/springboot/platform/camel-spring-boot-bom/
+camel.jbang.camelSpringBootVersion=4.10.3.redhat-00019
+```
+Then you can use as usual the command `Camel: Create a Camel SpringBoot project` from the command palette.
+
 
 Note you can further customize the export using this file, see the [upstream documentation](https://camel.apache.org/manual/camel-jbang.html#_configuring_exporting) for available parameters.
