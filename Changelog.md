@@ -2,6 +2,7 @@
 
 ## 1.13.0
 
+- Attribute name completion now have group, requirement and default value with new line respected
 - Update Camel Quarkus Catalog from 3.23.0 to 3.24.0
 
 ## 1.12.0
