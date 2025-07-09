@@ -43,6 +43,20 @@
                 "reveal": "always"
             },
             "isBackground": true
+        },
+		{
+            "label": "Deploy on OpenShift",
+            "type": "shell",
+            "command": "./mvnw",
+            "args": [
+                "package",
+                "-Dquarkus.kubernetes.deploy=true"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always"
+            }
         }
+
     ]
 }
