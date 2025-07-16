@@ -327,7 +327,7 @@
     "@stylistic/eslint-plugin": "^5.2.0",
     "@types/chai": "^4.3.20",
     "@types/fs-extra": "^11.0.4",
-    "@types/glob": "^8.0.1",
+    "@types/glob": "^9.0.0",
     "@types/lodash": "^4.17.20",
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.0.14",
