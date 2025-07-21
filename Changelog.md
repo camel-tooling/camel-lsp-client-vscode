@@ -1,5 +1,7 @@
 # Change Log
 
+## 1.14.0
+
 ## 1.13.0
 
 - Provide a VS Code task `Deploy on OpenShift` when creating a Camel Quarkus project
