@@ -325,7 +325,7 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.2.2",
-    "@types/chai": "^4.3.20",
+    "@types/chai": "^5.2.2",
     "@types/fs-extra": "^11.0.4",
     "@types/glob": "^9.0.0",
     "@types/lodash": "^4.17.20",
@@ -339,7 +339,7 @@
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^3.6.0",
     "async-wait-until": "^2.0.27",
-    "chai": "^4.5.0",
+    "chai": "^5.2.1",
     "eslint": "^9.31.0",
     "eslint-define-config": "^2.1.0",
     "eslint-plugin-import": "^2.32.0",
