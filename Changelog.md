@@ -2,6 +2,8 @@
 
 ## 1.14.0
 
+- Update default Camel version used for Camel JBang from 4.13.0 to 4.14.0
+
 ## 1.13.0
 
 - Provide a VS Code task `Deploy on OpenShift` when creating a Camel Quarkus project
