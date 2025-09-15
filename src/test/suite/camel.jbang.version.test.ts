@@ -46,7 +46,10 @@ describe('Should run commands with Camel JBang version specified in settings', (
 		await config.update(CAMEL_JBANG_VERSION_SETTINGS_ID, CAMEL_JBANG_VERSION);
 		if(workspace.workspaceFolders){
 			const camelJBangTask = new CamelInitJBangTask(workspace.workspaceFolders[0], 'test-route.camel.yaml');
-			expect((camelJBangTask.execution as ShellExecution).args[0].toString()).to.includes(CAMEL_JBANG_VERSION);
+			const execution :ShellExecution = camelJBangTask.execution as ShellExecution;
+			const executionArgs = execution.args;
+			const executionArgsAsString = executionArgs !== undefined ? executionArgs[0].toString() : '';
+			expect(executionArgsAsString).to.includes(CAMEL_JBANG_VERSION);
 		}
 	});
 
