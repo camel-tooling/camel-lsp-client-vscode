@@ -334,7 +334,7 @@
     "@types/sinon": "^17.0.3",
     "@types/vscode": "^1.82.0",
     "@types/winreg": "^1.2.36",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.32.1",
     "@vscode/test-electron": "^2.3.9",
     "@vscode/vsce": "^3.6.0",
