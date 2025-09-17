@@ -6,6 +6,7 @@
 - Update default Camel Catalog version from 4.13.0 to 4.14.0
 - Update Camel Quarkus Catalog from 3.24.0 to 3.26.0
 - Update Kamelet Catalog from 4.13.0 to 4.14.0
+- Use Node 22 instead of Node 20, minimal version of VS Code is now 1.101
 
 ## 1.13.0
 
