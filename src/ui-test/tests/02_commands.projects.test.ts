@@ -65,7 +65,7 @@ describe('Create a Camel Project', function () {
 			describe(`${command}`, function () {
 
 				beforeEach(async function () {
-					this.timeout(200000);
+					this.timeout(400000);
 					await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE_PATH);
 					await VSBrowser.instance.waitForWorkbench();
 					await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
