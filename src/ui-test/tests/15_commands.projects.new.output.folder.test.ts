@@ -42,6 +42,7 @@ import {
 	waitUntilModalDialogIsDisplayed,
 	waitUntilTerminalHasText
 } from '../utils/testUtils';
+import waitUntil from 'async-wait-until';
 
 describe('Create a Camel Project in a new output folder', function () {
 	this.timeout(600000);
@@ -91,6 +92,9 @@ describe('Create a Camel Project in a new output folder', function () {
 			const inputText = await input.getText();
 			await input.setText(path.join(inputText, SUBFOLDER));
 			await input.confirm();
+			await waitUntil(async() => {
+				return input.isEnabled();
+			});
 			await input.confirm();
 			const dialog = new ModalDialog();
 			await waitUntilModalDialogIsDisplayed(driver, dialog);
