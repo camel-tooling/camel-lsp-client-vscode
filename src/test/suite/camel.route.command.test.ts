@@ -174,7 +174,7 @@ describe('Should execute Create a Camel Route command', function () {
 			});
 
 			it('Validate file already exists', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('ModelineCompletion')).to.not.be.undefined;
+				expect(newCamelRouteCommand.validateCamelFileName('apacheCamel')).to.not.be.undefined;
 			});
 
 			it('Validate special characters', function () {
