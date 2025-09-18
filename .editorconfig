@@ -8,6 +8,3 @@ insert_final_newline = true
 [{config.yml,npm-shrinkwrap.json,package.json}]
 indent_style = space
 indent_size = 2
-
-[ModelineCompletion.java]
-trim_trailing_whitespace = false
