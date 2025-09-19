@@ -67,9 +67,13 @@ describe('Create a Camel Project', function () {
 				beforeEach(async function () {
 					this.timeout(200000);
 					await VSBrowser.instance.openResources(SPECIFIC_WORKSPACE_PATH);
+					console.log('workspace opened');
 					await VSBrowser.instance.waitForWorkbench();
+					console.log('workbench ready');
 					await waitUntilExtensionIsActivated(driver, `${pjson.displayName}`);
+					console.log('extension activated');
 					sideBar = await (await new ActivityBar().getViewControl('Explorer'))?.openView() as SideBarView;
+					console.log('sidebar Explorer opened');
 				});
 
 				afterEach(async function () {
