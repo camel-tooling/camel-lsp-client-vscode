@@ -40,6 +40,7 @@ import {
 	waitUntilExtensionIsActivated,
 	waitUntilFileAvailable,
 	waitUntilTerminalHasText,
+	waitUntilTextEditorInstanceCreated,
 	XML_URI_POSITION
 } from '../utils/testUtils';
 import {
@@ -153,6 +154,7 @@ describe('User preferences', function () {
 			});
 
 			// add component
+			await waitUntilTextEditorInstanceCreated();
 			const editor = new TextEditor();
 			await editor.typeTextAt(3, XML_URI_POSITION, 'knative');
 
@@ -177,6 +179,7 @@ describe('User preferences', function () {
 			await VSBrowser.instance.waitForWorkbench();
 
 			// add component
+			await waitUntilTextEditorInstanceCreated();
 			const editor = new TextEditor();
 			await editor.isDisplayed();
 			await editor.typeTextAt(3, XML_URI_POSITION, 'knative');
@@ -275,6 +278,7 @@ describe('User preferences', function () {
 	 * @param proposalsCount Number of available proposals.
 	 */
 	async function testComponentInXML(component: string, proposal: string, proposalAvailable: boolean, proposalsCount: number): Promise<void> {
+		await waitUntilTextEditorInstanceCreated();
 		const editor = new TextEditor();
 		await editor.typeTextAt(3, XML_URI_POSITION, component);
 
