@@ -40,6 +40,7 @@ import {
 	Workbench
 } from "vscode-extension-tester";
 import { storageFolder } from "../uitest_runner";
+import { waitUntil } from 'async-wait-until';
 
 // Resources and file names inside.
 export const RESOURCES: string = path.resolve('src', 'ui-test', 'resources');
@@ -523,17 +524,17 @@ export async function clearReferences(): Promise<void> {
  * @returns true/false
  */
 export async function fileIsAvailable(filename: string, section: string = 'resources'): Promise<boolean> {
-    const control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
-    await control.closeView();
-    const sideBar = await control.openView();
+	const control = await new ActivityBar().getViewControl('Explorer') as ViewControl;
+	await control.closeView();
+	const sideBar = await control.openView();
 	// Click on it to have focus on the view and ensure the action buttons are visible
 	await sideBar.click();
-    const tree :DefaultTreeSection = await sideBar.getContent().getSection(section);
+	const tree: DefaultTreeSection = await sideBar.getContent().getSection(section);
 	const refreshExplorerAction = await tree.getAction('Refresh Explorer');
-    await refreshExplorerAction?.click();
-    const items = await tree.getVisibleItems();
-    const labels = await Promise.all(items.map(item => item.getLabel()));
-    return labels.includes(filename);
+	await refreshExplorerAction?.click();
+	const items = await tree.getVisibleItems();
+	const labels = await Promise.all(items.map(item => item.getLabel()));
+	return labels.includes(filename);
 }
 
 /**
@@ -631,5 +632,16 @@ export async function waitUntilModalDialogIsDisplayed(driver: WebDriver, modalDi
 	await driver.wait(async function () {
 		return (await modalDialog.isDisplayed());
 	}, timeout, message);
+}
+
+export async function waitUntilTextEditorInstanceCreated() {
+	await waitUntil(async () => {
+		try {
+			new TextEditor();
+			return true;
+		} catch {
+			return false;
+		}
+	});
 }
 
