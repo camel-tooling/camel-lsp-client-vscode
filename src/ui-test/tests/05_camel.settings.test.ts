@@ -142,6 +142,7 @@ describe('User preferences', function () {
 		it('Default version', async function () {
 			// open file
 			await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+			await VSBrowser.instance.waitForWorkbench();
 			await waitUntil(async () => {
 				try {
 					const editor = new TextEditor();
@@ -173,6 +174,7 @@ describe('User preferences', function () {
 
 			// open file
 			await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+			await VSBrowser.instance.waitForWorkbench();
 
 			// add component
 			const editor = new TextEditor();
