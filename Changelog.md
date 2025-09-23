@@ -2,6 +2,8 @@
 
 ## 1.15.0
 
+- Update Camel Quarkus Catalog from 3.26.0 to 3.27.0
+
 ## 1.14.0
 
 - Update default Camel version used for Camel JBang from 4.13.0 to 4.14.0
