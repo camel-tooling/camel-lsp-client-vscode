@@ -46,7 +46,6 @@ import {
 describe('Create a Camel Project in a new output folder', function () {
 	this.timeout(600000);
 	let driver: WebDriver;
-	let input: InputBox;
 
 	before(async function () {
 		driver = VSBrowser.instance.driver;
@@ -83,18 +82,25 @@ describe('Create a Camel Project in a new output folder', function () {
 
 			await new Workbench().executeCommand(command);
 
-			input = await InputBox.create(30000);
-			await input.setText('com.demo:test:1.0-SNAPSHOT');
-			await input.confirm();
+			const inputForGAV = await InputBox.create(30000);
+			await inputForGAV.setText('com.demo:test:1.0-SNAPSHOT');
+			await inputForGAV.confirm();
 
-			input = await InputBox.create(30000);
-			const inputText = await input.getText();
-			await input.setText(path.join(inputText, SUBFOLDER));
-			await input.confirm();
-			await input.confirm();
+			const inputForFolder = await InputBox.create(30000);
+			const inputText = await inputForFolder.getText();
+			await inputForFolder.setText(path.join(inputText, SUBFOLDER));
+			await inputForFolder.confirm(); // it uses the 'select' button to add and format correctly
+			await VSBrowser.instance.driver.wait(async () => {
+				return await inputForFolder.isEnabled() && await inputForFolder.isDisplayed();
+			});
+			await inputForFolder.confirm(); // it uses the 'confirm' button
+			console.log('second confirm hit, now will wait for the modal dialog');
 			const dialog = new ModalDialog();
+			console.log('ModalDialog object created');
 			await waitUntilModalDialogIsDisplayed(driver, dialog);
+			console.log('ModalDialog found, will click on Continue');
 			await dialog.pushButton('Continue');
+			console.log('Continue button cliked in ModalDialog');
 
 			//Expands the new folder under the workspace so that it can be visible later
 			await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT);
