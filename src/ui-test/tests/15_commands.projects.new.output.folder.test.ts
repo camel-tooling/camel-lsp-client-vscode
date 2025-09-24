@@ -42,6 +42,7 @@ import {
 	waitUntilModalDialogIsDisplayed,
 	waitUntilTerminalHasText
 } from '../utils/testUtils';
+import waitUntil from 'async-wait-until';
 
 describe('Create a Camel Project in a new output folder', function () {
 	this.timeout(600000);
@@ -91,7 +92,16 @@ describe('Create a Camel Project in a new output folder', function () {
 			const inputText = await input.getText();
 			await input.setText(path.join(inputText, SUBFOLDER));
 			await input.confirm();
-			await input.confirm();
+			// workaround to flaky test throwing error:  ElementNotInteractableError: element not interactable
+			await waitUntil(async() => {
+				try {
+					await input.confirm();
+					return true;
+				} catch {
+					return false;
+				}
+			});
+
 			const dialog = new ModalDialog();
 			await waitUntilModalDialogIsDisplayed(driver, dialog);
 			await dialog.pushButton('Continue');
