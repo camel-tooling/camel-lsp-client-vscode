@@ -12,6 +12,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  init:
+    if: always()
+    runs-on: ubuntu-latest
+    name: Utils fork check
+    env:
+      USER: "${{ github.actor }}"
+      BRANCH: "${{ github.head_ref }}"
+      TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    outputs:
+      branch_exists: ${{ steps.checkBranch.outputs.exists }}
+
+    steps:
+      - name: Check for branch in vscode-uitests-tooling
+        id: checkBranch
+        run: |
+          REPO_URL="https://api.github.com/repos/$USER/vscode-uitests-tooling/branches"
+          RESPONSE=$(curl -s -H "Authorization: Bearer $TOKEN" "$REPO_URL")
+
+          if ([ $? -ne 0 ]); then 
+            echo "exists=false" >> $GITHUB_OUTPUT  
+          fi
+
+          if echo "$RESPONSE" | jq '.message' &> /dev/null; then
+            if [[ $(echo "$RESPONSE" | jq -r '.message') == "Not Found" ]]; then
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            BRANCH_EXISTS=$(echo "$RESPONSE" | jq -r '.[] | select(.name=="'"$BRANCH"'") | .name')
+            if [ "$BRANCH_EXISTS" == "$BRANCH" ]; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
   main:
     strategy:
       matrix:
@@ -24,13 +59,21 @@ jobs:
       CODE_VERSION: ${{ matrix.version }}
       CODE_TYPE: ${{ matrix.type }}
       TEST_RESOURCES: test-resources
+      USER: "${{ github.actor }}"
+      BRANCH: "${{ github.head_ref }}"
 
     runs-on: ${{ matrix.os }}
+    needs: [ init ]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      
+      - name: Clone utils repo
+        if: ${{ needs.init.outputs.branch_exists == 'true' }}
+        run: |
+          git clone -b ${{ env.BRANCH }} https://github.com/${{ env.USER }}/vscode-uitests-tooling.git ../vscode-uitests-tooling
 
       - name: Set up JDK 17
         uses: actions/setup-java@v5
@@ -83,6 +126,12 @@ jobs:
       - name: test (macos, windows)
         if: ${{ !startsWith(matrix.os, 'ubuntu') }}
         run: npm test
+
+      - name: Link utils to camel-lsp-client-vscode
+        if: ${{ needs.init.outputs.branch_exists == 'true' }}
+        run: |
+          npm run dev --prefix ../vscode-uitests-tooling
+          npm link ../vscode-uitests-tooling
 
       - name: ui test (ubuntu)
         id: uiTest_Ubuntu
