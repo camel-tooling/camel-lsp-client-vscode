@@ -52,6 +52,7 @@ import {
 	WebDriver
 } from 'vscode-extension-tester';
 import * as pjson from '../../../package.json';
+import waitUntil from 'async-wait-until';
 
 describe('User preferences', function () {
 
@@ -141,10 +142,17 @@ describe('User preferences', function () {
 		it('Default version', async function () {
 			// open file
 			await VSBrowser.instance.openResources(path.join(RESOURCES, CAMEL_CONTEXT_XML));
+			await waitUntil(async () => {
+				try {
+					const editor = new TextEditor();
+					return await editor.isDisplayed();
+				} catch {
+					return false;
+				}
+			});
 
 			// add component
 			const editor = new TextEditor();
-			await editor.isDisplayed();
 			await editor.typeTextAt(3, XML_URI_POSITION, 'knative');
 
 			// open ca
