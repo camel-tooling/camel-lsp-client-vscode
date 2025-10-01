@@ -624,13 +624,17 @@ export async function expandItemInTree(driver: WebDriver, itemName: string, tree
  * Waits until given Modal Dialog is displayed
  *
  * @param driver WebDriver object
- * @param modalDialog InputBox object
  * @param timeout Timeout, default value 10s
  * @param message Error message when timed out
  */
-export async function waitUntilModalDialogIsDisplayed(driver: WebDriver, modalDialog: ModalDialog, timeout = 10_000, message = 'Modal Dialog was not displayed properly!'): Promise<void> {
+export async function waitUntilModalDialogIsDisplayed(driver: WebDriver, timeout = 10_000, message = 'Modal Dialog was not displayed properly!'): Promise<void> {
 	await driver.wait(async function () {
-		return (await modalDialog.isDisplayed());
+		try {
+			const dialog = new ModalDialog();
+			return await dialog.isDisplayed();
+		} catch {
+			return false;
+		}
 	}, timeout, message);
 }
 

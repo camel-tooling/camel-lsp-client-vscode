@@ -102,8 +102,8 @@ describe('Create a Camel Project in a new output folder', function () {
 				}
 			});
 
+			await waitUntilModalDialogIsDisplayed(driver);
 			const dialog = new ModalDialog();
-			await waitUntilModalDialogIsDisplayed(driver, dialog);
 			await dialog.pushButton('Continue');
 
 			//Expands the new folder under the workspace so that it can be visible later
