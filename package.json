@@ -340,7 +340,7 @@
     "@vscode/vsce": "^3.6.2",
     "async-wait-until": "^2.0.30",
     "chai": "^4.5.0",
-    "eslint": "^9.36.0",
+    "eslint": "^9.37.0",
     "eslint-define-config": "^2.1.0",
     "eslint-plugin-import": "^2.32.0",
     "glob": "^11.0.3",
