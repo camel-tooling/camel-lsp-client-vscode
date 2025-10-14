@@ -353,7 +353,7 @@
     "vscode-extension-tester": "^8.15.0"
   },
   "dependencies": {
-    "@redhat-developer/vscode-redhat-telemetry": "^0.9.1",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.10.0",
     "expand-home-dir": "^0.0.3",
     "fs-extra": "^11.3.2",
     "lodash": "^4.17.21",
