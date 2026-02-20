@@ -83,35 +83,35 @@ jobs:
       #   run: npm run ui-test
 
       - name: Store Camel Language Server log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-camel-lsp-log
           path: /tmp/log-camel-lsp.log
 
       - name: Store VS Code Logs (Ubuntu)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure() && ${{ startsWith(matrix.os, 'ubuntu') }}
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
           path: ~/.config/Code/logs/*
 
       - name: Store VS Code Logs (Macos)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure() && matrix.os == 'macos-15-intel'
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
           path: ~/Library/Application Support/Code/logs/*
 
       - name: Store VS Code Logs (Windows)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure() && matrix.os == 'windows-latest'
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-vscode-logs
           path: $env:USERPROFILE\AppData\Code\logs\*
 
       - name: Store UI test log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: |
           (failure() || cancelled()) &&
           (steps.uiTest_Ubuntu.outcome == 'failure' ||
@@ -123,7 +123,7 @@ jobs:
           path: test-resources/settings/logs/*
 
       - name: Store UI Test Screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: |
           (failure() || cancelled()) &&
           (steps.uiTest_Ubuntu.outcome == 'failure' ||
