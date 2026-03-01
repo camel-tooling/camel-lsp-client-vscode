@@ -112,13 +112,13 @@ jobs:
           ./cyclonedx-linux-x64 merge --hierarchical --group com.github.camel-tooling --name vscode-apache-camel --version ${{ steps.package-version.outputs.current-version}} --input-files node-sbom.json camel-ls-sbom.json --output-file manifest.json
 
       - name: Store SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: ${{ startsWith(matrix.os, 'ubuntu') && matrix.version == 'max' }}
         with:
           name: sbom
           path: manifest.json
       - name: Store Camel Language Server log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure() && matrix.os != 'windows-latest'
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-camel-lsp-log
@@ -126,14 +126,14 @@ jobs:
             /tmp/log-camel-lsp.log
             /tmp/log-camel*.log.gz
       - name: Store VS Code Logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: ${{ matrix.os }}-${{ matrix.version }}-test-logs
           path: .vscode-test/user-data/logs/*
 
       - name: Store UI test log
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: |
           (failure() || cancelled()) &&
           (steps.uiTest_Ubuntu.outcome == 'failure' ||
@@ -145,7 +145,7 @@ jobs:
           path: test-resources/settings/logs/*
 
       - name: Store UI Test Screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: |
           (failure() || cancelled()) &&
           (steps.uiTest_Ubuntu.outcome == 'failure' ||
