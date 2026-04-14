@@ -1,3 +1,10 @@
+<h1>
+!!! THIS EXTENSION WILL BE DEPRECATED SOON !!!
+<hr/>
+We plan to migrate parts of this project to <a href="https://kaoto.io">Kaoto</a>.
+ <br/><br/><br/>
+</h1>
+
 <h1 align="center">
   <img alt="Language Support for Apache Camel" width="125" height="125" src="https://raw.githubusercontent.com/camel-tooling/camel-lsp-client-vscode/main/icons/icon128.png">
   <br>
