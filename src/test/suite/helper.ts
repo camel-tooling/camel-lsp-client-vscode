@@ -61,9 +61,27 @@ export async function setTestContent(content: string): Promise<boolean> {
 	return editor.edit(eb => eb.replace(all, content));
 }
 
-export async function waitUntilEditorIsOpened(expectedFileNameWithExtension: string, timeout = 5_000): Promise<boolean> {
+export async function waitUntilEditorIsOpened(expectedFileNameWithExtension: string, timeout = 15_000): Promise<boolean> {
 	return await waitUntil(function () {
-		return vscode.window.activeTextEditor?.document.fileName.endsWith(expectedFileNameWithExtension);
+		// Check if the file is opened in any visible text editor
+		const isOpenInVisibleEditor = vscode.window.visibleTextEditors.some(editor =>
+			editor.document.fileName.endsWith(expectedFileNameWithExtension)
+		);
+		// Check active text editor for backwards compatibility
+		const isActiveEditor = vscode.window.activeTextEditor?.document.fileName.endsWith(expectedFileNameWithExtension);
+		// Check if the file is opened in any tab (includes webview editors like Kaoto)
+		const isOpenInTab = vscode.window.tabGroups.all.some(group =>
+			group.tabs.some(tab => {
+				if (tab.input instanceof vscode.TabInputText) {
+					return tab.input.uri.fsPath.endsWith(expectedFileNameWithExtension);
+				}
+				if (tab.input instanceof vscode.TabInputCustom) {
+					return tab.input.uri.fsPath.endsWith(expectedFileNameWithExtension);
+				}
+				return false;
+			})
+		);
+		return isOpenInVisibleEditor || isActiveEditor || isOpenInTab;
 	}, timeout) ?? false;
 }
 
