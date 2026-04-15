@@ -18,6 +18,7 @@
 
 import * as path from "path";
 import { TaskScope, Uri, commands, window, workspace } from "vscode";
+import { CamelJBang } from "../requirements/CamelJBang";
 import { CamelExportJBangTask } from "../tasks/CamelExportJBangTask";
 import { arePathsEqual, getCurrentWorkingDirectory } from "../requirements/utils";
 
@@ -27,6 +28,7 @@ export abstract class AbstractNewCamelProjectCommand {
 		const runtime = await this.getRuntime();
 		const input = await this.askForGAV();
 		if (runtime && input) {
+			const camelJBang = new CamelJBang();
 
 			// Uses the user selected folder otherwise default to the root workspace folder
 			const outputFolder = await this.showDialogToPickFolder();
@@ -48,7 +50,11 @@ export abstract class AbstractNewCamelProjectCommand {
 				}
 			}
 
-			await new CamelExportJBangTask(TaskScope.Workspace, input, runtime, outputFolder.fsPath).execute();
+				if (cwd) {
+					await new CamelExportJBangTask(TaskScope.Workspace, input, runtime, outputFolder.fsPath).execute();
+				} else {
+					await camelJBang.createProjectWithoutTask(input, runtime, outputFolder.fsPath);
+				}
 
 			// if not exist, init .vscode with tasks.json and launch.json config files
 			await workspace.fs.createDirectory(Uri.file(path.join(outputFolder.fsPath, '.vscode')));

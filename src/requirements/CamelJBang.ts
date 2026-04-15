@@ -16,6 +16,7 @@
  */
 'use strict';
 
+import * as child_process from 'node:child_process';
 import path from 'path';
 import { ShellExecution, workspace } from "vscode";
 import { arePathsEqual, getCurrentWorkingDirectory } from "./utils";
@@ -76,6 +77,30 @@ export class CamelJBang {
 		}
 	}
 
+	public async createProjectWithoutTask(gav: string, runtime: string, outputPath: string): Promise<void> {
+		await vscode.window.withProgress({
+			location: vscode.ProgressLocation.Notification,
+			title: 'Creating Camel project'
+		}, async () => {
+			return await new Promise<void>((resolve, reject) => {
+				const childProcess = this.spawnJbang(this.computeCreateProjectArgs(gav, runtime, outputPath), getCurrentWorkingDirectory());
+				let errorOutput = '';
+
+				childProcess.stderr.on('data', data => {
+					errorOutput += data.toString();
+				});
+				childProcess.on('error', reject);
+				childProcess.on('close', code => {
+					if (code === 0) {
+						resolve();
+					} else {
+						reject(new Error(errorOutput || `Camel project creation failed with exit code ${code}.`));
+					}
+				});
+			});
+		});
+	}
+
 	public generateRest(routefile: string, openApiFile: string): ShellExecution {
 		return new ShellExecution('jbang',
 			[`'-Dcamel.jbang.version=${this.camelVersion}'`,
@@ -131,6 +156,28 @@ export class CamelJBang {
 				'plugin',
 				'add',
 				plugin]);
+	}
+
+	private computeCreateProjectArgs(gav: string, runtime: string, outputPath: string): string[] {
+		const args = [
+			`-Dcamel.jbang.version=${this.camelVersion}`,
+			'camel@apache/camel',
+			'export',
+			`--runtime=${runtime}`,
+			`--gav=${gav}`,
+			`--directory=${outputPath}`
+		];
+
+		if (this.camelVersion.startsWith('4.12') && isWindows) {
+			vscode.window.showInformationMessage('The created project do not have the Maven wrapper because Camel JBang 4.12 is used on Windows. If you want the Maven wrapper either: call `mvn wrapper:wrapper` on the created project, recreate the project using a different Camel Version or using a non-Windows OS.');
+			args.push('--maven-wrapper=false');
+		}
+
+		return args;
+	}
+
+	protected spawnJbang(args: string[], cwd: string | undefined): child_process.ChildProcessWithoutNullStreams {
+		return child_process.spawn('jbang', args, { cwd });
 	}
 
 }

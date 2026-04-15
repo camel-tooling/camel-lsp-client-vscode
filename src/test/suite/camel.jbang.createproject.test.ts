@@ -16,22 +16,22 @@
  */
 'use strict';
 
+import * as child_process from 'node:child_process';
+import { EventEmitter } from 'node:events';
 import { expect } from 'chai';
 import * as path from 'path';
-import { ShellExecution } from 'vscode';
+import { ShellExecution, workspace, window } from 'vscode';
 import * as sinon from 'sinon';
 import * as utils from '../../requirements/utils';
 import { CamelJBang } from '../../requirements/CamelJBang';
 
 describe('Should create Camel projects with a stable output directory in empty workspaces', () => {
-	let getCurrentWorkingDirectoryStub: sinon.SinonStub;
-
 	beforeEach(function () {
-		getCurrentWorkingDirectoryStub = sinon.stub(utils, 'getCurrentWorkingDirectory').returns(undefined);
+		sinon.stub(utils, 'getCurrentWorkingDirectory').returns(undefined);
 	});
 
 	afterEach(function () {
-		getCurrentWorkingDirectoryStub.restore();
+		sinon.restore();
 	});
 
 	it('Keeps the selected output path when no workspace folder is opened', function () {
@@ -42,4 +42,32 @@ describe('Should create Camel projects with a stable output directory in empty w
 		expect(shellExecution.args.some(arg => arg.toString().includes(`--directory=${outputPath}`))).to.be.true;
 		expect(shellExecution.options?.cwd).to.be.undefined;
 	});
-});
+
+	it('Executes the project creation directly when no workspace folder is opened', async function () {
+		const outputPath = path.join(process.cwd(), 'camel-project-output');
+		const camelVersion = workspace.getConfiguration().get('camel.languageSupport.JBangVersion') as string;
+			const stderr = new EventEmitter();
+			const childProcess = Object.assign(new EventEmitter(), { stderr }) as unknown as child_process.ChildProcessWithoutNullStreams;
+			const camelJBang = new CamelJBang();
+			const spawnStub = sinon.stub(camelJBang as CamelJBang & { spawnJbang: (args: string[], cwd: string | undefined) => child_process.ChildProcessWithoutNullStreams; }, 'spawnJbang').returns(childProcess);
+			const withProgressStub = sinon.stub(window, 'withProgress').callsFake(async (_options, task) => {
+				return await task({ report() { /* no-op */ } }, {} as never);
+			});
+
+			const createProjectPromise = camelJBang.createProjectWithoutTask('com.demo:test:1.0-SNAPSHOT', 'quarkus', outputPath);
+			childProcess.emit('close', 0);
+			await createProjectPromise;
+
+			expect(withProgressStub.calledOnce).to.be.true;
+			expect(spawnStub.calledOnce).to.be.true;
+			expect(spawnStub.firstCall.args[0]).to.deep.equal([
+				`-Dcamel.jbang.version=${camelVersion}`,
+				'camel@apache/camel',
+				'export',
+				'--runtime=quarkus',
+				'--gav=com.demo:test:1.0-SNAPSHOT',
+				`--directory=${outputPath}`
+			]);
+			expect(spawnStub.firstCall.args[1]).to.be.undefined;
+		});
+	});

@@ -33,10 +33,8 @@ import * as pjson from '../../../package.json';
 import {
 	killTerminal,
 	SPECIFIC_WORKSPACE_PATH,
-	TASK_FINISHED_IN_TERMINAL_TEXT,
 	waitUntilExtensionIsActivated,
-	waitUntilFileAvailable,
-	waitUntilTerminalHasText
+	waitUntilFileAvailable
 } from '../utils/testUtils';
 
 describe('Create a Camel Project using welcome content button', function () {
@@ -82,7 +80,12 @@ describe('Create a Camel Project using welcome content button', function () {
 		await input.setText(WELCOME_CONTENT_BUTTON_WORKSPACE_PATH);
 		await input.confirm();
 
-		await waitUntilTerminalHasText(driver, TASK_FINISHED_IN_TERMINAL_TEXT, 240000, 15000);
+		await driver.wait(
+			() => fs.existsSync(path.join(WELCOME_CONTENT_BUTTON_WORKSPACE_PATH, 'pom.xml')),
+			240000,
+			`pom.xml was not created in ${WELCOME_CONTENT_BUTTON_WORKSPACE_PATH}`,
+			15000
+		);
 		await VSBrowser.instance.openResources(WELCOME_CONTENT_BUTTON_WORKSPACE_PATH);
 		await VSBrowser.instance.waitForWorkbench();
 		await waitUntilFileAvailable(driver, 'pom.xml', WELCOME_CONTENT_BUTTON_WORKSPACE_NAME, 60000);
