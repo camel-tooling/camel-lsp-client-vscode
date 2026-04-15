@@ -51,9 +51,8 @@ export class CamelJBang {
 		if (cwd && arePathsEqual(cwd, outputPath)) {
 			outputPath = '.';
 		} else if (!cwd) {
-			// In case there is no folder open we use the outputPath as the current working directory to avoid using the users home folder.
-			cwd = outputPath;
-			outputPath = '.';
+			// In an empty workspace VS Code rejects tasks that set a custom cwd outside the user home.
+			// Keep the absolute output path so JBang exports into the selected folder directly.
 		}
 
 		if (this.camelVersion.startsWith('4.12') && isWindows) {

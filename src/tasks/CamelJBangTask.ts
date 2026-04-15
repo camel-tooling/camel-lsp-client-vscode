@@ -43,17 +43,17 @@ export abstract class CamelJBangTask extends Task {
 	}
 
 	public async execute(): Promise<void> {
-		await tasks.executeTask(this);
-		return await this.waitForEnd();
-	}
-
-	private async waitForEnd(): Promise<void> {
-		await new Promise<void>(resolve => {
+		return await new Promise<void>((resolve, reject) => {
 			const disposable = tasks.onDidEndTask(e => {
 				if (e.execution.task.name === this.label) {
 					disposable.dispose();
 					resolve();
 				}
+			});
+
+			tasks.executeTask(this).then(undefined, (error: unknown) => {
+				disposable.dispose();
+				reject(error);
 			});
 		});
 	}
