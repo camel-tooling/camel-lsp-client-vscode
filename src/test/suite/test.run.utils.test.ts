@@ -17,7 +17,7 @@
 'use strict';
 
 import { expect } from 'chai';
-import * as path from 'path';
+import * as path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { computeLaunchArgs } from '../TestRunUtils';
 

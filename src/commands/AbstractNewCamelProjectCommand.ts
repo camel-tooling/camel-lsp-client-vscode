@@ -26,48 +26,33 @@ export abstract class AbstractNewCamelProjectCommand {
 
 	async create(openInNewWindow: boolean = true) {
 		const runtime = await this.getRuntime();
+		if (!runtime) {
+			return;
+		}
+
 		const input = await this.askForGAV();
-		if (runtime && input) {
-			const camelJBang = new CamelJBang();
+		if (!input) {
+			return;
+		}
 
-			// Uses the user selected folder otherwise default to the root workspace folder
-			const outputFolder = await this.showDialogToPickFolder();
-			if (!outputFolder) {
-				await window.showErrorMessage('Camel project creation canceled or invalid folder selection');
-				return;
-			}
+		// Uses the user selected folder otherwise default to the root workspace folder
+		const outputFolder = await this.showDialogToPickFolder();
+		if (!outputFolder) {
+			await window.showErrorMessage('Camel project creation canceled or invalid folder selection');
+			return;
+		}
 
-			// If the chosen ouputh folder is diferent from the first folder from the current workspace warns the user about
-			// potentially deleting files in the selected folder.
-			// Executing the command from the same folder does not delete files.
-			const cwd = getCurrentWorkingDirectory();
-			if (cwd && !arePathsEqual(cwd, outputFolder.fsPath)) {
-				const userChoice = await this.confirmDestructiveActionInSelectedFolder(outputFolder.fsPath);
+		const cwd = getCurrentWorkingDirectory();
+		if (!(await this.shouldContinueProjectCreation(cwd, outputFolder.fsPath))) {
+			return;
+		}
 
-				if (userChoice === undefined) {
-					await window.showInformationMessage('Camel project creation canceled');
-					return;
-				}
-			}
+		await this.executeProjectCreation(cwd, input, runtime, outputFolder.fsPath);
+		await this.initializeProjectConfigurationFiles(runtime, outputFolder.fsPath);
 
-				if (cwd) {
-					await new CamelExportJBangTask(TaskScope.Workspace, input, runtime, outputFolder.fsPath).execute();
-				} else {
-					await camelJBang.createProjectWithoutTask(input, runtime, outputFolder.fsPath);
-				}
-
-			// if not exist, init .vscode with tasks.json and launch.json config files
-			await workspace.fs.createDirectory(Uri.file(path.join(outputFolder.fsPath, '.vscode')));
-			for (const filename of ['tasks', 'launch']) {
-				await this.copyFile(`../../../resources/${runtime}/${filename}.json`, path.join(outputFolder.fsPath, `.vscode/${filename}.json`));
-			}
-
-			// open the newly created project in a new vscode instance
-			if (openInNewWindow) {
-				await commands.executeCommand('vscode.openFolder', outputFolder, true);
-			}
-
-
+		// open the newly created project in a new vscode instance
+		if (openInNewWindow) {
+			await commands.executeCommand('vscode.openFolder', outputFolder, true);
 		}
 	}
 
@@ -147,6 +132,40 @@ export abstract class AbstractNewCamelProjectCommand {
 			return selectedFolders[0];
 		}
 		return undefined;
+	}
+
+	private async shouldContinueProjectCreation(cwd: string | undefined, outputPath: string): Promise<boolean> {
+		// If the chosen ouputh folder is diferent from the first folder from the current workspace warns the user about
+		// potentially deleting files in the selected folder.
+		// Executing the command from the same folder does not delete files.
+		if (!cwd || arePathsEqual(cwd, outputPath)) {
+			return true;
+		}
+
+		const userChoice = await this.confirmDestructiveActionInSelectedFolder(outputPath);
+		if (userChoice !== undefined) {
+			return true;
+		}
+
+		await window.showInformationMessage('Camel project creation canceled');
+		return false;
+	}
+
+	private async executeProjectCreation(cwd: string | undefined, gav: string, runtime: string, outputPath: string): Promise<void> {
+		if (cwd) {
+			await new CamelExportJBangTask(TaskScope.Workspace, gav, runtime, outputPath).execute();
+			return;
+		}
+
+		await new CamelJBang().createProjectWithoutTask(gav, runtime, outputPath);
+	}
+
+	private async initializeProjectConfigurationFiles(runtime: string, outputPath: string): Promise<void> {
+		// if not exist, init .vscode with tasks.json and launch.json config files
+		await workspace.fs.createDirectory(Uri.file(path.join(outputPath, '.vscode')));
+		for (const filename of ['tasks', 'launch']) {
+			await this.copyFile(`../../../resources/${runtime}/${filename}.json`, path.join(outputPath, `.vscode/${filename}.json`));
+		}
 	}
 
 	/**
