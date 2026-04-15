@@ -14,6 +14,7 @@
     "window.title": "${dirty}${activeEditorLong}${separator}${rootPath}${separator}${appName}",
     "workbench.startupEditor": "none",
     "redhat.telemetry.enabled": false,
+    "terminal.integrated.initialHint": false,
     "terminal.integrated.sendKeybindingsToShell": true,
     "git.autoRepositoryDetection": false,
     "git.openRepositoryInParentFolders": "never",
