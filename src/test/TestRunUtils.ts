@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as path from 'path';
+import * as path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 export function computeLaunchArgs(testWorkspace: string, extensionDevelopmentPath: string, platform = process.platform): string[] {
