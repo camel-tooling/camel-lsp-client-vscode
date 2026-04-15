@@ -18,6 +18,7 @@
 import { downloadAndUnzipVSCode, resolveCliArgsFromVSCodeExecutablePath, runTests } from '@vscode/test-electron';
 import * as cp from 'child_process';
 import * as path from 'path';
+import { computeLaunchArgs } from './TestRunUtils';
 
 async function runTest() {
 	try {
@@ -41,12 +42,12 @@ async function runTest() {
 				stdio: 'inherit'
 			});
 
-		await runTests({
-			vscodeExecutablePath,
-			extensionDevelopmentPath,
-			extensionTestsPath,
-			launchArgs: [testWorkspace, '--disable-workspace-trust', '--user-data-dir', `${extensionDevelopmentPath}/.vscode-test`]
-		});
+			await runTests({
+				vscodeExecutablePath,
+				extensionDevelopmentPath,
+				extensionTestsPath,
+				launchArgs: computeLaunchArgs(testWorkspace, extensionDevelopmentPath)
+			});
 	} catch (err) {
 		console.error('Failed to run tests: ' + err);
 		process.exit(1);
