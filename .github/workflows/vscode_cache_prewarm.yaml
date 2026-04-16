@@ -1,0 +1,93 @@
+name: VS Code Download Cache Prewarm
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prewarm:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            version: max
+            type: stable
+          - os: macos-15-intel
+            version: max
+            type: stable
+          - os: windows-latest
+            version: max
+            type: stable
+          - os: ubuntu-latest
+            version: latest
+            type: insider
+          - os: macos-15-intel
+            version: latest
+            type: insider
+          - os: windows-latest
+            version: latest
+            type: insider
+
+    env:
+      CODE_VERSION: ${{ matrix.version }}
+      CODE_TYPE: ${{ matrix.type }}
+      TEST_RESOURCES: test-resources
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}-${{ matrix.type }}-${{ matrix.version }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Restore VS Code test cache
+        id: vscode-test-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .vscode-test/vscode-*
+            .vscode-test/extensions
+            test-resources/Visual Studio Code.app
+            test-resources/Visual Studio Code - Insiders.app
+            test-resources/VSCode-*
+            test-resources/chromedriver*
+            test-resources/driverVersion
+          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          restore-keys: |
+            vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prewarm VS Code downloads
+        run: node ./scripts/prewarm-vscode-downloads.js
+
+      - name: Save VS Code test cache
+        if: always() && steps.vscode-test-cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .vscode-test/vscode-*
+            .vscode-test/extensions
+            test-resources/Visual Studio Code.app
+            test-resources/Visual Studio Code - Insiders.app
+            test-resources/VSCode-*
+            test-resources/chromedriver*
+            test-resources/driverVersion
+          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
