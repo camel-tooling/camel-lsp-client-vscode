@@ -9,6 +9,8 @@ const test = require('node:test');
 const {
 	canUseCachedChromeDriver,
 	canUseCachedVSCode,
+	prewarmChromeDriver,
+	resolveTestElectronVersion,
 	shouldClearCacheBeforeRetry
 } = require('./prewarm-vscode-downloads');
 
@@ -26,6 +28,21 @@ test('does not clear cache for timeout errors', () => {
 	error.name = 'TimeoutError';
 
 	assert.equal(shouldClearCacheBeforeRetry(error), false);
+});
+
+test('maps max to a pinned vscode version for test-electron', () => {
+	const originalCodeVersion = process.env.CODE_VERSION;
+	process.env.CODE_VERSION = 'max';
+
+	try {
+		assert.equal(resolveTestElectronVersion(), '1.111.0');
+	} finally {
+		if (originalCodeVersion === undefined) {
+			delete process.env.CODE_VERSION;
+		} else {
+			process.env.CODE_VERSION = originalCodeVersion;
+		}
+	}
 });
 
 test('clears cache for local file errors', () => {
@@ -75,4 +92,32 @@ test('uses cached chromedriver when it matches the cached chromium version', asy
 	await assert.doesNotReject(async () => {
 		assert.equal(await canUseCachedChromeDriver(tester, '1.116.0'), true);
 	});
+});
+
+test('downloads chromedriver from cached chromium version without version validation', async () => {
+	let driverDownloadVersion;
+	let versionValidated = false;
+	const tester = {
+		code: {
+			getChromiumVersionOffline() {
+				return '135.0.7011.0';
+			}
+		},
+		chrome: {
+			async getLocalDriverVersion() {
+				throw new Error('missing local driver');
+			},
+			async downloadChromeDriverForChromiumVersion(version) {
+				driverDownloadVersion = version;
+			}
+		},
+		async downloadChromeDriver() {
+			versionValidated = true;
+		}
+	};
+
+	await prewarmChromeDriver(tester, '1.111.0', os.tmpdir());
+
+	assert.equal(driverDownloadVersion, '135.0.7011.0');
+	assert.equal(versionValidated, false);
 });

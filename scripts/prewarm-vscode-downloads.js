@@ -13,10 +13,12 @@ function resolveStorageFolder() {
 function resolveTestElectronVersion() {
 	const version = process.env.CODE_VERSION;
 
-	if (version === undefined || version === 'max') {
+	if (version === undefined) {
 		return 'stable';
 	} else if (version === 'latest') {
 		return 'insiders';
+	} else if (version === 'max' || version === 'min') {
+		return loadCodeVersion(version);
 	}
 	return version;
 }
@@ -156,6 +158,25 @@ async function canUseCachedChromeDriver(tester, codeVersion) {
 	}
 }
 
+async function prewarmChromeDriver(tester, codeVersion, storageFolder) {
+	if (await canUseCachedChromeDriver(tester, codeVersion)) {
+		console.log('Matching ChromeDriver already exists in vscode-extension-tester cache, skipping download');
+		return;
+	}
+
+	const chromiumVersion = await getCachedChromiumVersion(tester, codeVersion);
+	if (chromiumVersion) {
+		await retryWithFreshCache('vscode-extension-tester chromedriver', () => clearExTesterCache(storageFolder), async () => {
+			await tester.chrome.downloadChromeDriverForChromiumVersion(chromiumVersion);
+		});
+		return;
+	}
+
+	await retryWithFreshCache('vscode-extension-tester chromedriver', () => clearExTesterCache(storageFolder), async () => {
+		await tester.downloadChromeDriver(codeVersion);
+	});
+}
+
 async function retryWithFreshCache(label, clearCache, action) {
 	try {
 		await action();
@@ -190,13 +211,7 @@ async function main() {
 			await tester.downloadCode(codeVersion);
 		});
 	}
-	if (await canUseCachedChromeDriver(tester, codeVersion)) {
-		console.log('Matching ChromeDriver already exists in vscode-extension-tester cache, skipping download');
-	} else {
-		await retryWithFreshCache('vscode-extension-tester chromedriver', () => clearExTesterCache(storageFolder), async () => {
-			await tester.downloadChromeDriver(codeVersion);
-		});
-	}
+	await prewarmChromeDriver(tester, codeVersion, storageFolder);
 }
 
 module.exports = {
@@ -204,6 +219,8 @@ module.exports = {
 	canUseCachedVSCode,
 	getErrorSignature,
 	getCachedChromiumVersion,
+	prewarmChromeDriver,
+	resolveTestElectronVersion,
 	shouldClearCacheBeforeRetry
 };
 
