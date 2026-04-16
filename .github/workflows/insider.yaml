@@ -66,9 +66,9 @@ jobs:
             test-resources/VSCode-*
             test-resources/chromedriver*
             test-resources/driverVersion
-          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
           restore-keys: |
-            vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
+            vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
 
       - name: npm-vscode:prepublish
         run: npm run vscode:prepublish
@@ -110,7 +110,7 @@ jobs:
             test-resources/VSCode-*
             test-resources/chromedriver*
             test-resources/driverVersion
-          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
 
       - name: Store Camel Language Server log
         uses: actions/upload-artifact@v7

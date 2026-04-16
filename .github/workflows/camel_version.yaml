@@ -80,9 +80,9 @@ jobs:
             test-resources/VSCode-*
             test-resources/chromedriver*
             test-resources/driverVersion
-          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
           restore-keys: |
-            vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
+            vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
 
       - name: Allow unprivileged user namespace (ubuntu)
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
@@ -107,7 +107,7 @@ jobs:
             test-resources/VSCode-*
             test-resources/chromedriver*
             test-resources/driverVersion
-          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
 
       - name: Store Camel Language Server log
         uses: actions/upload-artifact@v7
