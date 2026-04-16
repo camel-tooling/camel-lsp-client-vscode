@@ -68,6 +68,22 @@ jobs:
       - name: npm-ci
         run: npm ci
 
+      - name: Restore VS Code test cache
+        id: vscode-test-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .vscode-test/vscode-*
+            .vscode-test/extensions
+            test-resources/Visual Studio Code.app
+            test-resources/Visual Studio Code - Insiders.app
+            test-resources/VSCode-*
+            test-resources/chromedriver*
+            test-resources/driverVersion
+          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+          restore-keys: |
+            vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
+
       - name: npm-vscode:prepublish
         run: npm run vscode:prepublish
 
@@ -96,6 +112,20 @@ jobs:
 
       - name: vsce-package
         run: vsce package
+
+      - name: Save VS Code test cache
+        if: always() && steps.vscode-test-cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .vscode-test/vscode-*
+            .vscode-test/extensions
+            test-resources/Visual Studio Code.app
+            test-resources/Visual Studio Code - Insiders.app
+            test-resources/VSCode-*
+            test-resources/chromedriver*
+            test-resources/driverVersion
+          key: vscode-test-cache-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
 
       - name: get-npm-version
         id: package-version
