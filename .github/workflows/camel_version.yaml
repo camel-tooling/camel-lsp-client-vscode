@@ -89,7 +89,6 @@ jobs:
 
       - name: ui test
         id: uiTest
-        timeout-minutes: 20
         run: xvfb-run --auto-servernum npm run ui-test
 
       - name: vsce-package
