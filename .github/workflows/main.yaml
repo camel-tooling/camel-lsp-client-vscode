@@ -103,11 +103,13 @@ jobs:
       - name: ui test (ubuntu)
         id: uiTest_Ubuntu
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        timeout-minutes: 10
         run: xvfb-run --auto-servernum npm run ui-test
 
       - name: ui test (macos, windows)
         id: uiTest_MacOS_Windows
         if: ${{ !startsWith(matrix.os, 'ubuntu') }}
+        timeout-minutes: 10
         run: npm run ui-test
 
       - name: vsce-package

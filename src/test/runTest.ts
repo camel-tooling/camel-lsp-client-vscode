@@ -67,4 +67,5 @@ async function runTest() {
 
 runTest().catch((error) => {
 	console.error('Unhandled promise rejection in runTest(): ', error);
+	process.exitCode = 1;
 });

@@ -23,6 +23,7 @@ import { ExTester, ReleaseQuality } from 'vscode-extension-tester';
 
 process.on('unhandledRejection', (reason) => {
     console.error('Unhandled Rejection:', reason);
+    process.exitCode = 1;
 });
 
 // Enforce same default storage setup as ExTester - see https://github.com/redhat-developer/vscode-extension-tester/wiki/Test-Setup#useful-env-variables
@@ -54,6 +55,7 @@ async function main(): Promise<void> {
 
 if (require.main === module) {
 	main().catch((error) => {
-		throw Error('Unhandled promise rejection in main(): ', error);
+		console.error('Unhandled promise rejection in main(): ', error);
+		process.exitCode = 1;
 	});
 }
