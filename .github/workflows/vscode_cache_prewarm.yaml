@@ -58,7 +58,7 @@ jobs:
 
       - name: Restore VS Code test cache
         id: vscode-test-cache-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             .vscode-test/vscode-*
@@ -80,7 +80,7 @@ jobs:
 
       - name: Save VS Code test cache
         if: always() && steps.vscode-test-cache-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             .vscode-test/vscode-*
