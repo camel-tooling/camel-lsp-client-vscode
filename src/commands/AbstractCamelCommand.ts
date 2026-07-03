@@ -18,7 +18,6 @@
 
 import * as fs from 'fs';
 import { WorkspaceFolder, workspace } from "vscode";
-import validFilename = require("valid-filename");
 import path = require("path");
 
 export interface CamelRouteDSL {
@@ -75,30 +74,31 @@ export abstract class AbstractCamelCommand {
 	 * @param name
 	 * @returns string | undefined
 	 */
-		public validateCamelFileName(name: string, folderPath?: string): string | undefined {
-			if (!name) {
-				return 'Please provide a name for the new file (without extension).';
-			}
+	public async validateCamelFileName(name: string, folderPath?: string): Promise<string | undefined> {
+		if (!name) {
+			return 'Please provide a name for the new file (without extension).';
+		}
 
-			if (name.includes('.')) {
-				return 'Please provide a name without the extension.';
-			}
+		if (name.includes('.')) {
+			return 'Please provide a name without the extension.';
+		}
 
-			if (!this.camelDSL) {
-				return 'Internal error: Camel DSL is undefined.'; // camelDSL can't be undefined
-			}
+		if (!this.camelDSL) {
+			return 'Internal error: Camel DSL is undefined.'; // camelDSL can't be undefined
+		}
 
-			if (!this.workspaceFolder) {
-				return 'Internal error: Workspace folder is undefined.';
-			}
+		if (!this.workspaceFolder) {
+			return 'Internal error: Workspace folder is undefined.';
+		}
 
-			const newFilePotentialFullPath: string = this.computeFullPath(folderPath ?? this.workspaceFolder.uri.fsPath, this.getFullName(name, this.camelDSL.extension));
-			if (fs.existsSync(newFilePotentialFullPath)) {
-				return 'The file already exists. Please choose a different file name.';
-			}
-			if (!validFilename(name)) {
-				return 'The filename is invalid.';
-			}
+		const newFilePotentialFullPath: string = this.computeFullPath(folderPath ?? this.workspaceFolder.uri.fsPath, this.getFullName(name, this.camelDSL.extension));
+		if (fs.existsSync(newFilePotentialFullPath)) {
+			return 'The file already exists. Please choose a different file name.';
+		}
+		const { default: validFilename } = await import('valid-filename');
+		if (!validFilename(name)) {
+			return 'The filename is invalid.';
+		}
 
 			const patternJavaNamingConvention = '\\b[A-Z][a-zA-Z_$0-9]*';
 			if ((this.camelDSL.language === 'Java') && (!name.match(patternJavaNamingConvention) || name.includes(' '))) {

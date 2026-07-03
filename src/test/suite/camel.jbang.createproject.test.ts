@@ -39,7 +39,7 @@ describe('Should create Camel projects with a stable output directory in empty w
 		const shellExecution = new CamelJBang().createProject('com.demo:test:1.0-SNAPSHOT', 'quarkus', outputPath);
 
 		expect(shellExecution).to.be.instanceOf(ShellExecution);
-		expect(shellExecution.args.some(arg => arg.toString().includes(`--directory=${outputPath}`))).to.be.true;
+		expect(shellExecution.args?.some(arg => arg.toString().includes(`--directory=${outputPath}`))).to.be.true;
 		expect(shellExecution.options?.cwd).to.be.undefined;
 	});
 

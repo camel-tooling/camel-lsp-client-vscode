@@ -128,30 +128,30 @@ describe('Should execute Create a Camel Route command', function () {
 				newCamelRouteCommand = new NewCamelRouteCommand('YAML');
 			});
 
-			it('Validate empty name', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
-			});
+		it('Validate empty name', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
+		});
 
-			it('Validate name with space', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('name with spaces')).to.be.undefined;
-			});
+		it('Validate name with space', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('name with spaces')).to.be.undefined;
+		});
 
-			it('Validate name without extension', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('name-with-extension.yaml')).to.not.be.undefined;
-			});
+		it('Validate name without extension', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('name-with-extension.yaml')).to.not.be.undefined;
+		});
 
-			it('Validate file already exists', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('jbangInitRoute')).to.not.be.undefined;
-			});
+		it('Validate file already exists', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('jbangInitRoute')).to.not.be.undefined;
+		});
 
-			it('Validate file already exists in subfolder', function () {
-				const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
-				expect(newCamelRouteCommand.validateCamelFileName('jbangInitRouteInSubFolder', path.posix.join(workspaceFolder.uri.fsPath, 'a sub folder'))).to.not.be.undefined;
-			});
+		it('Validate file already exists in subfolder', async function () {
+			const workspaceFolder :vscode.WorkspaceFolder = vscode.workspace.workspaceFolders![0];
+			expect(await newCamelRouteCommand.validateCamelFileName('jbangInitRouteInSubFolder', path.posix.join(workspaceFolder.uri.fsPath, 'a sub folder'))).to.not.be.undefined;
+		});
 
-			it('Validate special characters', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
-			});
+		it('Validate special characters', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
+		});
 
 		});
 
@@ -161,29 +161,29 @@ describe('Should execute Create a Camel Route command', function () {
 				newCamelRouteCommand = new NewCamelRouteCommand('JAVA');
 			});
 
-			it('Validate empty name', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
-			});
+		it('Validate empty name', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('')).to.not.be.undefined;
+		});
 
-			it('Validate name with space', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('Name With Spaces')).to.not.be.undefined;
-			});
+		it('Validate name with space', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('Name With Spaces')).to.not.be.undefined;
+		});
 
-			it('Validate name without extension', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('CamelRoute.java')).to.not.be.undefined;
-			});
+		it('Validate name without extension', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('CamelRoute.java')).to.not.be.undefined;
+		});
 
-			it('Validate file already exists', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('apacheCamel')).to.not.be.undefined;
-			});
+		it('Validate file already exists', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('apacheCamel')).to.not.be.undefined;
+		});
 
-			it('Validate special characters', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
-			});
+		it('Validate special characters', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('spe<ia|')).to.not.be.undefined;
+		});
 
-			it('Validate start with upper case', function () {
-				expect(newCamelRouteCommand.validateCamelFileName('camelRoute')).to.not.be.undefined;
-			});
+		it('Validate start with upper case', async function () {
+			expect(await newCamelRouteCommand.validateCamelFileName('camelRoute')).to.not.be.undefined;
+		});
 
 		});
 

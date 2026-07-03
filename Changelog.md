@@ -2,9 +2,11 @@
 
 ## 1.15.0
 
-- Update Camel Quarkus Catalog from 3.26.0 to 3.27.0
-- Update default Camel Catalog version from 4.14.0 to 4.15.0
-- Update default Camel version used for Camel JBang from 4.14.0 to 4.15.0
+- minimal VS Code version 1.111.0
+- Update Camel Quarkus Catalog from 3.26.0 to 3.36.0
+- Update default Camel Catalog version from 4.14.0 to 4.21.0
+- Update default Camel version used for Camel JBang from 4.14.0 to 4.21.0
+- Update Kamelet Catalog from 4.14.0 to 4.20.0
 
 ## 1.14.0
 
@@ -33,7 +35,7 @@
 - Update Camel Quarkus Catalog from 3.20.0 to 3.23.0
 - Update default Camel Catalog version from 4.11.0 to 4.12.0
 - Update default Camel version used for Camel JBang from 4.11.0 to 4.12.0
-  - Note that due to regression [CAMEL-22131](https://issues.apache.org/jira/browse/CAMEL-22131) in Camel JBang 4.12, the project creation on Windows doesn't include the Maven wrapper with 4.12.x Camel Jbang version.
+    - Note that due to regression [CAMEL-22131](https://issues.apache.org/jira/browse/CAMEL-22131) in Camel JBang 4.12, the project creation on Windows doesn't include the Maven wrapper with 4.12.x Camel Jbang version.
 - Update Kamelet Catalog from 4.11.0 to 4.12.0
 - Use Language Server for Apache Camel 1.32.0
 
@@ -176,7 +178,7 @@
 
 - Update default Camel Catalog version from 4.1.0 to 4.2.0
 - Update Kamelet Catalog from 4.0.1 to 4.2.0
-- Automatically generates `.vscode` folder with `tasks.json` and `launch.json` files  after Camel Quarkus project is created. It contains predefined configurations for a build and start of a Camel Quarkus native application.
+- Automatically generates `.vscode` folder with `tasks.json` and `launch.json` files after Camel Quarkus project is created. It contains predefined configurations for a build and start of a Camel Quarkus native application.
 - Use Language Server for Apache Camel 1.15.0
 
 ## 0.12.0
@@ -333,11 +335,11 @@
 - Update Camel Quarkus Catalog from 1.8.1 to 2.0.0
 - Use Kamelet Catalog 0.3.0 instead of snapshot version
 - Adapt for Camel K community 1.5/Camel K Red Hat 1.4
-  - Provide completion for new Camel K modeline option names
-  - Provide completion for the different kinds of `config` and `resource` Camel K modeline options (`configmap`, `secret`, `file`)
-  - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
-  - Propose completion for `file:` notation on `property` Camel K modeline option
-  - Provide local file system properties file path as completion after `property=file:`, `resource=file:` and `config=file:` Camel K modeline option
+    - Provide completion for new Camel K modeline option names
+    - Provide completion for the different kinds of `config` and `resource` Camel K modeline options (`configmap`, `secret`, `file`)
+    - Provide quick action to convert from deprecated `property-file` to `property=file:` notation
+    - Propose completion for `file:` notation on `property` Camel K modeline option
+    - Provide local file system properties file path as completion after `property=file:`, `resource=file:` and `config=file:` Camel K modeline option
 - Provide opt-in telemetry
 
 ## 0.0.33
@@ -351,8 +353,8 @@
 - Update Camel Quarkus Catalog from 1.7.0 to 1.8.1
 - Update Camel Kafka Connector Catalog from 0.8.0 to 0.9.0
 - Propose Kafka topics in completion.
-  - By default, they are retrieved from local Kafka instance at localhost:9092.
-  - A setting allows to configure the Kafka connection URL. It can be found at **File -> Preferences -> Settings -> Apache Camel Tooling -> Kafka Connection URL**
+    - By default, they are retrieved from local Kafka instance at localhost:9092.
+    - A setting allows to configure the Kafka connection URL. It can be found at **File -> Preferences -> Settings -> Apache Camel Tooling -> Kafka Connection URL**
 
 ## 0.0.31
 
@@ -368,18 +370,18 @@
 - Completion for `camel.(source|sink).(endpoint|path).*` inserts default value automatically
 - Completion for [basic configuration](https://camel.apache.org/camel-kafka-connector/latest/basic-configuration.html) of Camel Kafka Connector
 - Diagnostic in Camel Kafka Connector files:
-  - for invalid `camel.(source|sink).(endpoint|path).*` property keys. A quickfix is provided as well for close property keys.
-  - for mix of source and sink property keys
-  - for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
-  - for duplicated keys differentiated by dash case or camel case
+    - for invalid `camel.(source|sink).(endpoint|path).*` property keys. A quickfix is provided as well for close property keys.
+    - for mix of source and sink property keys
+    - for mix of `camel.(source|sink).(endpoint|path).*` and `camel.(source|sink).url` usage
+    - for duplicated keys differentiated by dash case or camel case
 - Description based on `connector.class` value for completion and hover in Camel Kafka Connector files
 
 ## 0.0.29
 
 - API based components support
-  - Completion and hover documentation for properties
-  - Completion for API name in Camel URI path parameter
-  - Completion for method name of API in Camel URI path parameter
+    - Completion and hover documentation for properties
+    - Completion for API name in Camel URI path parameter
+    - Completion for method name of API in Camel URI path parameter
 - Support Camel K modelines split across several lines
 - Completion for jitpack in Camel K modeline dependency option
 - Support Camel K modelines split across several lines
@@ -391,15 +393,15 @@
 - Completion for resource-like options (`open-api`, `property-file` and `resource`) in Camel K modeline is hiding IDE configuration files (which are in `.vscode` folder)
 - Include endpoints in outline for Camel XML files
 - Document symbols for Camel routes written with Java DSL:
-  - Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
-  - Find symbol (`Ctrl+Shift+O`)
-  - Breadcrumb
+    - Outline. Note that if you select `sort by position`, you gain an overview of the route flow, not only of the element hierarchy.
+    - Find symbol (`Ctrl+Shift+O`)
+    - Breadcrumb
 - Camel Kafka Connector support improvements:
-  - Completion for `connector.class` property value based on Camel Kafka Connector Catalog.
-  - Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
-  - Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
-  - Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
-  - Refactor action to convert from Camel URI `camel.(source|sink).url` to a list of properties.
+    - Completion for `connector.class` property value based on Camel Kafka Connector Catalog.
+    - Completion and hover for `camel.sink.*` and `camel.source.*` property keys based on Camel Kafka Connector Catalog.
+    - Completion for `key.converter` and `value.converter` property values based on Camel Kafka Connector Catalog.
+    - Completion for `transforms.*.type` property values based on Camel Kafka Connector Catalog.
+    - Refactor action to convert from Camel URI `camel.(source|sink).url` to a list of properties.
 - Update default Camel Catalog from 3.5.0 to 3.6.0
 
 ## 0.0.27
@@ -417,16 +419,8 @@
 
 ## 0.0.25
 
-- First iteration of Camel K modeline support:
-    - completion and hover for:
-        - option names
-        - trait definition names
-        - trait property names
-        - Camel artifact id for dependency
-        - mvn dependency
-        - Camel component properties
-    - diagnostic for duplicated trait properties
-![Camel K modeline](./images/camelk-modeline.gif "Camel K modeline")
+- First iteration of Camel K modeline support: - completion and hover for: - option names - trait definition names - trait property names - Camel artifact id for dependency - mvn dependency - Camel component properties - diagnostic for duplicated trait properties
+  ![Camel K modeline](./images/camelk-modeline.gif "Camel K modeline")
 - Use 'java.home' VS Code settings if provided to launch the Camel Language Server. Defaults to system path if not. (previously requiring java on system path)
 
 ## 0.0.24
@@ -437,7 +431,7 @@
 ## 0.0.23
 
 - Quickfix for invalid enum values in Camel URIs filtered with relatively similar values
-![Quickfix for invalid enum](./images/quickfixEnumValues.gif "Quickfix for invalid enum")
+  ![Quickfix for invalid enum](./images/quickfixEnumValues.gif "Quickfix for invalid enum")
 - Update default Camel Catalog from 3.0.1 to 3.1.0
 
 ## 0.0.22
@@ -455,10 +449,10 @@
 ## 0.0.20
 
 - Diagnostic range for unknown properties is now at the exact property size instead of the full Camel URI
-![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
+  ![Diagnostic range for unknown properties](./images/diagnosticPropertyRange.png "Diagnostic range for unknown properties")
 - Quickfix for unknown properties filtered with relatively similar values (to avoid having the whole list of potentially hundreds quickfixes)
 - Diagnostic range for invalid enum values is now at the exact enum value size instead of the full Camel URI
-![Diagnostic range for invalid enum values](./images/diagnosticEnumRange.png "Diagnostic range for invalid enum values")
+  ![Diagnostic range for invalid enum values](./images/diagnosticEnumRange.png "Diagnostic range for invalid enum values")
 - Preference to provide additional Camel components
 - Improve diagnostic range when there are several parameters in XML DSL (restrict to the Camel URI instead of the full line)
 - Update default Camel Catalog from 2.24.2 to 3.0.0 (as a reminder, it is possible to use the 2.x Catalog using preferences)
@@ -472,10 +466,10 @@
 ## 0.0.18
 
 - Provide completion for Camel URIs on Camel-K Yaml files:
-  - which are following one these conventions:
-    - filename _*.camelk.yaml_
-    - filename _*.yaml_ and starting with _// camel-k:_
-  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+    - which are following one these conventions:
+        - filename _\*.camelk.yaml_
+        - filename _\*.yaml_ and starting with _// camel-k:_
+    - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Update from Camel 2.24.1 to 2.24.2
 
 ## 0.0.17
@@ -485,23 +479,23 @@
 ## 0.0.16
 
 - Provide completion for Camel URIs on Camel-K Groovy files:
-  - which are following one these conventions:
-    - filename _*.camelk.groovy_
-    - filename _*.groovy_ and starting with _// camel-k:_
-    - filename _*.groovy_ and starting with _#!/usr/bin/env camel-k_ (not yet supported by Camel-K runtime see [here](https://github.com/apache/camel-k/issues/754))
-  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+    - which are following one these conventions:
+        - filename _\*.camelk.groovy_
+        - filename _\*.groovy_ and starting with _// camel-k:_
+        - filename _\*.groovy_ and starting with _#!/usr/bin/env camel-k_ (not yet supported by Camel-K runtime see [here](https://github.com/apache/camel-k/issues/754))
+    - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Provide completion for Camel URIs on Camel-K Kotlin files:
-  - which are following one these conventions:
-    - filename _*.camelk.kts_
-    - filename _*.kts_ and starting with _// camel-k:_
-  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+    - which are following one these conventions:
+        - filename _\*.camelk.kts_
+        - filename _\*.kts_ and starting with _// camel-k:_
+    - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Provide completion for Camel URIs on Camel-K JS files:
-  - which are following one these conventions:
-    - filename _*.camelk.js_
-    - filename _*.js_ and starting with _// camel-k:_
-  - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
+    - which are following one these conventions:
+        - filename _\*.camelk.js_
+        - filename _\*.js_ and starting with _// camel-k:_
+    - Please note that all Camel components are provided in completion, specific Camel-K component are not filtered
 - Provide completion for Camel URI in Camel Kafka Connect properties file
-  - properties file needs to use '=' without spaces notation
+    - properties file needs to use '=' without spaces notation
 - Upgrade from Camel 2.24.0 to 2.24.1
 
 ## 0.0.15

@@ -1,158 +1,156 @@
 name: Camel Version CI
 
 on:
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+    cancel-in-progress: true
 
 jobs:
-  camel:
-    strategy:
-      fail-fast: false
-      matrix:
-        camel-version:
-          - "4.18.1"
-          - "4.14.5"
-          - "4.4.0.redhat-00046"
-          - "4.8.5.redhat-00008"
-          - "4.10.7.redhat-00009"
-          - "4.14.2.redhat-00019"
+    camel:
+        strategy:
+            fail-fast: false
+            matrix:
+                camel-version:
+                    - "4.18.3"
+                    - "4.14.7"
+                    - "4.14.4.redhat-00008"
+                    - "4.18.1.redhat-00019"
 
-    env:
-      CODE_VERSION: max
-      CODE_TYPE: stable
-      TEST_RESOURCES: test-resources
-      CAMEL_VERSION: ${{ matrix.camel-version }}
+        env:
+            CODE_VERSION: max
+            CODE_TYPE: stable
+            TEST_RESOURCES: test-resources
+            CAMEL_VERSION: ${{ matrix.camel-version }}
 
-    runs-on: ubuntu-latest
-    name: ${{ matrix.camel-version }}
+        runs-on: ubuntu-latest
+        name: ${{ matrix.camel-version }}
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v5
-        with:
-          java-version: 17
-          distribution: "temurin"
+            - name: Set up JDK 17
+              uses: actions/setup-java@v5
+              with:
+                  java-version: 17
+                  distribution: "temurin"
 
-      - name: Test java
-        run: java --version
+            - name: Test java
+              run: java --version
 
-      - name: Install JBang
-        run: |
-          curl -Ls https://sh.jbang.dev | bash -s - app setup
-          echo "$HOME/.jbang/bin" >> $GITHUB_PATH
+            - name: Install JBang
+              run: |
+                  curl -Ls https://sh.jbang.dev | bash -s - app setup
+                  echo "$HOME/.jbang/bin" >> $GITHUB_PATH
 
-      - name: Setup JBang (trusted sources)
-        run: jbang trust add https://github.com/apache/
+            - name: Setup JBang (trusted sources)
+              run: jbang trust add https://github.com/apache/
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: 20
-          cache: npm
+            - name: Setup Node
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 20
+                  cache: npm
 
-      - name: Setup vsce
-        run: |
-          npm install -g typescript @vscode/vsce
-          vsce --version
+            - name: Setup vsce
+              run: |
+                  npm install -g typescript @vscode/vsce
+                  vsce --version
 
-      - name: npm-ci
-        run: npm ci
+            - name: npm-ci
+              run: npm ci
 
-      - name: Restore VS Code test cache
-        id: vscode-test-cache-restore
-        uses: actions/cache/restore@v6
-        with:
-          path: |
-            .vscode-test/vscode-*
-            .vscode-test/extensions
-            test-resources/Visual Studio Code.app
-            test-resources/Visual Studio Code - Insiders.app
-            test-resources/VSCode-*
-            test-resources/chromedriver*
-            test-resources/driverVersion
-          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
-          restore-keys: |
-            vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
+            - name: Restore VS Code test cache
+              id: vscode-test-cache-restore
+              uses: actions/cache/restore@v6
+              with:
+                  path: |
+                      .vscode-test/vscode-*
+                      .vscode-test/extensions
+                      test-resources/Visual Studio Code.app
+                      test-resources/Visual Studio Code - Insiders.app
+                      test-resources/VSCode-*
+                      test-resources/chromedriver*
+                      test-resources/driverVersion
+                  key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+                  restore-keys: |
+                      vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}-
 
-      - name: Allow unprivileged user namespace (ubuntu)
-        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+            - name: Allow unprivileged user namespace (ubuntu)
+              run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
-      - name: ui test
-        id: uiTest
-        run: xvfb-run --auto-servernum npm run ui-test
+            - name: ui test
+              id: uiTest
+              run: xvfb-run --auto-servernum npm run ui-test
 
-      - name: vsce-package
-        run: vsce package
+            - name: vsce-package
+              run: vsce package
 
-      - name: Save VS Code test cache
-        if: always() && steps.vscode-test-cache-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
-        with:
-          path: |
-            .vscode-test/vscode-*
-            .vscode-test/extensions
-            test-resources/Visual Studio Code.app
-            test-resources/Visual Studio Code - Insiders.app
-            test-resources/VSCode-*
-            test-resources/chromedriver*
-            test-resources/driverVersion
-          key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
+            - name: Save VS Code test cache
+              if: always() && steps.vscode-test-cache-restore.outputs.cache-hit != 'true'
+              uses: actions/cache/save@v6
+              with:
+                  path: |
+                      .vscode-test/vscode-*
+                      .vscode-test/extensions
+                      test-resources/Visual Studio Code.app
+                      test-resources/Visual Studio Code - Insiders.app
+                      test-resources/VSCode-*
+                      test-resources/chromedriver*
+                      test-resources/driverVersion
+                  key: vscode-test-cache-v3-${{ runner.os }}-${{ runner.arch }}-${{ env.CODE_TYPE }}-${{ env.CODE_VERSION }}
 
-      - name: Store Camel Language Server log
-        uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: ${{ matrix.camel-version }}-camel-lsp-log
-          path: |
-            /tmp/log-camel-lsp.log
-            /tmp/log-camel*.log.gz
+            - name: Store Camel Language Server log
+              uses: actions/upload-artifact@v7
+              if: failure()
+              with:
+                  name: ${{ matrix.camel-version }}-camel-lsp-log
+                  path: |
+                      /tmp/log-camel-lsp.log
+                      /tmp/log-camel*.log.gz
 
-      - name: Store UI test logs
-        uses: actions/upload-artifact@v7
-        if: |
-          (failure() || cancelled()) &&
-          (steps.uiTest.outcome == 'failure' ||
-          steps.uiTest.outcome == 'cancelled')
-        with:
-          name: ${{ matrix.camel-version }}-ui-test-logs
-          path: test-resources/settings/logs/*
+            - name: Store UI test logs
+              uses: actions/upload-artifact@v7
+              if: |
+                  (failure() || cancelled()) &&
+                  (steps.uiTest.outcome == 'failure' ||
+                  steps.uiTest.outcome == 'cancelled')
+              with:
+                  name: ${{ matrix.camel-version }}-ui-test-logs
+                  path: test-resources/settings/logs/*
 
-      - name: Store UI Test Screenshots
-        uses: actions/upload-artifact@v7
-        if: |
-          (failure() || cancelled()) &&
-          (steps.uiTest.outcome == 'failure' ||
-          steps.uiTest.outcome == 'cancelled')
-        with:
-          name: ${{ matrix.camel-version }}-ui-test-screenshots
-          path: test-resources/screenshots/*/*.png
+            - name: Store UI Test Screenshots
+              uses: actions/upload-artifact@v7
+              if: |
+                  (failure() || cancelled()) &&
+                  (steps.uiTest.outcome == 'failure' ||
+                  steps.uiTest.outcome == 'cancelled')
+              with:
+                  name: ${{ matrix.camel-version }}-ui-test-screenshots
+                  path: test-resources/screenshots/*/*.png
 
-  check:
-    if: always()
-    runs-on: ubuntu-latest
-    name: Status Check
-    needs: [ camel ]
-    steps:
-      - name: Test Matrix Result
-        run: |
-          echo result = ${{ needs.camel.result }}
-      - name: Status Check - success
-        if: ${{ needs.camel.result == 'success' }}
-        run: |
-          echo "All tests successfully completed!"
-          exit 0
-      - name: Status Check - failure
-        if: ${{ needs.camel.result != 'success' }}
-        run: |
-          echo "Status Check failed!"
-          exit 1
+    check:
+        if: always()
+        runs-on: ubuntu-latest
+        name: Status Check
+        needs: [camel]
+        steps:
+            - name: Test Matrix Result
+              run: |
+                  echo result = ${{ needs.camel.result }}
+            - name: Status Check - success
+              if: ${{ needs.camel.result == 'success' }}
+              run: |
+                  echo "All tests successfully completed!"
+                  exit 0
+            - name: Status Check - failure
+              if: ${{ needs.camel.result != 'success' }}
+              run: |
+                  echo "Status Check failed!"
+                  exit 1

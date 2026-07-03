@@ -3,6 +3,7 @@
 
 /* Mostly duplicated from VS Code Java, main difference is that it is checking for JRE, not JDK*/
 
+/// <reference types="winreg" />
 import * as cp from 'child_process';
 import * as fse from 'fs-extra';
 import * as _ from 'lodash';
@@ -134,7 +135,7 @@ async function fromWindowsRegistry(): Promise<string[]> {
                 key: keyPath,
                 arch: regArch
             });
-            winreg.keys((err, result) => {
+		winreg.keys((err: Error | null, result: Winreg.Registry[]) => {
                 if (err) {
                     return resolve([]);
                 }
@@ -145,7 +146,7 @@ async function fromWindowsRegistry(): Promise<string[]> {
 
     const promisifyFindJavaHomeInRegKey = (reg: Winreg.Registry): Promise<string | null> => {
         return new Promise<string | null>((resolve) => {
-            reg.get('JavaHome', (err, home) => {
+		reg.get('JavaHome', (err: Error | null, home: Winreg.RegistryItem) => {
                 if (err || !home) {
                     return resolve(null);
                 }
