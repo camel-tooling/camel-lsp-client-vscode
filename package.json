@@ -354,7 +354,7 @@
   "dependencies": {
     "@redhat-developer/vscode-redhat-telemetry": "^0.10.2",
     "expand-home-dir": "^0.0.3",
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.3.6",
     "lodash": "^4.18.1",
     "valid-filename": "^3.1.0",
     "vscode-languageclient": "^10.0.0",
